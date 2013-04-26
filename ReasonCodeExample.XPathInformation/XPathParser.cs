@@ -25,7 +25,7 @@ namespace ReasonCodeExample.XPathInformation
         {
             if (string.IsNullOrEmpty(xml))
                 return Enumerable.Empty<string>();
-            return xml.Split(new[] { '<' }, StringSplitOptions.RemoveEmptyEntries).Select(element => "<" + element).ToArray();
+            return xml.Split(new[] { '<' }, StringSplitOptions.RemoveEmptyEntries).Select(element => "<" + element.Trim()).ToArray();
         }
 
         private XElement CreateElement(string elementText)
