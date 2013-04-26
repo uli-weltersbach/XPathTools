@@ -11,24 +11,28 @@ namespace ReasonCodeExample.XPathInformation
     [Export(typeof(IWpfTextViewCreationListener))]
     [ContentType("text")]
     [TextViewRole(PredefinedTextViewRoles.Document)]
-    internal sealed class PurpleBoxAdornmentFactory : IWpfTextViewCreationListener
+    internal class XPathAdornmentFactory : IWpfTextViewCreationListener
     {
+        private const string AdornmentLayerName = "ReasonCodeExample.XPathInformation";
+        private const string XmlContentTypeName = "XML";
+
         /// <summary>
         /// Defines the adornment layer for the scarlet adornment. This layer is ordered 
         /// after the selection layer in the Z-order
         /// </summary>
         [Export(typeof(AdornmentLayerDefinition))]
-        [Name("ReasonCodeExample.XPathInformation")]
+        [Name(AdornmentLayerName)]
         [Order(After = PredefinedAdornmentLayers.Caret)]
-        public AdornmentLayerDefinition editorAdornmentLayer = null;
+        public AdornmentLayerDefinition EditorAdornmentLayer
+        {
+            get;
+            set;
+        }
 
-        /// <summary>
-        /// Instantiates a ReasonCodeExample.XPathInformation manager when a textView is created.
-        /// </summary>
-        /// <param name="textView">The <see cref="IWpfTextView"/> upon which the adornment should be placed</param>
         public void TextViewCreated(IWpfTextView textView)
         {
-            new XPathInformation(textView);
+            if (textView.TextBuffer.ContentType.IsOfType(XmlContentTypeName))
+                new XPathAdornment(AdornmentLayerName, textView);
         }
     }
 }

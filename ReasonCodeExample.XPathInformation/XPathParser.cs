@@ -1,114 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace ReasonCodeExample.XPathInformation
 {
     internal class XPathParser
     {
-        private XElement _currentElement;
-
-        public string Parse(string xmlFragment)
+        public string GetPath(string xml, int lineNumber, int linePosition)
         {
-            IEnumerable<string> elementParts = GetElementParts(xmlFragment);
-            foreach (string elementPart in elementParts)
-            {
-                XElement element = CreateElement(elementPart);
-                AddElement(elementPart, element);
-            }
-            return CreateXPath(_currentElement);
+            XElement root = XElement.Parse(xml, LoadOptions.SetLineInfo);
+            XElement match = FindMatchingElement(lineNumber, linePosition + 1, root.DescendantsAndSelf());
+            return CreateXPath(match);
         }
 
-        private IEnumerable<string> GetElementParts(string xml)
+        private XElement FindMatchingElement(int lineNumber, int linePosition, IEnumerable<XElement> elements)
         {
-            if (string.IsNullOrEmpty(xml))
-                return Enumerable.Empty<string>();
-            return xml.Split(new[] { '<' }, StringSplitOptions.RemoveEmptyEntries).Select(element => "<" + element.Trim()).ToArray();
+            return (from element in elements
+                    where IsCorrectLine(element, lineNumber)
+                    where IsCorrectPosition(element, linePosition)
+                    orderby GetLinePosition(element) descending
+                    select element).FirstOrDefault();
         }
 
-        private XElement CreateElement(string elementText)
+        private bool IsCorrectLine(IXmlLineInfo lineInfo, int lineNumber)
         {
-            string elementName = GetElementName(elementText);
-            if (string.IsNullOrEmpty(elementName))
-                return null;
-            string namespaceName = GetNamespaceName(elementText);
-            XName name = string.IsNullOrEmpty(namespaceName) ? XName.Get(elementName) : XName.Get(elementName, namespaceName);
-            return new XElement(name);
+            return lineInfo.LineNumber == lineNumber;
         }
 
-        private string GetElementName(string elementText)
+        private bool IsCorrectPosition(IXmlLineInfo lineInfo, int linePosition)
         {
-            Regex elementNameRegex = new Regex(@"</?(\w+:)?(?'ElementName'\w+)");
-            Match elementNameMatch = elementNameRegex.Match(elementText);
-            return elementNameMatch.Success ? elementNameMatch.Groups["ElementName"].Value : null;
+            return lineInfo.LinePosition <= linePosition;
         }
 
-        private string GetNamespaceName(string elementText)
+        private int GetLinePosition(IXmlLineInfo lineInfo)
         {
-            Regex namespaceRegex = new Regex(@"</?(?'Namespace'\w+):");
-            Match namespaceMatch = namespaceRegex.Match(elementText);
-            return namespaceMatch.Success ? namespaceMatch.Groups["Namespace"].Value : null;
-        }
-
-        private void AddElement(string elementPart, XElement element)
-        {
-            if (element == null)
-                return;
-
-            if (_currentElement == null)
-            {
-                _currentElement = element;
-                return;
-            }
-
-            if (IsClosedTag(elementPart))
-            {
-                _currentElement.Add(element);
-                return;
-            }
-
-            if (IsClosingTag(elementPart))
-            {
-                if (HasParent(_currentElement))
-                {
-                    _currentElement = _currentElement.Parent;
-                }
-                return;
-            }
-
-            _currentElement.Add(element);
-            _currentElement = element;
-        }
-
-        private bool IsClosedTag(string elementText)
-        {
-            return elementText.EndsWith("/>");
-        }
-
-        private bool IsClosingTag(string elementText)
-        {
-            return elementText.StartsWith("</");
-        }
-
-        private bool HasParent(XElement element)
-        {
-            return element.Parent != null;
+            return lineInfo.LinePosition;
         }
 
         private string CreateXPath(XElement element)
         {
             if (element == null)
                 return string.Empty;
-            if (element.HasElements)
-                element = element.Elements().Last();
-            return element.AncestorsAndSelf()
-                          .Reverse()
-                          .Select(node => node.Name)
-                          .Aggregate(string.Empty, (current, next) => current + "/" + next)
-                          .Replace("{", string.Empty)
-                          .Replace("}", ":");
+
+            return element.AncestorsAndSelf().Reverse().Select(GetElementName).Aggregate(string.Empty, ConcatenateXPath);
+        }
+
+        private string GetElementName(XElement element)
+        {
+            if (string.IsNullOrEmpty(element.Name.NamespaceName))
+                return element.Name.LocalName;
+            string namespacePrefix = element.GetPrefixOfNamespace(element.Name.Namespace);
+            if (string.IsNullOrEmpty(namespacePrefix))
+                return element.Name.LocalName;
+            return namespacePrefix + ":" + element.Name.LocalName;
+        }
+
+        private string ConcatenateXPath(string current, string next)
+        {
+            return current + "/" + next;
         }
     }
 }
