@@ -39,7 +39,7 @@ namespace ReasonCodeExample.XPathInformation
                 return;
             }
 
-            XElement element = new XElement(EnsureCorrectNamespace(name));
+            XElement element = new XElement(name);
             if (_currentElement == null)
             {
                 _currentElement = element;
@@ -67,53 +67,33 @@ namespace ReasonCodeExample.XPathInformation
 
         private XName GetElementName(string elementText)
         {
-            Regex elementRegex = new Regex(@"(?'NamespaceName'\w+:)?(?'ElementName'\w+)");
-            Match elementMatch = elementRegex.Match(elementText);
-            if (!elementMatch.Success)
+            Regex elementNameRegex = new Regex(@"</?(\w+:)?(?'ElementName'\w+)");
+            Match elementNameMatch = elementNameRegex.Match(elementText);
+            if (!elementNameMatch.Success)
                 return null;
-            Group namespaceNameGroup = elementMatch.Groups["NamespaceName"];
-            Group elementNameGroup = elementMatch.Groups["ElementName"];
-            if (namespaceNameGroup.Success && elementNameGroup.Success)
-            {
-                return XName.Get(elementNameGroup.Value, namespaceNameGroup.Value.Replace(":", string.Empty));
-            }
-            string namespaceAbbreviation = GetNamespaceAbbreviationFromAttribute(elementText);
-            if (elementNameGroup.Success && !string.IsNullOrEmpty(namespaceAbbreviation))
-            {
-                return XName.Get(elementNameGroup.Value, namespaceAbbreviation);
-            }
-            if (elementNameGroup.Success)
-            {
-                return XName.Get(elementNameGroup.Value);
-            }
-            return null;
+            string elementName = elementNameMatch.Groups["ElementName"].Value;
+            string namespaceName = GetNamespaceName(elementText);
+            return string.IsNullOrEmpty(namespaceName) ? XName.Get(elementName) : XName.Get(elementName, namespaceName);
         }
 
-        private string GetNamespaceAbbreviationFromAttribute(string elementText)
+        private string GetNamespaceName(string elementText)
         {
-            Regex namespaceAttributeRegex = new Regex(@"xmlns:(?'NamespaceAbbreviation'\w+)=");
-            Match namespaceMatch = namespaceAttributeRegex.Match(elementText);
-            Group namespaceAbbreviationGroup = namespaceMatch.Groups["NamespaceAbbreviation"];
-            if (namespaceAbbreviationGroup.Success)
-            {
-                return namespaceAbbreviationGroup.Value;
-            }
-            return null;
-        }
+            Regex namespaceRegex = new Regex(@"</?(?'Namespace'\w+):");
+            Match namespaceMatch = namespaceRegex.Match(elementText);
+            if (namespaceMatch.Success)
+                return namespaceMatch.Groups["Namespace"].Value;
 
-        private XName EnsureCorrectNamespace(XName name)
-        {
-            if (!string.IsNullOrEmpty(name.NamespaceName))
-                return name;
-            string currentNamespace = GetCurrentNamespace();
-            if (string.IsNullOrEmpty(currentNamespace))
-                return name;
-            return XName.Get(name.LocalName, currentNamespace);
+            Regex namespaceAttributeRegex = new Regex(@"xmlns:(?'Namespace'\w+)=");
+            Match namespaceAttributeMatch = namespaceAttributeRegex.Match(elementText);
+            if (namespaceAttributeMatch.Success)
+                return namespaceAttributeMatch.Groups["Namespace"].Value;
+
+            return GetCurrentNamespace();
         }
 
         private string GetCurrentNamespace()
         {
-            return _currentElement == null ? string.Empty : _currentElement.Name.NamespaceName;
+            return _currentElement == null ? null : _currentElement.Name.NamespaceName;
         }
 
         private bool IsClosedTag(string elementText)
