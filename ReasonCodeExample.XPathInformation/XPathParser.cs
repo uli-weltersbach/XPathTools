@@ -39,7 +39,7 @@ namespace ReasonCodeExample.XPathInformation
                 return;
             }
 
-            XElement element = new XElement(name);
+            XElement element = new XElement(EnsureCorrectNamespace(name));
             if (_currentElement == null)
             {
                 _currentElement = element;
@@ -71,18 +71,49 @@ namespace ReasonCodeExample.XPathInformation
             Match elementMatch = elementRegex.Match(elementText);
             if (!elementMatch.Success)
                 return null;
-
             Group namespaceNameGroup = elementMatch.Groups["NamespaceName"];
             Group elementNameGroup = elementMatch.Groups["ElementName"];
             if (namespaceNameGroup.Success && elementNameGroup.Success)
             {
                 return XName.Get(elementNameGroup.Value, namespaceNameGroup.Value.Replace(":", string.Empty));
             }
+            string namespaceAbbreviation = GetNamespaceAbbreviationFromAttribute(elementText);
+            if (elementNameGroup.Success && !string.IsNullOrEmpty(namespaceAbbreviation))
+            {
+                return XName.Get(elementNameGroup.Value, namespaceAbbreviation);
+            }
             if (elementNameGroup.Success)
             {
                 return XName.Get(elementNameGroup.Value);
             }
             return null;
+        }
+
+        private string GetNamespaceAbbreviationFromAttribute(string elementText)
+        {
+            Regex namespaceAttributeRegex = new Regex(@"xmlns:(?'NamespaceAbbreviation'\w+)=");
+            Match namespaceMatch = namespaceAttributeRegex.Match(elementText);
+            Group namespaceAbbreviationGroup = namespaceMatch.Groups["NamespaceAbbreviation"];
+            if (namespaceAbbreviationGroup.Success)
+            {
+                return namespaceAbbreviationGroup.Value;
+            }
+            return null;
+        }
+
+        private XName EnsureCorrectNamespace(XName name)
+        {
+            if (!string.IsNullOrEmpty(name.NamespaceName))
+                return name;
+            string currentNamespace = GetCurrentNamespace();
+            if (string.IsNullOrEmpty(currentNamespace))
+                return name;
+            return XName.Get(name.LocalName, currentNamespace);
+        }
+
+        private string GetCurrentNamespace()
+        {
+            return _currentElement == null ? string.Empty : _currentElement.Name.NamespaceName;
         }
 
         private bool IsClosedTag(string elementText)
