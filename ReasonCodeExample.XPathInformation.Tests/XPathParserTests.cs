@@ -3,11 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace ReasonCodeExample.XPathInformation.Tests
 {
     public class XPathParserTests
     {
-        private XPathParser _parser = new XPathParser();
+        [TestCase("<node />", "/node")]
+        [TestCase("<ns:node />", "/ns:node")]
+        [TestCase("<parent><child />", "/parent/child")]
+        [TestCase("<parent><sibling></sibling><node />", "/parent/node")]
+        [TestCase("<parent><child><grandChild><grandGrandChild /></grandChild><node />", "/parent/child/node")]
+        [TestCase("<node><node><node><node /></node><node />", "/node/node/node")]
+        [TestCase("<parent xmlns=\"default\"><child><grandChild xmlns:o=\"override\"><node />", "/parent/child/o:grandChild/o:node")]
+        public void SingleNode(string xml, string expectedXPath)
+        {
+            // Arrange
+            XPathParser parser = new XPathParser();
+
+            // Act
+            string actualXPath = parser.Parse(xml);
+
+            // Assert
+            Assert.That(actualXPath, Is.EqualTo(expectedXPath));
+        }
     }
 }
