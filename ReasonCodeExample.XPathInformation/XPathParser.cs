@@ -12,43 +12,64 @@ namespace ReasonCodeExample.XPathInformation
 
         public string Parse(string xmlFragment)
         {
-            IEnumerable<string> elements = GetElements(xmlFragment);
-            foreach (string element in elements)
+            IEnumerable<string> elementParts = GetElementParts(xmlFragment);
+            foreach (string elementPart in elementParts)
             {
-                CreateElement(element);
+                XElement element = CreateElement(elementPart);
+                AddElement(elementPart, element);
             }
             return CreateXPath(_currentElement);
         }
 
-        private IEnumerable<string> GetElements(string xml)
+        private IEnumerable<string> GetElementParts(string xml)
         {
             if (string.IsNullOrEmpty(xml))
                 return Enumerable.Empty<string>();
             return xml.Split(new[] { '<' }, StringSplitOptions.RemoveEmptyEntries).Select(element => "<" + element).ToArray();
         }
 
-        private void CreateElement(string elementText)
+        private XElement CreateElement(string elementText)
         {
-            XName name = GetElementName(elementText);
-            if (name == null)
-            {
-                return;
-            }
+            string elementName = GetElementName(elementText);
+            if (string.IsNullOrEmpty(elementName))
+                return null;
+            string namespaceName = GetNamespaceName(elementText);
+            XName name = string.IsNullOrEmpty(namespaceName) ? XName.Get(elementName) : XName.Get(elementName, namespaceName);
+            return new XElement(name);
+        }
 
-            XElement element = new XElement(name);
+        private string GetElementName(string elementText)
+        {
+            Regex elementNameRegex = new Regex(@"</?(\w+:)?(?'ElementName'\w+)");
+            Match elementNameMatch = elementNameRegex.Match(elementText);
+            return elementNameMatch.Success ? elementNameMatch.Groups["ElementName"].Value : null;
+        }
+
+        private string GetNamespaceName(string elementText)
+        {
+            Regex namespaceRegex = new Regex(@"</?(?'Namespace'\w+):");
+            Match namespaceMatch = namespaceRegex.Match(elementText);
+            return namespaceMatch.Success ? namespaceMatch.Groups["Namespace"].Value : null;
+        }
+
+        private void AddElement(string elementPart, XElement element)
+        {
+            if (element == null)
+                return;
+
             if (_currentElement == null)
             {
                 _currentElement = element;
                 return;
             }
 
-            if (IsClosedTag(elementText))
+            if (IsClosedTag(elementPart))
             {
                 _currentElement.Add(element);
                 return;
             }
 
-            if (IsClosingTag(elementText))
+            if (IsClosingTag(elementPart))
             {
                 if (HasParent(_currentElement))
                 {
@@ -59,52 +80,6 @@ namespace ReasonCodeExample.XPathInformation
 
             _currentElement.Add(element);
             _currentElement = element;
-        }
-
-        private XName GetElementName(string elementText)
-        {
-            Regex elementNameRegex = new Regex(@"</?(\w+:)?(?'ElementName'\w+)");
-            Match elementNameMatch = elementNameRegex.Match(elementText);
-            if (!elementNameMatch.Success)
-                return null;
-            string elementName = elementNameMatch.Groups["ElementName"].Value;
-            string namespaceName = GetNamespaceName(elementText);
-            return string.IsNullOrEmpty(namespaceName) ? XName.Get(elementName) : XName.Get(elementName, namespaceName);
-        }
-
-        private string GetNamespaceName(string elementText)
-        {
-            return GetNamespaceFromPrefix(elementText) ??
-                   GetNamespaceFromAttribute(elementText) ??
-                   GetNamespaceFromAncestor();
-        }
-
-        private string GetNamespaceFromPrefix(string elementText)
-        {
-            Regex namespaceRegex = new Regex(@"</?(?'Namespace'\w+):");
-            Match namespaceMatch = namespaceRegex.Match(elementText);
-            return namespaceMatch.Success ? namespaceMatch.Groups["Namespace"].Value : null;
-        }
-
-        private string GetNamespaceFromAttribute(string elementText)
-        {
-            Regex namespaceAttributeRegex = new Regex(@"xmlns:(?'Namespace'\w+)=");
-            Match namespaceAttributeMatch = namespaceAttributeRegex.Match(elementText);
-            return namespaceAttributeMatch.Success ? namespaceAttributeMatch.Groups["Namespace"].Value : null;
-        }
-
-        private string GetNamespaceFromAncestor()
-        {
-            if (_currentElement == null)
-                return null;
-            XElement current = _currentElement;
-            string namespaceName = null;
-            while (string.IsNullOrEmpty(namespaceName) && HasParent(current))
-            {
-                namespaceName = current.Name.NamespaceName;
-                current = current.Parent;
-            }
-            return namespaceName;
         }
 
         private bool IsClosedTag(string elementText)

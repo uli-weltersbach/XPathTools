@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Text;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Xml.Linq;
-using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Formatting;
-using System.Text.RegularExpressions;
 
 namespace ReasonCodeExample.XPathInformation
 {
@@ -16,9 +10,9 @@ namespace ReasonCodeExample.XPathInformation
     internal class XPathInformation
     {
         private const string XmlContentTypeName = "XML";
-        private TextBlock _xpathInformation;
-        private IWpfTextView _view;
         private IAdornmentLayer _adornmentLayer;
+        private IWpfTextView _view;
+        private TextBlock _xpathInformation;
 
         /// <summary>
         /// Creates a square image and attaches an event handler to the layout changed event that
@@ -36,56 +30,37 @@ namespace ReasonCodeExample.XPathInformation
             _view = view;
             _xpathInformation = new TextBlock();
             _adornmentLayer = view.GetAdornmentLayer("ReasonCodeExample.XPathInformation");
-            _view.ViewportHeightChanged += delegate { this.onSizeChange(); };
-            _view.ViewportWidthChanged += delegate { this.onSizeChange(); };
-            _view.Caret.PositionChanged += Caret_PositionChanged;
+            _view.ViewportHeightChanged += OnSizeChange;
+            _view.ViewportWidthChanged += OnSizeChange;
+            _view.Caret.PositionChanged += CaretPositionChanged;
         }
 
-        private void Caret_PositionChanged(object sender, CaretPositionChangedEventArgs e)
+        private void CaretPositionChanged(object sender, CaretPositionChangedEventArgs e)
         {
             string xml = e.TextView.TextSnapshot.GetText();
             int position = e.NewPosition.BufferPosition.Position;
-            int nodeStart = GetNodeStart(xml, position);
-            string relevantXml = xml.Substring(0, nodeStart);
-            int count = CountSpacesAndNewLines(relevantXml);
-            Regex xpathRegex = new Regex(@"<(?'NodeName'\w+)[\w\s]+?/>|<\1.*?>.*?</\1>");
-            StringBuilder xpath = new StringBuilder();
-            foreach (Match match in xpathRegex.Matches(relevantXml))
-            {
-                string nodeName = match.Groups["NodeName"].Value;
-                xpath.AppendFormat("/{0}", nodeName);
-            }
-            _xpathInformation.Text = xpath.ToString();
+            int nodeEnd = GetNodeEnd(xml, position);
+            string relevantXml = xml.Substring(0, nodeEnd);
+            _xpathInformation.Text = new XPathParser().Parse(relevantXml);
         }
 
-        private static int CountSpacesAndNewLines(string s)
+        private int GetNodeEnd(string xml, int position)
         {
-            int count = 0;
-            foreach (char c in s)
+            for (int i = position; i < xml.Length; i++)
             {
-                if (c == '\n') count++;
-                if (c == ' ') count++;
-            }
-            return count + 1;
-        }
-
-        private int GetNodeStart(string xml, int position)
-        {
-            for (int i = position; i >= 0; i--)
-            {
-                if (xml[i] == '<')
+                if (xml[i] == '>')
                     return i;
             }
-            return -1;
+            return xml.Length;
         }
 
-        private void onSizeChange()
+        private void OnSizeChange(object sender, EventArgs eventArgs)
         {
             //clear the adornment layer of previous adornments
             _adornmentLayer.RemoveAllAdornments();
 
             //Place the image in the top right hand corner of the Viewport
-            Canvas.SetLeft(_xpathInformation, _view.ViewportRight - 60);
+            Canvas.SetLeft(_xpathInformation, _view.ViewportRight - 360);
             Canvas.SetTop(_xpathInformation, _view.ViewportTop + 30);
 
             //add the image to the adornment layer and make it relative to the viewport
