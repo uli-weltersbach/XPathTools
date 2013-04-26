@@ -11,6 +11,8 @@ namespace ReasonCodeExample.XPathInformation.Tests
         [TestCase("<parent><child><grandChild><grandGrandChild /></grandChild><node />", "/parent/child/node")]
         [TestCase("<node><node><node><node /></node><node />", "/node/node/node")]
         [TestCase("<parent xmlns=\"default\"><child><grandChild xmlns:o=\"override\"><node />", "/parent/child/o:grandChild/o:node")]
+        [TestCase("<parent xmlns=\"default\"><child><grandChild xmlns:o=\"override\"><node><node />", "/parent/child/o:grandChild/o:node/o:node")]
+        [TestCase("<parent xmlns=\"default\"><child><grandChild xmlns:o=\"override\"><node><node xmlns:x=\"nested\"><node />", "/parent/child/o:grandChild/o:node/x:node/x:node")]
         public void SingleNode(string xml, string expectedXPath)
         {
             // Arrange

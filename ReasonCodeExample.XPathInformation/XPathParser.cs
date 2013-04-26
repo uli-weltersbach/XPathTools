@@ -12,19 +12,15 @@ namespace ReasonCodeExample.XPathInformation
 
         public string Parse(string xmlFragment)
         {
-            IEnumerable<string> elementParts = SplitElementParts(xmlFragment);
-            foreach (string elementPart in elementParts)
+            IEnumerable<string> elements = GetElements(xmlFragment);
+            foreach (string element in elements)
             {
-                CreateElement(elementPart);
-            }
-            if (_currentElement.HasElements)
-            {
-                _currentElement = _currentElement.Elements().Last();
+                CreateElement(element);
             }
             return CreateXPath(_currentElement);
         }
 
-        private IEnumerable<string> SplitElementParts(string xml)
+        private IEnumerable<string> GetElements(string xml)
         {
             if (string.IsNullOrEmpty(xml))
                 return Enumerable.Empty<string>();
@@ -78,22 +74,37 @@ namespace ReasonCodeExample.XPathInformation
 
         private string GetNamespaceName(string elementText)
         {
-            Regex namespaceRegex = new Regex(@"</?(?'Namespace'\w+):");
-            Match namespaceMatch = namespaceRegex.Match(elementText);
-            if (namespaceMatch.Success)
-                return namespaceMatch.Groups["Namespace"].Value;
-
-            Regex namespaceAttributeRegex = new Regex(@"xmlns:(?'Namespace'\w+)=");
-            Match namespaceAttributeMatch = namespaceAttributeRegex.Match(elementText);
-            if (namespaceAttributeMatch.Success)
-                return namespaceAttributeMatch.Groups["Namespace"].Value;
-
-            return GetCurrentNamespace();
+            return GetNamespaceFromPrefix(elementText) ??
+                   GetNamespaceFromAttribute(elementText) ??
+                   GetNamespaceFromAncestor();
         }
 
-        private string GetCurrentNamespace()
+        private string GetNamespaceFromPrefix(string elementText)
         {
-            return _currentElement == null ? null : _currentElement.Name.NamespaceName;
+            Regex namespaceRegex = new Regex(@"</?(?'Namespace'\w+):");
+            Match namespaceMatch = namespaceRegex.Match(elementText);
+            return namespaceMatch.Success ? namespaceMatch.Groups["Namespace"].Value : null;
+        }
+
+        private string GetNamespaceFromAttribute(string elementText)
+        {
+            Regex namespaceAttributeRegex = new Regex(@"xmlns:(?'Namespace'\w+)=");
+            Match namespaceAttributeMatch = namespaceAttributeRegex.Match(elementText);
+            return namespaceAttributeMatch.Success ? namespaceAttributeMatch.Groups["Namespace"].Value : null;
+        }
+
+        private string GetNamespaceFromAncestor()
+        {
+            if (_currentElement == null)
+                return null;
+            XElement current = _currentElement;
+            string namespaceName = null;
+            while (string.IsNullOrEmpty(namespaceName) && HasParent(current))
+            {
+                namespaceName = current.Name.NamespaceName;
+                current = current.Parent;
+            }
+            return namespaceName;
         }
 
         private bool IsClosedTag(string elementText)
@@ -115,6 +126,8 @@ namespace ReasonCodeExample.XPathInformation
         {
             if (element == null)
                 return string.Empty;
+            if (element.HasElements)
+                element = element.Elements().Last();
             return element.AncestorsAndSelf()
                           .Reverse()
                           .Select(node => node.Name)
