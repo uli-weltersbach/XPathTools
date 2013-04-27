@@ -22,7 +22,22 @@ namespace ReasonCodeExample.XPathInformation.Tests
         [TestCase("<parent xmlns=\"default\"><child><grandChild xmlns:o=\"o-namespace\"><o:node /></grandChild></child></parent>", 1, 67, "/parent/child/grandChild/o:node")]
         [TestCase("<parent xmlns=\"default\"><child><grandChild xmlns:o=\"o-namespace\"><o:node><node /></o:node></grandChild></child></parent>", 1, 75, "/parent/child/grandChild/o:node/node")]
         [TestCase("<parent xmlns=\"default\"><child><grandChild xmlns:o=\"o-namespace\"><node><node xmlns:x=\"x-namespace\"><x:node /></node></node></grandChild></child></parent>", 1, 101, "/parent/child/grandChild/node/node/x:node")]
-        public void SimpleNestedNodes(string xml, int lineNumber, int linePosition, string expectedXPath)
+        public void ElementPath(string xml, int lineNumber, int linePosition, string expectedXPath)
+        {
+            // Arrange
+
+            // Act
+            string actualXPath = Parse(xml, lineNumber, linePosition);
+
+            // Assert
+            Assert.That(actualXPath, Is.EqualTo(expectedXPath));
+        }
+
+        [TestCase("<node />", 1, 2, "/node")]
+        [TestCase("<node name=\"value\"/>", 1, 7, "/node[@name]")]
+        [TestCase("<node name=\"value\" otherName=\"value\"/>", 1, 20, "/node[@otherName]")]
+        [TestCase("<ns:node xmlns:ns=\"ns-namespace\"/>", 1, 10, "/ns:node[@xmlns:ns]")]
+        public void AttributePath(string xml, int lineNumber, int linePosition, string expectedXPath)
         {
             // Arrange
 
@@ -74,8 +89,11 @@ namespace ReasonCodeExample.XPathInformation.Tests
         private string Parse(string xml, int lineNumber, int linePosition)
         {
             XElement rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
-            XElement selectedElement = new XmlNodeRepository().Get(rootElement, lineNumber, linePosition);
-            return new XPathFormatter().Format(selectedElement);
+            XmlNodeRepository repository = new XmlNodeRepository();
+            XElement selectedElement = repository.GetElement(rootElement, lineNumber, linePosition);
+            XAttribute selectedAttribute = repository.GetAttribute(selectedElement, linePosition);
+            XPathFormatter formatter = new XPathFormatter();
+            return formatter.Format(selectedElement) + formatter.Format(selectedAttribute);
         }
     }
 }

@@ -11,6 +11,8 @@ namespace ReasonCodeExample.XPathInformation
         private const int LineNumberOffset = 1;
         private const int LinePositionOffset = 1;
         private readonly IVsStatusbar _statusbar;
+        private readonly XmlNodeRepository _repository = new XmlNodeRepository();
+        private readonly XPathFormatter _formatter = new XPathFormatter();
 
         public XPathStatusbarInformation(IWpfTextView view)
         {
@@ -35,8 +37,9 @@ namespace ReasonCodeExample.XPathInformation
             try
             {
                 XElement rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
-                XElement selectedElement = new XmlNodeRepository().Get(rootElement, lineNumber + LineNumberOffset, caretPosition + LinePositionOffset);
-                return new XPathFormatter().Format(selectedElement);
+                XElement selectedElement = _repository.GetElement(rootElement, lineNumber + LineNumberOffset, caretPosition + LinePositionOffset);
+                XAttribute selectedAttribute = _repository.GetAttribute(selectedElement, caretPosition + LinePositionOffset);
+                return _formatter.Format(selectedElement) + _formatter.Format(selectedAttribute);
             }
             catch (Exception ex)
             {

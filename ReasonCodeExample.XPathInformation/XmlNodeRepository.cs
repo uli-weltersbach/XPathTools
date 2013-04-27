@@ -18,16 +18,15 @@ namespace ReasonCodeExample.XPathInformation
         /// E.g. the XML fragment "&lt;element /&gt;" has line position 2.
         /// </param>
         /// <returns>The matching XML node or <c>null</c> if no match was found.</returns>
-        public XElement Get(XElement rootElement, int lineNumber, int linePosition)
+        public XElement GetElement(XElement rootElement, int lineNumber, int linePosition)
         {
             if (rootElement == null)
                 return null;
-            IEnumerable<XElement> elements = rootElement.DescendantsAndSelf();
+            IEnumerable<XElement> elements = rootElement.DescendantNodesAndSelf().OfType<XElement>();
             return (from element in elements
                     where IsCorrectLine(element, lineNumber)
                     where IsCorrectPosition(element, linePosition)
-                    orderby GetLinePosition(element) descending
-                    select element).FirstOrDefault();
+                    select element).LastOrDefault();
         }
 
         private bool IsCorrectLine(IXmlLineInfo lineInfo, int lineNumber)
@@ -40,9 +39,11 @@ namespace ReasonCodeExample.XPathInformation
             return lineInfo.LinePosition <= linePosition;
         }
 
-        private int GetLinePosition(IXmlLineInfo lineInfo)
+        public XAttribute GetAttribute(XElement element, int linePosition)
         {
-            return lineInfo.LinePosition;
+            if (element == null)
+                return null;
+            return element.Attributes().LastOrDefault(attribute => IsCorrectPosition(attribute, linePosition));
         }
     }
 }
