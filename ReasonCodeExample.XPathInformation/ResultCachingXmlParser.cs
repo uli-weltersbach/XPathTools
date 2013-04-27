@@ -4,20 +4,20 @@ namespace ReasonCodeExample.XPathInformation
 {
     internal class ResultCachingXmlParser
     {
-        private int _hashCode;
-        private XElement _xml;
+        private int _cachedXmlHashCode;
+        private XElement _rootElement;
 
         public XElement Parse(string xml)
         {
             if (string.IsNullOrEmpty(xml))
                 return null;
 
-            if (_hashCode == xml.GetHashCode())
-                return _xml;
+            if (_cachedXmlHashCode == xml.GetHashCode())
+                return _rootElement;
 
-            _xml = XElement.Parse(xml, LoadOptions.SetLineInfo);
-            _hashCode = xml.GetHashCode();
-            return _xml;
+            _rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
+            _cachedXmlHashCode = xml.GetHashCode();
+            return _rootElement;
         }
     }
 }
