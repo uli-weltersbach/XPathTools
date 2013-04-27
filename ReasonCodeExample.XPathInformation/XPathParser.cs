@@ -7,10 +7,26 @@ namespace ReasonCodeExample.XPathInformation
 {
     internal class XPathParser
     {
+        private const int LinePositionOffset = 1;
+
+        /// <summary>
+        /// Gets the XPath of the element located at the specified line and position.
+        /// </summary>
+        /// <param name="lineNumber">First line is 1.</param>
         public string GetPath(string xml, int lineNumber, int linePosition)
         {
-            XElement root = XElement.Parse(xml, LoadOptions.SetLineInfo);
-            XElement match = FindMatchingElement(lineNumber, linePosition + 1, root.DescendantsAndSelf());
+            XElement rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
+            return GetPath(rootElement, lineNumber, linePosition);
+        }
+
+        /// <summary>
+        /// Gets the XPath of the element located at the specified line and position.
+        /// </summary>
+        /// <param name="lineNumber">First line is 1.</param>
+        public string GetPath(XElement xml, int lineNumber, int linePosition)
+        {
+            IEnumerable<XElement> elements = xml.DescendantsAndSelf();
+            XElement match = FindMatchingElement(lineNumber, linePosition + LinePositionOffset, elements);
             return CreateXPath(match);
         }
 

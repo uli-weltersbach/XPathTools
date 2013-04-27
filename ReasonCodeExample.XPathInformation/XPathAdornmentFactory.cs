@@ -9,7 +9,7 @@ namespace ReasonCodeExample.XPathInformation
     /// that instantiates the adornment on the event of a <see cref="IWpfTextView"/>'s creation
     /// </summary>
     [Export(typeof(IWpfTextViewCreationListener))]
-    [ContentType("text")]
+    [ContentType(XmlContentTypeName)]
     [TextViewRole(PredefinedTextViewRoles.Document)]
     internal class XPathAdornmentFactory : IWpfTextViewCreationListener
     {
@@ -31,8 +31,7 @@ namespace ReasonCodeExample.XPathInformation
 
         public void TextViewCreated(IWpfTextView textView)
         {
-            if (textView.TextBuffer.ContentType.IsOfType(XmlContentTypeName))
-                new XPathAdornment(AdornmentLayerName, textView);
+            new XPathAdornment(AdornmentLayerName, textView);
         }
     }
 }
