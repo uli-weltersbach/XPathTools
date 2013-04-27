@@ -15,7 +15,7 @@ namespace ReasonCodeExample.XPathInformation
         private readonly XPathFormatter _formatter = new XPathFormatter();
         private readonly IVsStatusbar _statusbar;
 
-        public XPathStatusbarInformation(IWpfTextView view)
+        public XPathStatusbarInformation(ITextView view)
         {
             view.Caret.PositionChanged += UpdateXPath;
             _statusbar = (IVsStatusbar)ServiceProvider.GlobalProvider.GetService(typeof(IVsStatusbar));
