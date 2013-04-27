@@ -8,11 +8,12 @@ namespace ReasonCodeExample.XPathInformation
 {
     internal class XPathStatusbarInformation
     {
-        private const int LineNumberOffset = 1;
-        private const int LinePositionOffset = 1;
-        private readonly IVsStatusbar _statusbar;
+        private const int TextEditorLineNumberOffset = 1;
+        private const int XmlLineInfoLinePositionOffset = 1;
+        private readonly ResultCachingXmlParser _parser = new ResultCachingXmlParser();
         private readonly XmlNodeRepository _repository = new XmlNodeRepository();
         private readonly XPathFormatter _formatter = new XPathFormatter();
+        private readonly IVsStatusbar _statusbar;
 
         public XPathStatusbarInformation(IWpfTextView view)
         {
@@ -22,29 +23,25 @@ namespace ReasonCodeExample.XPathInformation
 
         private void UpdateXPath(object sender, CaretPositionChangedEventArgs e)
         {
-            string xpath = TryGetXPath(e);
-            UpdateStatusbarText(xpath);
-        }
-
-        private string TryGetXPath(CaretPositionChangedEventArgs e)
-        {
-            string xml = e.TextView.TextSnapshot.GetText();
-            if (string.IsNullOrEmpty(xml))
-                return string.Empty;
-
-            int lineNumber = GetLineNumber(e);
-            int caretPosition = GetCaretPosition(e, lineNumber);
             try
             {
-                XElement rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
-                XElement selectedElement = _repository.GetElement(rootElement, lineNumber + LineNumberOffset, caretPosition + LinePositionOffset);
-                XAttribute selectedAttribute = _repository.GetAttribute(selectedElement, caretPosition + LinePositionOffset);
-                return _formatter.Format(selectedElement) + _formatter.Format(selectedAttribute);
+                string xpath = GetXPath(e);
+                _statusbar.SetText(xpath);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                _statusbar.SetText(ex.Message);
             }
+        }
+
+        private string GetXPath(CaretPositionChangedEventArgs e)
+        {
+            XElement rootElement = _parser.Parse(e.TextView.TextSnapshot.GetText());
+            int lineNumber = GetLineNumber(e);
+            int linePosition = GetLinePosition(e, lineNumber);
+            XElement selectedElement = _repository.GetElement(rootElement, lineNumber + TextEditorLineNumberOffset, linePosition + XmlLineInfoLinePositionOffset);
+            XAttribute selectedAttribute = _repository.GetAttribute(selectedElement, linePosition + XmlLineInfoLinePositionOffset);
+            return _formatter.Format(selectedElement) + _formatter.Format(selectedAttribute);
         }
 
         private int GetLineNumber(CaretPositionChangedEventArgs e)
@@ -52,17 +49,12 @@ namespace ReasonCodeExample.XPathInformation
             return e.TextView.TextSnapshot.GetLineNumberFromPosition(e.NewPosition.BufferPosition);
         }
 
-        private int GetCaretPosition(CaretPositionChangedEventArgs e, int lineNumber)
+        private int GetLinePosition(CaretPositionChangedEventArgs e, int lineNumber)
         {
             int lineStart = e.TextView.TextSnapshot.GetLineFromLineNumber(lineNumber).Start.Position;
             int caretPositionInDocument = e.NewPosition.BufferPosition.Position;
             int caretPositionInLine = caretPositionInDocument - lineStart;
             return caretPositionInLine;
-        }
-
-        private void UpdateStatusbarText(string xpath)
-        {
-            _statusbar.SetText(xpath);
         }
     }
 }

@@ -65,6 +65,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ResultCachingXmlParser.cs" />
     <Compile Include="XmlNodeRepository.cs" />
     <Compile Include="XPathFormatter.cs" />
     <Compile Include="XPathStatusbarInformation.cs" />
