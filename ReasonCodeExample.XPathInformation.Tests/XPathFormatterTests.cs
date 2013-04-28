@@ -1,5 +1,6 @@
 ﻿using System.Xml.Linq;
 using NUnit.Framework;
+using System.Xml;
 
 namespace ReasonCodeExample.XPathInformation.Tests
 {
@@ -18,6 +19,19 @@ namespace ReasonCodeExample.XPathInformation.Tests
 
             // Assert
             Assert.That(xpath, Is.EqualTo("[@attribute]"));
+        }
+
+        [Test]
+        [ExpectedException(typeof(XmlException))]
+        public void MissingAttributeParent()
+        {
+            // Arrange
+            XPathFormatter formatter = new XPathFormatter();
+            XNamespace @namespace = "test namespace";
+            XAttribute attribute = new XAttribute(@namespace + "attribute", "value");
+
+            // Act
+            formatter.Format(attribute);
         }
 
         [Test]

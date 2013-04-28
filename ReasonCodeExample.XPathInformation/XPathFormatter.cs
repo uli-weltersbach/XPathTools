@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace ReasonCodeExample.XPathInformation
@@ -47,6 +48,9 @@ namespace ReasonCodeExample.XPathInformation
 
             if (string.IsNullOrEmpty(attribute.Name.NamespaceName))
                 return string.Format("[@{0}]", attribute.Name.LocalName);
+
+            if (attribute.Parent == null)
+                throw new XmlException(string.Format("Unable to determine namespace prefix for attribute \"{0}\". Parent is null.", attribute.Name));
 
             string namespacePrefix = attribute.Parent.GetPrefixOfNamespace(attribute.Name.Namespace);
             if (string.IsNullOrEmpty(namespacePrefix))
