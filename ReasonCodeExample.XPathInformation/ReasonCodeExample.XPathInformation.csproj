@@ -65,7 +65,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CaretPosition.cs" />
+    <Compile Include="CaretPositionLineInfo.cs" />
     <Compile Include="ResultCachingXmlParser.cs" />
     <Compile Include="XmlNodeRepository.cs" />
     <Compile Include="XPathFormatter.cs" />

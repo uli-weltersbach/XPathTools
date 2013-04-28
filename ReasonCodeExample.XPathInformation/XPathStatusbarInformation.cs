@@ -36,7 +36,7 @@ namespace ReasonCodeExample.XPathInformation
         private string GetXPath(CaretPositionChangedEventArgs e)
         {
             XElement rootElement = _parser.Parse(e.TextView.TextSnapshot.GetText());
-            IXmlLineInfo caretPosition = new CaretPosition(e);
+            IXmlLineInfo caretPosition = new CaretPositionLineInfo(e);
             XElement selectedElement = _repository.GetElement(rootElement, caretPosition.LineNumber, caretPosition.LinePosition);
             XAttribute selectedAttribute = _repository.GetAttribute(selectedElement, caretPosition.LinePosition);
             return _formatter.Format(selectedElement) + _formatter.Format(selectedAttribute);
