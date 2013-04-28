@@ -15,9 +15,18 @@ namespace ReasonCodeExample.XPathInformation
         private readonly IVsStatusbar _statusbar;
 
         public XPathStatusbarInformation(ITextView view)
+            : this(view, (IVsStatusbar)ServiceProvider.GlobalProvider.GetService(typeof(IVsStatusbar)))
         {
-            _statusbar = (IVsStatusbar)ServiceProvider.GlobalProvider.GetService(typeof(IVsStatusbar));
+        }
+
+        public XPathStatusbarInformation(ITextView view, IVsStatusbar statusbar)
+        {
+            if (view == null)
+                throw new ArgumentNullException("view");
+            if (statusbar == null)
+                throw new ArgumentNullException("statusbar");
             view.Caret.PositionChanged += UpdateXPath;
+            _statusbar = statusbar;
         }
 
         private void UpdateXPath(object sender, CaretPositionChangedEventArgs e)

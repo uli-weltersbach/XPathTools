@@ -7,7 +7,16 @@ namespace ReasonCodeExample.XPathInformation
 {
     internal class CaretPositionLineInfo : IXmlLineInfo
     {
+        /// <summary>
+        /// Visual Studio text lines are 0-based while 
+        /// <c>XElement</c> uses 1-based.
+        /// </summary>
         private const int TextEditorLineNumberOffset = 1;
+
+        /// <summary>
+        /// The start of an <c>XElement</c> is the first letter in 
+        /// the element name (e.g. "f" in &lt;fitting&gt;).
+        /// </summary>
         private const int XmlLineInfoLinePositionOffset = 1;
 
         public CaretPositionLineInfo(CaretPositionChangedEventArgs e)

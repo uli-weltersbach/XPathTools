@@ -50,8 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CaretPositionLineInfoTests.cs" />
+    <Compile Include="XmlNodeRepositoryTests.cs" />
     <Compile Include="XPathFormatterTests.cs" />
-    <Compile Include="XPathInformationTests.cs" />
+    <Compile Include="IntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
