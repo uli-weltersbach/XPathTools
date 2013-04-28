@@ -1,11 +1,16 @@
 ﻿using System;
+using System.IO;
 using System.Xml.Linq;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace ReasonCodeExample.XPathInformation.Tests
 {
     [TestFixture]
-    public class IntegrationTests
+    public class XPathStatusbarInformationTests
     {
         [Test]
         public void Document()
@@ -16,12 +21,51 @@ namespace ReasonCodeExample.XPathInformation.Tests
                          @" <GitBashPath>C:\Program Files (x86)\Git\bin\sh.exe</GitBashPath>" + Environment.NewLine +
                          "  <GitExtensionPath />" + Environment.NewLine +
                          "  <node />  </GitSccOptions>";
+            int lineNumber = 5;
+            var args = CreateEventArgs(xml, 0, lineNumber);
+            ITextView textView = Substitute.For<ITextView>();
+            IVsStatusbar statusbar = Substitute.For<IVsStatusbar>();
+            new XPathStatusbarInformation(textView, statusbar);
 
             // Act
-            string actualXPath = Parse(xml, 5, 8);
+            textView.Caret.PositionChanged += Raise.EventWith(args);
 
             // Assert
-            Assert.That(actualXPath, Is.EqualTo("/GitSccOptions/node"));
+            statusbar.Received().SetText(Arg.Is("/GitSccOptions/node"));
+        }
+
+        private CaretPositionChangedEventArgs CreateEventArgs(string xml, int caretPosition, int lineNumber)
+        {
+            ITextSnapshotLine line = Substitute.For<ITextSnapshotLine>();
+
+            ITextSnapshot textSnapshot = Substitute.For<ITextSnapshot>();
+            textSnapshot.GetText().Returns(xml);
+            textSnapshot.GetLineNumberFromPosition(Arg.Is(caretPosition)).Returns(lineNumber);
+            textSnapshot.GetLineFromPosition(Arg.Is(caretPosition)).Returns(line);
+            textSnapshot.Length.Returns(xml.Length);
+
+            int lineStart = GetLineStart(xml, lineNumber);
+            line.Start.Returns(new SnapshotPoint(textSnapshot, lineStart));
+
+            ITextView textView = Substitute.For<ITextView>();
+            textView.TextSnapshot.Returns(textSnapshot);
+
+            CaretPosition oldPosition = new CaretPosition();
+            VirtualSnapshotPoint position = new VirtualSnapshotPoint(textSnapshot, caretPosition);
+            CaretPosition newPosition = new CaretPosition(position, Substitute.For<IMappingPoint>(), PositionAffinity.Successor);
+            return new CaretPositionChangedEventArgs(textView, oldPosition, newPosition);
+        }
+
+        private int GetLineStart(string s, int lineNumber)
+        {
+            StringReader reader = new StringReader(s);
+            int lineStart = 0;
+            for (int i = 0; i < lineNumber; i++)
+            {
+                string line = reader.ReadLine();
+                lineStart += line.Length;
+            }
+            return lineStart;
         }
 
         [Test]

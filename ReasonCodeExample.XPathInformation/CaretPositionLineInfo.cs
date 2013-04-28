@@ -1,7 +1,6 @@
 ﻿using System;
-using Microsoft.VisualStudio.Text.Editor;
 using System.Xml;
-using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
 
 namespace ReasonCodeExample.XPathInformation
 {
@@ -9,22 +8,22 @@ namespace ReasonCodeExample.XPathInformation
     {
         /// <summary>
         /// Visual Studio text lines are 0-based while 
-        /// <c>XElement</c> uses 1-based.
+        /// <c>IXmlLineInfo</c> uses 1-based.
         /// </summary>
         private const int TextEditorLineNumberOffset = 1;
 
         /// <summary>
-        /// The start of an <c>XElement</c> is the first letter in 
+        /// The start of an <c>IXmlLineInfo</c> is the first letter in 
         /// the element name (e.g. "f" in &lt;fitting&gt;).
         /// </summary>
         private const int XmlLineInfoLinePositionOffset = 1;
 
         public CaretPositionLineInfo(CaretPositionChangedEventArgs e)
-            : this(e.TextView, e.NewPosition.BufferPosition)
+            : this(e.TextView, e.NewPosition.BufferPosition.Position)
         {
         }
 
-        public CaretPositionLineInfo(ITextView textView, SnapshotPoint caretPosition)
+        public CaretPositionLineInfo(ITextView textView, int caretPosition)
         {
             if (textView == null)
                 throw new ArgumentNullException("textView");
@@ -44,23 +43,21 @@ namespace ReasonCodeExample.XPathInformation
             private set;
         }
 
-        private int GetLineNumber(ITextView textView, SnapshotPoint caretPosition)
+        public bool HasLineInfo()
+        {
+            return true;
+        }
+
+        private int GetLineNumber(ITextView textView, int caretPosition)
         {
             return textView.TextSnapshot.GetLineNumberFromPosition(caretPosition) + TextEditorLineNumberOffset;
         }
 
-        private int GetLinePosition(ITextView textView, SnapshotPoint caretPosition)
+        private int GetLinePosition(ITextView textView, int caretPosition)
         {
-            int lineNumber = textView.TextSnapshot.GetLineNumberFromPosition(caretPosition);
-            int lineStart = textView.TextSnapshot.GetLineFromLineNumber(lineNumber).Start.Position;
-            int caretPositionInDocument = caretPosition.Position;
-            int caretPositionInLine = caretPositionInDocument - lineStart;
+            int lineStart = textView.TextSnapshot.GetLineFromPosition(caretPosition).Start;
+            int caretPositionInLine = caretPosition - lineStart;
             return caretPositionInLine + XmlLineInfoLinePositionOffset;
-        }
-
-        public bool HasLineInfo()
-        {
-            return true;
         }
     }
 }

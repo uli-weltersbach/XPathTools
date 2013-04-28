@@ -22,7 +22,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
             textView.TextSnapshot.Returns(textSnapshot);
 
             // Act
-            CaretPositionLineInfo caretPositionLineInfo = new CaretPositionLineInfo(textView, new SnapshotPoint());
+            CaretPositionLineInfo caretPositionLineInfo = new CaretPositionLineInfo(textView, 0);
 
             // Assert
             Assert.That(caretPositionLineInfo.LineNumber, Is.EqualTo(lineNumber + expectedAdjustment));
@@ -31,24 +31,22 @@ namespace ReasonCodeExample.XPathInformation.Tests
         [TestCase(0)]
         [TestCase(10)]
         [TestCase(100)]
-        public void LinePositionIsAdjusted(int linePosition)
+        public void LinePositionIsAdjusted(int caretPosition)
         {
             // Arrange
             const int expectedAdjustment = 1;
             ITextSnapshot textSnapshot = Substitute.For<ITextSnapshot>();
-            textSnapshot.GetLineNumberFromPosition(Arg.Is(linePosition)).Returns(0);
-            textSnapshot.Length.Returns(linePosition);
+            textSnapshot.GetLineNumberFromPosition(Arg.Is(caretPosition)).Returns(0);
+            textSnapshot.Length.Returns(caretPosition);
 
             ITextView textView = Substitute.For<ITextView>();
             textView.TextSnapshot.Returns(textSnapshot);
-
-            SnapshotPoint caretPosition = new SnapshotPoint(textSnapshot, linePosition);
-
+            
             // Act
             CaretPositionLineInfo caretPositionLineInfo = new CaretPositionLineInfo(textView, caretPosition);
 
             // Assert
-            Assert.That(caretPositionLineInfo.LinePosition, Is.EqualTo(linePosition + expectedAdjustment));
+            Assert.That(caretPositionLineInfo.LinePosition, Is.EqualTo(caretPosition + expectedAdjustment));
         }
     }
 }
