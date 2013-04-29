@@ -25,11 +25,11 @@ namespace ReasonCodeExample.XPathInformation
                 throw new ArgumentNullException("textView");
             if (statusbar == null)
                 throw new ArgumentNullException("statusbar");
-            textView.Caret.PositionChanged += UpdateXPath;
+            textView.Caret.PositionChanged += UpdateStatusbarText;
             _statusbar = statusbar;
         }
 
-        private void UpdateXPath(object sender, CaretPositionChangedEventArgs e)
+        private void UpdateStatusbarText(object sender, CaretPositionChangedEventArgs e)
         {
             try
             {
