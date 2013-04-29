@@ -3,8 +3,10 @@
   <Metadata>
     <Identity Id="ReasonCodeExample.XPathInformation.Microsoft.93c94b74-69b4-4568-8c8c-6581840f43ab" Version="1.0" Language="en-US" Publisher="Uli Weltersbach" />
     <DisplayName>ReasonCodeExample.XPathInformation</DisplayName>
-    <Description xml:space="preserve">Displays XPath-information for nodes in files containing XML markup.</Description>
+    <Description xml:space="preserve">Displays the XPath of the element or attribute at the current caret position when working in files containing XML markup. 
+The information is displayed in the statusbar.</Description>
     <MoreInfo>http://reasoncodeexample.com</MoreInfo>
+    <PreviewImage>XPathStatusbarInformation preview image.png</PreviewImage>
     <Tags>XPath, XML</Tags>
   </Metadata>
   <Installation>
