@@ -3,7 +3,7 @@
   <Metadata>
     <Identity Id="ReasonCodeExample.XPathInformation.v1.0" Version="1.0" Language="en-US" Publisher="Uli Weltersbach" />
     <DisplayName>ReasonCodeExample.XPathInformation</DisplayName>
-    <Description xml:space="preserve">When working in files containing XML markup, this plugin displays the XPath of the element or attribute at the caret position.
+    <Description xml:space="preserve">When working in files containing XML markup, this extension displays the XPath of the XML element or attribute at the caret position.
 The information is displayed in the statusbar.</Description>
     <MoreInfo>http://reasoncodeexample.com</MoreInfo>
     <PreviewImage>XPathStatusbarInformation preview image.png</PreviewImage>
