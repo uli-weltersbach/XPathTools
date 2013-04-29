@@ -39,21 +39,22 @@ namespace ReasonCodeExample.XPathInformation.Tests
             ITextSnapshotLine line = Substitute.For<ITextSnapshotLine>();
 
             ITextSnapshot textSnapshot = Substitute.For<ITextSnapshot>();
-            textSnapshot.GetText().Returns(xml);
+            textSnapshot.GetText().ReturnsForAnyArgs(xml);
+            textSnapshot.Length.ReturnsForAnyArgs(xml.Length);
             textSnapshot.GetLineNumberFromPosition(Arg.Is(caretPosition)).Returns(lineNumber);
             textSnapshot.GetLineFromPosition(Arg.Is(caretPosition)).Returns(line);
-            textSnapshot.Length.Returns(xml.Length);
 
             int lineStart = GetLineStart(xml, lineNumber);
-            line.Start.Returns(new SnapshotPoint(textSnapshot, lineStart));
+            SnapshotPoint lineStartSnapshotPoint = new SnapshotPoint(textSnapshot, lineStart);
+            line.Start.Returns(lineStartSnapshotPoint);
 
             ITextView textView = Substitute.For<ITextView>();
             textView.TextSnapshot.Returns(textSnapshot);
 
-            CaretPosition oldPosition = new CaretPosition();
-            VirtualSnapshotPoint position = new VirtualSnapshotPoint(textSnapshot, caretPosition);
-            CaretPosition newPosition = new CaretPosition(position, Substitute.For<IMappingPoint>(), PositionAffinity.Successor);
-            return new CaretPositionChangedEventArgs(textView, oldPosition, newPosition);
+            SnapshotPoint snapshotPoint = new SnapshotPoint(textSnapshot, caretPosition);
+            VirtualSnapshotPoint virtualSnapshotPoint = new VirtualSnapshotPoint(snapshotPoint);
+            CaretPosition newPosition = new CaretPosition(virtualSnapshotPoint, Substitute.For<IMappingPoint>(), PositionAffinity.Successor);
+            return new CaretPositionChangedEventArgs(textView, new CaretPosition(), newPosition);
         }
 
         private int GetLineStart(string s, int lineNumber)

@@ -69,8 +69,8 @@
     <Compile Include="ResultCachingXmlParser.cs" />
     <Compile Include="XmlNodeRepository.cs" />
     <Compile Include="XPathFormatter.cs" />
-    <Compile Include="XPathStatusbarInformation.cs" />
-    <Compile Include="XPathStatusbarInformationFactory.cs" />
+    <Compile Include="XPathStatusBarInformation.cs" />
+    <Compile Include="XPathStatusBarInformationFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
