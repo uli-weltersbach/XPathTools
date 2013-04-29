@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="ReasonCodeExample.XPathInformation.Microsoft.93c94b74-69b4-4568-8c8c-6581840f43ab" Version="1.0" Language="en-US" Publisher="Uli Weltersbach" />
+    <Identity Id="ReasonCodeExample.XPathInformation.v1.0" Version="1.0" Language="en-US" Publisher="Uli Weltersbach" />
     <DisplayName>ReasonCodeExample.XPathInformation</DisplayName>
-    <Description xml:space="preserve">Displays the XPath of the element or attribute at the current caret position when working in files containing XML markup. 
+    <Description xml:space="preserve">When working in files containing XML markup, this plugin displays the XPath of the element or attribute at the caret position.
 The information is displayed in the statusbar.</Description>
     <MoreInfo>http://reasoncodeexample.com</MoreInfo>
     <PreviewImage>XPathStatusbarInformation preview image.png</PreviewImage>
