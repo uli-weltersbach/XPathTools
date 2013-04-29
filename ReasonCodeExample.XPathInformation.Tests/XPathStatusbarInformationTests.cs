@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Xml.Linq;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -9,93 +7,69 @@ using NUnit.Framework;
 
 namespace ReasonCodeExample.XPathInformation.Tests
 {
+    /// <summary>
+    /// Integration tests.
+    /// </summary>
     [TestFixture]
     public class XPathStatusbarInformationTests
     {
-        [Test]
-        public void Document()
+        private readonly string _testXml = @"<?xml version=""1.0"" encoding=""utf-8""?>" + Environment.NewLine +
+                                           @"<!-- <node> -->" + Environment.NewLine +
+                                           @"<GitSccOptions xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">" + Environment.NewLine +
+                                           @"<GitBashPath>C:\Program Files (x86)\Git\bin\sh.exe</GitBashPath>" + Environment.NewLine +
+                                           @"<!-- <node>" + Environment.NewLine +
+                                           "<GitExtensionPath />  -->" + Environment.NewLine +
+                                           "<node /></GitSccOptions>";
+
+        [TestCase(0, 1, "")]
+        [TestCase(1, 1, "")]
+        [TestCase(2, 0, "")]
+        [TestCase(2, 1, "/GitSccOptions")]
+        [TestCase(2, 16, "/GitSccOptions[@xmlns:xsi]")]
+        [TestCase(3, 0, "")]
+        [TestCase(3, 1, "/GitSccOptions/GitBashPath")]
+        [TestCase(4, 1, "")]
+        [TestCase(5, 1, "")]
+        [TestCase(6, 0, "")]
+        [TestCase(6, 1, "/GitSccOptions/node")]
+        public void StatusbarTextIsUpdated(int lineNumber, int linePosition, string expectedStatusbarText)
         {
             // Arrange
-            string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>" + Environment.NewLine +
-                         @" <GitSccOptions xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">" + Environment.NewLine +
-                         @" <GitBashPath>C:\Program Files (x86)\Git\bin\sh.exe</GitBashPath>" + Environment.NewLine +
-                         "  <GitExtensionPath />" + Environment.NewLine +
-                         "  <node />  </GitSccOptions>";
-            int lineNumber = 5;
-            var args = CreateEventArgs(xml, 0, lineNumber);
+            CaretPositionChangedEventArgs args = CreateEventArgs(linePosition, lineNumber);
+            ITextCaret caret = Substitute.For<ITextCaret>();
             ITextView textView = Substitute.For<ITextView>();
+            textView.Caret.Returns(caret);
             IVsStatusbar statusbar = Substitute.For<IVsStatusbar>();
             new XPathStatusbarInformation(textView, statusbar);
 
             // Act
-            textView.Caret.PositionChanged += Raise.EventWith(args);
+            caret.PositionChanged += Raise.EventWith(args);
 
             // Assert
-            statusbar.Received().SetText(Arg.Is("/GitSccOptions/node"));
+            statusbar.Received().SetText(Arg.Is(expectedStatusbarText));
         }
 
-        private CaretPositionChangedEventArgs CreateEventArgs(string xml, int caretPosition, int lineNumber)
+        private CaretPositionChangedEventArgs CreateEventArgs(int linePosition, int lineNumber)
         {
             ITextSnapshotLine line = Substitute.For<ITextSnapshotLine>();
 
             ITextSnapshot textSnapshot = Substitute.For<ITextSnapshot>();
-            textSnapshot.GetText().Returns(xml);
-            textSnapshot.Length.Returns(xml.Length);
-            textSnapshot.GetLineNumberFromPosition(Arg.Is(caretPosition)).Returns(lineNumber);
-            textSnapshot.GetLineFromPosition(Arg.Is(caretPosition)).Returns(line);
+            textSnapshot.GetText().Returns(_testXml);
+            textSnapshot.Length.Returns(_testXml.Length);
+            textSnapshot.GetLineNumberFromPosition(Arg.Is(linePosition)).Returns(lineNumber);
+            textSnapshot.GetLineFromPosition(Arg.Is(linePosition)).Returns(line);
 
-            int lineStart = GetLineStart(xml, lineNumber);
-            SnapshotPoint lineStartSnapshotPoint = new SnapshotPoint(textSnapshot, lineStart);
+            SnapshotPoint lineStartSnapshotPoint = new SnapshotPoint(textSnapshot, 0);
             line.Start.Returns(lineStartSnapshotPoint);
 
             ITextView textView = Substitute.For<ITextView>();
             textView.TextSnapshot.Returns(textSnapshot);
 
-            SnapshotPoint snapshotPoint = new SnapshotPoint(textSnapshot, caretPosition);
+            SnapshotPoint snapshotPoint = new SnapshotPoint(textSnapshot, linePosition);
             VirtualSnapshotPoint virtualSnapshotPoint = new VirtualSnapshotPoint(snapshotPoint);
             CaretPosition newPosition = new CaretPosition(virtualSnapshotPoint, Substitute.For<IMappingPoint>(), PositionAffinity.Successor);
+
             return new CaretPositionChangedEventArgs(textView, new CaretPosition(), newPosition);
-        }
-
-        private int GetLineStart(string s, int lineNumber)
-        {
-            StringReader reader = new StringReader(s);
-            int lineStart = 0;
-            for (int i = 0; i < lineNumber; i++)
-            {
-                string line = reader.ReadLine();
-                lineStart += line.Length;
-            }
-            return lineStart;
-        }
-
-        [Test]
-        public void DocumentWithComments()
-        {
-            // Arrange
-            string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>" + Environment.NewLine +
-                         @"<!-- <node> -->" + Environment.NewLine +
-                         @"<GitSccOptions xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">" + Environment.NewLine +
-                         @"<GitBashPath>C:\Program Files (x86)\Git\bin\sh.exe</GitBashPath>" + Environment.NewLine +
-                         @"<!-- <node>" + Environment.NewLine +
-                         "<GitExtensionPath />  -->" + Environment.NewLine +
-                         "<node /></GitSccOptions>";
-
-            // Act
-            string actualXPath = Parse(xml, 7, 2);
-
-            // Assert
-            Assert.That(actualXPath, Is.EqualTo("/GitSccOptions/node"));
-        }
-
-        private string Parse(string xml, int lineNumber, int linePosition)
-        {
-            XElement rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
-            XmlNodeRepository repository = new XmlNodeRepository();
-            XElement selectedElement = repository.GetElement(rootElement, lineNumber, linePosition);
-            XAttribute selectedAttribute = repository.GetAttribute(selectedElement, linePosition);
-            XPathFormatter formatter = new XPathFormatter();
-            return formatter.Format(selectedElement) + formatter.Format(selectedAttribute);
         }
     }
 }

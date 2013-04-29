@@ -14,18 +14,18 @@ namespace ReasonCodeExample.XPathInformation
         private readonly XPathFormatter _formatter = new XPathFormatter();
         private readonly IVsStatusbar _statusbar;
 
-        public XPathStatusbarInformation(ITextView view)
-            : this(view, (IVsStatusbar)ServiceProvider.GlobalProvider.GetService(typeof(IVsStatusbar)))
+        public XPathStatusbarInformation(ITextView textView)
+            : this(textView, (IVsStatusbar)ServiceProvider.GlobalProvider.GetService(typeof(IVsStatusbar)))
         {
         }
 
-        public XPathStatusbarInformation(ITextView view, IVsStatusbar statusbar)
+        public XPathStatusbarInformation(ITextView textView, IVsStatusbar statusbar)
         {
-            if (view == null)
-                throw new ArgumentNullException("view");
+            if (textView == null)
+                throw new ArgumentNullException("textView");
             if (statusbar == null)
                 throw new ArgumentNullException("statusbar");
-            view.Caret.PositionChanged += UpdateXPath;
+            textView.Caret.PositionChanged += UpdateXPath;
             _statusbar = statusbar;
         }
 
