@@ -39,8 +39,8 @@ namespace ReasonCodeExample.XPathInformation.Tests
             ITextSnapshotLine line = Substitute.For<ITextSnapshotLine>();
 
             ITextSnapshot textSnapshot = Substitute.For<ITextSnapshot>();
-            textSnapshot.GetText().ReturnsForAnyArgs(xml);
-            textSnapshot.Length.ReturnsForAnyArgs(xml.Length);
+            textSnapshot.GetText().Returns(xml);
+            textSnapshot.Length.Returns(xml.Length);
             textSnapshot.GetLineNumberFromPosition(Arg.Is(caretPosition)).Returns(lineNumber);
             textSnapshot.GetLineFromPosition(Arg.Is(caretPosition)).Returns(line);
 
