@@ -3,19 +3,20 @@
   <Extern href="stdidcmd.h"/>
   <Extern href="vsshlids.h"/>
   
-  <Commands package="guidReasonCodeExample_XPathInformation_CommandsPkg">
+  <Commands package="XPathInformationPackageID">
     <Groups>
-      <Group guid="guidReasonCodeExample_XPathInformation_CommandsCmdSet" id="XPathInformationMenuGroup" priority="0x0600">
+      <Group guid="XPathInformationMenuGroupID" id="XPathInformationMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
       </Group>
     </Groups>
     
     <Buttons>
-      <Button guid="guidReasonCodeExample_XPathInformation_CommandsCmdSet" id="XPathInformationSaveCommand" priority="0x0100" type="Button">
-        <Parent guid="guidReasonCodeExample_XPathInformation_CommandsCmdSet" id="XPathInformationMenuGroup" />
-        <Icon guid="guidImages" id="bmpPic1" />
-        <CommandFlag>DefaultInvisible</CommandFlag>
-        <CommandFlag>DynamicVisibility</CommandFlag>
+      <Button guid="XPathInformationMenuGroupID" id="XPathInformationSaveCommand" priority="0x0100" type="Button">
+        <Parent guid="XPathInformationMenuGroupID" id="XPathInformationMenuGroup" />
+        <Icon guid="ImagesID" id="bmpPic1" />
+        <!--<CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>-->
+        <CommandFlag>DontCache</CommandFlag>
         <Strings>
           <ButtonText>Copy XPath</ButtonText>
         </Strings>
@@ -23,23 +24,24 @@
     </Buttons>
     
     <Bitmaps>
-      <Bitmap guid="guidImages" href="Resources\Images.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows"/>
+      <Bitmap guid="ImagesID" href="Resources\Images.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows"/>
     </Bitmaps>
   </Commands>
 
   <CommandPlacements>
-    <CommandPlacement guid="guidReasonCodeExample_XPathInformation_CommandsCmdSet" id="XPathInformationSaveCommand">
+    <CommandPlacement guid="XPathInformationMenuGroupID" id="XPathInformationSaveCommand">
       <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
     </CommandPlacement>
   </CommandPlacements>
 
   <Symbols>
-    <GuidSymbol name="guidReasonCodeExample_XPathInformation_CommandsPkg" value="{253aa665-a779-4716-9ded-5b0c2cb66710}" />
-    <GuidSymbol name="guidReasonCodeExample_XPathInformation_CommandsCmdSet" value="{2a859db4-750c-4267-b96f-844f20ce9e7b}">
+    <GuidSymbol name="XPathInformationPackageID" value="{253aa665-a779-4716-9ded-5b0c2cb66710}" />
+    <GuidSymbol name="XPathInformationMenuGroupID" value="{2a859db4-750c-4267-b96f-844f20ce9e7b}">
       <IDSymbol name="XPathInformationMenuGroup" value="0x1020" />
       <IDSymbol name="XPathInformationSaveCommand" value="0x0100" />
     </GuidSymbol>
-    <GuidSymbol name="guidImages" value="{ccf04725-e060-4d02-9cd7-2d86a3742cd3}" >
+    <!--<GuidSymbol name="XPathInformationSaveCommandID" value="{0FC7B08D-F4F8-4E12-8236-0167E8D785E8}" />-->
+    <GuidSymbol name="ImagesID" value="{ccf04725-e060-4d02-9cd7-2d86a3742cd3}" >
       <IDSymbol name="bmpPic1" value="1" />
       <IDSymbol name="bmpPic2" value="2" />
       <IDSymbol name="bmpPicSearch" value="3" />

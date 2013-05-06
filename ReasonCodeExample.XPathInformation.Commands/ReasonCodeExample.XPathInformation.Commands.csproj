@@ -117,7 +117,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IDs.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
