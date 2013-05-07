@@ -16,7 +16,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ReasonCodeExample.XPathInformation.Commands</RootNamespace>
     <AssemblyName>ReasonCodeExample.XPathInformation.Commands</AssemblyName>
-    <SignAssembly>True</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
@@ -155,6 +155,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Package.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReasonCodeExample.XPathInformation\ReasonCodeExample.XPathInformation.csproj">
+      <Project>{19883877-2b18-4afa-9eb0-cd5d1f0726b1}</Project>
+      <Name>ReasonCodeExample.XPathInformation</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>

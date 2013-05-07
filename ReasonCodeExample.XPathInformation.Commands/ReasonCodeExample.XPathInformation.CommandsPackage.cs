@@ -3,7 +3,6 @@ using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 
 namespace ReasonCodeExample.XPathInformation.Commands
 {
@@ -13,19 +12,7 @@ namespace ReasonCodeExample.XPathInformation.Commands
     [Guid(Constants.PackageID)]
     public sealed class CommandsPackage : Package
     {
-        private readonly IMenuCommandService _menuCommandService;
-        private readonly IVsStatusbar _statusbar;
-
-        public CommandsPackage()
-            : this(null, null)
-        {
-        }
-
-        public CommandsPackage(IMenuCommandService menuCommandService, IVsStatusbar statusbar)
-        {
-            _menuCommandService = menuCommandService ?? (IMenuCommandService)GetService(typeof(IMenuCommandService));
-            _statusbar = statusbar ?? (IVsStatusbar)GetService(typeof(IVsStatusbar));
-        }
+        private readonly XPathRepository _repository = new XPathRepository();
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -34,16 +21,26 @@ namespace ReasonCodeExample.XPathInformation.Commands
         protected override void Initialize()
         {
             base.Initialize();
-            CommandID menuCommandID = new CommandID(Guid.Parse(Constants.MenuGroupID), Constants.SaveCommandSortOrder);
-            MenuCommand menuCommand = new OleMenuCommand(CopyStatusBarTextToClipBoard, menuCommandID);
-            _menuCommandService.AddCommand(menuCommand);
+            CommandID menuCommandID = new CommandID(Guid.Parse(Constants.MenuGroupID), Constants.SaveCommandID);
+            MenuCommand menuCommand = new OleMenuCommand(CopyXPathToClipBoard, null, SetCommandVisibility, menuCommandID);
+            IMenuCommandService service = (IMenuCommandService)GetService(typeof(IMenuCommandService));
+            service.AddCommand(menuCommand);
         }
 
-        private void CopyStatusBarTextToClipBoard(object sender, EventArgs e)
+        private void CopyXPathToClipBoard(object sender, EventArgs e)
         {
-            string text;
-            _statusbar.GetText(out text);
-            Clipboard.SetText(text);
+            MenuCommand menuCommand = sender as MenuCommand;
+            if (menuCommand == null)
+                return;
+            Clipboard.SetText(_repository.Get());
+        }
+
+        private void SetCommandVisibility(object sender, EventArgs e)
+        {
+            MenuCommand menuCommand = sender as MenuCommand;
+            if (menuCommand == null)
+                return;
+            menuCommand.Visible = !string.IsNullOrEmpty(_repository.Get());
         }
     }
 }

@@ -2,27 +2,25 @@
 <CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <Extern href="stdidcmd.h"/>
   <Extern href="vsshlids.h"/>
-  
+
   <Commands package="XPathInformationPackageID">
     <Groups>
       <Group guid="XPathInformationMenuGroupID" id="XPathInformationMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
       </Group>
     </Groups>
-    
+
     <Buttons>
       <Button guid="XPathInformationMenuGroupID" id="XPathInformationSaveCommand" priority="0x0100" type="Button">
         <Parent guid="XPathInformationMenuGroupID" id="XPathInformationMenuGroup" />
-        <Icon guid="ImagesID" id="bmpPic1" />
-        <!--<CommandFlag>DefaultInvisible</CommandFlag>
-        <CommandFlag>DynamicVisibility</CommandFlag>-->
-        <CommandFlag>DontCache</CommandFlag>
+        <Icon guid="ImagesID" id="bmpPicX" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Copy XPath</ButtonText>
         </Strings>
       </Button>
     </Buttons>
-    
+
     <Bitmaps>
       <Bitmap guid="ImagesID" href="Resources\Images.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows"/>
     </Bitmaps>
@@ -40,7 +38,6 @@
       <IDSymbol name="XPathInformationMenuGroup" value="0x1020" />
       <IDSymbol name="XPathInformationSaveCommand" value="0x0100" />
     </GuidSymbol>
-    <!--<GuidSymbol name="XPathInformationSaveCommandID" value="{0FC7B08D-F4F8-4E12-8236-0167E8D785E8}" />-->
     <GuidSymbol name="ImagesID" value="{ccf04725-e060-4d02-9cd7-2d86a3742cd3}" >
       <IDSymbol name="bmpPic1" value="1" />
       <IDSymbol name="bmpPic2" value="2" />
