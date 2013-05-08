@@ -6,7 +6,7 @@
     <Description xml:space="preserve">When working in files containing XML markup, this extension displays the XPath of the XML element or attribute at the caret position.
 The information is displayed in the statusbar.</Description>
     <MoreInfo>http://reasoncodeexample.com</MoreInfo>
-    <PreviewImage>XPathStatusbarInformation preview image.png</PreviewImage>
+    <PreviewImage>Resources\PreviewImage.png</PreviewImage>
     <Tags>XPath, XML</Tags>
   </Metadata>
   <Installation>

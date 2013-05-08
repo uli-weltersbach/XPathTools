@@ -12,10 +12,15 @@ namespace ReasonCodeExample.XPathInformation
 
         public virtual string GetXPath(ITextView textView)
         {
-            XElement rootElement = _parser.Parse(textView.TextSnapshot.GetText());
             IXmlLineInfo caretPosition = new CaretPositionLineInfo(textView, textView.Caret.Position.BufferPosition);
-            XElement selectedElement = _repository.GetElement(rootElement, caretPosition.LineNumber, caretPosition.LinePosition);
-            XAttribute selectedAttribute = _repository.GetAttribute(selectedElement, caretPosition.LinePosition);
+            return GetXPath(textView.TextSnapshot.GetText(), caretPosition.LineNumber, caretPosition.LinePosition);
+        }
+
+        public virtual string GetXPath(string xml, int lineNumber, int linePosition)
+        {
+            XElement rootElement = _parser.Parse(xml);
+            XElement selectedElement = _repository.GetElement(rootElement, lineNumber, linePosition);
+            XAttribute selectedAttribute = _repository.GetAttribute(selectedElement, linePosition);
             return _formatter.Format(selectedElement) + _formatter.Format(selectedAttribute);
         }
     }

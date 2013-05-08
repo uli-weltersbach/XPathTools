@@ -62,14 +62,18 @@ namespace ReasonCodeExample.XPathInformation.Tests
             SnapshotPoint lineStartSnapshotPoint = new SnapshotPoint(textSnapshot, 0);
             line.Start.Returns(lineStartSnapshotPoint);
 
-            ITextView textView = Substitute.For<ITextView>();
-            textView.TextSnapshot.Returns(textSnapshot);
-
             SnapshotPoint snapshotPoint = new SnapshotPoint(textSnapshot, linePosition);
             VirtualSnapshotPoint virtualSnapshotPoint = new VirtualSnapshotPoint(snapshotPoint);
-            CaretPosition newPosition = new CaretPosition(virtualSnapshotPoint, Substitute.For<IMappingPoint>(), PositionAffinity.Successor);
+            CaretPosition caretPosition = new CaretPosition(virtualSnapshotPoint, Substitute.For<IMappingPoint>(), PositionAffinity.Successor);
 
-            return new CaretPositionChangedEventArgs(textView, new CaretPosition(), newPosition);
+            ITextCaret caret = Substitute.For<ITextCaret>();
+            caret.Position.Returns(caretPosition);
+
+            ITextView textView = Substitute.For<ITextView>();
+            textView.TextSnapshot.Returns(textSnapshot);
+            textView.Caret.Returns(caret);
+            
+            return new CaretPositionChangedEventArgs(textView, new CaretPosition(), caretPosition);
         }
     }
 }

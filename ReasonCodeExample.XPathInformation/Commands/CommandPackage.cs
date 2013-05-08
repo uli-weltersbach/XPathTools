@@ -9,7 +9,7 @@ namespace ReasonCodeExample.XPathInformation.Commands
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(Constants.PackageID)]
-    public sealed class CommandsPackage : Package
+    public sealed class CommandPackage : Package
     {
         private readonly XPathRepository _repository = new XPathRepository();
 

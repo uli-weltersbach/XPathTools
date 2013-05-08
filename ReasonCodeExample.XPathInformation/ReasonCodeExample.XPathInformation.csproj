@@ -80,7 +80,7 @@
   <ItemGroup>
     <Compile Include="CaretPositionLineInfo.cs" />
     <Compile Include="Commands\Constants.cs" />
-    <Compile Include="Commands\ReasonCodeExample.XPathInformation.CommandsPackage.cs" />
+    <Compile Include="Commands\CommandPackage.cs" />
     <Compile Include="ResultCachingXmlParser.cs" />
     <Compile Include="XmlNodeRepository.cs" />
     <Compile Include="XPathFormatter.cs" />
@@ -96,8 +96,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="Commands\ReasonCodeExample.XPathInformation.Commands.vsct" />
-    <Content Include="XPathStatusbarInformation preview image.png">
+    <CodeAnalysisDictionary Include="Commands\CommandTable.vsct" />
+    <Content Include="Resources\CopyIcon.png" />
+    <Content Include="Resources\PreviewImage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
