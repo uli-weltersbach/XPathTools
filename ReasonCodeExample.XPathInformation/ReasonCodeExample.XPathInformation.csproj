@@ -24,9 +24,17 @@
     <RootNamespace>ReasonCodeExample.XPathInformation</RootNamespace>
     <AssemblyName>ReasonCodeExample.XPathInformation</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <GeneratePkgDefFile>false</GeneratePkgDefFile>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+<IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+<IncludeDebugSymbolsInVSIXContainer>true</IncludeDebugSymbolsInVSIXContainer>
+<IncludeDebugSymbolsInLocalVSIXDeployment>true</IncludeDebugSymbolsInLocalVSIXDeployment>
+  <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+	<CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
   </PropertyGroup>
+  <PropertyGroup>
+<RegisterOutputPackage>true</RegisterOutputPackage>
+<RegisterWithCodebase>true</RegisterWithCodebase>
+</PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -78,8 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CaretPositionLineInfo.cs" />
-    <Compile Include="Commands\Constants.cs" />
+    <Compile Include="Commands\Guids.cs" />
     <Compile Include="Commands\CommandPackage.cs" />
+    <Compile Include="Commands\PkgCmdID.cs" />
     <Compile Include="ResultCachingXmlParser.cs" />
     <Compile Include="XmlNodeRepository.cs" />
     <Compile Include="XPathFormatter.cs" />
@@ -97,8 +106,15 @@
     <None Include="XPathInformation.PublicKey" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="Commands\CommandTable.vsct" />
-    <Content Include="Resources\SaveCommandIcon.png" />
+    <VSCTCompile Include="Commands\CommandTable.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\SaveCommandIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Resources\PreviewImage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -109,7 +125,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="VSPackage.resx" />
+    <EmbeddedResource Include="VSPackage.resx">
+      <MergeWithCTO>true</MergeWithCTO>
+      <ManifestResourceName>VSPackage</ManifestResourceName>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />

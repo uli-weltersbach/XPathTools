@@ -8,7 +8,7 @@ namespace ReasonCodeExample.XPathInformation.Commands
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [Guid(Constants.PackageID)]
+    [Guid(Guids.PackageID)]
     public sealed class CommandPackage : Package
     {
         private readonly XPathRepository _repository = new XPathRepository();
@@ -20,7 +20,7 @@ namespace ReasonCodeExample.XPathInformation.Commands
         protected override void Initialize()
         {
             base.Initialize();
-            CommandID saveCommandID = new CommandID(Guid.Parse(Constants.MenuGroupID), Constants.SaveCommandID);
+            CommandID saveCommandID = new CommandID(Guid.Parse(Guids.MenuGroupID), PkgCmdID.SaveCommandID);
             MenuCommand saveCommand = new OleMenuCommand(CopyXPathToClipBoard, null, SetCommandVisibility, saveCommandID);
             IMenuCommandService service = (IMenuCommandService)GetService(typeof(IMenuCommandService));
             service.AddCommand(saveCommand);

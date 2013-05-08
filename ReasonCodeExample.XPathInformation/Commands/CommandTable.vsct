@@ -22,7 +22,7 @@
     </Buttons>
 
     <Bitmaps>
-      <Bitmap guid="ImagesID" href="/Resources/SaveCommandIcon.png" usedList="Copy"/>
+      <Bitmap guid="ImagesID" href="Resources\SaveCommandIcon.png" usedList="Copy"/>
     </Bitmaps>
   </Commands>
 
