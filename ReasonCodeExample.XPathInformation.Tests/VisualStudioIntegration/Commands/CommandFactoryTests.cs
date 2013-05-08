@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
+﻿using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VsSDK.UnitTestLibrary;
 using NUnit.Framework;
 using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
@@ -8,8 +9,6 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
     [TestFixture]
     public class CommandFactoryTests
     {
-        private const int S_OK = 0;
-
         [Test]
         public void CanCreateInstance()
         {
@@ -34,7 +33,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
             int actualResult = commandFactory.SetSite(serviceProvider);
 
             // Assert
-            Assert.That(S_OK, Is.EqualTo(actualResult), "SetSite(serviceProvider) did not return S_OK");
+            Assert.That(actualResult, Is.EqualTo(VSConstants.S_OK), "SetSite(serviceProvider) did not return S_OK");
         }
 
         [Test]
@@ -42,12 +41,12 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
         {
             // Arrange
             IVsPackage commandFactory = new CommandFactory();
-            
+
             // Act
             int actualResult = commandFactory.SetSite(null);
 
             // Assert
-            Assert.That(S_OK, Is.EqualTo(actualResult), "SetSite(null) did not return S_OK");
+            Assert.That(actualResult, Is.EqualTo(VSConstants.S_OK), "SetSite(null) did not return S_OK");
         }
     }
 }

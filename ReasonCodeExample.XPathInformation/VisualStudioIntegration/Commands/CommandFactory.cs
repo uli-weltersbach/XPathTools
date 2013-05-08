@@ -11,7 +11,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
     [Guid(PackageID)]
     public sealed class CommandFactory : Package
     {
-        private const string PackageID = "253aa665-a779-4716-9ded-5b0c2cb66710";
+        public const string PackageID = "253aa665-a779-4716-9ded-5b0c2cb66710";
         private const string MenuGroupID = "2a859db4-750c-4267-b96f-844f20ce9e7b";
         private const int SaveCommandID = 0x100;
         private readonly XPathRepository _repository = new XPathRepository();
