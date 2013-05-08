@@ -108,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="Commands\CommandTable.vsct">
-      <ResourceName>Menus.ctmenu</ResourceName>
+      <ResourceName>CommandPackage.ctmenu</ResourceName>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
