@@ -5,8 +5,8 @@
     <DisplayName>XPath Information</DisplayName>
     <Description xml:space="preserve">When working in files containing XML markup, this extension displays the XPath of the XML element or attribute at the caret position. The information is displayed in the statusbar.</Description>
     <MoreInfo>http://reasoncodeexample.com/2013/04/29/xpath-information-in-visual-studio/</MoreInfo>
-    <Icon>PackageIcon.png</Icon>
-    <PreviewImage>PreviewImage.png</PreviewImage>
+    <Icon>VisualStudioIntegration\Resources\PackageIcon.png</Icon>
+    <PreviewImage>VisualStudioIntegration\Resources\PreviewImage.png</PreviewImage>
     <Tags>XPath, XML</Tags>
   </Metadata>
   <Installation>
