@@ -53,6 +53,7 @@
     <Compile Include="CaretPositionLineInfoTests.cs" />
     <Compile Include="XmlNodeRepositoryTests.cs" />
     <Compile Include="XPathFormatterTests.cs" />
+    <Compile Include="XPathRepositoryTests.cs" />
     <Compile Include="XPathStatusBarInformationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
