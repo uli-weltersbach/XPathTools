@@ -55,12 +55,12 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
         {
             // Arrange
             IServiceProvider serviceProvider = VsIdeTestHostContext.ServiceProvider;
-            IVsShell vistualStudioShell = serviceProvider.GetService(typeof(SVsShell)) as IVsShell;
+            IVsShell visualStudioShell = serviceProvider.GetService(typeof(SVsShell)) as IVsShell;
             Guid packageGuid = new Guid(CommandFactory.PackageID);
             IVsPackage package;
 
             // Act
-            int actualLoadPackageResult = vistualStudioShell.LoadPackage(ref packageGuid, out package);
+            int actualLoadPackageResult = visualStudioShell.LoadPackage(ref packageGuid, out package);
 
             // Assert
             Assert.AreEqual(VSConstants.S_OK, actualLoadPackageResult, "Load package result wasn't S_OK");
