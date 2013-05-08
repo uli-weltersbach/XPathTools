@@ -12,8 +12,8 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
     public sealed class CommandFactory : Package
     {
         public const string PackageID = "253aa665-a779-4716-9ded-5b0c2cb66710";
-        private const string MenuGroupID = "2a859db4-750c-4267-b96f-844f20ce9e7b";
-        private const int SaveCommandID = 0x100;
+        public const string MenuGroupID = "2a859db4-750c-4267-b96f-844f20ce9e7b";
+        public const int SaveCommandID = 0x100;
         private readonly XPathRepository _repository = new XPathRepository();
 
         protected override void Initialize()
@@ -27,7 +27,8 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 
         private void CopyXPathToClipBoard(object sender, EventArgs e)
         {
-            Clipboard.SetText(_repository.Get());
+            string xpath = _repository.Get();
+            Clipboard.SetText(xpath);
         }
 
         private void SetCommandVisibility(object sender, EventArgs e)
