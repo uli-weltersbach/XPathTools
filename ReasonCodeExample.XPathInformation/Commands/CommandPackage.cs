@@ -20,10 +20,10 @@ namespace ReasonCodeExample.XPathInformation.Commands
         protected override void Initialize()
         {
             base.Initialize();
-            CommandID menuCommandID = new CommandID(Guid.Parse(Constants.MenuGroupID), Constants.SaveCommandID);
-            MenuCommand menuCommand = new OleMenuCommand(CopyXPathToClipBoard, null, SetCommandVisibility, menuCommandID);
+            CommandID saveCommandID = new CommandID(Guid.Parse(Constants.MenuGroupID), Constants.SaveCommandID);
+            MenuCommand saveCommand = new OleMenuCommand(CopyXPathToClipBoard, null, SetCommandVisibility, saveCommandID);
             IMenuCommandService service = (IMenuCommandService)GetService(typeof(IMenuCommandService));
-            service.AddCommand(menuCommand);
+            service.AddCommand(saveCommand);
         }
 
         private void CopyXPathToClipBoard(object sender, EventArgs e)
