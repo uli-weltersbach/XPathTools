@@ -13,7 +13,7 @@
     <Buttons>
       <Button guid="XPathInformationMenuGroupID" id="XPathInformationSaveCommand" priority="0x0100" type="Button">
         <Parent guid="XPathInformationMenuGroupID" id="XPathInformationMenuGroup" />
-        <Icon guid="ImagesID" id="Copy" />
+        <Icon guid="ImagesID" id="SaveCommandIcon" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Copy XPath</ButtonText>
@@ -22,7 +22,7 @@
     </Buttons>
 
     <Bitmaps>
-      <Bitmap guid="ImagesID" href="..\Resources\SaveCommandIcon.png" usedList="Copy"/>
+      <Bitmap guid="ImagesID" href="..\Resources\SaveCommandIcon.png" usedList="SaveCommandIcon"/>
     </Bitmaps>
   </Commands>
 
@@ -39,7 +39,7 @@
       <IDSymbol name="XPathInformationSaveCommand" value="0x0100" />
     </GuidSymbol>
     <GuidSymbol name="ImagesID" value="{ccf04725-e060-4d02-9cd7-2d86a3742cd3}" >
-      <IDSymbol name="Copy" value="1" />
+      <IDSymbol name="SaveCommandIcon" value="1" />
     </GuidSymbol>
   </Symbols>
 

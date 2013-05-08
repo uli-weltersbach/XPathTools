@@ -106,7 +106,8 @@
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="VisualStudioIntegration\Commands\CommandTable.vsct">
-      <ResourceName>CommandPackage.ctmenu</ResourceName>
+      <ResourceName>CommandFactory.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>

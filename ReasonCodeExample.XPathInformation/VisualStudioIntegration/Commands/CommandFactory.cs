@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Shell;
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [ProvideMenuResource("CommandPackage.ctmenu", 1)]
+    [ProvideMenuResource("CommandFactory.ctmenu", 1)]
     [Guid(PackageID)]
     public sealed class CommandFactory : Package
     {
