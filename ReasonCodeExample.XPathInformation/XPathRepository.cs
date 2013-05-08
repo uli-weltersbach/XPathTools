@@ -2,8 +2,8 @@
 {
     internal class XPathRepository
     {
-        private static string _xpath;
         private static readonly object Lock = new object();
+        private static string _xpath;
 
         public virtual void Put(string xpath)
         {

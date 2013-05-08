@@ -5,14 +5,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VSSDK.Tools.VsIdeTesting;
 using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
 using System;
-using System.ComponentModel.Design;
 using System.Windows;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Commands
 {
     /// <summary>
     /// These tests have to be run using the Microsoft test runner.
-    /// TODO: Run these tests using NUnit.
     /// </summary>
     [TestClass]
     public class CommandFactoryIntegrationTests
@@ -103,24 +101,33 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
 
         private void ExecuteSaveCommand()
         {
-            // Arrange
-            Clipboard.SetText(string.Empty);
-            CommandID saveCommandID = new CommandID(new Guid(CommandFactory.MenuGroupID), CommandFactory.SaveCommandID);
-
-            // Act
-            ExecuteCommand(saveCommandID);
-
-            // Assert
-            Assert.IsFalse(string.IsNullOrEmpty(Clipboard.GetText()), "Clipboard.GetText() returned null or empty");
-        }
-
-        private void ExecuteCommand(CommandID commandID)
-        {
             object customIn = null;
             object customOut = null;
-            string menuGroupID = commandID.Guid.ToString("B").ToUpper();
+            string menuGroupID = new Guid(CommandFactory.MenuGroupID).ToString("B").ToUpper();
             DTE dte = VsIdeTestHostContext.Dte;
-            dte.Commands.Raise(menuGroupID, commandID.ID, ref customIn, ref customOut);
+            dte.Commands.Raise(menuGroupID, CommandFactory.SaveCommandID, ref customIn, ref customOut);
+        }
+
+        [TestMethod]
+        [HostType(VisualStudioHostType)]
+        public void SaveCommandSetsClipboardText()
+        {
+            UIThreadInvoker.Invoke(new ThreadInvokerDelegate(ClipboardTextIsSet));
+        }
+
+        private void ClipboardTextIsSet()
+        {
+            // Arrange
+            Clipboard.Clear();
+            string expectedText = Guid.NewGuid().ToString();
+            new XPathRepository().Put(expectedText);
+
+            // Act
+            ExecuteSaveCommand();
+            string actualText = Clipboard.GetText();
+
+            // Assert
+            Assert.AreEqual(actualText, expectedText);
         }
     }
 }
