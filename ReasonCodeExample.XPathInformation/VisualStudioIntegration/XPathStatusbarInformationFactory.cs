@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
 
-namespace ReasonCodeExample.XPathInformation
+namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
     [Export(typeof(IWpfTextViewCreationListener))]
     [TextViewRole(PredefinedTextViewRoles.Document)]

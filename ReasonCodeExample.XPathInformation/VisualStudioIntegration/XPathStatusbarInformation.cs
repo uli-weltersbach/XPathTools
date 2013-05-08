@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor;
 
-namespace ReasonCodeExample.XPathInformation
+namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
     internal class XPathStatusbarInformation
     {

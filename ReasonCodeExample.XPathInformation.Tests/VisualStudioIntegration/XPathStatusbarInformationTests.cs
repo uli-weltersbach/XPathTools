@@ -4,8 +4,9 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using NSubstitute;
 using NUnit.Framework;
+using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
 
-namespace ReasonCodeExample.XPathInformation.Tests
+namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 {
     /// <summary>
     /// Integration tests.

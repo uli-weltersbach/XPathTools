@@ -9,7 +9,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>XPathInformation.Key.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>VisualStudioIntegration\Resources\XPathInformation.Key.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -87,46 +87,44 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CaretPositionLineInfo.cs" />
-    <Compile Include="Commands\Guids.cs" />
-    <Compile Include="Commands\CommandPackage.cs" />
-    <Compile Include="Commands\PkgCmdID.cs" />
+    <Compile Include="VisualStudioIntegration\Commands\CommandFactory.cs" />
     <Compile Include="ResultCachingXmlParser.cs" />
     <Compile Include="XmlNodeRepository.cs" />
     <Compile Include="XPathFormatter.cs" />
     <Compile Include="XPathRepository.cs" />
     <Compile Include="XPathParserComposite.cs" />
-    <Compile Include="XPathStatusbarInformation.cs" />
-    <Compile Include="XPathStatusbarInformationFactory.cs" />
+    <Compile Include="VisualStudioIntegration\XPathStatusbarInformation.cs" />
+    <Compile Include="VisualStudioIntegration\XPathStatusbarInformationFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="source.extension.vsixmanifest">
+    <None Include="VisualStudioIntegration\Resources\source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
-    <None Include="XPathInformation.Key.pfx" />
-    <None Include="XPathInformation.PublicKey" />
+    <None Include="VisualStudioIntegration\Resources\XPathInformation.Key.pfx" />
+    <None Include="VisualStudioIntegration\Resources\XPathInformation.PublicKey" />
   </ItemGroup>
   <ItemGroup>
-    <VSCTCompile Include="Commands\CommandTable.vsct">
+    <VSCTCompile Include="VisualStudioIntegration\Commands\CommandTable.vsct">
       <ResourceName>CommandPackage.ctmenu</ResourceName>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\SaveCommandIcon.png">
+    <Content Include="VisualStudioIntegration\Resources\SaveCommandIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Resources\PreviewImage.png">
+    <Content Include="VisualStudioIntegration\Resources\PreviewImage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Resources\PackageIcon.png">
+    <Content Include="VisualStudioIntegration\Resources\PackageIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="VSPackage.resx">
+    <EmbeddedResource Include="VisualStudioIntegration\Resources\VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
     </EmbeddedResource>
