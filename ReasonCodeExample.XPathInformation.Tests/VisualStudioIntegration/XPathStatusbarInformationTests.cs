@@ -76,22 +76,5 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
             
             return new CaretPositionChangedEventArgs(textView, new CaretPosition(), caretPosition);
         }
-        
-        [Test]
-        public void XPathRepositoryIsClearedWhenTextViewLosesFocus()
-        {
-            // Arrange
-            ITextView textView = Substitute.For<ITextView>();
-            IVsStatusbar statusbar = Substitute.For<IVsStatusbar>();
-            XPathParserComposite parser = Substitute.For<XPathParserComposite>();
-            XPathRepository repository = Substitute.For<XPathRepository>();
-            new XPathStatusbarInformation(textView, statusbar, parser, repository);
-
-            // Act
-            textView.LostAggregateFocus += Raise.Event();
-
-            // Assert
-            repository.Received().Clear();
-        }
     }
 }

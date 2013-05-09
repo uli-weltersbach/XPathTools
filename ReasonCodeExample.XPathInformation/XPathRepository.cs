@@ -20,10 +20,5 @@
                 return _xpath;
             }
         }
-
-        public void Clear()
-        {
-            Put(null);
-        }
     }
 }
