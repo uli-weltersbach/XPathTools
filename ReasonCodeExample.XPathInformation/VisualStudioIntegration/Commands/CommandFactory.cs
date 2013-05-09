@@ -30,7 +30,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
         {
             base.Initialize();
             CommandID saveCommandID = new CommandID(Guid.Parse(MenuGroupID), SaveCommandID);
-            MenuCommand saveCommand = new OleMenuCommand(CopyXPathToClipBoard, null, SetCommandVisibility, saveCommandID);
+            MenuCommand saveCommand = new OleMenuCommand(CopyXPathToClipBoard, null, SetSaveCommandVisibility, saveCommandID);
             IMenuCommandService service = (IMenuCommandService)GetService(typeof(IMenuCommandService));
             service.AddCommand(saveCommand);
         }
@@ -41,7 +41,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
             Clipboard.SetText(xpath);
         }
 
-        private void SetCommandVisibility(object sender, EventArgs e)
+        private void SetSaveCommandVisibility(object sender, EventArgs e)
         {
             MenuCommand menuCommand = sender as MenuCommand;
             if (menuCommand != null)
