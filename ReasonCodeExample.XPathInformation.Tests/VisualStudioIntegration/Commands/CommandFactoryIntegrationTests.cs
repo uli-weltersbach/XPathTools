@@ -17,8 +17,6 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
     {
         private const string VisualStudioHostType = "VS IDE";
 
-        private delegate void ThreadInvokerDelegate();
-
         [TestMethod]
         [HostType(VisualStudioHostType)]
         public void CanCreateServiceProvider()
@@ -48,23 +46,26 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
         [HostType(VisualStudioHostType)]
         public void CanLoadPackage()
         {
-            UIThreadInvoker.Invoke(new ThreadInvokerDelegate(LoadPackage));
+            Invoke(() =>
+                {
+                    // Arrange
+                    IServiceProvider serviceProvider = VsIdeTestHostContext.ServiceProvider;
+                    IVsShell visualStudioShell = serviceProvider.GetService(typeof(SVsShell)) as IVsShell;
+                    Guid packageGuid = new Guid(CommandFactory.PackageID);
+                    IVsPackage package;
+
+                    // Act
+                    int actualLoadPackageResult = visualStudioShell.LoadPackage(ref packageGuid, out package);
+
+                    // Assert
+                    Assert.AreEqual(VSConstants.S_OK, actualLoadPackageResult, "Load package result wasn't S_OK");
+                    Assert.IsNotNull(package, "Package failed to load");
+                });
         }
 
-        private void LoadPackage()
+        private void Invoke(Action action)
         {
-            // Arrange
-            IServiceProvider serviceProvider = VsIdeTestHostContext.ServiceProvider;
-            IVsShell visualStudioShell = serviceProvider.GetService(typeof(SVsShell)) as IVsShell;
-            Guid packageGuid = new Guid(CommandFactory.PackageID);
-            IVsPackage package;
-
-            // Act
-            int actualLoadPackageResult = visualStudioShell.LoadPackage(ref packageGuid, out package);
-
-            // Assert
-            Assert.AreEqual(VSConstants.S_OK, actualLoadPackageResult, "Load package result wasn't S_OK");
-            Assert.IsNotNull(package, "Package failed to load");
+            UIThreadInvoker.Invoke(action);
         }
 
         [TestMethod]
@@ -96,7 +97,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
         [HostType(VisualStudioHostType)]
         public void CanExecuteSaveCommand()
         {
-            UIThreadInvoker.Invoke(new ThreadInvokerDelegate(ExecuteSaveCommand));
+            Invoke(ExecuteSaveCommand);
         }
 
         private void ExecuteSaveCommand()
@@ -110,24 +111,22 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
 
         [TestMethod]
         [HostType(VisualStudioHostType)]
-        public void SaveCommandSetsClipboardText()
+        public void SaveCommandCopiesXPathToClipboard()
         {
-            UIThreadInvoker.Invoke(new ThreadInvokerDelegate(ClipboardTextIsSet));
-        }
+            Invoke(() =>
+                {
+                    // Arrange
+                    Clipboard.Clear();
+                    string expectedText = Guid.NewGuid().ToString();
+                    new XPathRepository().Put(expectedText);
 
-        private void ClipboardTextIsSet()
-        {
-            // Arrange
-            Clipboard.Clear();
-            string expectedText = Guid.NewGuid().ToString();
-            new XPathRepository().Put(expectedText);
+                    // Act
+                    ExecuteSaveCommand();
+                    string actualText = Clipboard.GetText();
 
-            // Act
-            ExecuteSaveCommand();
-            string actualText = Clipboard.GetText();
-
-            // Assert
-            Assert.AreEqual(actualText, expectedText);
+                    // Assert
+                    Assert.AreEqual(actualText, expectedText);
+                });
         }
     }
 }
