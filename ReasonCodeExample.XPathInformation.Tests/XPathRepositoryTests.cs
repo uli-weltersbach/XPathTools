@@ -19,5 +19,21 @@ namespace ReasonCodeExample.XPathInformation.Tests
             // Assert
             Assert.That(otherRepository.Get(), Is.EqualTo(expectedValue));
         }
+
+        [Test]
+        public void XPathIsCleared()
+        {
+            // Arrange
+            string expectedValue = "value";
+            XPathRepository repository = new XPathRepository();
+            XPathRepository otherRepository = new XPathRepository();
+
+            // Act
+            repository.Put(expectedValue);
+            repository.Clear();
+
+            // Assert
+            Assert.That(otherRepository.Get(), Is.Null);
+        }
     }
 }
