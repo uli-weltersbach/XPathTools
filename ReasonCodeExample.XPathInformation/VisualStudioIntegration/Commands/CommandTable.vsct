@@ -1,46 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <Extern href="stdidcmd.h"/>
-  <Extern href="vsshlids.h"/>
+    <Extern href="stdidcmd.h"/>
+    <Extern href="vsshlids.h"/>
 
-  <Commands package="XPathInformationPackageID">
-    <Groups>
-      <Group guid="XPathInformationMenuGroupID" id="XPathInformationMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
-      </Group>
-    </Groups>
+    <Commands package="XPathInformationPackageID">
+        <Groups>
+            <Group guid="XPathInformationMenuGroupID" id="XPathInformationMenuGroup" priority="0x0600">
+                <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
+            </Group>
+        </Groups>
 
-    <Buttons>
-      <Button guid="XPathInformationMenuGroupID" id="XPathInformationSaveCommand" priority="0x0100" type="Button">
-        <Parent guid="XPathInformationMenuGroupID" id="XPathInformationMenuGroup" />
-        <Icon guid="ImagesID" id="SaveCommandIcon" />
-        <CommandFlag>DynamicVisibility</CommandFlag>
-        <Strings>
-          <ButtonText>Copy XPath</ButtonText>
-        </Strings>
-      </Button>
-    </Buttons>
+        <Buttons>
+            <Button guid="XPathInformationMenuGroupID" id="XPathInformationCopyXPathCommand" priority="0x0100" type="Button">
+                <Parent guid="XPathInformationMenuGroupID" id="XPathInformationMenuGroup" />
+                <Icon guid="ImagesID" id="CopyXPathCommandIcon" />
+                <CommandFlag>DynamicVisibility</CommandFlag>
+                <Strings>
+                    <ButtonText>Copy XPath</ButtonText>
+                    <CommandName>Copy XPath</CommandName>
+                </Strings>
+            </Button>
+        </Buttons>
 
-    <Bitmaps>
-      <Bitmap guid="ImagesID" href="..\Resources\SaveCommandIcon.png" usedList="SaveCommandIcon"/>
-    </Bitmaps>
-  </Commands>
+        <Bitmaps>
+            <Bitmap guid="ImagesID" href="..\Resources\CopyXPathCommandIcon.png" usedList="CopyXPathCommandIcon"/>
+        </Bitmaps>
+    </Commands>
 
-  <CommandPlacements>
-    <CommandPlacement guid="XPathInformationMenuGroupID" id="XPathInformationSaveCommand">
-      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
-    </CommandPlacement>
-  </CommandPlacements>
-  
-  <Symbols>
-    <GuidSymbol name="XPathInformationPackageID" value="{253aa665-a779-4716-9ded-5b0c2cb66710}" />
-    <GuidSymbol name="XPathInformationMenuGroupID" value="{2a859db4-750c-4267-b96f-844f20ce9e7b}">
-      <IDSymbol name="XPathInformationMenuGroup" value="0x1020" />
-      <IDSymbol name="XPathInformationSaveCommand" value="0x0100" />
-    </GuidSymbol>
-    <GuidSymbol name="ImagesID" value="{ccf04725-e060-4d02-9cd7-2d86a3742cd3}" >
-      <IDSymbol name="SaveCommandIcon" value="1" />
-    </GuidSymbol>
-  </Symbols>
+    <CommandPlacements>
+        <CommandPlacement guid="XPathInformationMenuGroupID" id="XPathInformationCopyXPathCommand">
+            <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
+        </CommandPlacement>
+    </CommandPlacements>
 
+    <Symbols>
+        <GuidSymbol name="XPathInformationPackageID" value="{253aa665-a779-4716-9ded-5b0c2cb66710}" />
+        <GuidSymbol name="XPathInformationMenuGroupID" value="{2a859db4-750c-4267-b96f-844f20ce9e7b}">
+            <IDSymbol name="XPathInformationMenuGroup" value="0x1020" />
+            <IDSymbol name="XPathInformationCopyXPathCommand" value="0x0100" />
+        </GuidSymbol>
+        <GuidSymbol name="ImagesID" value="{ccf04725-e060-4d02-9cd7-2d86a3742cd3}" >
+            <IDSymbol name="CopyXPathCommandIcon" value="1" />
+        </GuidSymbol>
+    </Symbols>
 </CommandTable>

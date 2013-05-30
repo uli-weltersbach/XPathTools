@@ -1,11 +1,14 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VSSDK.Tools.VsIdeTesting;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
 using System;
+using System.ComponentModel.Design;
+using System.Reflection;
 using System.Windows;
+using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Commands
 {
@@ -46,26 +49,18 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
         [HostType(VisualStudioHostType)]
         public void CanLoadPackage()
         {
-            Invoke(() =>
-                {
-                    // Arrange
-                    IServiceProvider serviceProvider = VsIdeTestHostContext.ServiceProvider;
-                    IVsShell visualStudioShell = serviceProvider.GetService(typeof(SVsShell)) as IVsShell;
-                    Guid packageGuid = new Guid(CommandFactory.PackageID);
-                    IVsPackage package;
+            // Arrange
+            IServiceProvider serviceProvider = VsIdeTestHostContext.ServiceProvider;
+            IVsShell visualStudioShell = serviceProvider.GetService(typeof(SVsShell)) as IVsShell;
+            Guid packageGuid = new Guid(CommandFactory.PackageID);
+            IVsPackage package;
 
-                    // Act
-                    int actualLoadPackageResult = visualStudioShell.LoadPackage(ref packageGuid, out package);
+            // Act
+            int actualLoadPackageResult = visualStudioShell.LoadPackage(ref packageGuid, out package);
 
-                    // Assert
-                    Assert.AreEqual(VSConstants.S_OK, actualLoadPackageResult, "Load package result wasn't S_OK");
-                    Assert.IsNotNull(package, "Package failed to load");
-                });
-        }
-
-        private void Invoke(Action action)
-        {
-            UIThreadInvoker.Invoke(action);
+            // Assert
+            Assert.AreEqual(VSConstants.S_OK, actualLoadPackageResult, "Load package result wasn't S_OK");
+            Assert.IsNotNull(package, "Package failed to load");
         }
 
         [TestMethod]
@@ -95,25 +90,25 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
 
         [TestMethod]
         [HostType(VisualStudioHostType)]
-        public void CanExecuteSaveCommand()
+        public void CanExecutecopyXPathCommand()
         {
-            Invoke(ExecuteSaveCommand);
+            ExecuteCopyXPathCommand();
         }
 
-        private void ExecuteSaveCommand()
+        private void ExecuteCopyXPathCommand()
         {
             object customIn = null;
             object customOut = null;
             string menuGroupID = new Guid(CommandFactory.MenuGroupID).ToString("B").ToUpper();
             DTE dte = VsIdeTestHostContext.Dte;
-            dte.Commands.Raise(menuGroupID, CommandFactory.SaveCommandID, ref customIn, ref customOut);
+            dte.Commands.Raise(menuGroupID, CommandFactory.CopyXPathCommandID, ref customIn, ref customOut);
         }
 
         [TestMethod]
         [HostType(VisualStudioHostType)]
-        public void SaveCommandCopiesXPathToClipboard()
+        public void CopyXPathCommandCopiesXPathToClipboard()
         {
-            Invoke(() =>
+            Action test = () =>
                 {
                     // Arrange
                     Clipboard.Clear();
@@ -121,12 +116,13 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
                     new XPathRepository().Put(expectedText);
 
                     // Act
-                    ExecuteSaveCommand();
+                    ExecuteCopyXPathCommand();
                     string actualText = Clipboard.GetText();
 
                     // Assert
-                    Assert.AreEqual(actualText, expectedText);
-                });
+                    Assert.AreEqual(expectedText, actualText);
+                };
+            UIThreadInvoker.Invoke(test);
         }
     }
 }

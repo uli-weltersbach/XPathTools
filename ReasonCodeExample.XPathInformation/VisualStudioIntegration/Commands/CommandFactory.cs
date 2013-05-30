@@ -13,7 +13,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
     {
         public const string PackageID = "253aa665-a779-4716-9ded-5b0c2cb66710";
         public const string MenuGroupID = "2a859db4-750c-4267-b96f-844f20ce9e7b";
-        public const int SaveCommandID = 0x100;
+        public const int CopyXPathCommandID = 0x100;
         private readonly XPathRepository _repository;
 
         public CommandFactory()
@@ -29,10 +29,10 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
         protected override void Initialize()
         {
             base.Initialize();
-            CommandID saveCommandID = new CommandID(Guid.Parse(MenuGroupID), SaveCommandID);
-            MenuCommand saveCommand = new OleMenuCommand(CopyXPathToClipBoard, null, SetSaveCommandVisibility, saveCommandID);
+            CommandID copyXPathCommandID = new CommandID(Guid.Parse(MenuGroupID), CopyXPathCommandID);
+            MenuCommand copyXPathCommand = new OleMenuCommand(CopyXPathToClipBoard, null, SetCopyXPathCommandVisibility, copyXPathCommandID);
             IMenuCommandService service = (IMenuCommandService)GetService(typeof(IMenuCommandService));
-            service.AddCommand(saveCommand);
+            service.AddCommand(copyXPathCommand);
         }
 
         private void CopyXPathToClipBoard(object sender, EventArgs e)
@@ -41,7 +41,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
             Clipboard.SetText(xpath);
         }
 
-        private void SetSaveCommandVisibility(object sender, EventArgs e)
+        private void SetCopyXPathCommandVisibility(object sender, EventArgs e)
         {
             MenuCommand menuCommand = sender as MenuCommand;
             if (menuCommand != null)
