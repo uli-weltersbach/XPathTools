@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Linq;
+using System.Xml.Linq;
 using NUnit.Framework;
 
 namespace ReasonCodeExample.XPathInformation.Tests
@@ -44,9 +45,53 @@ namespace ReasonCodeExample.XPathInformation.Tests
             // Arrange
             XmlNodeRepository repository = new XmlNodeRepository();
             XElement rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
+            const int lineNumber = 1;
 
             // Act
-            XAttribute attribute = repository.GetAttribute(rootElement, linePosition);
+            XAttribute attribute = repository.GetAttribute(rootElement, lineNumber, linePosition);
+            string attributeName = attribute == null ? string.Empty : attribute.Name.ToString();
+
+            // Assert
+            Assert.That(attributeName, Is.EqualTo(expectedAttributeName));
+        }
+
+        [TestCase(13, 41, "database")]
+        [TestCase(14, 41, "domain")]
+        [TestCase(20, 41, "enableDebugger")]
+        [TestCase(22, 41, "")]
+        public void AttributeIsFoundInMultiLineElement(int lineNumber, int linePosition, string expectedAttributeName)
+        {
+            // Arrange
+            string xml = @"<configuration xmlns:patch=""http://www.sitecore.net/xmlconfig/"">
+                              <sitecore>
+                                <sites>
+                                  <site name=""website"">
+                                    <patch:attribute name=""rootPath"">/sitecore/content/Original</patch:attribute>
+                                  </site>
+      
+                                  <site name=""OtherWebsite"" patch:after=""site[@name='website']""
+                                        virtualFolder=""/""
+                                        physicalFolder=""/""
+                                        rootPath=""/sitecore/content/OtherWebsite""
+                                        startItem=""/Home""
+                                        database=""web""
+                                        domain=""extranet""
+                                        allowDebug=""true""
+                                        cacheHtml=""true""
+                                        htmlCacheSize=""10MB""
+                                        enablePreview=""true""
+                                        enableWebEdit=""true""
+                                        enableDebugger=""true""
+                                        disableClientData=""false""/>
+                                </sites>
+                              </sitecore>
+                            </configuration>";
+            XElement rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
+            XElement siteElement = rootElement.DescendantsAndSelf("site").LastOrDefault();
+            XmlNodeRepository repository = new XmlNodeRepository();
+
+            // Act
+            XAttribute attribute = repository.GetAttribute(siteElement, lineNumber, linePosition);
             string attributeName = attribute == null ? string.Empty : attribute.Name.ToString();
 
             // Assert

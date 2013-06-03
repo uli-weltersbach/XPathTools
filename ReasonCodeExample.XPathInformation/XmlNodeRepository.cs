@@ -39,11 +39,15 @@ namespace ReasonCodeExample.XPathInformation
             return lineInfo.LinePosition <= linePosition;
         }
 
-        public XAttribute GetAttribute(XElement element, int linePosition)
+        public XAttribute GetAttribute(XElement element, int lineNumber, int linePosition)
         {
             if (element == null)
                 return null;
-            return element.Attributes().LastOrDefault(attribute => IsCorrectPosition(attribute, linePosition));
+            IEnumerable<XAttribute> attributes = element.Attributes();
+            return (from attribute in attributes
+                    where IsCorrectLine(attribute, lineNumber)
+                    where IsCorrectPosition(attribute, linePosition)
+                    select attribute).LastOrDefault();
         }
     }
 }
