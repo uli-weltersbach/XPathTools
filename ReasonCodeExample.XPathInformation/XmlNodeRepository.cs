@@ -22,11 +22,16 @@ namespace ReasonCodeExample.XPathInformation
         {
             if (rootElement == null)
                 return null;
-            IEnumerable<XElement> elements = rootElement.DescendantNodesAndSelf().OfType<XElement>();
-            return (from element in elements
-                    where IsCorrectLine(element, lineNumber)
-                    where IsCorrectPosition(element, linePosition)
-                    select element).LastOrDefault();
+            IEnumerable<XElement> elements = rootElement.DescendantsAndSelf();
+            XElement matchingElement = (from element in elements
+                                        where IsCorrectLine(element, lineNumber)
+                                        where IsCorrectPosition(element, linePosition)
+                                        select element).LastOrDefault();
+            if (matchingElement != null)
+                return matchingElement;
+
+            XAttribute matchingAttribute = GetAttribute(elements, lineNumber, linePosition);
+            return matchingAttribute == null ? null : matchingAttribute.Parent;
         }
 
         private bool IsCorrectLine(IXmlLineInfo lineInfo, int lineNumber)
@@ -39,11 +44,20 @@ namespace ReasonCodeExample.XPathInformation
             return lineInfo.LinePosition <= linePosition;
         }
 
-        public XAttribute GetAttribute(XElement element, int linePosition)
+        private XAttribute GetAttribute(IEnumerable<XElement> elements, int lineNumber, int linePosition)
+        {
+            return (from element in elements
+                    from attribute in element.Attributes()
+                    where IsCorrectLine(attribute, lineNumber)
+                    where IsCorrectPosition(attribute, linePosition)
+                    select attribute).LastOrDefault();
+        }
+
+        public XAttribute GetAttribute(XElement element, int lineNumber, int linePosition)
         {
             if (element == null)
                 return null;
-            return element.Attributes().LastOrDefault(attribute => IsCorrectPosition(attribute, linePosition));
+            return GetAttribute(new[] { element }, lineNumber, linePosition);
         }
     }
 }

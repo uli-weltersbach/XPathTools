@@ -20,7 +20,7 @@ namespace ReasonCodeExample.XPathInformation
         {
             XElement rootElement = _parser.Parse(xml);
             XElement selectedElement = _repository.GetElement(rootElement, lineNumber, linePosition);
-            XAttribute selectedAttribute = _repository.GetAttribute(selectedElement, linePosition);
+            XAttribute selectedAttribute = _repository.GetAttribute(selectedElement, lineNumber, linePosition);
             return _formatter.Format(selectedElement) + _formatter.Format(selectedAttribute);
         }
     }
