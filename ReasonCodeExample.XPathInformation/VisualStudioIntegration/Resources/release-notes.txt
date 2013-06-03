@@ -1,2 +1,3 @@
-﻿v1.1: XPath information can now be copied to the clipboard by right-clicking on an XML element or attribute and selecting "Copy XPath" from the menu.
+﻿v1.11: Fixed display of XPath information for elements spanning multiple lines.
+v1.1: XPath information can now be copied to the clipboard by right-clicking on an XML element or attribute and selecting "Copy XPath" from the menu.
 v1.0: XPath information is displayed in the statusbar when clicking an XML element or attribute.
