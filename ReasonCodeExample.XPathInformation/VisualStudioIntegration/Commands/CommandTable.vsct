@@ -5,7 +5,7 @@
 
     <Commands package="PackageID">
         <Menus>
-            <Menu guid="CommandsID" id="SubMenu" priority="0x0700">
+            <Menu guid="CommandsID" id="SubMenu" priority="0x0100">
                 <Parent guid="CommandsID" id="MenuGroup" />
                 <Strings>
                     <ButtonText>XPath</ButtonText>
@@ -16,7 +16,7 @@
         </Menus>
 
         <Groups>
-            <Group guid="CommandsID" id="MenuGroup" priority="0x0600">
+            <Group guid="CommandsID" id="MenuGroup" priority="0x0400">
                 <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
             </Group>
 
@@ -39,7 +39,6 @@
 
         <Bitmaps>
             <Bitmap guid="ImagesID" href="..\Resources\CopyXPathCommandIcon.png" usedList="CopyXPathCommandIcon"/>
-            <Bitmap guid="ImagesID" href="..\Resources\PackageIcon.png" usedList="SubMenuIcon"/>
         </Bitmaps>
     </Commands>
 
@@ -59,7 +58,6 @@
         </GuidSymbol>
         <GuidSymbol name="ImagesID" value="{ccf04725-e060-4d02-9cd7-2d86a3742cd3}" >
             <IDSymbol name="CopyXPathCommandIcon" value="1" />
-            <IDSymbol name="SubMenuIcon" value="2" />
         </GuidSymbol>
     </Symbols>
 </CommandTable>
