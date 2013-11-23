@@ -1,8 +1,9 @@
 ﻿using System.Xml.Linq;
 using NUnit.Framework;
 using System.Xml;
+using ReasonCodeExample.XPathInformation.Formatters;
 
-namespace ReasonCodeExample.XPathInformation.Tests
+namespace ReasonCodeExample.XPathInformation.Tests.Formatters
 {
     [TestFixture]
     public class XPathFormatterTests

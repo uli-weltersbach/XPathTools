@@ -30,7 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>XPathInformation.Tests.Key.pfx</AssemblyOriginatorKeyFile>
@@ -72,10 +72,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CaretPositionLineInfoTests.cs" />
+    <Compile Include="Formatters\AbsolutePathFormatterTests.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandFactoryTests.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandFactoryIntegrationTests.cs" />
     <Compile Include="XmlNodeRepositoryTests.cs" />
-    <Compile Include="XPathFormatterTests.cs" />
+    <Compile Include="Formatters\XPathFormatterTests.cs" />
     <Compile Include="XPathRepositoryTests.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusBarInformationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

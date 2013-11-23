@@ -1,6 +1,7 @@
 ﻿using System.Xml;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.Text.Editor;
+using ReasonCodeExample.XPathInformation.Formatters;
 
 namespace ReasonCodeExample.XPathInformation
 {
