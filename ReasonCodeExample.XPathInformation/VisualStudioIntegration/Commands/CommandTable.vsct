@@ -3,58 +3,63 @@
     <Extern href="stdidcmd.h"/>
     <Extern href="vsshlids.h"/>
 
-    <Commands package="XPathInformationPackageID">
-        <Groups>
-            <Group guid="XPathInformationMenuGroupID" id="XPathInformationMenuGroup" priority="0x0600">
-                <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
-            </Group>
-        </Groups>
-
+    <Commands package="PackageID">
         <Menus>
-            <Menu guid="XPathInformationMenuID" id="XPathInformationMenu">
-                <Parent guid="XPathInformationMenuGroupID" id="XPathInformationMenuGroup" />
-                <CommandFlag>DynamicVisibility</CommandFlag>
+            <Menu guid="CommandsID" id="SubMenu" priority="0x0700">
+                <Parent guid="CommandsID" id="MenuGroup" />
                 <Strings>
-                    <MenuText>Copy XPath</MenuText>
-                    <ButtonText>Copy XPath</ButtonText>
+                    <ButtonText>XPath</ButtonText>
+                    <MenuText>XPath</MenuText>
+                    <CommandName>XPathMenu</CommandName>
                 </Strings>
             </Menu>
         </Menus>
 
+        <Groups>
+            <Group guid="CommandsID" id="MenuGroup" priority="0x0600">
+                <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
+            </Group>
+
+            <Group guid="CommandsID" id="SubMenuGroup" priority="0x0100">
+                <Parent guid="CommandsID" id="SubMenu"/>
+            </Group>
+        </Groups>
+
         <Buttons>
-            <Button guid="XPathInformationMenuGroupID" id="XPathInformationCopyXPathCommand" priority="0x0100" type="Button">
-                <Parent guid="XPathInformationMenuID" id="XPathInformationMenu" />
+            <Button guid="CommandsID" id="CopyXPathCommand" priority="0x0100" type="Button">
+                <Parent guid="CommandsID" id="SubMenuGroup" />
                 <Icon guid="ImagesID" id="CopyXPathCommandIcon" />
-                <CommandFlag>DynamicVisibility</CommandFlag>
                 <Strings>
-                    <ButtonText>Copy XPath</ButtonText>
-                    <CommandName>Copy XPath</CommandName>
+                    <ButtonText>Copy</ButtonText>
+                    <MenuText>Copy</MenuText>
+                    <CommandName>CopyXPath</CommandName>
                 </Strings>
             </Button>
         </Buttons>
 
         <Bitmaps>
             <Bitmap guid="ImagesID" href="..\Resources\CopyXPathCommandIcon.png" usedList="CopyXPathCommandIcon"/>
+            <Bitmap guid="ImagesID" href="..\Resources\PackageIcon.png" usedList="SubMenuIcon"/>
         </Bitmaps>
     </Commands>
 
     <CommandPlacements>
-        <CommandPlacement guid="XPathInformationMenuGroupID" id="XPathInformationCopyXPathCommand" priority="0x0100">
-            <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
+        <CommandPlacement guid="CommandsID" id="CopyXPathCommand" priority="0x0100">
+            <Parent guid="CommandsID" id="SubMenu"/>
         </CommandPlacement>
     </CommandPlacements>
 
     <Symbols>
-        <GuidSymbol name="XPathInformationPackageID" value="{253aa665-a779-4716-9ded-5b0c2cb66710}" />
-        <GuidSymbol name="XPathInformationMenuID" value="{28DDF9A3-BC6F-4329-9AC1-558EF824A09E}">
-            <IDSymbol name="XPathInformationMenu" value="0x0001"/>
-        </GuidSymbol>
-        <GuidSymbol name="XPathInformationMenuGroupID" value="{2a859db4-750c-4267-b96f-844f20ce9e7b}">
-            <IDSymbol name="XPathInformationMenuGroup" value="0x1020" />
-            <IDSymbol name="XPathInformationCopyXPathCommand" value="0x0100" />
+        <GuidSymbol name="PackageID" value="{253aa665-a779-4716-9ded-5b0c2cb66710}" />
+        <GuidSymbol name="CommandsID" value="{2a859db4-750c-4267-b96f-844f20ce9e7b}">
+            <IDSymbol name="MenuGroup" value="0x1019" />
+            <IDSymbol name="SubMenu" value="0x1020" />
+            <IDSymbol name="SubMenuGroup" value="0x1021" />
+            <IDSymbol name="CopyXPathCommand" value="0x1022" />
         </GuidSymbol>
         <GuidSymbol name="ImagesID" value="{ccf04725-e060-4d02-9cd7-2d86a3742cd3}" >
             <IDSymbol name="CopyXPathCommandIcon" value="1" />
+            <IDSymbol name="SubMenuIcon" value="2" />
         </GuidSymbol>
     </Symbols>
 </CommandTable>

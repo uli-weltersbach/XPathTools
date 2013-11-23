@@ -99,7 +99,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
         {
             object customIn = null;
             object customOut = null;
-            string menuGroupID = new Guid(CommandFactory.MenuGroupID).ToString("B").ToUpper();
+            string menuGroupID = new Guid(CommandFactory.CommandsID).ToString("B").ToUpper();
             DTE dte = VsIdeTestHostContext.Dte;
             dte.Commands.Raise(menuGroupID, CommandFactory.CopyXPathCommandID, ref customIn, ref customOut);
         }
