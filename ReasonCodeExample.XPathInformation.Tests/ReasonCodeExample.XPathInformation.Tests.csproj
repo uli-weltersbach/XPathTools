@@ -76,7 +76,7 @@
     <Compile Include="VisualStudioIntegration\Commands\CommandFactoryTests.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandFactoryIntegrationTests.cs" />
     <Compile Include="XmlNodeRepositoryTests.cs" />
-    <Compile Include="Formatters\XPathFormatterTests.cs" />
+    <Compile Include="Formatters\PathFormatterTests.cs" />
     <Compile Include="XPathRepositoryTests.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusBarInformationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

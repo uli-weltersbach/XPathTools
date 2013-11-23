@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace ReasonCodeExample.XPathInformation.Formatters
 {
-    internal class AbsolutePathFormatter : XPathFormatter
+    internal class AbsolutePathFormatter : PathFormatter
     {
         protected override string GetElementName(XElement element)
         {

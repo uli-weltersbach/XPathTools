@@ -7,7 +7,7 @@ namespace ReasonCodeExample.XPathInformation
 {
     internal class XPathParserComposite
     {
-        private readonly XPathFormatter _formatter = new XPathFormatter();
+        private readonly PathFormatter _formatter = new PathFormatter();
         private readonly ResultCachingXmlParser _parser = new ResultCachingXmlParser();
         private readonly XmlNodeRepository _repository = new XmlNodeRepository();
 

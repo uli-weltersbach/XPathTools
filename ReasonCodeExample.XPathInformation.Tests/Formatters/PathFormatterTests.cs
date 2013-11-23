@@ -6,17 +6,18 @@ using ReasonCodeExample.XPathInformation.Formatters;
 namespace ReasonCodeExample.XPathInformation.Tests.Formatters
 {
     [TestFixture]
-    public class XPathFormatterTests
+    public class PathFormatterTests
     {
+        private readonly PathFormatter _formatter = new PathFormatter();
+
         [Test]
         public void AttributeFormat()
         {
             // Arrange
-            XPathFormatter formatter = new XPathFormatter();
             XAttribute attribute = new XAttribute("attribute", "value");
 
             // Act
-            string xpath = formatter.Format(attribute);
+            string xpath = _formatter.Format(attribute);
 
             // Assert
             Assert.That(xpath, Is.EqualTo("[@attribute]"));
@@ -27,19 +28,17 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
         public void MissingAttributeParent()
         {
             // Arrange
-            XPathFormatter formatter = new XPathFormatter();
             XNamespace @namespace = "test namespace";
             XAttribute attribute = new XAttribute(@namespace + "attribute", "value");
 
             // Act
-            formatter.Format(attribute);
+            _formatter.Format(attribute);
         }
 
         [Test]
         public void AttributeNamespaceFormat()
         {
             // Arrange
-            XPathFormatter formatter = new XPathFormatter();
             XNamespace @namespace = "test namespace";
             XElement element = new XElement(@namespace + "parent");
             XAttribute namespaceAttribute = new XAttribute(XNamespace.Xmlns + "ns", @namespace);
@@ -48,7 +47,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
             element.Add(attribute);
 
             // Act
-            string xpath = formatter.Format(attribute);
+            string xpath = _formatter.Format(attribute);
 
             // Assert
             Assert.That(xpath, Is.EqualTo("[@ns:attribute]"));
@@ -58,13 +57,12 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
         public void ElementFormat()
         {
             // Arrange
-            XPathFormatter formatter = new XPathFormatter();
             XElement parent = new XElement("parent");
             XElement child = new XElement("child");
             parent.Add(child);
 
             // Act
-            string xpath = formatter.Format(child);
+            string xpath = _formatter.Format(child);
 
             // Assert
             Assert.That(xpath, Is.EqualTo("/parent/child"));
@@ -74,7 +72,6 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
         public void ElementNamespaceFormat()
         {
             // Arrange
-            XPathFormatter formatter = new XPathFormatter();
             XNamespace @namespace = "test namespace";
             XElement parent = new XElement(@namespace + "parent");
             parent.Add(new XAttribute(XNamespace.Xmlns + "ns", @namespace));
@@ -82,7 +79,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
             parent.Add(child);
 
             // Act
-            string xpath = formatter.Format(child);
+            string xpath = _formatter.Format(child);
 
             // Assert
             Assert.That(xpath, Is.EqualTo("/ns:parent/child"));

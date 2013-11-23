@@ -95,7 +95,7 @@
     <Compile Include="VisualStudioIntegration\Commands\CommandFactory.cs" />
     <Compile Include="ResultCachingXmlParser.cs" />
     <Compile Include="XmlNodeRepository.cs" />
-    <Compile Include="Formatters\XPathFormatter.cs" />
+    <Compile Include="Formatters\PathFormatter.cs" />
     <Compile Include="XPathRepository.cs" />
     <Compile Include="XPathParserComposite.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformation.cs" />
