@@ -55,6 +55,34 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
         }
 
         [Test]
+        public void ElementIndicesAreAddedForEntirePath()
+        {
+            // Arrange
+            XElement parent = new XElement("parent");
+
+            XElement firstChild = new XElement("child");
+            parent.Add(firstChild);
+
+            XElement secondChild = new XElement("child");
+            parent.Add(secondChild);
+
+            XElement secondChildFirstGrandChild = new XElement("grandChild");
+            secondChild.Add(secondChildFirstGrandChild);
+            
+            XElement secondChildSecondGrandChild = new XElement("grandChild");
+            secondChild.Add(secondChildSecondGrandChild);
+
+            XElement thirdChild = new XElement("child");
+            parent.Add(thirdChild);
+
+            // Act
+            string xpath = _formatter.Format(secondChildFirstGrandChild);
+
+            // Assert
+            Assert.That(xpath, Is.EqualTo("/parent/child[2]/grandChild[1]"));
+        }
+
+        [Test]
         public void ElementNamespaceFormat()
         {
             // Arrange

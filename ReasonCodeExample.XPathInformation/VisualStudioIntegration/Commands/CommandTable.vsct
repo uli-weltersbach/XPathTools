@@ -10,9 +10,20 @@
             </Group>
         </Groups>
 
+        <Menus>
+            <Menu guid="XPathInformationMenuID" id="XPathInformationMenu">
+                <Parent guid="XPathInformationMenuGroupID" id="XPathInformationMenuGroup" />
+                <CommandFlag>DynamicVisibility</CommandFlag>
+                <Strings>
+                    <MenuText>Copy XPath</MenuText>
+                    <ButtonText>Copy XPath</ButtonText>
+                </Strings>
+            </Menu>
+        </Menus>
+
         <Buttons>
             <Button guid="XPathInformationMenuGroupID" id="XPathInformationCopyXPathCommand" priority="0x0100" type="Button">
-                <Parent guid="XPathInformationMenuGroupID" id="XPathInformationMenuGroup" />
+                <Parent guid="XPathInformationMenuID" id="XPathInformationMenu" />
                 <Icon guid="ImagesID" id="CopyXPathCommandIcon" />
                 <CommandFlag>DynamicVisibility</CommandFlag>
                 <Strings>
@@ -35,6 +46,9 @@
 
     <Symbols>
         <GuidSymbol name="XPathInformationPackageID" value="{253aa665-a779-4716-9ded-5b0c2cb66710}" />
+        <GuidSymbol name="XPathInformationMenuID" value="{28DDF9A3-BC6F-4329-9AC1-558EF824A09E}">
+            <IDSymbol name="XPathInformationMenu" value="0x0001"/>
+        </GuidSymbol>
         <GuidSymbol name="XPathInformationMenuGroupID" value="{2a859db4-750c-4267-b96f-844f20ce9e7b}">
             <IDSymbol name="XPathInformationMenuGroup" value="0x1020" />
             <IDSymbol name="XPathInformationCopyXPathCommand" value="0x0100" />
