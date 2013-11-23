@@ -1,8 +1,10 @@
 ﻿using System.Windows;
+using System.Xml.Linq;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
+using ReasonCodeExample.XPathInformation.Formatters;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {
@@ -13,7 +15,8 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
     {
         public const string PackageID = "253aa665-a779-4716-9ded-5b0c2cb66710";
         public const string CommandsID = "2a859db4-750c-4267-b96f-844f20ce9e7b";
-        public const int CopyXPathCommandID = 0x1022;
+        public const int CopyPathCommandID = 0x1022;
+        public const int CopyAbsolutePathCommandID = 0x1023;
         private readonly XPathRepository _repository;
 
         public CommandFactory()
@@ -29,23 +32,49 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
         protected override void Initialize()
         {
             base.Initialize();
-            CommandID copyXPathCommandID = new CommandID(Guid.Parse(CommandsID), CopyXPathCommandID);
-            MenuCommand copyXPathCommand = new OleMenuCommand(CopyXPathToClipBoard, null, SetCopyXPathCommandVisibility, copyXPathCommandID);
             IMenuCommandService service = (IMenuCommandService)GetService(typeof(IMenuCommandService));
-            service.AddCommand(copyXPathCommand);
+
+            CommandID copyPathCommandID = new CommandID(Guid.Parse(CommandsID), CopyPathCommandID);
+            OleMenuCommand copyPathCommand = new OleMenuCommand(CopyPathToClipBoard, null, OnBeforeQueryStatus, copyPathCommandID);
+            service.AddCommand(copyPathCommand);
+
+            CommandID copyAbsolutePathCommandID = new CommandID(Guid.Parse(CommandsID), CopyAbsolutePathCommandID);
+            OleMenuCommand copyAbsolutePathCommand = new OleMenuCommand(CopyAbsolutePathToClipBoard, null, OnBeforeQueryStatus, copyAbsolutePathCommandID);
+            service.AddCommand(copyAbsolutePathCommand);
         }
 
-        private void CopyXPathToClipBoard(object sender, EventArgs e)
+        private void CopyPathToClipBoard(object sender, EventArgs e)
         {
-            string xpath = _repository.Get();
+            SetClipBoardText<PathFormatter>();
+        }
+        
+        private void CopyAbsolutePathToClipBoard(object sender, EventArgs e)
+        {
+            SetClipBoardText<AbsolutePathFormatter>();
+        }
+
+        private void SetClipBoardText<T>() where T : IPathFormatter, new()
+        {
+            T formatter = new T();
+            string xpath = formatter.Format(_repository.Get());
             Clipboard.SetText(xpath);
         }
 
-        private void SetCopyXPathCommandVisibility(object sender, EventArgs e)
+        private void OnBeforeQueryStatus(object sender, EventArgs e)
         {
-            MenuCommand menuCommand = sender as MenuCommand;
-            if (menuCommand != null)
-                menuCommand.Visible = !string.IsNullOrEmpty(_repository.Get());
+            OleMenuCommand menuCommand = sender as OleMenuCommand;
+            if(menuCommand == null)
+                return;
+            menuCommand.Visible = _repository.Get() != null;
+            if (menuCommand.CommandID.Equals(new CommandID(Guid.Parse(CommandsID), CopyPathCommandID)))
+            {
+                // TODO: Create command object type to avoid code duplication and type switches.
+            }
+
+            if (menuCommand.CommandID.Equals(new CommandID(Guid.Parse(CommandsID), CopyAbsolutePathCommandID)))
+            {
+                
+            }
         }
     }
 }

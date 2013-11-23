@@ -26,24 +26,40 @@
         </Groups>
 
         <Buttons>
-            <Button guid="CommandsID" id="CopyXPathCommand" priority="0x0100" type="Button">
+            <Button guid="CommandsID" id="CopyPathCommand" priority="0x0100" type="Button">
                 <Parent guid="CommandsID" id="SubMenuGroup" />
-                <Icon guid="ImagesID" id="CopyXPathCommandIcon" />
+                <Icon guid="ImagesID" id="CopyCommandIcon" />
+                <CommandFlag>TextChanges</CommandFlag>
                 <Strings>
-                    <ButtonText>Copy</ButtonText>
-                    <MenuText>Copy</MenuText>
-                    <CommandName>CopyXPath</CommandName>
+                    <ButtonText>Copy XPath</ButtonText>
+                    <MenuText>Copy XPath</MenuText>
+                    <CommandName>CopyPath</CommandName>
+                </Strings>
+            </Button>
+
+            <Button guid="CommandsID" id="CopyAbsolutePathCommand" priority="0x0100" type="Button">
+                <Parent guid="CommandsID" id="SubMenuGroup" />
+                <Icon guid="ImagesID" id="CopyCommandIcon" />
+                <CommandFlag>TextChanges</CommandFlag>
+                <Strings>
+                    <ButtonText>Copy absolute XPath</ButtonText>
+                    <MenuText>Copy absolute XPath</MenuText>
+                    <CommandName>CopyAbsolutePath</CommandName>
                 </Strings>
             </Button>
         </Buttons>
 
         <Bitmaps>
-            <Bitmap guid="ImagesID" href="..\Resources\CopyXPathCommandIcon.png" usedList="CopyXPathCommandIcon"/>
+            <Bitmap guid="ImagesID" href="..\Resources\CopyXPathCommandIcon.png" usedList="CopyCommandIcon"/>
         </Bitmaps>
     </Commands>
 
     <CommandPlacements>
-        <CommandPlacement guid="CommandsID" id="CopyXPathCommand" priority="0x0100">
+        <CommandPlacement guid="CommandsID" id="CopyPathCommand" priority="0x0100">
+            <Parent guid="CommandsID" id="SubMenu"/>
+        </CommandPlacement>
+        
+        <CommandPlacement guid="CommandsID" id="CopyAbsolutePathCommand" priority="0x0200">
             <Parent guid="CommandsID" id="SubMenu"/>
         </CommandPlacement>
     </CommandPlacements>
@@ -54,10 +70,11 @@
             <IDSymbol name="MenuGroup" value="0x1019" />
             <IDSymbol name="SubMenu" value="0x1020" />
             <IDSymbol name="SubMenuGroup" value="0x1021" />
-            <IDSymbol name="CopyXPathCommand" value="0x1022" />
+            <IDSymbol name="CopyPathCommand" value="0x1022" />
+            <IDSymbol name="CopyAbsolutePathCommand" value="0x1023" />
         </GuidSymbol>
         <GuidSymbol name="ImagesID" value="{ccf04725-e060-4d02-9cd7-2d86a3742cd3}" >
-            <IDSymbol name="CopyXPathCommandIcon" value="1" />
+            <IDSymbol name="CopyCommandIcon" value="1" />
         </GuidSymbol>
     </Symbols>
 </CommandTable>

@@ -1,11 +1,19 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
 namespace ReasonCodeExample.XPathInformation.Formatters
 {
-    internal class PathFormatter
+    internal class PathFormatter : IPathFormatter
     {
+        public virtual string Format(XObject obj)
+        {
+            XAttribute attribute = obj as XAttribute;
+            XElement element = obj as XElement;
+            return attribute == null ? Format(element) : Format(attribute.Parent) + Format(attribute);
+        }
+
         /// <summary>
         /// Returns the XPath of the element. E.g. "/configuration/ns:settings".
         /// </summary>

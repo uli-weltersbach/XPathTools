@@ -8,7 +8,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
     [TestFixture]
     public class PathFormatterTests
     {
-        private readonly PathFormatter _formatter = new PathFormatter();
+        private readonly IPathFormatter _formatter = new PathFormatter();
 
         [Test]
         public void AttributeFormat()

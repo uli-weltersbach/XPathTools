@@ -1,4 +1,5 @@
-﻿using EnvDTE;
+﻿using System.Xml.Linq;
+using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -101,7 +102,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
             object customOut = null;
             string menuGroupID = new Guid(CommandFactory.CommandsID).ToString("B").ToUpper();
             DTE dte = VsIdeTestHostContext.Dte;
-            dte.Commands.Raise(menuGroupID, CommandFactory.CopyXPathCommandID, ref customIn, ref customOut);
+            dte.Commands.Raise(menuGroupID, CommandFactory.CopyPathCommandID, ref customIn, ref customOut);
         }
 
         [TestMethod]
@@ -112,15 +113,15 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
                 {
                     // Arrange
                     Clipboard.Clear();
-                    string expectedText = Guid.NewGuid().ToString();
-                    new XPathRepository().Put(expectedText);
+                    XElement expectedElement = new XElement(Guid.NewGuid().ToString());
+                    new XPathRepository().Put(expectedElement);
 
                     // Act
                     ExecuteCopyXPathCommand();
                     string actualText = Clipboard.GetText();
 
                     // Assert
-                    Assert.AreEqual(expectedText, actualText);
+                    Assert.AreEqual(expectedElement.Name, actualText);
                 };
             UIThreadInvoker.Invoke(test);
         }

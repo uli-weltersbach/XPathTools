@@ -1,23 +1,25 @@
-﻿namespace ReasonCodeExample.XPathInformation
+﻿using System.Xml.Linq;
+
+namespace ReasonCodeExample.XPathInformation
 {
     internal class XPathRepository
     {
         private static readonly object Lock = new object();
-        private static string _xpath;
+        private static XObject _stored;
 
-        public virtual void Put(string xpath)
+        public virtual void Put(XObject obj)
         {
             lock (Lock)
             {
-                _xpath = xpath;
+                _stored = obj;
             }
         }
 
-        public virtual string Get()
+        public virtual XObject Get()
         {
             lock (Lock)
             {
-                return _xpath;
+                return _stored;
             }
         }
     }

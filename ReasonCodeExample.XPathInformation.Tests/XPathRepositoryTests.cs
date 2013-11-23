@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Xml.Linq;
+using NUnit.Framework;
 
 namespace ReasonCodeExample.XPathInformation.Tests
 {
@@ -9,7 +10,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
         public void XPathIsStored()
         {
             // Arrange
-            string expectedValue = "value";
+            XElement expectedValue = new XElement("value");
             XPathRepository repository = new XPathRepository();
             XPathRepository otherRepository = new XPathRepository();
 

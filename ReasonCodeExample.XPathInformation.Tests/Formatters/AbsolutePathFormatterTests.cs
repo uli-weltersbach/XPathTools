@@ -8,7 +8,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
     [TestFixture]
     public class AsbolutePathFormatterTests
     {
-        private readonly PathFormatter _formatter = new AbsolutePathFormatter();
+        private readonly IPathFormatter _formatter = new AbsolutePathFormatter();
 
         [Test]
         public void ElementIndexIsExcludedWhenElementHasNoSiblingsWithSameName()
