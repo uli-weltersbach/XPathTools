@@ -7,10 +7,13 @@ using ReasonCodeExample.XPathInformation.Formatters;
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [ProvideMenuResource("CommandFactory.ctmenu", 1)]
+    [ProvideAutoLoad(SolutionExists)]
+    [ProvideMenuResource(MenuResourceID, 1)]
     [Guid(Symbols.PackageID)]
     internal class CommandFactory : Package
     {
+        private const string SolutionExists = "{f1536ef8-92ec-443c-9ed7-fdadf150da82}";
+        private const string MenuResourceID = "CommandFactory.ctmenu";
         private readonly XPathRepository _repository;
 
         public CommandFactory()
