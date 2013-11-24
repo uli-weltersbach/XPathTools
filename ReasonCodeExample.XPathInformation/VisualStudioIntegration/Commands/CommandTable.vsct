@@ -5,29 +5,28 @@
 
     <Commands package="PackageID">
         <Menus>
-            <Menu guid="CommandsID" id="SubMenu" priority="0x0100">
-                <Parent guid="CommandsID" id="MenuGroup" />
+            <Menu guid="PackageID" id="SubMenu" priority="0x0100">
+                <Parent guid="PackageID" id="MenuGroup" />
                 <Strings>
                     <ButtonText>XPath</ButtonText>
                     <MenuText>XPath</MenuText>
-                    <CommandName>XPathMenu</CommandName>
                 </Strings>
             </Menu>
         </Menus>
 
         <Groups>
-            <Group guid="CommandsID" id="MenuGroup" priority="0x0400">
+            <Group guid="PackageID" id="MenuGroup" priority="0x0400">
                 <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
             </Group>
 
-            <Group guid="CommandsID" id="SubMenuGroup" priority="0x0100">
-                <Parent guid="CommandsID" id="SubMenu"/>
+            <Group guid="PackageID" id="SubMenuGroup" priority="0x0100">
+                <Parent guid="PackageID" id="SubMenu"/>
             </Group>
         </Groups>
 
         <Buttons>
-            <Button guid="CommandsID" id="CopyPathCommand" priority="0x0100" type="Button">
-                <Parent guid="CommandsID" id="SubMenuGroup" />
+            <Button guid="PackageID" id="CopyPathCommand" priority="0x0100" type="Button">
+                <Parent guid="PackageID" id="SubMenuGroup" />
                 <Icon guid="ImagesID" id="CopyCommandIcon" />
                 <CommandFlag>TextChanges</CommandFlag>
                 <Strings>
@@ -37,8 +36,8 @@
                 </Strings>
             </Button>
 
-            <Button guid="CommandsID" id="CopyAbsolutePathCommand" priority="0x0100" type="Button">
-                <Parent guid="CommandsID" id="SubMenuGroup" />
+            <Button guid="PackageID" id="CopyAbsolutePathCommand" priority="0x0100" type="Button">
+                <Parent guid="PackageID" id="SubMenuGroup" />
                 <Icon guid="ImagesID" id="CopyCommandIcon" />
                 <CommandFlag>TextChanges</CommandFlag>
                 <Strings>
@@ -55,18 +54,17 @@
     </Commands>
 
     <CommandPlacements>
-        <CommandPlacement guid="CommandsID" id="CopyPathCommand" priority="0x0100">
-            <Parent guid="CommandsID" id="SubMenu"/>
+        <CommandPlacement guid="PackageID" id="CopyPathCommand" priority="0x0100">
+            <Parent guid="PackageID" id="SubMenu"/>
         </CommandPlacement>
         
-        <CommandPlacement guid="CommandsID" id="CopyAbsolutePathCommand" priority="0x0200">
-            <Parent guid="CommandsID" id="SubMenu"/>
+        <CommandPlacement guid="PackageID" id="CopyAbsolutePathCommand" priority="0x0200">
+            <Parent guid="PackageID" id="SubMenu"/>
         </CommandPlacement>
     </CommandPlacements>
 
     <Symbols>
-        <GuidSymbol name="PackageID" value="{253aa665-a779-4716-9ded-5b0c2cb66710}" />
-        <GuidSymbol name="CommandsID" value="{2a859db4-750c-4267-b96f-844f20ce9e7b}">
+        <GuidSymbol name="PackageID" value="{253aa665-a779-4716-9ded-5b0c2cb66710}">
             <IDSymbol name="MenuGroup" value="0x1019" />
             <IDSymbol name="SubMenu" value="0x1020" />
             <IDSymbol name="SubMenuGroup" value="0x1021" />

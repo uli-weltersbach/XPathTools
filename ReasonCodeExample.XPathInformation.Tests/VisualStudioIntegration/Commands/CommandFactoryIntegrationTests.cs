@@ -53,7 +53,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
             // Arrange
             IServiceProvider serviceProvider = VsIdeTestHostContext.ServiceProvider;
             IVsShell visualStudioShell = serviceProvider.GetService(typeof(SVsShell)) as IVsShell;
-            Guid packageGuid = new Guid(CommandFactory.PackageID);
+            Guid packageGuid = new Guid(Symbols.PackageID);
             IVsPackage package;
 
             // Act
@@ -100,9 +100,9 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
         {
             object customIn = null;
             object customOut = null;
-            string menuGroupID = new Guid(CommandFactory.CommandsID).ToString("B").ToUpper();
+            string menuGroupID = new Guid(Symbols.PackageID).ToString("B").ToUpper();
             DTE dte = VsIdeTestHostContext.Dte;
-            dte.Commands.Raise(menuGroupID, CommandFactory.CopyPathCommandID, ref customIn, ref customOut);
+            dte.Commands.Raise(menuGroupID, Symbols.CommandIDs.CopyPath, ref customIn, ref customOut);
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
                 {
                     // Arrange
                     Clipboard.Clear();
-                    XElement expectedElement = new XElement(Guid.NewGuid().ToString());
+                    XElement expectedElement = new XElement("element" + DateTime.UtcNow.Ticks);
                     new XPathRepository().Put(expectedElement);
 
                     // Act
