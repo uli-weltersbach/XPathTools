@@ -9,18 +9,13 @@ namespace ReasonCodeExample.XPathInformation.Formatters
         protected override string GetElementName(XElement element)
         {
             string elementName = base.GetElementName(element);
-            int? elmentIndex = GetElementIndex(element);
-            return elmentIndex.HasValue ? string.Format("{0}[{1}]", elementName, elmentIndex) : elementName;
+            int elmentIndex = GetElementIndex(element);
+            return string.Format("{0}[{1}]", elementName, elmentIndex);
         }
 
-        private int? GetElementIndex(XElement element)
+        private int GetElementIndex(XElement element)
         {
-            int elementsBefore = element.ElementsBeforeSelf(element.Name).Count();
-            int elementsAfter = element.ElementsAfterSelf(element.Name).Count();
-            bool hasSiblingsWithSameName = elementsBefore > 0 || elementsAfter > 0;
-            if (hasSiblingsWithSameName)
-                return elementsBefore + 1;
-            return null;
+            return element.ElementsBeforeSelf(element.Name).Count() + 1;
         }
     }
 }

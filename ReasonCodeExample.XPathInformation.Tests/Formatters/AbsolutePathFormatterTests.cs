@@ -11,7 +11,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
         private readonly IPathFormatter _formatter = new AbsolutePathFormatter();
 
         [Test]
-        public void ElementIndexIsExcludedWhenElementHasNoSiblingsWithSameName()
+        public void ElementIndexIsIncludedWhenElementHasNoSiblingsWithSameName()
         {
             // Arrange
             XElement parent = new XElement("parent");
@@ -29,7 +29,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
             string xpath = _formatter.Format(secondChild);
 
             // Assert
-            Assert.That(xpath, Is.EqualTo("/parent/childY"));
+            Assert.That(xpath, Is.EqualTo("/parent[1]/childY[1]"));
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
             string xpath = _formatter.Format(secondChild);
 
             // Assert
-            Assert.That(xpath, Is.EqualTo("/parent/child[2]"));
+            Assert.That(xpath, Is.EqualTo("/parent[1]/child[2]"));
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
             string xpath = _formatter.Format(secondChildFirstGrandChild);
 
             // Assert
-            Assert.That(xpath, Is.EqualTo("/parent/child[2]/grandChild[1]"));
+            Assert.That(xpath, Is.EqualTo("/parent[1]/child[2]/grandChild[1]"));
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
             string xpath = _formatter.Format(secondChild);
 
             // Assert
-            Assert.That(xpath, Is.EqualTo("/ns:parent/child[2]"));
+            Assert.That(xpath, Is.EqualTo("/ns:parent[1]/child[2]"));
         }
     }
 }
