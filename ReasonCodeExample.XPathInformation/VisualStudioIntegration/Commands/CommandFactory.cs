@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Design;
+﻿using System;
+using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
 using ReasonCodeExample.XPathInformation.Formatters;
@@ -25,7 +26,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
         protected override void Initialize()
         {
             base.Initialize();
-            IMenuCommandService service = (IMenuCommandService) GetService(typeof (IMenuCommandService));
+            IMenuCommandService service = (IMenuCommandService)GetService(typeof(IMenuCommandService));
 
             CopyCommand copyPathCommand = new CopyCommand(Symbols.CommandIDs.CopyPath, new PathFormatter(), _repository);
             copyPathCommand.Register(service);

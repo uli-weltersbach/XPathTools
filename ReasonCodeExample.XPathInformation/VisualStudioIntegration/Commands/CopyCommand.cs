@@ -11,7 +11,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
         private readonly CommandID _commandID;
         private readonly IPathFormatter _formatter;
         private readonly XPathRepository _repository;
-        private string _commandText;
+        private OleMenuCommand _command;
 
         public string XPath
         {
@@ -36,9 +36,8 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
         {
             if (service == null)
                 throw new ArgumentNullException("service");
-            OleMenuCommand copyCommand = new OleMenuCommand(OnInvoke, null, OnBeforeQueryStatus, _commandID);
-            _commandText = copyCommand.Text;
-            service.AddCommand(copyCommand);
+            _command = new OleMenuCommand(OnInvoke, null, OnBeforeQueryStatus, _commandID);
+            service.AddCommand(_command);
         }
 
         private void OnInvoke(object sender, EventArgs e)
@@ -48,22 +47,8 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 
         private void OnBeforeQueryStatus(object sender, EventArgs e)
         {
-            OleMenuCommand menuCommand = sender as OleMenuCommand;
-            if (menuCommand == null)
-                return;
-            SetCommandVisibility(menuCommand);
-            SetCommandText(menuCommand);
-        }
-
-        private void SetCommandVisibility(OleMenuCommand menuCommand)
-        {
-            menuCommand.Visible = _repository.Get() != null;
-        }
-
-        private void SetCommandText(OleMenuCommand menuCommand)
-        {
-            if (menuCommand.CommandID.Equals(_commandID))
-                menuCommand.Text = string.Format("{0} ({1})", _commandText, XPath);
+            _command.Visible = !string.IsNullOrEmpty(XPath);
+            _command.Text = XPath;
         }
     }
 }

@@ -7,9 +7,12 @@
         <Menus>
             <Menu guid="PackageID" id="SubMenu" priority="0x0100">
                 <Parent guid="PackageID" id="MenuGroup" />
+                <CommandFlag>DontCache</CommandFlag>
+                <CommandFlag>DynamicVisibility</CommandFlag>
+                <CommandFlag>TextChanges</CommandFlag>
                 <Strings>
-                    <ButtonText>XPath</ButtonText>
-                    <MenuText>XPath</MenuText>
+                    <ButtonText>Copy XPath</ButtonText>
+                    <MenuText>Copy XPath</MenuText>
                 </Strings>
             </Menu>
         </Menus>
@@ -28,6 +31,8 @@
             <Button guid="PackageID" id="CopyPathCommand" priority="0x0100" type="Button">
                 <Parent guid="PackageID" id="SubMenuGroup" />
                 <Icon guid="ImagesID" id="CopyCommandIcon" />
+                <CommandFlag>DontCache</CommandFlag>
+                <CommandFlag>DynamicVisibility</CommandFlag>
                 <CommandFlag>TextChanges</CommandFlag>
                 <Strings>
                     <ButtonText>Copy XPath</ButtonText>
@@ -39,6 +44,8 @@
             <Button guid="PackageID" id="CopyAbsolutePathCommand" priority="0x0100" type="Button">
                 <Parent guid="PackageID" id="SubMenuGroup" />
                 <Icon guid="ImagesID" id="CopyCommandIcon" />
+                <CommandFlag>DontCache</CommandFlag>
+                <CommandFlag>DynamicVisibility</CommandFlag>
                 <CommandFlag>TextChanges</CommandFlag>
                 <Strings>
                     <ButtonText>Copy absolute XPath</ButtonText>
