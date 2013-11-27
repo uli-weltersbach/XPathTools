@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace ReasonCodeExample.XPathInformation.Formatters
 {
     internal class DistinctPathFormatter : PathFormatter
     {
-        private readonly IList<string> _preferredAttributeCandidates = new[] {"id", "name", "type"};
+        private readonly IList<string> _preferredAttributeCandidates = new[] { "id", "name", "type" };
 
         protected override string GetElementXPath(XElement element)
         {
-            IEnumerable<XElement> siblings = GetSiblingsWithSameName(element);
-            if (!siblings.Any())
-                return base.GetElementXPath(element);
-
             ICollection<IEnumerable<string>> variations = new List<IEnumerable<string>>();
             foreach (XElement ancestorOrSelf in element.AncestorsAndSelf())
             {
@@ -23,53 +20,8 @@ namespace ReasonCodeExample.XPathInformation.Formatters
             }
             IEnumerable<string>[] cartesian = GetCartesianProduct(variations.Reverse()).ToArray();
             string[] paths = cartesian.Select(variation => variation.Aggregate(string.Empty, (s, path) => s + "/" + path)).ToArray();
-            return paths.FirstOrDefault();
-        }
-
-        private IEnumerable<string> GetPathVariations(XElement element)
-        {
-            IEnumerable<XElement> siblings = GetSiblingsWithSameName(element);
-            IEnumerable<XAttribute> attributeCandidates = GetAttributeCandidates(element);
-            if (siblings.Any() && attributeCandidates.Any())
-                return GetPathVariations(element, attributeCandidates, siblings);
-            return new[] {GetElementName(element)};
-        }
-
-        private IEnumerable<string> GetPathVariations(XElement element, IEnumerable<XAttribute> attributeCandidates, IEnumerable<XElement> siblings)
-        {
-            foreach (XAttribute attributeCandidate in attributeCandidates)
-            {
-                foreach (XElement sibling in siblings)
-                {
-                    if (HasSameAttributeValue(element, sibling, attributeCandidate))
-                        continue;
-                    return new[] {GetElementName(element) + Format(attributeCandidate)};
-                }
-            }
-            return attributeCandidates.Select(attributeCandidate => GetElementName(element) + Format(attributeCandidate)).ToArray();
-        }
-
-        private IEnumerable<IEnumerable<T>> GetCartesianProduct<T>(IEnumerable<IEnumerable<T>> sequences)
-        {
-            IEnumerable<IEnumerable<T>> emptyCartesianProduct = new[] {Enumerable.Empty<T>()};
-            return sequences.Aggregate(emptyCartesianProduct, (accumulator, sequence) =>
-                                                              from accumulatorSequence in accumulator
-                                                              from item in sequence
-                                                              select accumulatorSequence.Concat(new[] {item}));
-        }
-
-        private bool HasSameAttributeValue(XElement element, XElement otherElement, XAttribute attribute)
-        {
-            if (element.Attribute(attribute.Name) == null)
-                return false;
-            if (otherElement.Attribute(attribute.Name) == null)
-                return false;
-            return element.Attribute(attribute.Name).Value == otherElement.Attribute(attribute.Name).Value;
-        }
-
-        private IEnumerable<XAttribute> GetAttributeCandidates(XElement element)
-        {
-            return element.Attributes().Where(attribute => _preferredAttributeCandidates.Contains(attribute.Name.LocalName, StringComparer.InvariantCultureIgnoreCase)).ToArray();
+            XDocument document = new XDocument(element.AncestorsAndSelf().Last());
+            return paths.FirstOrDefault(path => document.XPathSelectElements(path).Count() == 1) ?? string.Empty;
         }
 
         private IEnumerable<XElement> GetSiblingsWithSameName(XElement element)
@@ -79,6 +31,50 @@ namespace ReasonCodeExample.XPathInformation.Formatters
             List<XElement> combined = new List<XElement>(before);
             combined.AddRange(after);
             return combined;
+        }
+
+        private IEnumerable<string> GetPathVariations(XElement element)
+        {
+            List<string> variations = new List<string>();
+            variations.Add(GetElementName(element));
+            IEnumerable<XAttribute> attributeCandidates = GetAttributeCandidates(element);
+            IEnumerable<XElement> siblings = GetSiblingsWithSameName(element);
+            variations.AddRange(GetPathVariations(element, attributeCandidates, siblings));
+            return variations;
+        }
+
+        private IEnumerable<XAttribute> GetAttributeCandidates(XElement element)
+        {
+            return element.Attributes().Where(attribute => _preferredAttributeCandidates.Contains(attribute.Name.LocalName, StringComparer.InvariantCultureIgnoreCase)).ToArray();
+        }
+
+        private IEnumerable<string> GetPathVariations(XElement element, IEnumerable<XAttribute> attributeCandidates, IEnumerable<XElement> siblings)
+        {
+            foreach (XAttribute attributeCandidate in attributeCandidates)
+            {
+                foreach (XElement sibling in siblings)
+                {
+                    if (HasDifferentAttributeValue(attributeCandidate, sibling))
+                        return new[] { GetElementName(element) + Format(attributeCandidate) };
+                }
+            }
+            return attributeCandidates.Select(attributeCandidate => GetElementName(element) + Format(attributeCandidate)).ToArray();
+        }
+
+        private bool HasDifferentAttributeValue(XAttribute attributeCandidate, XElement otherElement)
+        {
+            if (otherElement.Attribute(attributeCandidate.Name) == null)
+                return true;
+            return attributeCandidate.Value != otherElement.Attribute(attributeCandidate.Name).Value;
+        }
+
+        private IEnumerable<IEnumerable<T>> GetCartesianProduct<T>(IEnumerable<IEnumerable<T>> sequences)
+        {
+            IEnumerable<IEnumerable<T>> emptyCartesianProduct = new[] { Enumerable.Empty<T>() };
+            return sequences.Aggregate(emptyCartesianProduct, (accumulator, sequence) =>
+                                                              from accumulatorSequence in accumulator
+                                                              from item in sequence
+                                                              select accumulatorSequence.Concat(new[] { item }));
         }
 
         public override string Format(XAttribute attribute)

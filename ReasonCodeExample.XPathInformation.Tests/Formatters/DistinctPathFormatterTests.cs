@@ -10,7 +10,11 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
     {
         private readonly IPathFormatter _formatter = new DistinctPathFormatter();
 
-        [TestCase("<a><b /><b /><b /><b><c id=\"1\" /><c id=\"2\" /></b></a>", 5, "/a/b/c[@id='1']")]
+        [TestCase("<a><b /><b /><b /><b><c id='value' /><c id='other-value' /></b></a>", 5, "/a/b/c[@id='value']")]
+        [TestCase("<a><b /><b /><b /><b><c id='same' /><c id='same' /></b></a>", 5, "")]
+        [TestCase("<a><b /><b /><b /><b><c id='same' name='unique'/><c id='same' /></b></a>", 5, "/a/b/c[@name='unique']")]
+        [TestCase("<a><b /><b /><b /><b><c id='same' type='unique'/><c id='same' /></b></a>", 5, "/a/b/c[@type='unique']")]
+        [TestCase("<a><b id='same'><c id='same' /></b><b id='same'><c id='same' /></b><b id='unique'><c id='same' /></b></a>", 6, "/a/b[@id='unique']/c")]
         public void IdAttributeIsUsedInDistinctPath(string xml, int testElementIndex, string expectedXPath)
         {
             // Arrange
