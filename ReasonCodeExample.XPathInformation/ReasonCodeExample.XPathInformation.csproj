@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="CaretPositionLineInfo.cs" />
     <Compile Include="Formatters\AbsolutePathFormatter.cs" />
+    <Compile Include="Formatters\DistinctPathFormatter.cs" />
     <Compile Include="Formatters\IPathFormatter.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandFactory.cs" />
     <Compile Include="ResultCachingXmlParser.cs" />

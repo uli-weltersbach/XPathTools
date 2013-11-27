@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="CaretPositionLineInfoTests.cs" />
     <Compile Include="Formatters\AbsolutePathFormatterTests.cs" />
+    <Compile Include="Formatters\DistinctPathFormatterTests.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandFactoryTests.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandFactoryIntegrationTests.cs" />
     <Compile Include="XmlNodeRepositoryTests.cs" />
