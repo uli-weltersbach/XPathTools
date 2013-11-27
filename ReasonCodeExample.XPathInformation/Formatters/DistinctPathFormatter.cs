@@ -13,15 +13,10 @@ namespace ReasonCodeExample.XPathInformation.Formatters
 
         protected override string GetElementXPath(XElement element)
         {
-            ICollection<IEnumerable<string>> variations = new List<IEnumerable<string>>();
-            foreach (XElement ancestorOrSelf in element.AncestorsAndSelf())
-            {
-                variations.Add(GetPathVariations(ancestorOrSelf));
-            }
-            IEnumerable<string>[] cartesian = GetCartesianProduct(variations.Reverse()).ToArray();
-            string[] paths = cartesian.Select(variation => variation.Aggregate(string.Empty, (s, path) => s + "/" + path)).ToArray();
-            XDocument document = new XDocument(element.AncestorsAndSelf().Last());
-            return paths.FirstOrDefault(path => document.XPathSelectElements(path).Count() == 1) ?? string.Empty;
+            IEnumerable<IEnumerable<string>> pathVariations = element.AncestorsAndSelf().Select(GetPathVariations);
+            IEnumerable<IEnumerable<string>> cartesianProduct = GetCartesianProduct(pathVariations.Reverse());
+            IEnumerable<string> paths = ConcatenateXPaths(cartesianProduct).ToArray();
+            return GetDistinctPath(element, paths);
         }
 
         private IEnumerable<XElement> GetSiblingsWithSameName(XElement element)
@@ -75,6 +70,18 @@ namespace ReasonCodeExample.XPathInformation.Formatters
                                                               from accumulatorSequence in accumulator
                                                               from item in sequence
                                                               select accumulatorSequence.Concat(new[] { item }));
+        }
+
+        private IEnumerable<string> ConcatenateXPaths(IEnumerable<IEnumerable<string>> cartesianProduct)
+        {
+            return cartesianProduct.Select(variation => variation.Aggregate(string.Empty, ConcatenateXPath));
+        }
+
+        private string GetDistinctPath(XElement element, IEnumerable<string> paths)
+        {
+            XDocument document = new XDocument(element.AncestorsAndSelf().Last());
+            string distinctPath = paths.FirstOrDefault(path => document.XPathSelectElements(path).Count() == 1);
+            return distinctPath ?? string.Empty;
         }
 
         public override string Format(XAttribute attribute)
