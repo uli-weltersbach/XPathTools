@@ -30,7 +30,7 @@
         <Buttons>
             <Button guid="PackageID" id="CopyPathCommand" priority="0x0100" type="Button">
                 <Parent guid="PackageID" id="SubMenuGroup" />
-                <Icon guid="ImagesID" id="CopyCommandIcon" />
+                <Icon guid="ImagesID" id="CopyPathCommandIcon" />
                 <CommandFlag>DontCache</CommandFlag>
                 <CommandFlag>DynamicVisibility</CommandFlag>
                 <CommandFlag>TextChanges</CommandFlag>
@@ -43,7 +43,7 @@
 
             <Button guid="PackageID" id="CopyAbsolutePathCommand" priority="0x0100" type="Button">
                 <Parent guid="PackageID" id="SubMenuGroup" />
-                <Icon guid="ImagesID" id="CopyCommandIcon" />
+                <Icon guid="ImagesID" id="CopyAbsolutePathCommandIcon" />
                 <CommandFlag>DontCache</CommandFlag>
                 <CommandFlag>DynamicVisibility</CommandFlag>
                 <CommandFlag>TextChanges</CommandFlag>
@@ -53,10 +53,25 @@
                     <CommandName>CopyAbsolutePath</CommandName>
                 </Strings>
             </Button>
+
+            <Button guid="PackageID" id="CopyDistinctPathCommand" priority="0x0100" type="Button">
+                <Parent guid="PackageID" id="SubMenuGroup" />
+                <Icon guid="ImagesID" id="CopyDistinctPathCommandIcon" />
+                <CommandFlag>DontCache</CommandFlag>
+                <CommandFlag>DynamicVisibility</CommandFlag>
+                <CommandFlag>TextChanges</CommandFlag>
+                <Strings>
+                    <ButtonText>Copy distinct XPath</ButtonText>
+                    <MenuText>Copy distinct XPath</MenuText>
+                    <CommandName>CopyDistinctPath</CommandName>
+                </Strings>
+            </Button>
         </Buttons>
 
         <Bitmaps>
-            <Bitmap guid="ImagesID" href="..\Resources\CopyXPathCommandIcon.png" usedList="CopyCommandIcon"/>
+            <Bitmap guid="ImagesID" href="..\Resources\CopyPathCommandIcon.png" />
+            <Bitmap guid="ImagesID" href="..\Resources\CopyAbsolutePathCommandIcon.png" />
+            <Bitmap guid="ImagesID" href="..\Resources\CopyDistinctPathCommandIcon.png" />
         </Bitmaps>
     </Commands>
 
@@ -77,9 +92,12 @@
             <IDSymbol name="SubMenuGroup" value="0x1021" />
             <IDSymbol name="CopyPathCommand" value="0x1022" />
             <IDSymbol name="CopyAbsolutePathCommand" value="0x1023" />
+            <IDSymbol name="CopyDistinctPathCommand" value="0x1024" />
         </GuidSymbol>
         <GuidSymbol name="ImagesID" value="{ccf04725-e060-4d02-9cd7-2d86a3742cd3}" >
-            <IDSymbol name="CopyCommandIcon" value="1" />
+            <IDSymbol name="CopyPathCommandIcon" value="1" />
+            <IDSymbol name="CopyAbsolutePathCommandIcon" value="2" />
+            <IDSymbol name="CopyDistinctPathCommandIcon" value="3" />            
         </GuidSymbol>
     </Symbols>
 </CommandTable>

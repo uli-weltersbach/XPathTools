@@ -36,6 +36,9 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 
             CopyCommand copyAbsolutePathCommand = new CopyCommand(Symbols.CommandIDs.CopyAbsolutePath, new AbsolutePathFormatter(), _repository);
             copyAbsolutePathCommand.Register(service);
+
+            CopyCommand copyDistinctPathCommand = new CopyCommand(Symbols.CommandIDs.CopyDistinctPath, new DistinctPathFormatter(), _repository);
+            copyDistinctPathCommand.Register(service);
         }
     }
 }

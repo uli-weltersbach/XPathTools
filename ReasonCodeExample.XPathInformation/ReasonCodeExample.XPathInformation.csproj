@@ -116,11 +116,17 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="VisualStudioIntegration\Resources\CopyAbsolutePathCommandIcon.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VisualStudioIntegration\Resources\CopyDistinctPathCommandIcon.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="VisualStudioIntegration\Resources\release-notes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="VisualStudioIntegration\Resources\CopyXPathCommandIcon.png">
+    <Content Include="VisualStudioIntegration\Resources\CopyPathCommandIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
