@@ -69,9 +69,7 @@
         </Buttons>
 
         <Bitmaps>
-            <Bitmap guid="ImagesID" href="..\Resources\CopyPathCommandIcon.png" />
-            <Bitmap guid="ImagesID" href="..\Resources\CopyAbsolutePathCommandIcon.png" />
-            <Bitmap guid="ImagesID" href="..\Resources\CopyDistinctPathCommandIcon.png" />
+            <Bitmap guid="ImagesID" href="..\Resources\CommandIcons.png" />
         </Bitmaps>
     </Commands>
 
