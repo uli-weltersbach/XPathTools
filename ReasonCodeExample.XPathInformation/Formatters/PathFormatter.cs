@@ -10,8 +10,17 @@ namespace ReasonCodeExample.XPathInformation.Formatters
         public virtual string Format(XObject obj)
         {
             XAttribute attribute = obj as XAttribute;
-            XElement element = obj as XElement;
-            return attribute == null ? Format(element) : Format(attribute.Parent) + Format(attribute);
+            if (obj is XAttribute)
+            {
+                string elementPath = Format(attribute.Parent);
+                string attributePath = Format(attribute);
+                return string.IsNullOrEmpty(elementPath) ? string.Empty : elementPath + attributePath;
+            }
+            if (obj is XElement)
+            {
+                return Format(obj as XElement);
+            }
+            return string.Empty;
         }
 
         /// <summary>

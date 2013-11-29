@@ -15,7 +15,8 @@ namespace ReasonCodeExample.XPathInformation
             if (_cachedXmlHashCode == xml.GetHashCode())
                 return _rootElement;
 
-            _rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
+            XDocument document = XDocument.Parse(xml, LoadOptions.SetLineInfo);
+            _rootElement = document.Root;
             _cachedXmlHashCode = xml.GetHashCode();
             return _rootElement;
         }

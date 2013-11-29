@@ -27,5 +27,36 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
             // Assert
             Assert.That(actualXPath, Is.EqualTo(expectedXPath));
         }
+
+        [Test]
+        public void AttributeIsNotUsedInDistinctPath()
+        {
+            // Arrange
+            XElement element = XElement.Parse(@"<configuration>
+	                                                <runtime>
+                                                        <assemblyBinding xmlns=""urn:schemas-microsoft-com:asm.v1"">
+                                                            <dependentAssembly>
+                                                            <assemblyIdentity name=""System.Web.Extensions"" publicKeyToken=""31bf3856ad364e35""/>
+                                                            <bindingRedirect oldVersion=""1.0.0.0-1.1.0.0"" newVersion=""3.5.0.0""/>
+                                                            </dependentAssembly>
+                                                            <dependentAssembly>
+                                                            <assemblyIdentity name=""System.Web.Extensions.Design"" publicKeyToken=""31bf3856ad364e35""/>
+                                                            <bindingRedirect oldVersion=""1.0.0.0-1.1.0.0"" newVersion=""3.5.0.0""/>
+                                                            </dependentAssembly>
+                                                            <dependentAssembly>
+                                                            <assemblyIdentity name=""Lucene.Net"" publicKeyToken=""85089178b9ac3181""/>
+                                                            <bindingRedirect oldVersion=""0.0.0.0-2.9.4.0"" newVersion=""2.9.4.1""/>
+                                                            </dependentAssembly>
+                                                        </assemblyBinding>
+                                                    </runtime>
+                                                </configuration>");
+            XObject selectedAttribute = element.Element("runtime").Elements().ElementAt(0).FirstAttribute;
+
+            // Act
+            string actualXPath = _formatter.Format(selectedAttribute);
+
+            // Assert
+            Assert.That(actualXPath, Is.Not.Null.And.Empty);
+        }
     }
 }
