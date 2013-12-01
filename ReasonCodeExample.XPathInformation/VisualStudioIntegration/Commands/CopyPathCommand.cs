@@ -9,14 +9,14 @@ using ReasonCodeExample.XPathInformation.Formatters;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {
-    internal class CopyCommand
+    internal class CopyPathCommand
     {
         private readonly CommandID _commandID;
         private readonly IPathFormatter _formatter;
         private readonly XPathRepository _repository;
         private OleMenuCommand _command;
 
-        public CopyCommand(int id, IPathFormatter formatter, XPathRepository repository)
+        public CopyPathCommand(int id, IPathFormatter formatter, XPathRepository repository)
         {
             if (formatter == null)
                 throw new ArgumentNullException("formatter");
