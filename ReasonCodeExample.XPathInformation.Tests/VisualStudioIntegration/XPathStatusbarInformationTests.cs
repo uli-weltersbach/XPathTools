@@ -26,7 +26,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
         [TestCase(1, 1, "")]
         [TestCase(2, 0, "")]
         [TestCase(2, 1, "/GitSccOptions")]
-        [TestCase(2, 16, "/GitSccOptions[@xmlns:xsi]")]
+        [TestCase(2, 16, "/GitSccOptions[@xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance']")]
         [TestCase(3, 0, "")]
         [TestCase(3, 1, "/GitSccOptions/GitBashPath")]
         [TestCase(4, 1, "")]

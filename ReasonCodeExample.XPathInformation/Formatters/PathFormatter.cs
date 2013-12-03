@@ -60,20 +60,32 @@ namespace ReasonCodeExample.XPathInformation.Formatters
         /// </summary>
         public virtual string Format(XAttribute attribute)
         {
+            string name = GetAttributeName(attribute);
+            string value = GetAttributeValue(attribute);
+            return string.Format("[{0}='{1}']", name, value);
+        }
+
+        protected virtual string GetAttributeName(XAttribute attribute)
+        {
             if (attribute == null)
                 return string.Empty;
 
             if (string.IsNullOrEmpty(attribute.Name.NamespaceName))
-                return string.Format("[@{0}]", attribute.Name.LocalName);
+                return string.Format("@{0}", attribute.Name.LocalName);
 
             if (attribute.Parent == null)
                 throw new XmlException(string.Format("Unable to determine namespace prefix for attribute \"{0}\". Parent is null.", attribute.Name));
 
             string namespacePrefix = attribute.Parent.GetPrefixOfNamespace(attribute.Name.Namespace);
             if (string.IsNullOrEmpty(namespacePrefix))
-                return string.Format("[@{0}]", attribute.Name.LocalName);
+                return string.Format("@{0}", attribute.Name.LocalName);
 
-            return string.Format("[@{0}:{1}]", namespacePrefix, attribute.Name.LocalName);
+            return string.Format("@{0}:{1}", namespacePrefix, attribute.Name.LocalName);
+        }
+
+        protected virtual string GetAttributeValue(XAttribute attribute)
+        {
+            return attribute == null ? string.Empty : attribute.Value;
         }
     }
 }

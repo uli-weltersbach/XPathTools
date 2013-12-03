@@ -58,15 +58,16 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 
         private void SetCommandText()
         {
-            XObject current = _repository.Get();
             _command.Text = XPath;
+            XObject current = _repository.Get();
             if (current == null)
                 return;
             if (current.Document == null)
                 return;
             int elementCount = current.Document.XPathSelectElements(XPath).Count();
-            if (elementCount > 1)
-                _command.Text = string.Format("({0} matches) {1}", elementCount, XPath);
+            string commandTextFormat = "({0} {1}) {2}";
+            string matchText = elementCount > 1 ? "matches" : "match";
+            _command.Text = string.Format(commandTextFormat, elementCount, matchText, XPath);
         }
     }
 }

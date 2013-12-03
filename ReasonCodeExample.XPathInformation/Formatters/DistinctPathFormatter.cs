@@ -83,23 +83,5 @@ namespace ReasonCodeExample.XPathInformation.Formatters
             string distinctPath = paths.FirstOrDefault(path => document.XPathSelectElements(path).Count() == 1);
             return distinctPath ?? string.Empty;
         }
-
-        public override string Format(XAttribute attribute)
-        {
-            if (attribute == null)
-                return string.Empty;
-
-            if (string.IsNullOrEmpty(attribute.Name.NamespaceName))
-                return string.Format("[@{0}='{1}']", attribute.Name.LocalName, attribute.Value);
-
-            if (attribute.Parent == null)
-                throw new XmlException(string.Format("Unable to determine namespace prefix for attribute \"{0}\". Parent is null.", attribute.Name));
-
-            string namespacePrefix = attribute.Parent.GetPrefixOfNamespace(attribute.Name.Namespace);
-            if (string.IsNullOrEmpty(namespacePrefix))
-                return string.Format("[@{0}='{1}']", attribute.Name.LocalName, attribute.Value);
-
-            return string.Format("[@{0}:{1}='{2}']", namespacePrefix, attribute.Name.LocalName, attribute.Value);
-        }
     }
 }

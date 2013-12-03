@@ -20,7 +20,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
             string xpath = _formatter.Format(attribute);
 
             // Assert
-            Assert.That(xpath, Is.EqualTo("[@attribute]"));
+            Assert.That(xpath, Is.EqualTo("[@attribute='value']"));
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
             string xpath = _formatter.Format(attribute);
 
             // Assert
-            Assert.That(xpath, Is.EqualTo("[@ns:attribute]"));
+            Assert.That(xpath, Is.EqualTo("[@ns:attribute='value']"));
         }
 
         [Test]
