@@ -7,9 +7,9 @@
         public struct CommandIDs
         {
             public const int SubMenu = 0x1020;
-            public const int CopyPath = 0x1022;
-            public const int CopyAbsolutePath = 0x1023;
-            public const int CopyDistinctPath = 0x1024;
+            public const int CopyGenericXPath = 0x1022;
+            public const int CopyAbsoluteXPath = 0x1023;
+            public const int CopyDistinctXPath = 0x1024;
         }
     }
 }

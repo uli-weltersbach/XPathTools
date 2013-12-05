@@ -72,12 +72,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CaretPositionLineInfoTests.cs" />
-    <Compile Include="Formatters\AbsolutePathFormatterTests.cs" />
-    <Compile Include="Formatters\DistinctPathFormatterTests.cs" />
+    <Compile Include="Formatters\AbsoluteXPathFormatterTests.cs" />
+    <Compile Include="Formatters\DistinctXPathFormatterTests.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandFactoryTests.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandFactoryIntegrationTests.cs" />
+    <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommandIntegrationTests.cs" />
     <Compile Include="XmlNodeRepositoryTests.cs" />
-    <Compile Include="Formatters\PathFormatterTests.cs" />
+    <Compile Include="Formatters\GenericXPathFormatterTests.cs" />
     <Compile Include="XPathRepositoryTests.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusBarInformationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

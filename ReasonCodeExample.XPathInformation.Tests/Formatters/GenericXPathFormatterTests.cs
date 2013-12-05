@@ -8,9 +8,9 @@ using ReasonCodeExample.XPathInformation.Formatters;
 namespace ReasonCodeExample.XPathInformation.Tests.Formatters
 {
     [TestFixture]
-    public class PathFormatterTests
+    public class GenericXPathFormatterTests
     {
-        private readonly IPathFormatter _formatter = new PathFormatter();
+        private readonly IXPathFormatter _formatter = new GenericXPathFormatter();
 
         [Test]
         public void AttributeFormat()

@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Diagnostics;
+using System.Xml.Linq;
 using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
@@ -73,57 +74,6 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
 
             // Assert
             Assert.IsNotNull(dte, "VsIdeTestHostContext.Dte is null");
-        }
-
-        [TestMethod]
-        [HostType(VisualStudioHostType)]
-        public void CanRetrieveCommands()
-        {
-            // Arrange
-            DTE dte = VsIdeTestHostContext.Dte;
-
-            // Act
-            EnvDTE.Commands commands = dte.Commands;
-
-            // Assert
-            Assert.IsNotNull(commands, "VsIdeTestHostContext.Dte.Commands is null");
-        }
-
-        [TestMethod]
-        [HostType(VisualStudioHostType)]
-        public void CanExecutecopyXPathCommand()
-        {
-            ExecuteCopyXPathCommand();
-        }
-
-        private void ExecuteCopyXPathCommand()
-        {
-            object customIn = null;
-            object customOut = null;
-            string menuGroupID = new Guid(Symbols.PackageID).ToString("B").ToUpper();
-            DTE dte = VsIdeTestHostContext.Dte;
-            dte.Commands.Raise(menuGroupID, Symbols.CommandIDs.CopyPath, ref customIn, ref customOut);
-        }
-
-        [TestMethod]
-        [HostType(VisualStudioHostType)]
-        public void CopyXPathCommandCopiesXPathToClipboard()
-        {
-            Action test = () =>
-                {
-                    // Arrange
-                    Clipboard.Clear();
-                    XElement expectedElement = new XElement("element" + DateTime.UtcNow.Ticks);
-                    new XPathRepository().Put(expectedElement);
-
-                    // Act
-                    ExecuteCopyXPathCommand();
-                    string actualText = Clipboard.GetText();
-
-                    // Assert
-                    Assert.AreEqual(expectedElement.Name, actualText);
-                };
-            UIThreadInvoker.Invoke(test);
         }
     }
 }

@@ -6,9 +6,9 @@ using ReasonCodeExample.XPathInformation.Formatters;
 namespace ReasonCodeExample.XPathInformation.Tests.Formatters
 {
     [TestFixture]
-    public class AsbolutePathFormatterTests
+    public class AbsoluteXPathFormatterTests
     {
-        private readonly IPathFormatter _formatter = new AbsolutePathFormatter();
+        private readonly IXPathFormatter _formatter = new AbsoluteXPathFormatter();
 
         [Test]
         public void ElementIndexIsIncludedWhenElementHasNoSiblingsWithSameName()

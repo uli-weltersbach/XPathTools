@@ -14,7 +14,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         private readonly ResultCachingXmlParser _parser = new ResultCachingXmlParser();
         private readonly XmlNodeRepository _nodeRepository = new XmlNodeRepository();
         private readonly XPathRepository _pathRepository = new XPathRepository();
-        private readonly IPathFormatter _formatter = new PathFormatter();
+        private readonly IXPathFormatter _formatter = new GenericXPathFormatter();
 
         public XPathStatusbarInformation(ITextView textView)
             : this(textView, (IVsStatusbar)ServiceProvider.GlobalProvider.GetService(typeof(IVsStatusbar)))

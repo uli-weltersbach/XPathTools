@@ -7,7 +7,7 @@ using System.Xml.XPath;
 
 namespace ReasonCodeExample.XPathInformation.Formatters
 {
-    internal class DistinctPathFormatter : PathFormatter
+    internal class DistinctXPathFormatter : GenericXPathFormatter
     {
         private readonly IList<string> _preferredAttributeCandidates = new[] { "id", "name", "type" };
 

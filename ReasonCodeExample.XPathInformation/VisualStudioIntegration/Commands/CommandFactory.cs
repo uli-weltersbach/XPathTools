@@ -31,13 +31,13 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
             base.Initialize();
             IMenuCommandService service = (IMenuCommandService)GetService(typeof(IMenuCommandService));
 
-            CopyPathCommand copyPathCommand = new CopyPathCommand(Symbols.CommandIDs.CopyPath, new PathFormatter(), _repository);
-            copyPathCommand.Register(service);
+            CopyXPathCommand copyXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, new GenericXPathFormatter(), _repository);
+            copyXPathCommand.Register(service);
 
-            CopyPathCommand copyAbsolutePathCommand = new CopyPathCommand(Symbols.CommandIDs.CopyAbsolutePath, new AbsolutePathFormatter(), _repository);
+            CopyXPathCommand copyAbsolutePathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyAbsoluteXPath, new AbsoluteXPathFormatter(), _repository);
             copyAbsolutePathCommand.Register(service);
 
-            CopyPathCommand copyDistinctPathCommand = new CopyPathCommand(Symbols.CommandIDs.CopyDistinctPath, new DistinctPathFormatter(), _repository);
+            CopyXPathCommand copyDistinctPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, new DistinctXPathFormatter(), _repository);
             copyDistinctPathCommand.Register(service);
         }
     }

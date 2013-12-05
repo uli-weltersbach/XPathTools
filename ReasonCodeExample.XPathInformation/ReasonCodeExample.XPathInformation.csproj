@@ -88,15 +88,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CaretPositionLineInfo.cs" />
-    <Compile Include="Formatters\AbsolutePathFormatter.cs" />
-    <Compile Include="Formatters\DistinctPathFormatter.cs" />
-    <Compile Include="Formatters\IPathFormatter.cs" />
+    <Compile Include="Formatters\AbsoluteXPathFormatter.cs" />
+    <Compile Include="Formatters\DistinctXPathFormatter.cs" />
+    <Compile Include="Formatters\IXPathFormatter.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandFactory.cs" />
     <Compile Include="ResultCachingXmlParser.cs" />
-    <Compile Include="VisualStudioIntegration\Commands\CopyPathCommand.cs" />
+    <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommand.cs" />
     <Compile Include="VisualStudioIntegration\Commands\Symbols.cs" />
     <Compile Include="XmlNodeRepository.cs" />
-    <Compile Include="Formatters\PathFormatter.cs" />
+    <Compile Include="Formatters\GenericXPathFormatter.cs" />
     <Compile Include="XPathRepository.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformation.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformationFactory.cs" />
@@ -119,13 +119,13 @@
     <Content Include="VisualStudioIntegration\Resources\CommandIcons.png">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="VisualStudioIntegration\Resources\CopyAbsolutePathCommandIcon.png" />
-    <Content Include="VisualStudioIntegration\Resources\CopyDistinctPathCommandIcon.png" />
+    <Content Include="VisualStudioIntegration\Resources\CopyAbsoluteXPathCommandIcon.png" />
+    <Content Include="VisualStudioIntegration\Resources\CopyDistinctXPathCommandIcon.png" />
     <Content Include="VisualStudioIntegration\Resources\release-notes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="VisualStudioIntegration\Resources\CopyPathCommandIcon.png">
+    <Content Include="VisualStudioIntegration\Resources\CopyGenericXPathCommandIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="VisualStudioIntegration\Resources\PreviewImage.png">

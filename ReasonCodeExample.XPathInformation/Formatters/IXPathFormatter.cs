@@ -2,7 +2,7 @@
 
 namespace ReasonCodeExample.XPathInformation.Formatters
 {
-    public interface IPathFormatter
+    public interface IXPathFormatter
     {
         /// <summary>
         /// Returns the XPath of the element or attribute. 

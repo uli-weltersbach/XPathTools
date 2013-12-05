@@ -8,9 +8,9 @@ using ReasonCodeExample.XPathInformation.Formatters;
 namespace ReasonCodeExample.XPathInformation.Tests.Formatters
 {
     [TestFixture]
-    public class DistinctPathFormatterTests
+    public class DistinctXPathFormatterTests
     {
-        private readonly IPathFormatter _formatter = new DistinctPathFormatter();
+        private readonly IXPathFormatter _formatter = new DistinctXPathFormatter();
 
         [TestCase("<a><b /><b /><b /><b><c id='value' /><c id='other-value' /></b></a>", 5, "/a/b/c[@id='value']")]
         [TestCase("<a><b /><b /><b /><b><c id='same' /><c id='same' /></b></a>", 5, "")]

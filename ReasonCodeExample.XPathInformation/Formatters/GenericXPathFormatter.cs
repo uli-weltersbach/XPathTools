@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace ReasonCodeExample.XPathInformation.Formatters
 {
-    internal class PathFormatter : IPathFormatter
+    internal class GenericXPathFormatter : IXPathFormatter
     {
         public virtual string Format(XObject obj)
         {
