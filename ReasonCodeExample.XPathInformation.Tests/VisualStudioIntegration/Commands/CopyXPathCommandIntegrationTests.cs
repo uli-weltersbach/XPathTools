@@ -1,17 +1,9 @@
-﻿using System.Diagnostics;
-using System.IO;
-using System.Text;
+﻿using System;
+using System.Windows;
 using System.Xml.Linq;
 using EnvDTE;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VSSDK.Tools.VsIdeTesting;
-using System;
-using System.ComponentModel.Design;
-using System.Reflection;
-using System.Windows;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Commands
@@ -44,24 +36,11 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
 
         private void ExecuteCopyXPathCommand()
         {
-            string tempFile = Path.GetTempFileName();
-            using (StreamWriter writer = new StreamWriter(File.OpenWrite(tempFile)))
-            {
-                writer.WriteLine("<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><a><b /></a>");
-            }
-            try
-            {
-                object customIn = null;
-                object customOut = null;
-                string menuGroupID = new Guid(Symbols.PackageID).ToString("B");
-                DTE dte = VsIdeTestHostContext.Dte;
-                dte.Application.Documents.Open(tempFile, ReadOnly: true);
-                dte.Commands.Raise(menuGroupID, Symbols.CommandIDs.CopyGenericXPath, ref customIn, ref customOut);
-            }
-            finally
-            {
-                File.Delete(tempFile);
-            }
+            object customIn = null;
+            object customOut = null;
+            string menuGroupID = new Guid(Symbols.PackageID).ToString("B");
+            DTE dte = VsIdeTestHostContext.Dte;
+            dte.Commands.Raise(menuGroupID, Symbols.CommandIDs.CopyGenericXPath, ref customIn, ref customOut);
         }
 
         [TestMethod]

@@ -1,15 +1,9 @@
-﻿using System.Diagnostics;
-using System.Xml.Linq;
+﻿using System;
 using EnvDTE;
+using Microsoft.VSSDK.Tools.VsIdeTesting;
 using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.VSSDK.Tools.VsIdeTesting;
-using System;
-using System.ComponentModel.Design;
-using System.Reflection;
-using System.Windows;
 using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Commands
@@ -41,7 +35,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
             IServiceProvider serviceProvider = VsIdeTestHostContext.ServiceProvider;
 
             // Act
-            IVsShell vistualStudioShell = serviceProvider.GetService(typeof(SVsShell)) as IVsShell;
+            IVsShell vistualStudioShell = serviceProvider.GetService(typeof (SVsShell)) as IVsShell;
 
             // Assert
             Assert.IsNotNull(vistualStudioShell, "vistualStudioShell is null");
@@ -53,7 +47,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
         {
             // Arrange
             IServiceProvider serviceProvider = VsIdeTestHostContext.ServiceProvider;
-            IVsShell visualStudioShell = serviceProvider.GetService(typeof(SVsShell)) as IVsShell;
+            IVsShell visualStudioShell = serviceProvider.GetService(typeof (SVsShell)) as IVsShell;
             Guid packageGuid = new Guid(Symbols.PackageID);
             IVsPackage package;
 
