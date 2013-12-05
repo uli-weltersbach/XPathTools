@@ -1,4 +1,4 @@
-﻿v1.2: Fixed XPath of elements in non-prefixed XML-namespaces. Two new XPath variants have been added which can be copied to the clipboard: absolute (index-based) and "distinct". "Distinct" generates a path matching a single element, by using the attributes "name", "id" or "type" found on elements in the path (if available).
+﻿v2.0: Fixed XPath of elements in non-prefixed XML-namespaces. Two new XPath variants have been added which can be copied to the clipboard: absolute (index-based) and "distinct". "Distinct" generates a path matching a single element, by using the attributes "name", "id" or "type" found on elements in the path (if available).
 v1.11: Fixed display of XPath information for elements spanning multiple lines.
 v1.1: XPath information can now be copied to the clipboard by right-clicking on an XML element or attribute and selecting "Copy XPath" from the menu.
 v1.0: XPath information is displayed in the statusbar when clicking an XML element or attribute.

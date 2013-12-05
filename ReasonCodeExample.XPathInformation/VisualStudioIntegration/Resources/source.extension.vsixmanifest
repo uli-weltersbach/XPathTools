@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="ReasonCodeExample.XPathInformation.v1.0" Version="1.2" Language="en-US" Publisher="Uli Weltersbach" />
+    <Identity Id="ReasonCodeExample.XPathInformation.v1.0" Version="2.0" Language="en-US" Publisher="Uli Weltersbach" />
     <DisplayName>XPath Information</DisplayName>
     <Description xml:space="preserve">When working in files containing XML markup, this extension displays the XPath of the XML element or attribute at the caret position. The information is displayed in the statusbar and can be copied to the clipboard using the "Copy XPath" command.</Description>
     <MoreInfo>http://reasoncodeexample.com/2013/04/29/xpath-information-in-visual-studio/</MoreInfo>
