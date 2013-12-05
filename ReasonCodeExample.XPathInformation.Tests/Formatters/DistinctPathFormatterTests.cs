@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using NUnit.Framework;
 using ReasonCodeExample.XPathInformation.Formatters;
 
@@ -29,34 +31,50 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
         }
 
         [Test]
-        public void AttributeIsNotUsedInDistinctPath()
+        public void ElementNamespaceFormat()
         {
             // Arrange
-            XElement element = XElement.Parse(@"<configuration>
-	                                                <runtime>
-                                                        <assemblyBinding xmlns=""urn:schemas-microsoft-com:asm.v1"">
-                                                            <dependentAssembly>
-                                                            <assemblyIdentity name=""System.Web.Extensions"" publicKeyToken=""31bf3856ad364e35""/>
-                                                            <bindingRedirect oldVersion=""1.0.0.0-1.1.0.0"" newVersion=""3.5.0.0""/>
-                                                            </dependentAssembly>
-                                                            <dependentAssembly>
-                                                            <assemblyIdentity name=""System.Web.Extensions.Design"" publicKeyToken=""31bf3856ad364e35""/>
-                                                            <bindingRedirect oldVersion=""1.0.0.0-1.1.0.0"" newVersion=""3.5.0.0""/>
-                                                            </dependentAssembly>
-                                                            <dependentAssembly>
-                                                            <assemblyIdentity name=""Lucene.Net"" publicKeyToken=""85089178b9ac3181""/>
-                                                            <bindingRedirect oldVersion=""0.0.0.0-2.9.4.0"" newVersion=""2.9.4.1""/>
-                                                            </dependentAssembly>
-                                                        </assemblyBinding>
-                                                    </runtime>
-                                                </configuration>");
-            XObject selectedAttribute = element.Element("runtime").Elements().ElementAt(0).FirstAttribute;
+            // Arrange
+            XDocument document = XDocument.Parse(@"<configuration>
+                                                        <runtime>
+                                                            <assemblyBinding id='1' xmlns='urn:schemas-microsoft-com:asm.v1'>
+                                                               <child />
+                                                            </assemblyBinding>
+                                                            <assemblyBinding id='2' xmlns='urn:schemas-microsoft-com:asm.v1'>
+                                                                <child />
+                                                            </assemblyBinding>
+                                                        </runtime>
+                                                    </configuration>");
 
             // Act
-            string actualXPath = _formatter.Format(selectedAttribute);
+            string xpath = _formatter.Format(document.Descendants().ElementAt(2));
 
             // Assert
-            Assert.That(actualXPath, Is.Not.Null.And.Empty);
+            Assert.That(xpath, Is.EqualTo("/configuration/runtime/*[local-name()='assemblyBinding' and namespace-uri()='urn:schemas-microsoft-com:asm.v1'][@id='1']"));
+        }
+
+        [TestCase("/configuration/runtime/*[local-name()='assemblyBinding' and namespace-uri()='urn:schemas-microsoft-com:asm.v1'][@id='1']", 1)]
+        public void XPathContainingNamespaceIsValid(string xpath, int expectedElementCount)
+        {
+            // Arrange
+            XDocument document = XDocument.Parse(@"<configuration>
+                                                        <runtime>
+                                                            <assemblyBinding id='1' xmlns='urn:schemas-microsoft-com:asm.v1'>
+                                                               <child />
+                                                            </assemblyBinding>
+                                                            <assemblyBinding id='2' xmlns='urn:schemas-microsoft-com:asm.v1'>
+                                                                <child />
+                                                            </assemblyBinding>
+                                                        </runtime>
+                                                    </configuration>");
+            XmlReader reader = document.CreateReader();
+            XmlNamespaceManager namespaceManager = new XmlNamespaceManager(reader.NameTable);
+
+            // Act
+            int elementCount = document.XPathSelectElements(xpath, namespaceManager).Count();
+
+            // Assert
+            Assert.That(elementCount, Is.EqualTo(expectedElementCount));
         }
     }
 }

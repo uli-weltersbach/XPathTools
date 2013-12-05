@@ -23,9 +23,6 @@ namespace ReasonCodeExample.XPathInformation.Formatters
             return string.Empty;
         }
 
-        /// <summary>
-        /// Returns the XPath of the element. E.g. "/configuration/ns:settings".
-        /// </summary>
         public virtual string Format(XElement element)
         {
             if (element == null)
@@ -45,7 +42,7 @@ namespace ReasonCodeExample.XPathInformation.Formatters
 
             string namespacePrefix = element.GetPrefixOfNamespace(element.Name.Namespace);
             if (string.IsNullOrEmpty(namespacePrefix))
-                return element.Name.LocalName;
+                return string.Format("*[local-name()='{0}' and namespace-uri()='{1}']", element.Name.LocalName, element.Name.NamespaceName);
 
             return namespacePrefix + ":" + element.Name.LocalName;
         }
@@ -55,9 +52,6 @@ namespace ReasonCodeExample.XPathInformation.Formatters
             return current + "/" + next;
         }
 
-        /// <summary>
-        /// Returns the local XPath of the attribute. E.g. "[@ns:name]".
-        /// </summary>
         public virtual string Format(XAttribute attribute)
         {
             string name = GetAttributeName(attribute);

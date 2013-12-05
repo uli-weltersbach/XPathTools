@@ -2,6 +2,7 @@
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Windows;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Microsoft.VisualStudio.Shell;
@@ -64,10 +65,13 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
                 return;
             if (current.Document == null)
                 return;
-            int elementCount = current.Document.XPathSelectElements(XPath).Count();
-            string commandTextFormat = "({0} {1}) {2}";
-            string matchText = elementCount > 1 ? "matches" : "match";
-            _command.Text = string.Format(commandTextFormat, elementCount, matchText, XPath);
+            XmlReader reader = current.Document.CreateReader();
+            if (reader.NameTable == null)
+                return;
+            XmlNamespaceManager namespaceManager = new XmlNamespaceManager(reader.NameTable);
+            int elementCount = current.Document.XPathSelectElements(XPath, namespaceManager).Count();
+            string matchText = elementCount == 1 ? "match" : "matches";
+            _command.Text = string.Format("({0} {1}) {2}", elementCount, matchText, XPath);
         }
     }
 }
