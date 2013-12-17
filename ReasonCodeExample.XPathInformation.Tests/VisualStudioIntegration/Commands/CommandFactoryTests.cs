@@ -48,5 +48,45 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
             // Assert
             Assert.That(actualResult, Is.EqualTo(VSConstants.S_OK), "SetSite(null) did not return S_OK");
         }
+
+        [Test]
+        public void CanStartExperimentalInstance()
+        {
+            // Arrange
+            VisualStudioExperimentalInstance instance = null;
+            try
+            {
+                // Act
+                instance = new VisualStudioExperimentalInstance();
+
+                // Assert
+                Assert.That(instance.DevelopmentEnvironment, Is.Not.Null);
+            }
+            finally
+            {
+                if (instance != null)
+                    instance.Dispose();
+            }
+        }
+
+        [Test]
+        public void CanAccessExperimentalInstanceMainWindow()
+        {
+            // Arrange
+            VisualStudioExperimentalInstance instance = null;
+            try
+            {
+                // Act
+                instance = new VisualStudioExperimentalInstance();
+
+                // Assert
+                Assert.That(instance.MainWindow, Is.Not.Null);
+            }
+            finally
+            {
+                if (instance != null)
+                    instance.Dispose();
+            }
+        }
     }
 }

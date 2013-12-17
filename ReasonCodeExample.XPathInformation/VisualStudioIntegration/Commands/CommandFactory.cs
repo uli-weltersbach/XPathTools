@@ -29,16 +29,22 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
         protected override void Initialize()
         {
             base.Initialize();
-            IMenuCommandService service = (IMenuCommandService)GetService(typeof(IMenuCommandService));
+            Initialize((IMenuCommandService)GetService(typeof(IMenuCommandService)));
+        }
+
+        public void Initialize(IMenuCommandService commandService)
+        {
+            if (commandService == null)
+                throw new ArgumentNullException("commandService");
 
             CopyXPathCommand copyXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, new GenericXPathFormatter(), _repository);
-            copyXPathCommand.Register(service);
+            copyXPathCommand.Register(commandService);
 
             CopyXPathCommand copyAbsolutePathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyAbsoluteXPath, new AbsoluteXPathFormatter(), _repository);
-            copyAbsolutePathCommand.Register(service);
+            copyAbsolutePathCommand.Register(commandService);
 
             CopyXPathCommand copyDistinctPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, new DistinctXPathFormatter(), _repository);
-            copyDistinctPathCommand.Register(service);
+            copyDistinctPathCommand.Register(commandService);
         }
     }
 }
