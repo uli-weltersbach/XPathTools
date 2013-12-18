@@ -14,14 +14,14 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
     {
         private const string SolutionExists = "{f1536ef8-92ec-443c-9ed7-fdadf150da82}";
         private const string MenuResourceID = "CommandFactory.ctmenu";
-        private readonly XPathRepository _repository;
+        private readonly XObjectRepository _repository;
 
         public CommandFactory()
-            : this(new XPathRepository())
+            : this(new XObjectRepository())
         {
         }
 
-        public CommandFactory(XPathRepository repository)
+        public CommandFactory(XObjectRepository repository)
         {
             _repository = repository;
         }
@@ -36,15 +36,14 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
         {
             if (commandService == null)
                 throw new ArgumentNullException("commandService");
-
-            CopyXPathCommand copyGenericXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, new GenericXPathFormatter(), _repository);
-            copyGenericXPathCommand.Register(commandService);
-
-            CopyXPathCommand copyAbsoluteXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyAbsoluteXPath, new AbsoluteXPathFormatter(), _repository);
-            copyAbsoluteXPathCommand.Register(commandService);
-
-            CopyXPathCommand copyDistinctXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, new DistinctXPathFormatter(), _repository);
-            copyDistinctXPathCommand.Register(commandService);
+            CopyCommand copyGenericXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, _repository, new GenericXPathFormatter());
+            commandService.AddCommand(copyGenericXPathCommand);
+            CopyCommand copyAbsoluteXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyAbsoluteXPath, _repository, new AbsoluteXPathFormatter());
+            commandService.AddCommand(copyAbsoluteXPathCommand);
+            CopyCommand copyDistinctXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, _repository, new DistinctXPathFormatter());
+            commandService.AddCommand(copyDistinctXPathCommand);
+            CopyCommand copyXmlStructureCommand = new CopyXmlStructureCommand(Symbols.CommandIDs.CopyXmlStructure, _repository);
+            commandService.AddCommand(copyXmlStructureCommand);
         }
     }
 }

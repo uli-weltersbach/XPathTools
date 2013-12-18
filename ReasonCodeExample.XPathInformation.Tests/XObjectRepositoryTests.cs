@@ -4,15 +4,15 @@ using NUnit.Framework;
 namespace ReasonCodeExample.XPathInformation.Tests
 {
     [TestFixture]
-    public class XPathRepositoryTests
+    public class XObjectRepositoryTests
     {
         [Test]
         public void XPathIsStored()
         {
             // Arrange
             XElement expectedValue = new XElement("value");
-            XPathRepository repository = new XPathRepository();
-            XPathRepository otherRepository = new XPathRepository();
+            XObjectRepository repository = new XObjectRepository();
+            XObjectRepository otherRepository = new XObjectRepository();
 
             // Act
             repository.Put(expectedValue);

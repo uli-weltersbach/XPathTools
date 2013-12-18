@@ -13,7 +13,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         private readonly IVsStatusbar _statusbar;
         private readonly ResultCachingXmlParser _parser = new ResultCachingXmlParser();
         private readonly XmlNodeRepository _nodeRepository = new XmlNodeRepository();
-        private readonly XPathRepository _pathRepository = new XPathRepository();
+        private readonly XObjectRepository _objectRepository = new XObjectRepository();
         private readonly IXPathFormatter _formatter = new GenericXPathFormatter();
 
         public XPathStatusbarInformation(ITextView textView)
@@ -36,7 +36,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             try
             {
                 StoreCurrentNode(e.TextView);
-                string xpath = _formatter.Format(_pathRepository.Get());
+                string xpath = _formatter.Format(_objectRepository.Get());
                 _statusbar.SetText(xpath);
             }
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             XElement rootElement = _parser.Parse(xml);
             XElement selectedElement = _nodeRepository.GetElement(rootElement, lineNumber, linePosition);
             XAttribute selectedAttribute = _nodeRepository.GetAttribute(selectedElement, lineNumber, linePosition);
-            _pathRepository.Put(selectedAttribute as XObject ?? selectedElement);
+            _objectRepository.Put(selectedAttribute as XObject ?? selectedElement);
         }
     }
 }

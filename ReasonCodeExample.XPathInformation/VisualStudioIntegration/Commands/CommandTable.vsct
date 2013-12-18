@@ -66,6 +66,18 @@
                     <CommandName>CopyDistinctXPath</CommandName>
                 </Strings>
             </Button>
+
+            <Button guid="PackageID" id="CopyXmlStructureCommand" priority="0x0100" type="Button">
+                <Parent guid="PackageID" id="MenuGroup" />
+                <Icon guid="ImagesID" id="CopyXmlStructureCommandIcon" />
+                <CommandFlag>DontCache</CommandFlag>
+                <CommandFlag>DynamicVisibility</CommandFlag>
+                <Strings>
+                    <ButtonText>Copy XML structure</ButtonText>
+                    <MenuText>Copy XML structure</MenuText>
+                    <CommandName>CopyXmlStructure</CommandName>
+                </Strings>
+            </Button>
         </Buttons>
 
         <Bitmaps>
@@ -77,7 +89,7 @@
         <CommandPlacement guid="PackageID" id="CopyGenericXPathCommand" priority="0x0100">
             <Parent guid="PackageID" id="SubMenu"/>
         </CommandPlacement>
-        
+
         <CommandPlacement guid="PackageID" id="CopyAbsoluteXPathCommand" priority="0x0200">
             <Parent guid="PackageID" id="SubMenu"/>
         </CommandPlacement>
@@ -91,11 +103,13 @@
             <IDSymbol name="CopyGenericXPathCommand" value="0x1022" />
             <IDSymbol name="CopyAbsoluteXPathCommand" value="0x1023" />
             <IDSymbol name="CopyDistinctXPathCommand" value="0x1024" />
+            <IDSymbol name="CopyXmlStructureCommand" value="0x1025" />
         </GuidSymbol>
         <GuidSymbol name="ImagesID" value="{ccf04725-e060-4d02-9cd7-2d86a3742cd3}" >
             <IDSymbol name="CopyGenericXPathCommandIcon" value="1" />
             <IDSymbol name="CopyAbsoluteXPathCommandIcon" value="2" />
-            <IDSymbol name="CopyDistinctXPathCommandIcon" value="3" />            
+            <IDSymbol name="CopyDistinctXPathCommandIcon" value="3" />
+            <IDSymbol name="CopyXmlStructureCommandIcon" value="4" />
         </GuidSymbol>
     </Symbols>
 </CommandTable>

@@ -84,7 +84,8 @@
     <Compile Include="SimpleXmlNamespaceResolverTests.cs" />
     <Compile Include="XmlNodeRepositoryTests.cs" />
     <Compile Include="Formatters\GenericXPathFormatterTests.cs" />
-    <Compile Include="XPathRepositoryTests.cs" />
+    <Compile Include="Formatters\XmlStructureFormatterTests.cs" />
+    <Compile Include="XObjectRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 namespace ReasonCodeExample.XPathInformation
 {
-    internal class XPathRepository
+    internal class XObjectRepository
     {
         private static readonly object Lock = new object();
         private static XObject _stored;
