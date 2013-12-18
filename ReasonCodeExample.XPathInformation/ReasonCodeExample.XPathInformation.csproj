@@ -91,6 +91,7 @@
     <Compile Include="Formatters\AbsoluteXPathFormatter.cs" />
     <Compile Include="Formatters\DistinctXPathFormatter.cs" />
     <Compile Include="Formatters\IXPathFormatter.cs" />
+    <Compile Include="SimpleXmlNamespaceResolver.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandFactory.cs" />
     <Compile Include="ResultCachingXmlParser.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommand.cs" />

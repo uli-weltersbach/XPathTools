@@ -2,7 +2,6 @@
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Windows;
-using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Microsoft.VisualStudio.Shell;
@@ -48,28 +47,43 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 
         private void OnBeforeQueryStatus(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(XPath))
-                _command.Visible = false;
-            else
+            try
             {
+                if (string.IsNullOrEmpty(XPath))
+                {
+                    _command.Visible = false;
+                    return;
+                }
+                int elementCount = GetElementCount(XPath);
+                if (elementCount == 0)
+                {
+                    _command.Visible = false;
+                    return;
+                }
                 _command.Visible = true;
-                SetCommandText();
+                SetCommandText(elementCount);
+            }
+            catch (Exception ex)
+            {
+                // Ignore.
             }
         }
 
-        private void SetCommandText()
+        private int GetElementCount(string xpath)
         {
-            _command.Text = XPath;
             XObject current = _repository.Get();
             if (current == null)
-                return;
+                return 0;
             if (current.Document == null)
-                return;
-            XmlReader reader = current.Document.CreateReader();
-            if (reader.NameTable == null)
-                return;
-            XmlNamespaceManager namespaceManager = new XmlNamespaceManager(reader.NameTable);
-            int elementCount = current.Document.XPathSelectElements(XPath, namespaceManager).Count();
+                return 0;
+            if (current.Document.Root == null)
+                return 0;
+            return current.Document.XPathSelectElements(xpath, new SimpleXmlNamespaceResolver(current.Document)).Count();
+        }
+
+        private void SetCommandText(int elementCount)
+        {
+            _command.Text = XPath;
             string matchText = elementCount == 1 ? "match" : "matches";
             _command.Text = string.Format("({0} {1}) {2}", elementCount, matchText, XPath);
         }

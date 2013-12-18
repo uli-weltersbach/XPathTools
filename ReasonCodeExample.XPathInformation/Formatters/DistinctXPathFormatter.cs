@@ -80,7 +80,8 @@ namespace ReasonCodeExample.XPathInformation.Formatters
         private string GetDistinctPath(XElement element, IEnumerable<string> paths)
         {
             XDocument document = new XDocument(element.AncestorsAndSelf().Last());
-            string distinctPath = paths.FirstOrDefault(path => document.XPathSelectElements(path).Count() == 1);
+            SimpleXmlNamespaceResolver resolver = new SimpleXmlNamespaceResolver(document);
+            string distinctPath = paths.FirstOrDefault(path => document.XPathSelectElements(path, resolver).Count() == 1);
             return distinctPath ?? string.Empty;
         }
     }

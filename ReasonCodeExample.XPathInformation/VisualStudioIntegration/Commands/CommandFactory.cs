@@ -37,14 +37,14 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
             if (commandService == null)
                 throw new ArgumentNullException("commandService");
 
-            CopyXPathCommand copyXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, new GenericXPathFormatter(), _repository);
-            copyXPathCommand.Register(commandService);
+            CopyXPathCommand copyGenericXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, new GenericXPathFormatter(), _repository);
+            copyGenericXPathCommand.Register(commandService);
 
-            CopyXPathCommand copyAbsolutePathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyAbsoluteXPath, new AbsoluteXPathFormatter(), _repository);
-            copyAbsolutePathCommand.Register(commandService);
+            CopyXPathCommand copyAbsoluteXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyAbsoluteXPath, new AbsoluteXPathFormatter(), _repository);
+            copyAbsoluteXPathCommand.Register(commandService);
 
-            CopyXPathCommand copyDistinctPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, new DistinctXPathFormatter(), _repository);
-            copyDistinctPathCommand.Register(commandService);
+            CopyXPathCommand copyDistinctXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, new DistinctXPathFormatter(), _repository);
+            copyDistinctXPathCommand.Register(commandService);
         }
     }
 }
