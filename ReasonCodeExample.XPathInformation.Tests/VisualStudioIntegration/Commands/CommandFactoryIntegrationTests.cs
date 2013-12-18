@@ -1,73 +1,71 @@
-﻿using System;
-using EnvDTE;
-using Microsoft.VSSDK.Tools.VsIdeTesting;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
+﻿using System.Text;
+using System.Windows.Automation;
+using NUnit.Framework;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Commands
 {
-    /// <summary>
-    /// These tests have to be run using the Microsoft test runner.
-    /// </summary>
-    [TestClass]
+    [TestFixture]
     public class CommandFactoryIntegrationTests
     {
-        private const string VisualStudioHostType = "VS IDE";
-
-        [TestMethod]
-        [HostType(VisualStudioHostType)]
-        public void CanCreateServiceProvider()
-        {
-            // Act
-            IServiceProvider serviceProvider = VsIdeTestHostContext.ServiceProvider;
-
-            // Assert
-            Assert.IsNotNull(serviceProvider, "VsIdeTestHostContext.ServiceProvider is null");
-        }
-
-        [TestMethod]
-        [HostType(VisualStudioHostType)]
-        public void CanCreateVisualStudioShell()
+        [Test]
+        public void CanStartExperimentalInstance()
         {
             // Arrange
-            IServiceProvider serviceProvider = VsIdeTestHostContext.ServiceProvider;
+            VisualStudioExperimentalInstance instance = null;
+            try
+            {
+                // Act
+                instance = new VisualStudioExperimentalInstance();
 
-            // Act
-            IVsShell vistualStudioShell = serviceProvider.GetService(typeof (SVsShell)) as IVsShell;
-
-            // Assert
-            Assert.IsNotNull(vistualStudioShell, "vistualStudioShell is null");
+                // Assert
+                Assert.That(instance.DevelopmentEnvironment, Is.Not.Null);
+            }
+            finally
+            {
+                if (instance != null)
+                    instance.Dispose();
+            }
         }
 
-        [TestMethod]
-        [HostType(VisualStudioHostType)]
-        public void CanLoadPackage()
+        [Test]
+        public void CanAccessExperimentalInstanceMainWindow()
         {
             // Arrange
-            IServiceProvider serviceProvider = VsIdeTestHostContext.ServiceProvider;
-            IVsShell visualStudioShell = serviceProvider.GetService(typeof (SVsShell)) as IVsShell;
-            Guid packageGuid = new Guid(Symbols.PackageID);
-            IVsPackage package;
+            VisualStudioExperimentalInstance instance = null;
+            try
+            {
+                // Act
+                instance = new VisualStudioExperimentalInstance();
 
-            // Act
-            int actualLoadPackageResult = visualStudioShell.LoadPackage(ref packageGuid, out package);
-
-            // Assert
-            Assert.AreEqual(VSConstants.S_OK, actualLoadPackageResult, "Load package result wasn't S_OK");
-            Assert.IsNotNull(package, "Package failed to load");
+                // Assert
+                Assert.That(instance.MainWindow, Is.Not.Null);
+            }
+            finally
+            {
+                if (instance != null)
+                    instance.Dispose();
+            }
         }
 
-        [TestMethod]
-        [HostType(VisualStudioHostType)]
-        public void CanCreateDTE()
+        [Test]
+        public void ExtensionIsLoaded()
         {
-            // Act
-            DTE dte = VsIdeTestHostContext.Dte;
+            // Arrange
+            VisualStudioExperimentalInstance instance = null;
+            try
+            {
+                // Act
+                instance = new VisualStudioExperimentalInstance();
+                var menu = instance.MainWindow.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.NameProperty, "Tools", PropertyConditionFlags.IgnoreCase));
 
-            // Assert
-            Assert.IsNotNull(dte, "VsIdeTestHostContext.Dte is null");
+                // Assert
+                Assert.That(menu, Is.Not.Null);
+            }
+            finally
+            {
+                if (instance != null)
+                    instance.Dispose();
+            }
         }
     }
 }
