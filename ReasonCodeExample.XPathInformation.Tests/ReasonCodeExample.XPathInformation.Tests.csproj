@@ -82,14 +82,9 @@
     <Compile Include="Formatters\AbsoluteXPathFormatterTests.cs" />
     <Compile Include="Formatters\DistinctXPathFormatterTests.cs" />
     <Compile Include="SimpleXmlNamespaceResolverTests.cs" />
-    <Compile Include="VisualStudioExperimentalInstance.cs" />
-    <Compile Include="VisualStudioIntegration\Commands\CommandFactoryTests.cs" />
-    <Compile Include="VisualStudioIntegration\Commands\CommandFactoryIntegrationTests.cs" />
-    <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommandIntegrationTests.cs" />
     <Compile Include="XmlNodeRepositoryTests.cs" />
     <Compile Include="Formatters\GenericXPathFormatterTests.cs" />
     <Compile Include="XPathRepositoryTests.cs" />
-    <Compile Include="VisualStudioIntegration\XPathStatusBarInformationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
