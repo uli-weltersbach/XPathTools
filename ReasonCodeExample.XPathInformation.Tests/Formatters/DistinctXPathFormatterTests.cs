@@ -31,6 +31,21 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
             Assert.That(actualXPath, Is.EqualTo(expectedXPath));
         }
 
+        [TestCase("<a:element xmlns:a=\"1\" xmlns:b=\"2\"><b:element id=\"1\"/><b:element id=\"2\"/><b:element id=\"3\"/></a:element>", "id", 3, "/a:element/b:element[@id='3']")]
+        public void PreferredAttributeIsNotDuplicatedInDistinctPath(string xml, string testAttributeName, int testElementIndex, string expectedXPath)
+        {
+            // Arrange
+            XElement element = XElement.Parse(xml);
+            XElement testElement = (XElement)element.DescendantNodesAndSelf().ElementAt(testElementIndex);
+            XAttribute testAttribute = testElement.Attribute(testAttributeName);
+
+            // Act
+            string actualXPath = _formatter.Format(testAttribute as XObject);
+
+            // Assert
+            Assert.That(actualXPath, Is.EqualTo(expectedXPath));
+        }
+
         [Test]
         public void ElementNamespaceFormat()
         {

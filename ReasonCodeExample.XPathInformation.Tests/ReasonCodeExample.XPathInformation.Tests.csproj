@@ -75,11 +75,13 @@
     <Reference Include="UIAutomationClient" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CaretPositionLineInfoTests.cs" />
     <Compile Include="Formatters\AbsoluteXPathFormatterTests.cs" />
     <Compile Include="Formatters\DistinctXPathFormatterTests.cs" />
+    <Compile Include="SimpleXmlNamespaceResolverTests.cs" />
     <Compile Include="VisualStudioExperimentalInstance.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandFactoryTests.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandFactoryIntegrationTests.cs" />

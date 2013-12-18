@@ -14,7 +14,11 @@ namespace ReasonCodeExample.XPathInformation.Formatters
             {
                 string elementPath = Format(attribute.Parent);
                 string attributePath = Format(attribute);
-                return string.IsNullOrEmpty(elementPath) ? string.Empty : elementPath + attributePath;
+                if (string.IsNullOrEmpty(elementPath))
+                    return string.Empty;
+                if (elementPath.EndsWith(attributePath))
+                    return elementPath;
+                return elementPath + attributePath;
             }
             if (obj is XElement)
             {
