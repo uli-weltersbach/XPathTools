@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Xml.Linq;
+using ReasonCodeExample.XPathInformation.Formatters;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {
@@ -29,7 +30,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
             {
                 element = obj.Parent;
             }
-            return element == null ? string.Empty : element.ToString(SaveOptions.None);
+            return new XmlStructureFormatter().Format(element).ToString(SaveOptions.None);
         }
 
         protected override void OnBeforeQueryStatus(object sender, EventArgs e)
