@@ -9,22 +9,27 @@ namespace ReasonCodeExample.XPathInformation.Formatters
     {
         public virtual string Format(XObject obj)
         {
-            XAttribute attribute = obj as XAttribute;
             if (obj is XAttribute)
             {
-                string elementPath = Format(attribute.Parent);
-                string attributePath = Format(attribute);
-                if (string.IsNullOrEmpty(elementPath))
-                    return string.Empty;
-                if (elementPath.EndsWith(attributePath))
-                    return elementPath;
-                return elementPath + attributePath;
+                XAttribute attribute = (XAttribute)obj;
+                return Format(attribute.Parent, attribute);
             }
             if (obj is XElement)
             {
-                return Format(obj as XElement);
+                return Format((XElement)obj);
             }
             return string.Empty;
+        }
+
+        protected virtual string Format(XElement parent, XAttribute attribute)
+        {
+            string elementPath = Format(parent);
+            string attributePath = Format(attribute);
+            if (string.IsNullOrEmpty(elementPath))
+                return string.Empty;
+            if (elementPath.EndsWith(attributePath))
+                return elementPath;
+            return elementPath + attributePath;
         }
 
         public virtual string Format(XElement element)

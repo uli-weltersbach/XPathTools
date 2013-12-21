@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace ReasonCodeExample.XPathInformation.Formatters
 {
@@ -10,20 +11,26 @@ namespace ReasonCodeExample.XPathInformation.Formatters
         {
             if (element == null)
                 return null;
-            XElement root = element.AncestorsAndSelf().Last();
-            XElement copy = new XElement(root);
-            List<XElement> ancestorsAndSelf = copy.AncestorsAndSelf().ToList();
-            List<XElement> descendants = copy.Descendants().ToList();
-            List<XElement> allElements = root.DescendantsAndSelf().ToList();
-            foreach (XElement e in allElements)
+            XElement originalRoot = element.AncestorsAndSelf().Last();
+            XDocument copyDocument = new XDocument(new XElement(originalRoot));
+            string xpath = new AbsoluteXPathFormatter().Format(element);
+            IList<XElement> copiesToKeep = GetElementsToKeep(copyDocument, xpath);
+            IList<XElement> allCopies = copyDocument.Root.DescendantsAndSelf().ToArray();
+            foreach (XElement copy in allCopies)
             {
-                if (ancestorsAndSelf.Contains(e))
-                    continue;
-                if (descendants.Contains(e))
-                    continue;
-                e.Remove();
+                if (!copiesToKeep.Contains(copy))
+                    copy.Remove();
             }
-            return root;
+            return copyDocument.Root;
+        }
+
+        private IList<XElement> GetElementsToKeep(XDocument copyDocument, string xpath)
+        {
+            List<XElement> elementsToKeep = new List<XElement>();
+            XElement element = copyDocument.XPathSelectElement(xpath, new SimpleXmlNamespaceResolver(copyDocument));
+            elementsToKeep.AddRange(element.AncestorsAndSelf());
+            elementsToKeep.AddRange(element.Descendants());
+            return elementsToKeep;
         }
     }
 }
