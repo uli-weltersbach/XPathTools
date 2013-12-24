@@ -11,17 +11,23 @@ namespace ReasonCodeExample.XPathInformation.Formatters
         {
             if (element == null)
                 return null;
+            XDocument shallowCopy = CopyAncestorsAndDescendantsOf(element);
+            return shallowCopy.Root;
+        }
+
+        private XDocument CopyAncestorsAndDescendantsOf(XElement element)
+        {
             XElement originalRoot = element.AncestorsAndSelf().Last();
             XDocument copyDocument = new XDocument(new XElement(originalRoot));
             string xpath = new AbsoluteXPathFormatter().Format(element);
-            IList<XElement> copiesToKeep = GetElementsToKeep(copyDocument, xpath);
-            IList<XElement> allCopies = copyDocument.Root.DescendantsAndSelf().ToArray();
-            foreach (XElement copy in allCopies)
+            IList<XElement> elementsToKeep = GetElementsToKeep(copyDocument, xpath);
+            IList<XElement> allElements = copyDocument.Root.DescendantsAndSelf().ToArray();
+            foreach (XElement copy in allElements)
             {
-                if (!copiesToKeep.Contains(copy))
+                if (!elementsToKeep.Contains(copy))
                     copy.Remove();
             }
-            return copyDocument.Root;
+            return copyDocument;
         }
 
         private IList<XElement> GetElementsToKeep(XDocument copyDocument, string xpath)
