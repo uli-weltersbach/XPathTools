@@ -23,6 +23,22 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
             }
         }
 
+        private Process FindExperimentalInstance()
+        {
+            return Process.GetProcessesByName("devenv").FirstOrDefault(p => p.MainWindowTitle.ToLower().Contains("experimental instance"));
+        }
+
+        public void ReStart()
+        {
+            Stop();
+            string programsFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+            FileInfo executablePath = new FileInfo(Path.Combine(programsFolder, "Microsoft Visual Studio 11.0", "Common7", "IDE", "devenv.exe"));
+            if (!executablePath.Exists)
+                throw new FileNotFoundException(string.Format("Didn't find Visual Studio executable at \"{0}\".", executablePath));
+            // The VisualStudio process spawns a new process with a different ID.
+            Process.Start(new ProcessStartInfo(executablePath.FullName, "/RootSuffix Exp"));
+        }
+
         public void WaitUntillStarted()
         {
             WaitUntillStarted(TimeSpan.FromMinutes(3));
@@ -39,22 +55,6 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
                     return;
             }
             throw new TimeoutException(string.Format("Visual Studio wasn't started within {0}.", timeoutDuration));
-        }
-
-        public void ReStart()
-        {
-            Stop();
-            string programsFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-            FileInfo executablePath = new FileInfo(Path.Combine(programsFolder, "Microsoft Visual Studio 11.0", "Common7", "IDE", "devenv.exe"));
-            if (!executablePath.Exists)
-                throw new FileNotFoundException(string.Format("Didn't find Visual Studio executable at \"{0}\".", executablePath));
-            // The VisualStudio process spawns a new process with a different ID.
-            Process.Start(new ProcessStartInfo(executablePath.FullName, "/RootSuffix Exp"));
-        }
-
-        private Process FindExperimentalInstance()
-        {
-            return Process.GetProcessesByName("devenv").FirstOrDefault(p => p.MainWindowTitle.ToLower().Contains("experimental instance"));
         }
 
         public void Stop()
