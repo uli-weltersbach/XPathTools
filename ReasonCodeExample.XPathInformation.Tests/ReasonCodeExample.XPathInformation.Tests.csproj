@@ -82,6 +82,8 @@
     <Compile Include="Formatters\AbsoluteXPathFormatterTests.cs" />
     <Compile Include="Formatters\DistinctXPathFormatterTests.cs" />
     <Compile Include="SimpleXmlNamespaceResolverTests.cs" />
+    <Compile Include="VisualStudioIntegration\XPathStatusbarInformationTests.cs" />
+    <Compile Include="VisualStudioIntegration\VisualStudioExperimentalInstance.cs" />
     <Compile Include="XmlNodeRepositoryTests.cs" />
     <Compile Include="Formatters\GenericXPathFormatterTests.cs" />
     <Compile Include="Formatters\XmlStructureFormatterTests.cs" />
@@ -98,6 +100,9 @@
       <Project>{19883877-2b18-4afa-9eb0-cd5d1f0726b1}</Project>
       <Name>ReasonCodeExample.XPathInformation</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="VisualStudioIntegration\Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
