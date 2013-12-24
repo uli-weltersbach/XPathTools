@@ -6,7 +6,7 @@ using System.Windows.Automation;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 {
-    internal class VisualStudioExperimentalInstance : IDisposable
+    internal class VisualStudioExperimentalInstance
     {
         private AutomationElement _mainWindow;
 
@@ -39,11 +39,6 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
                     return;
             }
             throw new TimeoutException(string.Format("Visual Studio wasn't started within {0}.", timeoutDuration));
-        }
-
-        public void Dispose()
-        {
-            Stop();
         }
 
         public void ReStart()
