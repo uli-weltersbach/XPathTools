@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using System.Text.RegularExpressions;
 using System.Windows.Automation;
 using NUnit.Framework;
+using System;
+using System.Windows;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Commands
 {
@@ -29,19 +27,33 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
 
         [Test]
         [STAThread]
-        public void XPathIsCopiedToClipboard()
+        public void XPathCommandsAreAvailable()
         {
             // Arrange
             string xml = "<xml />";
             _instance.OpenXmlFile(xml, 2);
-            string menuText = "Copy XPath";
-            string commandText = "Copy generic XPath";
 
             // Act
-            _instance.ExecuteContextMenuCommand(menuText, commandText);
+            IList<AutomationElement> matches = _instance.GetAvailableCopyXPathCommands();
 
             // Assert
-            Assert.That(Clipboard.GetText(), Is.EqualTo("/xml"));
+            Assert.That(matches.Count, Is.EqualTo(3));
+        }
+
+        [TestCase("<xml />", 2, "/xml")]
+        [STAThread]
+        public void GenericXPathIsCopiedToClipboard(string xml, int caretPosition, string expectedXPath)
+        {
+            // Arrange
+            _instance.OpenXmlFile(xml, caretPosition);
+            IList<AutomationElement> matches = _instance.GetAvailableCopyXPathCommands();
+            AutomationElement copyGenericXPathCommand = matches.First();
+
+            // Act
+            copyGenericXPathCommand.LeftClick();
+
+            // Assert
+            Assert.That(Clipboard.GetText(), Is.EqualTo(expectedXPath));
         }
     }
 }

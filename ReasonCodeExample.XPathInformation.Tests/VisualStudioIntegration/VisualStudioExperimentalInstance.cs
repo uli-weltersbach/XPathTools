@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Automation;
 using System.Windows.Forms;
@@ -11,16 +13,17 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
     internal class VisualStudioExperimentalInstance
     {
         private AutomationElement _mainWindow;
+        private Process _process;
 
         public AutomationElement MainWindow
         {
             get
             {
-                Process process = FindExperimentalInstance();
-                if (process == null)
+                _process = FindExperimentalInstance();
+                if (_process == null)
                     return null;
                 if (_mainWindow == null)
-                    _mainWindow = AutomationElement.RootElement.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ProcessIdProperty, process.Id));
+                    _mainWindow = AutomationElement.RootElement.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ProcessIdProperty, _process.Id));
                 return _mainWindow;
             }
         }
@@ -67,34 +70,60 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 
         public void OpenXmlFile(string content, int caretPosition)
         {
+            OpenNewFileDialog();
+            OpenNewXmlFile();
+            InsertContentIntoNewXmlFile(content);
+            SetCaretPosition(caretPosition);
+        }
+
+        private void OpenNewFileDialog()
+        {
             MainWindow.FindDescendant("File").LeftClick();
             MainWindow.FindDescendant("New").LeftClick();
             MainWindow.FindDescendant("File...").LeftClick();
-
-            // XML File entry in "New File" dialog.
-            MainWindow.FindDescendant("XML File").LeftClick();
-            MainWindow.FindDescendant("Open").LeftClick();
-
-            WriteContent(content, caretPosition);
         }
 
-        private static void WriteContent(string content, int caretPosition)
+        private void OpenNewXmlFile()
         {
-            // Write content starting on new line
+            MainWindow.FindDescendant("XML File").LeftClick();
+            MainWindow.FindDescendant("Open").LeftClick();
+        }
+
+        private void InsertContentIntoNewXmlFile(string content)
+        {
+            // Write content starting on a new line, after the XML declaration
             SendKeys.SendWait("{End}");
             SendKeys.SendWait("{Enter}");
             SendKeys.SendWait(content);
+        }
+
+        private void SetCaretPosition(int caretPosition)
+        {
+            // Go to the start of the line and move forward from there
             SendKeys.SendWait("{Home}");
             SendKeys.SendWait("{Right " + caretPosition + "}");
         }
 
-        public void ExecuteContextMenuCommand(string menuText, string commandText)
+        public IList<AutomationElement> GetAvailableCopyXPathCommands()
+        {
+            return GetContextMenuCommands("Copy XPath", new Regex(@"\(\d+ match"));
+        }
+
+        public IList<AutomationElement> GetContextMenuCommands(string subMenuName, Regex commandName)
         {
             // Use "shift F10" shortcut to open context menu
             SendKeys.SendWait("+{F10}");
-            MainWindow.FindDescendant(menuText).LeftClick();
-            MainWindow.FindDescendant(commandText).LeftClick();
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+
+            MainWindow.FindDescendant(subMenuName).LeftClick();
+
+            AutomationElementCollection descendants = MainWindow.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ProcessIdProperty, _process.Id));
+            return (from AutomationElement descendant in descendants
+                    where descendant.GetSupportedProperties().Contains(AutomationElement.NameProperty)
+                    let elementName = descendant.GetCurrentPropertyValue(AutomationElement.NameProperty)
+                    where elementName != null
+                    where commandName.IsMatch(elementName.ToString())
+                    select descendant).Distinct().ToArray();
         }
     }
 }
