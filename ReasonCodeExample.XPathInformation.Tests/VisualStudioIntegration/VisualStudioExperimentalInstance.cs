@@ -108,10 +108,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
         {
             // Use "shift F10" shortcut to open context menu
             SendKeys.SendWait("+{F10}");
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-
             MainWindow.FindDescendant(subMenuName).LeftClick();
-
             AutomationElementCollection descendants = MainWindow.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ProcessIdProperty, _process.Id));
             return (from AutomationElement descendant in descendants
                     where descendant.GetSupportedProperties().Contains(AutomationElement.NameProperty)
