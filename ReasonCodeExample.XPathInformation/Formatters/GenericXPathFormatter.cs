@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -11,14 +10,26 @@ namespace ReasonCodeExample.XPathInformation.Formatters
         {
             if (obj is XAttribute)
             {
-                XAttribute attribute = (XAttribute)obj;
+                XAttribute attribute = (XAttribute) obj;
                 return Format(attribute.Parent, attribute);
             }
             if (obj is XElement)
-            {
-                return Format((XElement)obj);
-            }
+                return Format((XElement) obj);
             return string.Empty;
+        }
+
+        public virtual string Format(XElement element)
+        {
+            if (element == null)
+                return string.Empty;
+            return GetElementXPath(element);
+        }
+
+        public virtual string Format(XAttribute attribute)
+        {
+            string name = GetAttributeName(attribute);
+            string value = GetAttributeValue(attribute);
+            return string.Format("[{0}='{1}']", name, value);
         }
 
         protected virtual string Format(XElement parent, XAttribute attribute)
@@ -30,13 +41,6 @@ namespace ReasonCodeExample.XPathInformation.Formatters
             if (elementPath.EndsWith(attributePath))
                 return elementPath;
             return elementPath + attributePath;
-        }
-
-        public virtual string Format(XElement element)
-        {
-            if (element == null)
-                return string.Empty;
-            return GetElementXPath(element);
         }
 
         protected virtual string GetElementXPath(XElement element)
@@ -59,13 +63,6 @@ namespace ReasonCodeExample.XPathInformation.Formatters
         protected virtual string ConcatenateXPath(string current, string next)
         {
             return current + "/" + next;
-        }
-
-        public virtual string Format(XAttribute attribute)
-        {
-            string name = GetAttributeName(attribute);
-            string value = GetAttributeValue(attribute);
-            return string.Format("[{0}='{1}']", name, value);
         }
 
         protected virtual string GetAttributeName(XAttribute attribute)

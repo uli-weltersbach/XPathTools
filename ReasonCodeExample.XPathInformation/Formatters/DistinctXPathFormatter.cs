@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -9,7 +8,7 @@ namespace ReasonCodeExample.XPathInformation.Formatters
 {
     internal class DistinctXPathFormatter : GenericXPathFormatter
     {
-        private readonly IList<string> _preferredAttributeCandidates = new[] { "id", "name", "type" };
+        private readonly IList<string> _preferredAttributeCandidates = new[] {"id", "name", "type"};
 
         protected override string GetElementXPath(XElement element)
         {
@@ -50,7 +49,7 @@ namespace ReasonCodeExample.XPathInformation.Formatters
                 foreach (XElement sibling in siblings)
                 {
                     if (HasDifferentAttributeValue(attributeCandidate, sibling))
-                        return new[] { GetElementName(element) + Format(attributeCandidate) };
+                        return new[] {GetElementName(element) + Format(attributeCandidate)};
                 }
             }
             return attributeCandidates.Select(attributeCandidate => GetElementName(element) + Format(attributeCandidate)).ToArray();
@@ -65,11 +64,11 @@ namespace ReasonCodeExample.XPathInformation.Formatters
 
         private IEnumerable<IEnumerable<T>> GetCartesianProduct<T>(IEnumerable<IEnumerable<T>> sequences)
         {
-            IEnumerable<IEnumerable<T>> emptyCartesianProduct = new[] { Enumerable.Empty<T>() };
+            IEnumerable<IEnumerable<T>> emptyCartesianProduct = new[] {Enumerable.Empty<T>()};
             return sequences.Aggregate(emptyCartesianProduct, (accumulator, sequence) =>
-                                                              from accumulatorSequence in accumulator
-                                                              from item in sequence
-                                                              select accumulatorSequence.Concat(new[] { item }));
+                from accumulatorSequence in accumulator
+                from item in sequence
+                select accumulatorSequence.Concat(new[] {item}));
         }
 
         private IEnumerable<string> ConcatenateXPaths(IEnumerable<IEnumerable<string>> cartesianProduct)

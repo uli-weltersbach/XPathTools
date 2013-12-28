@@ -23,12 +23,6 @@ namespace ReasonCodeExample.XPathInformation
             }
         }
 
-        private string GetNamespacePrefix(XElement element)
-        {
-            Match match = Regex.Match(element.ToString(SaveOptions.DisableFormatting), @"^<(?'NamespacePrefix'\w+):");
-            return match.Success ? match.Groups["NamespacePrefix"].Value : string.Empty;
-        }
-
         public IDictionary<string, string> GetNamespacesInScope(XmlNamespaceScope scope)
         {
             return _namespaces;
@@ -42,6 +36,12 @@ namespace ReasonCodeExample.XPathInformation
         public string LookupPrefix(string namespaceName)
         {
             return _namespaces.ContainsKey(namespaceName) ? _namespaces[namespaceName] : null;
+        }
+
+        private string GetNamespacePrefix(XElement element)
+        {
+            Match match = Regex.Match(element.ToString(SaveOptions.DisableFormatting), @"^<(?'NamespacePrefix'\w+):");
+            return match.Success ? match.Groups["NamespacePrefix"].Value : string.Empty;
         }
     }
 }

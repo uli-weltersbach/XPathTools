@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
 
@@ -7,31 +8,31 @@ namespace ReasonCodeExample.XPathInformation.Tests
     [TestFixture]
     public class SimpleXmlNamespaceResolverTests
     {
-        [TestCase("<a:element xmlns:a=\"1\"/>", new[] { "1" })]
-        [TestCase("<a:element xmlns:a=\"1\"><b:element xmlns:b=\"2\"/></a:element>", new[] { "1", "2" })]
+        [TestCase("<a:element xmlns:a=\"1\"/>", new[] {"1"})]
+        [TestCase("<a:element xmlns:a=\"1\"><b:element xmlns:b=\"2\"/></a:element>", new[] {"1", "2"})]
         public void NamespaceNamesAreParsedCorrectly(string xml, string[] expectedNamespaces)
         {
             // Arrange
             XDocument document = XDocument.Parse(xml);
 
             // Act
-            var manager = new SimpleXmlNamespaceResolver(document);
-            var namespaces = manager.GetNamespacesInScope(XmlNamespaceScope.All).Keys;
+            SimpleXmlNamespaceResolver manager = new SimpleXmlNamespaceResolver(document);
+            ICollection<string> namespaces = manager.GetNamespacesInScope(XmlNamespaceScope.All).Keys;
 
             // Assert
             Assert.That(namespaces, Is.EquivalentTo(expectedNamespaces));
         }
 
-        [TestCase("<a:element xmlns:a=\"1\"/>", new[] { "a" })]
-        [TestCase("<a:element xmlns:a=\"1\"><b:element xmlns:b=\"2\"/></a:element>", new[] { "a", "b" })]
+        [TestCase("<a:element xmlns:a=\"1\"/>", new[] {"a"})]
+        [TestCase("<a:element xmlns:a=\"1\"><b:element xmlns:b=\"2\"/></a:element>", new[] {"a", "b"})]
         public void NamespacePrefixesAreParsedCorrectly(string xml, string[] expectedNamespaces)
         {
             // Arrange
             XDocument document = XDocument.Parse(xml);
 
             // Act
-            var manager = new SimpleXmlNamespaceResolver(document);
-            var namespaces = manager.GetNamespacesInScope(XmlNamespaceScope.All).Values;
+            SimpleXmlNamespaceResolver manager = new SimpleXmlNamespaceResolver(document);
+            ICollection<string> namespaces = manager.GetNamespacesInScope(XmlNamespaceScope.All).Values;
 
             // Assert
             Assert.That(namespaces, Is.EquivalentTo(expectedNamespaces));

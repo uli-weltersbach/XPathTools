@@ -1,9 +1,9 @@
-﻿using ReasonCodeExample.XPathInformation.Formatters;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using ReasonCodeExample.XPathInformation.Formatters;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {

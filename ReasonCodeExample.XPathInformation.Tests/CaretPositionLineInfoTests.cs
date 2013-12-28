@@ -41,7 +41,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
 
             ITextView textView = Substitute.For<ITextView>();
             textView.TextSnapshot.Returns(textSnapshot);
-            
+
             // Act
             CaretPositionLineInfo caretPositionLineInfo = new CaretPositionLineInfo(textView, caretPosition);
 

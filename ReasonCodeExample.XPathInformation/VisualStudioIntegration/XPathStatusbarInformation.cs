@@ -10,14 +10,14 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
     internal class XPathStatusbarInformation
     {
-        private readonly IVsStatusbar _statusbar;
-        private readonly ResultCachingXmlParser _parser = new ResultCachingXmlParser();
+        private readonly IXPathFormatter _formatter = new GenericXPathFormatter();
         private readonly XmlNodeRepository _nodeRepository = new XmlNodeRepository();
         private readonly XObjectRepository _objectRepository = new XObjectRepository();
-        private readonly IXPathFormatter _formatter = new GenericXPathFormatter();
+        private readonly ResultCachingXmlParser _parser = new ResultCachingXmlParser();
+        private readonly IVsStatusbar _statusbar;
 
         public XPathStatusbarInformation(ITextView textView)
-            : this(textView, (IVsStatusbar)ServiceProvider.GlobalProvider.GetService(typeof(IVsStatusbar)))
+            : this(textView, (IVsStatusbar) ServiceProvider.GlobalProvider.GetService(typeof (IVsStatusbar)))
         {
         }
 

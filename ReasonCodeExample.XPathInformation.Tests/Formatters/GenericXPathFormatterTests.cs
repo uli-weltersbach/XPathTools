@@ -1,8 +1,8 @@
 ﻿using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using NUnit.Framework;
-using System.Xml;
 using ReasonCodeExample.XPathInformation.Formatters;
 
 namespace ReasonCodeExample.XPathInformation.Tests.Formatters
@@ -11,6 +11,33 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
     public class GenericXPathFormatterTests
     {
         private readonly IXPathFormatter _formatter = new GenericXPathFormatter();
+
+        [TestCase("descendant-or-self::*[namespace-uri()='urn:schemas-microsoft-com:asm.v1']", 4)]
+        [TestCase("/runtime/assemblyBinding[namespace-uri()='urn:schemas-microsoft-com:asm.v1']", 0)]
+        [TestCase("/configuration/runtime/*[namespace-uri()='urn:schemas-microsoft-com:asm.v1']", 2)]
+        [TestCase("/configuration/runtime/*[local-name()='assemblyBinding' and namespace-uri()='urn:schemas-microsoft-com:asm.v1']", 1)]
+        public void XPathContainingNamespaceIsValid(string xpath, int expectedElementCount)
+        {
+            // Arrange
+            XDocument document = XDocument.Parse(@"<configuration>
+                                                        <runtime>
+                                                            <assemblyBinding xmlns='urn:schemas-microsoft-com:asm.v1'>
+                                                               <child />
+                                                            </assemblyBinding>
+                                                            <test xmlns='urn:schemas-microsoft-com:asm.v1'>
+                                                                <child />
+                                                            </test>
+                                                        </runtime>
+                                                    </configuration>");
+            XmlReader reader = document.CreateReader();
+            XmlNamespaceManager namespaceManager = new XmlNamespaceManager(reader.NameTable);
+
+            // Act
+            int elementCount = document.XPathSelectElements(xpath, namespaceManager).Count();
+
+            // Assert
+            Assert.That(elementCount, Is.EqualTo(expectedElementCount));
+        }
 
         [Test]
         public void AttributeFormat()
@@ -23,18 +50,6 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
 
             // Assert
             Assert.That(xpath, Is.EqualTo("[@attribute='value']"));
-        }
-
-        [Test]
-        [ExpectedException(typeof(XmlException))]
-        public void MissingAttributeParent()
-        {
-            // Arrange
-            XNamespace @namespace = "test namespace";
-            XAttribute attribute = new XAttribute(@namespace + "attribute", "value");
-
-            // Act
-            _formatter.Format(attribute);
         }
 
         [Test]
@@ -103,31 +118,16 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
             Assert.That(xpath, Is.EqualTo("/ns:parent/child"));
         }
 
-        [TestCase("descendant-or-self::*[namespace-uri()='urn:schemas-microsoft-com:asm.v1']", 4)]
-        [TestCase("/runtime/assemblyBinding[namespace-uri()='urn:schemas-microsoft-com:asm.v1']", 0)]
-        [TestCase("/configuration/runtime/*[namespace-uri()='urn:schemas-microsoft-com:asm.v1']", 2)]
-        [TestCase("/configuration/runtime/*[local-name()='assemblyBinding' and namespace-uri()='urn:schemas-microsoft-com:asm.v1']", 1)]
-        public void XPathContainingNamespaceIsValid(string xpath, int expectedElementCount)
+        [Test]
+        [ExpectedException(typeof (XmlException))]
+        public void MissingAttributeParent()
         {
             // Arrange
-            XDocument document = XDocument.Parse(@"<configuration>
-                                                        <runtime>
-                                                            <assemblyBinding xmlns='urn:schemas-microsoft-com:asm.v1'>
-                                                               <child />
-                                                            </assemblyBinding>
-                                                            <test xmlns='urn:schemas-microsoft-com:asm.v1'>
-                                                                <child />
-                                                            </test>
-                                                        </runtime>
-                                                    </configuration>");
-            XmlReader reader = document.CreateReader();
-            XmlNamespaceManager namespaceManager = new XmlNamespaceManager(reader.NameTable);
+            XNamespace @namespace = "test namespace";
+            XAttribute attribute = new XAttribute(@namespace + "attribute", "value");
 
             // Act
-            int elementCount = document.XPathSelectElements(xpath, namespaceManager).Count();
-
-            // Assert
-            Assert.That(elementCount, Is.EqualTo(expectedElementCount));
+            _formatter.Format(attribute);
         }
     }
 }

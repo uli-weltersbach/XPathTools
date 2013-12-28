@@ -29,7 +29,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
         protected override void Initialize()
         {
             base.Initialize();
-            Initialize((IMenuCommandService)GetService(typeof(IMenuCommandService)));
+            Initialize((IMenuCommandService) GetService(typeof (IMenuCommandService)));
         }
 
         public void Initialize(IMenuCommandService commandService)

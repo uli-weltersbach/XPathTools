@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
-    [Export(typeof(IWpfTextViewCreationListener))]
+    [Export(typeof (IWpfTextViewCreationListener))]
     [TextViewRole(PredefinedTextViewRoles.Document)]
     [ContentType(XmlContentTypeName)]
     internal class XPathStatusbarInformationFactory : IWpfTextViewCreationListener

@@ -24,9 +24,9 @@ namespace ReasonCodeExample.XPathInformation
                 return null;
             IEnumerable<XElement> elements = rootElement.DescendantsAndSelf();
             XElement matchingElement = (from element in elements
-                                        where IsCorrectLine(element, lineNumber)
-                                        where IsCorrectPosition(element, linePosition)
-                                        select element).LastOrDefault();
+                where IsCorrectLine(element, lineNumber)
+                where IsCorrectPosition(element, linePosition)
+                select element).LastOrDefault();
             if (matchingElement != null)
                 return matchingElement;
 
@@ -47,17 +47,17 @@ namespace ReasonCodeExample.XPathInformation
         private XAttribute GetAttribute(IEnumerable<XElement> elements, int lineNumber, int linePosition)
         {
             return (from element in elements
-                    from attribute in element.Attributes()
-                    where IsCorrectLine(attribute, lineNumber)
-                    where IsCorrectPosition(attribute, linePosition)
-                    select attribute).LastOrDefault();
+                from attribute in element.Attributes()
+                where IsCorrectLine(attribute, lineNumber)
+                where IsCorrectPosition(attribute, linePosition)
+                select attribute).LastOrDefault();
         }
 
         public XAttribute GetAttribute(XElement element, int lineNumber, int linePosition)
         {
             if (element == null)
                 return null;
-            return GetAttribute(new[] { element }, lineNumber, linePosition);
+            return GetAttribute(new[] {element}, lineNumber, linePosition);
         }
     }
 }

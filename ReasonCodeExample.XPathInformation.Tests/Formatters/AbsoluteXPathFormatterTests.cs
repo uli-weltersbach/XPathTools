@@ -1,6 +1,5 @@
 ﻿using System.Xml.Linq;
 using NUnit.Framework;
-using System.Xml;
 using ReasonCodeExample.XPathInformation.Formatters;
 
 namespace ReasonCodeExample.XPathInformation.Tests.Formatters
@@ -43,10 +42,10 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
 
             XElement secondChild = new XElement("child");
             parent.Add(secondChild);
-            
+
             XElement thirdChild = new XElement("child");
             parent.Add(thirdChild);
-            
+
             // Act
             string xpath = _formatter.Format(secondChild);
 
@@ -68,7 +67,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
 
             XElement secondChildFirstGrandChild = new XElement("grandChild");
             secondChild.Add(secondChildFirstGrandChild);
-            
+
             XElement secondChildSecondGrandChild = new XElement("grandChild");
             secondChild.Add(secondChildSecondGrandChild);
 

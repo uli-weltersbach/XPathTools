@@ -23,13 +23,9 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
             XObject obj = Repository.Get();
             XElement element = null;
             if (obj is XElement)
-            {
                 element = obj as XElement;
-            }
             else if (obj is XAttribute)
-            {
                 element = obj.Parent;
-            }
             return new XmlStructureFormatter().Format(element).ToString(SaveOptions.None);
         }
 

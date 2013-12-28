@@ -14,23 +14,21 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
             _instance.WaitUntillStarted();
         }
 
+        [TestFixtureTearDown]
+        public void StopVisualStudio()
+        {
+            _instance.Stop();
+        }
+
         [Test]
         public void StatusbarShowsXPath()
         {
             // Arrange
 
-
             // Act
-
 
             // Assert
             Assert.That(_instance.MainWindow, Is.Not.Null);
-        }
-
-        [TestFixtureTearDown]
-        public void StopVisualStudio()
-        {
-            _instance.Stop();
         }
     }
 }

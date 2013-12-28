@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Automation;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
@@ -14,7 +15,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
         {
             get
             {
-                var process = FindExperimentalInstance();
+                Process process = FindExperimentalInstance();
                 if (process == null)
                     return null;
                 if (_mainWindow == null)
@@ -50,7 +51,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
             while (DateTime.UtcNow < timeout)
             {
                 if (MainWindow == null)
-                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3));
+                    Thread.Sleep(TimeSpan.FromSeconds(3));
                 else
                     return;
             }
@@ -59,7 +60,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 
         public void Stop()
         {
-            var process = FindExperimentalInstance();
+            Process process = FindExperimentalInstance();
             if (process == null)
                 return;
             if (process.HasExited)

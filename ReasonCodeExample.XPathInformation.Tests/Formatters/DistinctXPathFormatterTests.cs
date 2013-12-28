@@ -36,7 +36,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
         {
             // Arrange
             XElement element = XElement.Parse(xml);
-            XElement testElement = (XElement)element.DescendantNodesAndSelf().ElementAt(testElementIndex);
+            XElement testElement = (XElement) element.DescendantNodesAndSelf().ElementAt(testElementIndex);
             XAttribute testAttribute = testElement.Attribute(testAttributeName);
 
             // Act
@@ -44,29 +44,6 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
 
             // Assert
             Assert.That(actualXPath, Is.EqualTo(expectedXPath));
-        }
-
-        [Test]
-        public void ElementNamespaceFormat()
-        {
-            // Arrange
-            // Arrange
-            XDocument document = XDocument.Parse(@"<configuration>
-                                                        <runtime>
-                                                            <assemblyBinding id='1' xmlns='urn:schemas-microsoft-com:asm.v1'>
-                                                               <child />
-                                                            </assemblyBinding>
-                                                            <assemblyBinding id='2' xmlns='urn:schemas-microsoft-com:asm.v1'>
-                                                                <child />
-                                                            </assemblyBinding>
-                                                        </runtime>
-                                                    </configuration>");
-
-            // Act
-            string xpath = _formatter.Format(document.Descendants().ElementAt(2));
-
-            // Assert
-            Assert.That(xpath, Is.EqualTo("/configuration/runtime/*[local-name()='assemblyBinding' and namespace-uri()='urn:schemas-microsoft-com:asm.v1'][@id='1']"));
         }
 
         [TestCase("/configuration/runtime/*[local-name()='assemblyBinding' and namespace-uri()='urn:schemas-microsoft-com:asm.v1'][@id='1']", 1)]
@@ -91,6 +68,28 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
 
             // Assert
             Assert.That(elementCount, Is.EqualTo(expectedElementCount));
+        }
+
+        [Test]
+        public void ElementNamespaceFormat()
+        {
+            // Arrange
+            XDocument document = XDocument.Parse(@"<configuration>
+                                                        <runtime>
+                                                            <assemblyBinding id='1' xmlns='urn:schemas-microsoft-com:asm.v1'>
+                                                               <child />
+                                                            </assemblyBinding>
+                                                            <assemblyBinding id='2' xmlns='urn:schemas-microsoft-com:asm.v1'>
+                                                                <child />
+                                                            </assemblyBinding>
+                                                        </runtime>
+                                                    </configuration>");
+
+            // Act
+            string xpath = _formatter.Format(document.Descendants().ElementAt(2));
+
+            // Assert
+            Assert.That(xpath, Is.EqualTo("/configuration/runtime/*[local-name()='assemblyBinding' and namespace-uri()='urn:schemas-microsoft-com:asm.v1'][@id='1']"));
         }
     }
 }
