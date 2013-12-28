@@ -38,10 +38,6 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
                 throw new FileNotFoundException(string.Format("Didn't find Visual Studio executable at \"{0}\".", executablePath));
             // The VisualStudio process spawns a new process with a different ID.
             Process.Start(new ProcessStartInfo(executablePath.FullName, "/RootSuffix Exp"));
-        }
-
-        public void WaitUntillStarted()
-        {
             WaitUntillStarted(TimeSpan.FromMinutes(3));
         }
 

@@ -11,7 +11,6 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
         public void StartVisualStudio()
         {
             _instance.ReStart();
-            _instance.WaitUntillStarted();
         }
 
         [TestFixtureTearDown]
