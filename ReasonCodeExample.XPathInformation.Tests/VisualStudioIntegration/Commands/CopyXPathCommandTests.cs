@@ -33,7 +33,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
         {
             // Arrange
             string xml = "<xml />";
-            _instance.OpenXmlFile(xml);
+            _instance.OpenXmlFile(xml, 2);
             string menuText = "Copy XPath";
             string commandText = "Copy generic XPath";
 

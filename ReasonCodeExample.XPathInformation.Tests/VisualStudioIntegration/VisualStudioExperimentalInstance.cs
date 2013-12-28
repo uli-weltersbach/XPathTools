@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Automation;
+using System.Windows.Forms;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 {
@@ -64,24 +65,36 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
             process.Kill();
         }
 
-        public void OpenXmlFile(string content)
+        public void OpenXmlFile(string content, int caretPosition)
         {
-            AutomationElement fileMenu = MainWindow.FindDescendant("File");
-            fileMenu.LeftClick();
-            AutomationElement newFileMenuEntry = MainWindow.FindDescendant("New");
-            newFileMenuEntry.LeftClick();
-            AutomationElement openFileMenuEntry = MainWindow.FindDescendant("File...");
-            openFileMenuEntry.LeftClick();
+            MainWindow.FindDescendant("File").LeftClick();
+            MainWindow.FindDescendant("New").LeftClick();
+            MainWindow.FindDescendant("File...").LeftClick();
 
             // XML File entry in "New File" dialog.
-            AutomationElement xmlFileMenuEntry = MainWindow.FindDescendant("XML File");
-            xmlFileMenuEntry.LeftClick();
-            AutomationElement openMenuEntry = MainWindow.FindDescendant("Open");
-            openMenuEntry.LeftClick();
+            MainWindow.FindDescendant("XML File").LeftClick();
+            MainWindow.FindDescendant("Open").LeftClick();
+
+            WriteContent(content, caretPosition);
+        }
+
+        private static void WriteContent(string content, int caretPosition)
+        {
+            // Write content starting on new line
+            SendKeys.SendWait("{End}");
+            SendKeys.SendWait("{Enter}");
+            SendKeys.SendWait(content);
+            SendKeys.SendWait("{Home}");
+            SendKeys.SendWait("{Right " + caretPosition + "}");
         }
 
         public void ExecuteContextMenuCommand(string menuText, string commandText)
         {
+            // Use "shift F10" shortcut to open context menu
+            SendKeys.SendWait("+{F10}");
+            MainWindow.FindDescendant(menuText).LeftClick();
+            MainWindow.FindDescendant(commandText).LeftClick();
+            Thread.Sleep(TimeSpan.FromSeconds(5));
         }
     }
 }
