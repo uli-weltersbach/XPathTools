@@ -82,6 +82,9 @@
     <Compile Include="Formatters\AbsoluteXPathFormatterTests.cs" />
     <Compile Include="Formatters\DistinctXPathFormatterTests.cs" />
     <Compile Include="SimpleXmlNamespaceResolverTests.cs" />
+    <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommandTests.cs" />
+    <Compile Include="VisualStudioIntegration\Extensions.cs" />
+    <Compile Include="VisualStudioIntegration\InputAutomation.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformationTests.cs" />
     <Compile Include="VisualStudioIntegration\VisualStudioExperimentalInstance.cs" />
     <Compile Include="XmlNodeRepositoryTests.cs" />
@@ -101,9 +104,7 @@
       <Name>ReasonCodeExample.XPathInformation</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="VisualStudioIntegration\Commands\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

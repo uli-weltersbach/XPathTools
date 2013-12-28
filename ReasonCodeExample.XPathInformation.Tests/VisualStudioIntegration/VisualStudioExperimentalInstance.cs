@@ -63,5 +63,25 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
                 return;
             process.Kill();
         }
+
+        public void OpenXmlFile(string content)
+        {
+            AutomationElement fileMenu = MainWindow.FindDescendant("File");
+            fileMenu.LeftClick();
+            AutomationElement newFileMenuEntry = MainWindow.FindDescendant("New");
+            newFileMenuEntry.LeftClick();
+            AutomationElement openFileMenuEntry = MainWindow.FindDescendant("File...");
+            openFileMenuEntry.LeftClick();
+
+            // XML File entry in "New File" dialog.
+            AutomationElement xmlFileMenuEntry = MainWindow.FindDescendant("XML File");
+            xmlFileMenuEntry.LeftClick();
+            AutomationElement openMenuEntry = MainWindow.FindDescendant("Open");
+            openMenuEntry.LeftClick();
+        }
+
+        public void ExecuteContextMenuCommand(string menuText, string commandText)
+        {
+        }
     }
 }
