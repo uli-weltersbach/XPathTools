@@ -56,7 +56,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
             Assert.That(Clipboard.GetText(), Is.EqualTo(expectedXPath));
         }
 
-        public IList<AutomationElement> GetAvailableCopyXPathCommands()
+        private IList<AutomationElement> GetAvailableCopyXPathCommands()
         {
             return _instance.GetContextMenuCommands("Copy XPath", new Regex(@"\(\d+ match"));
         }
