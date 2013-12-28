@@ -25,13 +25,12 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
             _instance.Stop();
         }
 
-        [Test]
+        [TestCase("<xml />", 2, "/xml")]
         [STAThread]
-        public void XPathCommandsAreAvailable()
+        public void XPathCommandsAreAvailable(string xml, int caretPosition, string expectedXPath)
         {
             // Arrange
-            string xml = "<xml />";
-            _instance.OpenXmlFile(xml, 2);
+            _instance.OpenXmlFile(xml, caretPosition);
 
             // Act
             IList<AutomationElement> matches = GetAvailableCopyXPathCommands();

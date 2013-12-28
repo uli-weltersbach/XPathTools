@@ -17,7 +17,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
         {
             if (element == null)
                 throw new ArgumentNullException("element");
-            InputAutomation.LeftClick(element.GetClickablePoint());
+            Mouse.LeftClick(element.GetClickablePoint());
             return element;
         }
     }

@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 {
-    internal static class InputAutomation
+    internal static class Mouse
     {
         public static void LeftClick(Point point)
         {
@@ -17,11 +17,11 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 
         public static void LeftClick()
         {
-            ClickMouse(MouseEvent.LeftButtonDown);
-            ClickMouse(MouseEvent.LeftButtonUp);
+            SendMouseInput(MouseEvent.LeftButtonDown);
+            SendMouseInput(MouseEvent.LeftButtonUp);
         }
 
-        private static void ClickMouse(MouseEvent mouseEvent)
+        private static void SendMouseInput(MouseEvent mouseEvent)
         {
             Input mouseInput = new Input
             {

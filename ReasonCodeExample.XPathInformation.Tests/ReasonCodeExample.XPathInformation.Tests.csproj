@@ -85,7 +85,7 @@
     <Compile Include="SimpleXmlNamespaceResolverTests.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommandTests.cs" />
     <Compile Include="VisualStudioIntegration\Extensions.cs" />
-    <Compile Include="VisualStudioIntegration\InputAutomation.cs" />
+    <Compile Include="VisualStudioIntegration\Mouse.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformationTests.cs" />
     <Compile Include="VisualStudioIntegration\VisualStudioExperimentalInstance.cs" />
     <Compile Include="XmlNodeRepositoryTests.cs" />
