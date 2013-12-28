@@ -3,7 +3,9 @@
     <Metadata>
         <Identity Id="ReasonCodeExample.XPathInformation.v1.0" Version="2.1" Language="en-US" Publisher="Uli Weltersbach" />
         <DisplayName>XPath Information</DisplayName>
-        <Description xml:space="preserve">When working in files containing XML markup, this extension displays the XPath of the XML element or attribute at the caret position. The information is displayed in the statusbar and can be copied to the clipboard using the "Copy XPath" command.</Description>
+        <Description xml:space="preserve">The extension displays the XPath of the XML-element or -attribute at the caret position when working in files containing XML markup (.config, .build, .properties etc.).
+The information is displayed in the statusbar and can be copied to the clipboard in various formats, using commands available through the context menu.
+A "shallow XML structure" to be copied to the clipboard, containing the current element, it's ancestors and descendants; other siblings are excluded. This function is primarily intended for use with Sitecore CMS Web.config include files.</Description>
         <MoreInfo>http://reasoncodeexample.com/2013/04/29/xpath-information-in-visual-studio/</MoreInfo>
         <ReleaseNotes>VisualStudioIntegration\Resources\release-notes.txt</ReleaseNotes>
         <Icon>VisualStudioIntegration\Resources\PackageIcon.png</Icon>
