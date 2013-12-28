@@ -51,7 +51,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
                 else
                     return;
             }
-            throw new TimeoutException(string.Format("Visual Studio wasn't started within {0}.", timeoutDuration));
+            throw new TimeoutException(string.Format("Visual Studio wasn't started within {0} seconds.", timeoutDuration.TotalSeconds));
         }
 
         public void Stop()
