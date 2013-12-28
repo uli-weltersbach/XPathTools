@@ -104,11 +104,6 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
             SendKeys.SendWait("{Right " + caretPosition + "}");
         }
 
-        public IList<AutomationElement> GetAvailableCopyXPathCommands()
-        {
-            return GetContextMenuCommands("Copy XPath", new Regex(@"\(\d+ match"));
-        }
-
         public IList<AutomationElement> GetContextMenuCommands(string subMenuName, Regex commandName)
         {
             // Use "shift F10" shortcut to open context menu

@@ -34,7 +34,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
             _instance.OpenXmlFile(xml, 2);
 
             // Act
-            IList<AutomationElement> matches = _instance.GetAvailableCopyXPathCommands();
+            IList<AutomationElement> matches = GetAvailableCopyXPathCommands();
 
             // Assert
             Assert.That(matches.Count, Is.EqualTo(3));
@@ -46,7 +46,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
         {
             // Arrange
             _instance.OpenXmlFile(xml, caretPosition);
-            IList<AutomationElement> matches = _instance.GetAvailableCopyXPathCommands();
+            IList<AutomationElement> matches = GetAvailableCopyXPathCommands();
             AutomationElement copyGenericXPathCommand = matches.First();
 
             // Act
@@ -54,6 +54,11 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
 
             // Assert
             Assert.That(Clipboard.GetText(), Is.EqualTo(expectedXPath));
+        }
+
+        public IList<AutomationElement> GetAvailableCopyXPathCommands()
+        {
+            return _instance.GetContextMenuCommands("Copy XPath", new Regex(@"\(\d+ match"));
         }
     }
 }
