@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -36,7 +38,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
         {
             // Arrange
             XElement element = XElement.Parse(xml);
-            XElement testElement = (XElement) element.DescendantNodesAndSelf().ElementAt(testElementIndex);
+            XElement testElement = (XElement)element.DescendantNodesAndSelf().ElementAt(testElementIndex);
             XAttribute testAttribute = testElement.Attribute(testAttributeName);
 
             // Act
@@ -71,7 +73,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
         }
 
         [Test]
-        public void ElementNamespaceFormat()
+        public void ElementNamespaceFormatIsCorrect()
         {
             // Arrange
             XDocument document = XDocument.Parse(@"<configuration>
@@ -90,6 +92,80 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
 
             // Assert
             Assert.That(xpath, Is.EqualTo("/configuration/runtime/*[local-name()='assemblyBinding' and namespace-uri()='urn:schemas-microsoft-com:asm.v1'][@id='1']"));
+        }
+
+        [Test]
+        public void ShallowDocumentDoesNotCausePerformanceIssues([Values(10, 100, 1000, 10000, 100000)] int elementCount)
+        {
+            // Arrange
+            XElement element = CreateShallowDocument(elementCount);
+            TimeSpan maxAcceptableComputationTime = TimeSpan.FromSeconds(1);
+
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+
+            // Act
+            string xpath = _formatter.Format(element);
+            timer.Stop();
+
+            // Assert
+            Assert.That(timer.Elapsed, Is.LessThanOrEqualTo(maxAcceptableComputationTime));
+        }
+
+        private XElement CreateShallowDocument(int elementCount)
+        {
+            XElement root = new XElement("root");
+            for (int i = 0; i < elementCount; i++)
+            {
+                root.Add(new XElement("child"));
+            }
+            XDocument document = new XDocument();
+            document.Add(root);
+            return root.Document.Root.Elements().ElementAt(elementCount / 2);
+        }
+
+        [Test]
+        public void DeepDocumentDoesNotCausePerformanceIssues([Values(10, 100, 1000, 2000)] int elementCount)
+        {
+            // Arrange
+            XElement element = CreateDeepDocument(elementCount);
+            TimeSpan maxAcceptableComputationTime = TimeSpan.FromSeconds(1);
+
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+
+            // Act
+            string xpath = _formatter.Format(element);
+            timer.Stop();
+
+            // Assert
+            Assert.That(timer.Elapsed, Is.LessThanOrEqualTo(maxAcceptableComputationTime));
+        }
+
+        private XElement CreateDeepDocument(int elementCount)
+        {
+            XElement root = new XElement("root");
+            XElement current = root;
+            for (int i = 0; i < elementCount; i++)
+            {
+                XElement child = new XElement("child");
+                current.Add(child);
+                current = child;
+            }
+            XDocument document = new XDocument();
+            document.Add(root);
+            return root.Document.Root.DescendantsAndSelf().ElementAt(elementCount / 2);
+        }
+
+        [Test]
+        [ExpectedException(typeof(XPathException), ExpectedMessage = "The xpath query is too complex.")]
+        public void DeepDocumentCausesXPathComplexityIssue()
+        {
+            // Arrange
+            XElement element = CreateDeepDocument(2050);
+
+            // Act
+            string xpath = _formatter.Format(element);
         }
     }
 }
