@@ -11,23 +11,24 @@ namespace ReasonCodeExample.XPathInformation.Formatters
         {
             if (element == null)
                 return null;
-            XDocument shallowCopy = CopyAncestorsAndDescendantsOf(element);
+            XElement originalRoot = element.AncestorsAndSelf().Last();
+            XDocument copyDocument = new XDocument(new XElement(originalRoot));
+            XDocument shallowCopy = CopyAncestorsAndDescendantsOf(copyDocument, element);
+            RemoveComments(shallowCopy);
             return shallowCopy.Root;
         }
 
-        private XDocument CopyAncestorsAndDescendantsOf(XElement element)
+        private XDocument CopyAncestorsAndDescendantsOf(XDocument document, XElement element)
         {
-            XElement originalRoot = element.AncestorsAndSelf().Last();
-            XDocument copyDocument = new XDocument(new XElement(originalRoot));
             string xpath = new AbsoluteXPathFormatter().Format(element);
-            IList<XElement> elementsToKeep = GetElementsToKeep(copyDocument, xpath);
-            IList<XElement> allElements = copyDocument.Root.DescendantsAndSelf().ToArray();
+            IList<XElement> elementsToKeep = GetElementsToKeep(document, xpath);
+            IList<XElement> allElements = document.Root.DescendantsAndSelf().ToArray();
             foreach (XElement copy in allElements)
             {
                 if (!elementsToKeep.Contains(copy))
                     copy.Remove();
             }
-            return copyDocument;
+            return document;
         }
 
         private IList<XElement> GetElementsToKeep(XDocument copyDocument, string xpath)
@@ -37,6 +38,15 @@ namespace ReasonCodeExample.XPathInformation.Formatters
             elementsToKeep.AddRange(element.AncestorsAndSelf());
             elementsToKeep.AddRange(element.Descendants());
             return elementsToKeep;
+        }
+
+        private void RemoveComments(XDocument document)
+        {
+            IList<XComment> comments = document.DescendantNodes().OfType<XComment>().ToArray();
+            foreach (XComment comment in comments)
+            {
+                comment.Remove();
+            }
         }
     }
 }
