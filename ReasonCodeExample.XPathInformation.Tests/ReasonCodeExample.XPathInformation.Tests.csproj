@@ -84,6 +84,7 @@
     <Compile Include="Formatters\DistinctXPathFormatterTests.cs" />
     <Compile Include="SimpleXmlNamespaceResolverTests.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommandTests.cs" />
+    <Compile Include="VisualStudioIntegration\Configuration\CommaSeparatedValueConverterTests.cs" />
     <Compile Include="VisualStudioIntegration\Extensions.cs" />
     <Compile Include="VisualStudioIntegration\Mouse.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformationTests.cs" />

@@ -102,6 +102,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -114,12 +115,16 @@
     <Compile Include="Formatters\IXPathFormatter.cs" />
     <Compile Include="Formatters\XmlStructureFormatter.cs" />
     <Compile Include="SimpleXmlNamespaceResolver.cs" />
-    <Compile Include="VisualStudioIntegration\Commands\CommandFactory.cs" />
+    <Compile Include="VisualStudioIntegration\Configuration\CommaSeparatedValueConverter.cs" />
+    <Compile Include="VisualStudioIntegration\XPathInformationPackage.cs" />
     <Compile Include="ResultCachingXmlParser.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CopyCommand.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CopyXmlStructureCommand.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommand.cs" />
     <Compile Include="VisualStudioIntegration\Commands\Symbols.cs" />
+    <Compile Include="VisualStudioIntegration\Configuration\ConfigurationPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="XmlNodeRepository.cs" />
     <Compile Include="Formatters\GenericXPathFormatter.cs" />
     <Compile Include="XObjectRepository.cs" />
