@@ -4,8 +4,14 @@ using Microsoft.VisualStudio.Shell;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configuration
 {
-    internal class ConfigurationPage : DialogPage
+    internal class XPathInformationConfiguration : DialogPage, IConfiguration
     {
+        public static IConfiguration Current
+        {
+            get;
+            set;
+        }
+
         [Category("Attributes")]
         [DisplayName("Show attribute XPath")]
         [Description("Determines whether to show the XPath to the attribute itself or to the element containing it when an attribute is at the caret position. E.g. \"/a/b/c/@id\" vs. \"/a/b/c[@id]\".")]
