@@ -4,12 +4,24 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configurati
 {
     internal interface IConfiguration
     {
-        bool ShowAttributeXPath { get; }
+        bool ShowAttributeXPath
+        {
+            get;
+        }
 
-        IList<string> IncludedAttributes { get; }
+        IList<string> IncludedAttributes
+        {
+            get;
+        }
 
-        IList<string> ExcludedAttributes { get; }
+        IList<string> ExcludedAttributes
+        {
+            get;
+        }
 
-        IList<string> PreferredAttributeCandidateNames { get; }
+        IList<string> PreferredAttributeCandidateNames
+        {
+            get;
+        }
     }
 }

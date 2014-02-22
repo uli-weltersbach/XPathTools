@@ -39,11 +39,8 @@ namespace ReasonCodeExample.XPathInformation.Formatters
         {
             foreach (XAttribute attribute in attributes)
             {
-                if (_configuration.ExcludedAttributes.Contains(attribute.Name.LocalName,
-                    StringComparer.InvariantCultureIgnoreCase))
-                {
+                if (_configuration.ExcludedAttributes.Contains(attribute.Name.LocalName, StringComparer.InvariantCultureIgnoreCase))
                     attribute.Remove();
-                }
             }
         }
 
@@ -51,11 +48,8 @@ namespace ReasonCodeExample.XPathInformation.Formatters
         {
             foreach (XAttribute attribute in attributes)
             {
-                if (!_configuration.IncludedAttributes.Contains(attribute.Name.LocalName,
-                    StringComparer.InvariantCultureIgnoreCase))
-                {
+                if (!_configuration.IncludedAttributes.Contains(attribute.Name.LocalName, StringComparer.InvariantCultureIgnoreCase))
                     attribute.Remove();
-                }
             }
         }
     }

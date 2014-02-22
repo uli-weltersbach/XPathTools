@@ -1,7 +1,5 @@
 ﻿using System.Windows.Automation;
-using System.Xml.Linq;
 using NUnit.Framework;
-using ReasonCodeExample.XPathInformation.Formatters;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 {

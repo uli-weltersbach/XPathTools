@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Automation;
 using NUnit.Framework;
-using System;
-using System.Windows;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Commands
 {
