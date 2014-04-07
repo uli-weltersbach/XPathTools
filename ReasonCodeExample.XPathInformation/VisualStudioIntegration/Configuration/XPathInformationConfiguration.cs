@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Drawing.Design;
 using System.Reflection;
 using Microsoft.VisualStudio.Shell;
-using Wexman.Design;
+using Microsoft.Win32;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configuration
 {
@@ -12,11 +12,78 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configurati
     {
         public XPathInformationConfiguration()
         {
-            InnerIncludedAttributes = new Collection<string>();
-            InnerExcludedAttributes = new Collection<string>();
-            PreferredAttributeCandidateNames = new Collection<string>();
-            AlwaysIncludedAttributes = new Dictionary<string, string>();
-            SetPropertyDefaultValues();
+            AlwaysDisplayedAttributesSetting = new BindingList<XPathSetting>();
+            PreferredAttributeCandidatesSetting = new BindingList<XPathSetting>();
+        }
+
+        public override void LoadSettingsFromStorage()
+        {
+            base.LoadSettingsFromStorage();
+            LoadCollectionsFromStorage();
+            AlwaysDisplayedAttributesSetting.RaiseListChangedEvents = true;
+            AlwaysDisplayedAttributesSetting.ListChanged += SaveAlwaysDisplayedAttributesSettingToStorage;
+            PreferredAttributeCandidatesSetting.RaiseListChangedEvents = true;
+            PreferredAttributeCandidatesSetting.ListChanged += SavePreferredAttributeCandidatesSettingToStorage;
+        }
+
+        private void LoadCollectionsFromStorage()
+        {
+            Package package = (Package)this.GetService(typeof(Package));
+            if (package == null)
+                return;
+            using (RegistryKey userRegistryRoot = package.UserRegistryRoot)
+            {
+                string settingsRegistryPath = this.SettingsRegistryPath;
+                object automationObject = this.AutomationObject;
+                RegistryKey registryKey = userRegistryRoot.OpenSubKey(settingsRegistryPath, false);
+                if (registryKey == null)
+                    return;
+                using (registryKey)
+                {
+                    string[] valueNames = registryKey.GetValueNames();
+                    foreach (string name in valueNames)
+                    {
+                        PropertyInfo property = automationObject.GetType().GetProperty(name);
+                        if (property == null)
+                            return;
+                        if (property.GetCustomAttribute(typeof(TypeConverterAttribute)) == null)
+                            return;
+                        string convertedValue = registryKey.GetValue(name).ToString();
+                        SerializableConverter<BindingList<XPathSetting>> converter = new SerializableConverter<BindingList<XPathSetting>>();
+                        property.SetValue(automationObject, converter.ConvertFrom(convertedValue));
+                    }
+                }
+            }
+        }
+
+        private void SaveAlwaysDisplayedAttributesSettingToStorage(object sender, ListChangedEventArgs e)
+        {
+            if (e.ListChangedType != ListChangedType.Reset)
+                SaveCollectionToStorage("AlwaysDisplayedAttributesSetting", (BindingList<XPathSetting>)sender);
+        }
+
+        private void SavePreferredAttributeCandidatesSettingToStorage(object sender, ListChangedEventArgs e)
+        {
+            if (e.ListChangedType != ListChangedType.Reset)
+                SaveCollectionToStorage("PreferredAttributeCandidatesSetting", (BindingList<XPathSetting>)sender);
+        }
+
+        private void SaveCollectionToStorage(string propertyName, BindingList<XPathSetting> settings)
+        {
+            Package package = (Package)this.GetService(typeof(Package));
+            if (package == null)
+                return;
+            using (RegistryKey userRegistryRoot = package.UserRegistryRoot)
+            {
+                string settingsRegistryPath = this.SettingsRegistryPath;
+                RegistryKey registryKey = userRegistryRoot.OpenSubKey(settingsRegistryPath, true) ?? userRegistryRoot.CreateSubKey(settingsRegistryPath);
+                using (registryKey)
+                {
+                    SerializableConverter<BindingList<XPathSetting>> converter = new SerializableConverter<BindingList<XPathSetting>>();
+                    object convertedValue = converter.ConvertTo(settings, typeof(string));
+                    registryKey.SetValue(propertyName, convertedValue);
+                }
+            }
         }
 
         [Browsable(false)]
@@ -26,69 +93,40 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configurati
             set;
         }
 
-        [TypeConverter(typeof (CollectionConverter))]
-        [DisplayName("Included attributes")]
-        [Description("")]
-        public Collection<string> InnerIncludedAttributes
+        [Category("Generic XPath")]
+        [DisplayName("Always displayed attributes")]
+        [Description("Specify attributes which should always be displayed in the XPath.\nE.g. adding the entry \"{http://reasoncodeexample.com/}person/@name\" will display the \"name\"-attribute on all \"person\"-elements in the XML-namespace \"http://reasoncodeexample.com/\".")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Editor(typeof(CollectionEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(SerializableConverter<BindingList<XPathSetting>>))]
+        public BindingList<XPathSetting> AlwaysDisplayedAttributesSetting
         {
             get;
-            set;
-        }
-
-        [TypeConverter(typeof (CollectionConverter))]
-        [DisplayName("Excluded attributes")]
-        [Description("")]
-        public Collection<string> InnerExcludedAttributes
-        {
-            get;
-            set;
-        }
-
-        [Editor(typeof (GenericDictionaryEditor<string, string>), typeof (UITypeEditor))]
-        [GenericDictionaryEditor(Title = "Always visible attributes", KeyDisplayName = "Element name", ValueDisplayName = "Attribute name")]
-        [Description("Use this option to specify attributes which should always be included in the XPath of certain elements.")]
-        public Dictionary<string, string> AlwaysIncludedAttributes
-        {
-            get;
-            set;
-        }
-
-        [Category("Attributes")]
-        [DisplayName("Show attribute XPath")]
-        [Description("Determines whether to show the XPath to the attribute itself or to the element containing it when an attribute is at the caret position. E.g. \"/a/b/c/@id\" vs. \"/a/b/c[@id]\".")]
-        public bool ShowAttributeXPath
-        {
-            get;
-            set;
+            private set;
         }
 
         [Browsable(false)]
-        public IList<string> IncludedAttributes
+        public IList<XPathSetting> AlwaysDisplayedAttributes
         {
-            get { return InnerIncludedAttributes; }
+            get { return AlwaysDisplayedAttributesSetting; }
         }
 
-        [Browsable(false)]
-        public IList<string> ExcludedAttributes
-        {
-            get { return InnerExcludedAttributes; }
-        }
-
-        [Browsable(false)]
-        public IList<string> PreferredAttributeCandidateNames
+        [Category("Distinct XPath")]
+        [DisplayName("Preferred attribute candidates")]
+        [Description("Specify which attributes to use when attempting to determine a \"distinct XPath\" to a node.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Editor(typeof(CollectionEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(SerializableConverter<BindingList<XPathSetting>>))]
+        public BindingList<XPathSetting> PreferredAttributeCandidatesSetting
         {
             get;
-            set;
+            private set;
         }
 
-        private void SetPropertyDefaultValues()
+        [Browsable(false)]
+        public IList<XPathSetting> PreferredAttributeCandidates
         {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                DefaultValueAttribute defaultValue = property.GetCustomAttribute<DefaultValueAttribute>();
-                if (defaultValue != null)
-                    property.SetValue(this, defaultValue.Value);
-            }
+            get { return PreferredAttributeCandidatesSetting; }
         }
     }
 }

@@ -76,9 +76,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GenericDictionaryEditor">
-      <HintPath>..\packages\GenDictEdit.1.1.0\lib\net20\GenericDictionaryEditor.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
@@ -118,11 +115,11 @@
     <Compile Include="Formatters\AbsoluteXPathFormatter.cs" />
     <Compile Include="Formatters\DistinctXPathFormatter.cs" />
     <Compile Include="Formatters\IXPathFormatter.cs" />
-    <Compile Include="Formatters\XmlAttributeFilter.cs" />
     <Compile Include="Formatters\XmlStructureFormatter.cs" />
     <Compile Include="SimpleXmlNamespaceResolver.cs" />
-    <Compile Include="VisualStudioIntegration\Configuration\CommaSeparatedValueConverter.cs" />
+    <Compile Include="VisualStudioIntegration\Configuration\SerializableConverter.cs" />
     <Compile Include="VisualStudioIntegration\Configuration\IConfiguration.cs" />
+    <Compile Include="VisualStudioIntegration\Configuration\XPathSetting.cs" />
     <Compile Include="VisualStudioIntegration\Configuration\XPathInformationConfiguration.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -140,7 +137,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="VisualStudioIntegration\Resources\source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

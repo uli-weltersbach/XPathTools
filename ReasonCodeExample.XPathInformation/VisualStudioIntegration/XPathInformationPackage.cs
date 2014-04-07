@@ -13,8 +13,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
     [ProvideAutoLoad(SolutionExists)]
     [ProvideMenuResource(MenuResourceID, 1)]
     [Guid(Symbols.PackageID)]
-    [ProvideOptionPage(typeof(XPathInformationConfiguration), "XPath Information", "Configuration", 1000, 1001, true)]
-    [ProvideProfile(typeof(XPathInformationConfiguration), "XPath Information", "Configuration", 1002, 1003, true)]
+    [ProvideOptionPage(typeof(XPathInformationConfiguration), "XPath Information", "General", 0, 0, true)]
     internal class XPathInformationPackage : Package
     {
         private const string SolutionExists = "{f1536ef8-92ec-443c-9ed7-fdadf150da82}";
@@ -37,7 +36,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             {
                 base.Initialize();
                 IMenuCommandService menuCommandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
-                XPathInformationConfiguration.Current = (IConfiguration)GetDialogPage(typeof(XPathInformationConfiguration));
+                XPathInformationConfiguration.Current = (XPathInformationConfiguration)GetDialogPage(typeof(XPathInformationConfiguration));
                 Initialize(menuCommandService);
             }
             catch (Exception ex)
