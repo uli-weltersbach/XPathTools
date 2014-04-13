@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Text;
 
-namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configuration
+namespace ReasonCodeExample.XPathInformation
 {
-    public class XPathSetting
+    internal class XPathSetting
     {
         [DisplayName("Element name")]
         public string ElementName

@@ -118,13 +118,12 @@
     <Compile Include="Formatters\XmlStructureFormatter.cs" />
     <Compile Include="SimpleXmlNamespaceResolver.cs" />
     <Compile Include="VisualStudioIntegration\Configuration\SerializableConverter.cs" />
-    <Compile Include="VisualStudioIntegration\Configuration\IConfiguration.cs" />
-    <Compile Include="VisualStudioIntegration\Configuration\XPathSetting.cs" />
+    <Compile Include="IConfiguration.cs" />
+    <Compile Include="XPathSetting.cs" />
     <Compile Include="VisualStudioIntegration\Configuration\XPathInformationConfiguration.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="VisualStudioIntegration\XPathInformationPackage.cs" />
-    <Compile Include="ResultCachingXmlParser.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CopyCommand.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CopyXmlStructureCommand.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommand.cs" />

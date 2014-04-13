@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configuration
+namespace ReasonCodeExample.XPathInformation
 {
     internal interface IConfiguration
     {
