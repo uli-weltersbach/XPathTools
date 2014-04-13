@@ -111,7 +111,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CaretPositionLineInfo.cs" />
+    <Compile Include="VisualStudioIntegration\CaretPositionLineInfo.cs" />
     <Compile Include="Formatters\AbsoluteXPathFormatter.cs" />
     <Compile Include="Formatters\DistinctXPathFormatter.cs" />
     <Compile Include="Formatters\IXPathFormatter.cs" />
