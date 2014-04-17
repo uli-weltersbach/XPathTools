@@ -100,16 +100,21 @@ namespace ReasonCodeExample.XPathInformation.Writers
         {
             if (!IsNextNodePredicatePart(significantNodes))
                 return;
-            _index++;
             WritePredicateStart();
-            WriteAttribute(significantNodes[_index] as XAttribute);
+            WritePredicatePart(significantNodes);
             while (IsNextNodePredicatePart(significantNodes))
             {
-                _index++;
                 _xpath.Append(" and ");
-                WriteAttribute(significantNodes[_index] as XAttribute);
+                WritePredicatePart(significantNodes);
             }
             WritePredicateEnd();
+        }
+
+        private void WritePredicatePart(IList<XObject> significantNodes)
+        {
+            _index++;
+            WriteAttribute(significantNodes[_index] as XAttribute);
+            WriteAttributeValue(significantNodes[_index] as XAttribute);
         }
 
         private bool IsNextNodePredicatePart(IList<XObject> significantNodes)
@@ -139,6 +144,11 @@ namespace ReasonCodeExample.XPathInformation.Writers
         private void WriteAttribute(XAttribute attribute)
         {
             _xpath.Append("@").Append(attribute.Name);
+        }
+
+        private void WriteAttributeValue(XAttribute attribute)
+        {
+            _xpath.AppendFormat("='{0}'", attribute.Value);
         }
     }
 }
