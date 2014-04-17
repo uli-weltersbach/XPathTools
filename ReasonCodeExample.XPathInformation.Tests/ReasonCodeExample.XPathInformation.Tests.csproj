@@ -35,7 +35,8 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>XPathInformation.Tests.Key.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -96,8 +97,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="XPathInformation.Tests.Key.pfx" />
-    <None Include="XPathInformation.Tests.PublicKey" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReasonCodeExample.XPathInformation\ReasonCodeExample.XPathInformation.csproj">
