@@ -120,6 +120,8 @@
     <Compile Include="SimpleXmlNamespaceResolver.cs" />
     <Compile Include="VisualStudioIntegration\Configuration\SerializableConverter.cs" />
     <Compile Include="IConfiguration.cs" />
+    <Compile Include="Writers\INodeFilter.cs" />
+    <Compile Include="Writers\XPathWriter.cs" />
     <Compile Include="XPathSetting.cs" />
     <Compile Include="VisualStudioIntegration\Configuration\XPathInformationConfiguration.cs">
       <SubType>Component</SubType>
