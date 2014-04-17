@@ -98,13 +98,18 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
         private void WritePredicates(IList<XObject> significantNodes)
         {
-            if (IsNextNodePredicatePart(significantNodes))
+            if (!IsNextNodePredicatePart(significantNodes))
+                return;
+            _index++;
+            WritePredicateStart();
+            WriteAttribute(significantNodes[_index] as XAttribute);
+            while (IsNextNodePredicatePart(significantNodes))
             {
                 _index++;
-                WritePredicateStart();
+                _xpath.Append(" and ");
                 WriteAttribute(significantNodes[_index] as XAttribute);
-                WritePredicateEnd();
             }
+            WritePredicateEnd();
         }
 
         private bool IsNextNodePredicatePart(IList<XObject> significantNodes)
