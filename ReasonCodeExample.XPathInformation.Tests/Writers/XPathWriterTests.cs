@@ -11,18 +11,19 @@ namespace ReasonCodeExample.XPathInformation.Tests.Writers
     public class XPathWriterTests
     {
         [TestCase("<a><b><c d=\"value\" /></b></a>", "/a/b/c/@d")]
+        [TestCase("<a><b x=\"1\"><c d=\"value\" /></b></a>", "/a/b[@x]/c/@d")]
         public void AttributePath(string xml, string expectedXPath)
         {
             // Arrange
-            XDocument document = XDocument.Parse(xml);
-            IEnumerator enumerator = ((IEnumerable) document.Root.XPathEvaluate(expectedXPath)).GetEnumerator();
-            enumerator.MoveNext();
-            var testNode = enumerator.Current as XAttribute;
             INodeFilter includeAll = Substitute.For<INodeFilter>();
             includeAll.IsIncluded(Arg.Any<XObject>()).Returns(true);
+            XDocument document = XDocument.Parse(xml);
+            IEnumerator enumerator = ((IEnumerable)document.Root.XPathEvaluate(expectedXPath)).GetEnumerator();
+            enumerator.MoveNext();
+            XObject testNode = enumerator.Current as XObject;
 
             // Act
-            string actualXPath = new XPathWriter(new[]{includeAll}).Write(testNode);
+            string actualXPath = new XPathWriter(new[] { includeAll }).Write(testNode);
 
             // Assert
             Assert.That(actualXPath, Is.EqualTo(expectedXPath));
