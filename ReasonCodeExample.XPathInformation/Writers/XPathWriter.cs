@@ -62,7 +62,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
             return _filters.Any(filter => filter.IsIncluded(node));
         }
 
-        private void Write(List<XObject> significantNodes)
+        private void Write(IList<XObject> significantNodes)
         {
             for (_index = 0; _index < significantNodes.Count; _index++)
             {
@@ -96,7 +96,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
             _xpath.Append(element.Name);
         }
 
-        private void WritePredicates(List<XObject> significantNodes)
+        private void WritePredicates(IList<XObject> significantNodes)
         {
             if (IsNextNodePredicatePart(significantNodes))
             {
@@ -107,7 +107,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
             }
         }
 
-        private bool IsNextNodePredicatePart(List<XObject> significantNodes)
+        private bool IsNextNodePredicatePart(IList<XObject> significantNodes)
         {
 
             if (_index + 1 >= significantNodes.Count)
