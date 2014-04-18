@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Xml.Linq;
-using System.Xml.XPath;
+﻿using System.Xml.Linq;
 using NSubstitute;
 using NUnit.Framework;
 using ReasonCodeExample.XPathInformation.Writers;
@@ -22,24 +20,16 @@ namespace ReasonCodeExample.XPathInformation.Tests.Writers
         public void WriteOutputIsValid(string xml, string expectedXPath)
         {
             // Arrange
-            var includeAllAttributesExceptNamespaceDeclarations = Substitute.For<INodeFilter>();
-            includeAllAttributesExceptNamespaceDeclarations.IsIncluded(Arg.Any<XObject>()).Returns(info => !info.Arg<XAttribute>().IsNamespaceDeclaration);
-            var filters = new[] { includeAllAttributesExceptNamespaceDeclarations };
-            var testNode = GetTestNode(xml, expectedXPath);
+            var includeAllAttributesExceptNamespaceDeclarations = Substitute.For<IAttributeFilter>();
+            includeAllAttributesExceptNamespaceDeclarations.IsIncluded(Arg.Any<XAttribute>()).Returns(info => !info.Arg<XAttribute>().IsNamespaceDeclaration);
+            var filters = new[] {includeAllAttributesExceptNamespaceDeclarations};
+            var testNode = xml.SelectSingleNode(expectedXPath);
 
             // Act
             var actualXPath = new AbsoluteXPathWriter(filters).Write(testNode);
 
             // Assert
             Assert.That(actualXPath, Is.EqualTo(expectedXPath));
-        }
-
-        private XObject GetTestNode(string xml, string xpath)
-        {
-            var document = XDocument.Parse(xml);
-            var enumerator = ((IEnumerable)document.Root.XPathEvaluate(xpath, new SimpleXmlNamespaceResolver(document))).GetEnumerator();
-            enumerator.MoveNext();
-            return (XObject)enumerator.Current;
         }
     }
 }

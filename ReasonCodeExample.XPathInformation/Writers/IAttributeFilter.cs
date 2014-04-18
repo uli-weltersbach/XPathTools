@@ -2,8 +2,8 @@
 
 namespace ReasonCodeExample.XPathInformation.Writers
 {
-    internal interface INodeFilter
+    internal interface IAttributeFilter
     {
-        bool IsIncluded(XObject node);
+        bool IsIncluded(XAttribute attribute);
     }
 }

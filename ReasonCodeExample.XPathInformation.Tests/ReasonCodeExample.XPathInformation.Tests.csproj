@@ -80,6 +80,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="VisualStudioIntegration\CaretPositionLineInfoTests.cs" />
     <Compile Include="Formatters\AbsoluteXPathFormatterTests.cs" />
     <Compile Include="Formatters\DistinctXPathFormatterTests.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformationTests.cs" />
     <Compile Include="VisualStudioIntegration\VisualStudioExperimentalInstance.cs" />
     <Compile Include="Writers\AbsoluteXPathWriterTests.cs" />
+    <Compile Include="Writers\AttributeFilterTests.cs" />
     <Compile Include="Writers\XPathWriterTests.cs" />
     <Compile Include="XmlNodeRepositoryTests.cs" />
     <Compile Include="Formatters\GenericXPathFormatterTests.cs" />

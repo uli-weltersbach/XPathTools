@@ -12,7 +12,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
         private const string PathPartSeparator = "/";
         private const string PredicateStart = "[";
         private const string PredicateEnd = "]";
-        private readonly IEnumerable<INodeFilter> _filters;
+        private readonly IEnumerable<IAttributeFilter> _filters;
 
         protected StringBuilder XPath
         {
@@ -21,11 +21,11 @@ namespace ReasonCodeExample.XPathInformation.Writers
         }
 
         public XPathWriter()
-            : this(Enumerable.Empty<INodeFilter>())
+            : this(Enumerable.Empty<IAttributeFilter>())
         {
         }
 
-        public XPathWriter(IEnumerable<INodeFilter> filters)
+        public XPathWriter(IEnumerable<IAttributeFilter> filters)
         {
             if (filters == null)
             {
@@ -84,9 +84,9 @@ namespace ReasonCodeExample.XPathInformation.Writers
             return node is XAttribute;
         }
 
-        private bool MatchesAnyFilter(XObject node)
+        private bool MatchesAnyFilter(XAttribute attribute)
         {
-            return _filters.Any(filter => filter.IsIncluded(node));
+            return _filters.Any(filter => filter.IsIncluded(attribute));
         }
 
         private void Write(IEnumerable<XPathPart> pathParts)
