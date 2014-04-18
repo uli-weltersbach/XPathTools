@@ -15,8 +15,8 @@ namespace ReasonCodeExample.XPathInformation.Tests.Writers
         [TestCase("<a><b x=\"1\" y=\"1\"><c d=\"value\" /></b></a>", "/a/b[@x='1' and @y='1']/c[@d='value']/@d")]
         [TestCase("<a w=\"1\"><b x=\"1\" y=\"1\"><c d=\"value\" /></b></a>", "/a[@w='1']/b[@x='1' and @y='1']/c[@d='value']/@d")]
         [TestCase("<ns:a xmlns:ns=\"-\" w=\"1\"><ns:b x=\"1\" y=\"1\"><c d=\"value\" /></ns:b></ns:a>", "/ns:a[@w='1']/ns:b[@x='1' and @y='1']/c[@d='value']/@d")]
-        [TestCase("<ns:a xmlns:ns=\"-\" ns:w=\"1\"></ns:a>", "/ns:a[@ns:w='1']")]
-        [TestCase("<a xmlns=\"no-prefix\" w=\"1\"></a>", "/*[local-name()='a' and namespace-uri()='no-prefix' and @w='1']")]
+        [TestCase("<ns:a xmlns:ns=\"-\" ns:w=\"1\" />", "/ns:a[@ns:w='1']")]
+        [TestCase("<a xmlns=\"no-prefix\" w=\"1\" />", "/*[local-name()='a' and namespace-uri()='no-prefix' and @w='1']")]
         public void WriteOutputIsValid(string xml, string expectedXPath)
         {
             // Arrange

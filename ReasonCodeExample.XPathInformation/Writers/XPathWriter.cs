@@ -15,7 +15,6 @@ namespace ReasonCodeExample.XPathInformation.Writers
         private const string And = " and ";
         private readonly IEnumerable<INodeFilter> _filters;
         private readonly StringBuilder _xpath = new StringBuilder();
-        private int _index;
 
         public XPathWriter()
             : this(Enumerable.Empty<INodeFilter>())
