@@ -89,6 +89,7 @@
     <Compile Include="VisualStudioIntegration\Mouse.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformationTests.cs" />
     <Compile Include="VisualStudioIntegration\VisualStudioExperimentalInstance.cs" />
+    <Compile Include="Writers\AbsoluteXPathWriterTests.cs" />
     <Compile Include="Writers\XPathWriterTests.cs" />
     <Compile Include="XmlNodeRepositoryTests.cs" />
     <Compile Include="Formatters\GenericXPathFormatterTests.cs" />
