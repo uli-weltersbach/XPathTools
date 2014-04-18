@@ -5,10 +5,12 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Automation;
 using NUnit.Framework;
+using Assert = NUnit.Framework.Assert;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Commands
 {
     [TestFixture]
+    [Category("Integration")]
     public class CopyXPathCommandTests
     {
         private readonly VisualStudioExperimentalInstance _instance = new VisualStudioExperimentalInstance();

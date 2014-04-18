@@ -16,22 +16,31 @@ namespace ReasonCodeExample.XPathInformation.Tests.Writers
         [TestCase("<a w=\"1\"><b x=\"1\" y=\"1\"><c d=\"value\" /></b></a>", "/a[@w='1']/b[@x='1' and @y='1']/c[@d='value']/@d")]
         [TestCase("<ns:a xmlns:ns=\"-\" w=\"1\"><ns:b x=\"1\" y=\"1\"><c d=\"value\" /></ns:b></ns:a>", "/ns:a[@w='1']/ns:b[@x='1' and @y='1']/c[@d='value']/@d")]
         [TestCase("<ns:a xmlns:ns=\"-\" ns:w=\"1\" />", "/ns:a[@ns:w='1']")]
+        [TestCase("<ns:a xmlns:ns=\"-\" ns:w=\"1\" />", "/ns:a[@ns:w='1']/@ns:w")]
         [TestCase("<a xmlns=\"no-prefix\" w=\"1\" />", "/*[local-name()='a' and namespace-uri()='no-prefix' and @w='1']")]
+        [TestCase("<a xmlns=\"no-prefix\" w=\"1\" />", "/*[local-name()='a' and namespace-uri()='no-prefix' and @w='1']/@w")]
         public void WriteOutputIsValid(string xml, string expectedXPath)
         {
             // Arrange
-            INodeFilter includeAll = Substitute.For<INodeFilter>();
-            includeAll.IsIncluded(Arg.Any<XObject>()).Returns(info => !info.Arg<XAttribute>().IsNamespaceDeclaration);
-            XDocument document = XDocument.Parse(xml);
-            IEnumerator enumerator = ((IEnumerable)document.Root.XPathEvaluate(expectedXPath, new SimpleXmlNamespaceResolver(document))).GetEnumerator();
-            enumerator.MoveNext();
-            XObject testNode = enumerator.Current as XObject;
+            var includeAllAttributesExceptNamespaceDeclarations = Substitute.For<INodeFilter>();
+            includeAllAttributesExceptNamespaceDeclarations.IsIncluded(Arg.Any<XObject>()).Returns(info => !info.Arg<XAttribute>().IsNamespaceDeclaration);
+            var filters = new[] { includeAllAttributesExceptNamespaceDeclarations };
+            var testNode = GetTestNode(xml, expectedXPath);
 
             // Act
-            string actualXPath = new XPathWriter(new[] { includeAll }).Write(testNode);
+            var actualXPath = new XPathWriter(filters).Write(testNode);
 
             // Assert
             Assert.That(actualXPath, Is.EqualTo(expectedXPath));
+        }
+
+        private XObject GetTestNode(string xml, string xpath)
+        {
+            var document = XDocument.Parse(xml);
+            var enumerator = ((IEnumerable)document.Root.XPathEvaluate(xpath, new SimpleXmlNamespaceResolver(document))).GetEnumerator();
+            enumerator.MoveNext();
+            var testNode = enumerator.Current as XObject;
+            return testNode;
         }
     }
 }

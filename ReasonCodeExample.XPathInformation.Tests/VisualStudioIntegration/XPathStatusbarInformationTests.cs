@@ -4,6 +4,7 @@ using NUnit.Framework;
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 {
     [TestFixture]
+    [Category("Integration")]
     public class XPathStatusbarInformationTests
     {
         private readonly VisualStudioExperimentalInstance _instance = new VisualStudioExperimentalInstance();
