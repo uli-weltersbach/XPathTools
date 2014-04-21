@@ -16,6 +16,17 @@ namespace ReasonCodeExample.XPathInformation.Tests.Writers
         {
             // Arrange
             var element = string.IsNullOrEmpty(expectedXPath) ? null : xml.SelectSingleNode(expectedXPath);
+            var writer = CreateXPathWriter();
+
+            // Act
+            var actualXPath = writer.Write(element);
+
+            // Assert
+            Assert.That(actualXPath, Is.EqualTo(expectedXPath));
+        }
+
+        private XPathWriter CreateXPathWriter()
+        {
             var settings = new[]
                            {
                                new XPathSetting {AttributeName = "id"},
@@ -23,7 +34,40 @@ namespace ReasonCodeExample.XPathInformation.Tests.Writers
                                new XPathSetting {AttributeName = "type"}
                            };
             var filter = new DistinctAttributeFilter(settings);
-            var writer = new XPathWriter(new[] {filter});
+            return new XPathWriter(new[] {filter});
+        }
+
+        [TestCase("<a:element xmlns:a=\"1\" xmlns:b=\"2\"><b:element id=\"1\"/><b:element id=\"2\"/><b:element id=\"3\"/></a:element>", "/a:element/b:element[@id='3']")]
+        public void PreferredAttributeIsNotDuplicatedInDistinctPath(string xml, string expectedXPath)
+        {
+            // Arrange
+            var element = string.IsNullOrEmpty(expectedXPath) ? null : xml.SelectSingleNode(expectedXPath);
+            var writer = CreateXPathWriter();
+
+            // Act
+            var actualXPath = writer.Write(element);
+
+            // Assert
+            Assert.That(actualXPath, Is.EqualTo(expectedXPath));
+        }
+
+        [Test]
+        public void ElementNamespaceFormatIsCorrect()
+        {
+            // Arrange
+            var expectedXPath = "/configuration/runtime/*[local-name()='assemblyBinding'][namespace-uri()='urn:schemas-microsoft-com:asm.v1'][@id='1']";
+            var xml = @"<configuration>
+                            <runtime>
+                                <assemblyBinding id='1' xmlns='urn:schemas-microsoft-com:asm.v1'>
+                                    <child />
+                                </assemblyBinding>
+                                <assemblyBinding id='2' xmlns='urn:schemas-microsoft-com:asm.v1'>
+                                    <child />
+                                </assemblyBinding>
+                            </runtime>
+                        </configuration>";
+            var element = xml.SelectSingleNode(expectedXPath);
+            var writer = CreateXPathWriter();
 
             // Act
             var actualXPath = writer.Write(element);
