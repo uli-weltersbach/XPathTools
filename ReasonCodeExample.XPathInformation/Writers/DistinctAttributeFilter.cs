@@ -15,13 +15,9 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
         public override bool IsIncluded(XAttribute attribute)
         {
-            if(attribute == null)
+            if(!base.IsIncluded(attribute))
             {
-                return base.IsIncluded(attribute);
-            }
-            if(attribute.Parent == null)
-            {
-                return base.IsIncluded(attribute);
+                return false;
             }
             if(_candidates == null)
             {
@@ -30,7 +26,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
             return _candidates.Any(candidate => candidate.Attributes.Contains(attribute));
         }
 
-        private List<XPathCandidate> FindXPathCandidates(XAttribute attribute)
+        private IList<XPathCandidate> FindXPathCandidates(XAttribute attribute)
         {
             var candidates = new List<XPathCandidate>();
             foreach(var element in attribute.Parent.AncestorsAndSelf().Reverse())
