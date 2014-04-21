@@ -14,12 +14,6 @@ namespace ReasonCodeExample.XPathInformation.Writers
         private const string PredicateEnd = "]";
         private readonly IEnumerable<IAttributeFilter> _filters;
 
-        protected StringBuilder XPath
-        {
-            get;
-            private set;
-        }
-
         public XPathWriter()
             : this(Enumerable.Empty<IAttributeFilter>())
         {
@@ -27,7 +21,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
         public XPathWriter(IEnumerable<IAttributeFilter> filters)
         {
-            if (filters == null)
+            if(filters == null)
             {
                 throw new ArgumentNullException("filters");
             }
@@ -35,8 +29,18 @@ namespace ReasonCodeExample.XPathInformation.Writers
             _filters = filters;
         }
 
+        protected StringBuilder XPath
+        {
+            get;
+            private set;
+        }
+
         public string Write(XObject node)
         {
+            if(node == null)
+            {
+                return string.Empty;
+            }
             var pathParts = GetPathParts(node);
             Write(pathParts);
             return XPath.ToString();
@@ -45,11 +49,11 @@ namespace ReasonCodeExample.XPathInformation.Writers
         private IEnumerable<XPathPart> GetPathParts(XObject node)
         {
             XElement selectedElement;
-            if (IsElement(node))
+            if(IsElement(node))
             {
                 selectedElement = (XElement)node;
             }
-            else if (IsAttribute(node))
+            else if(IsAttribute(node))
             {
                 selectedElement = node.Parent;
             }
@@ -60,16 +64,16 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
             var parts = new List<XPathPart>();
             var ancestorsAndSelf = selectedElement.AncestorsAndSelf().Reverse();
-            foreach (var ancestor in ancestorsAndSelf)
+            foreach(var ancestor in ancestorsAndSelf)
             {
                 var part = new XPathPart();
                 part.Node = ancestor;
                 part.Predicates = ancestor.Attributes().Where(MatchesAnyFilter).ToArray();
                 parts.Add(part);
             }
-            if (IsAttribute(node))
+            if(IsAttribute(node))
             {
-                parts.Add(new XPathPart { Node = node });
+                parts.Add(new XPathPart {Node = node});
             }
             return parts;
         }
@@ -91,15 +95,15 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
         private void Write(IEnumerable<XPathPart> pathParts)
         {
-            foreach (var pathPart in pathParts)
+            foreach(var pathPart in pathParts)
             {
-                if (IsElement(pathPart))
+                if(IsElement(pathPart))
                 {
                     WritePathPartSeparator();
                     WriteElementName(pathPart.Node as XElement);
                     WritePredicates(pathPart);
                 }
-                else if (IsAttribute(pathPart))
+                else if(IsAttribute(pathPart))
                 {
                     WritePathPartSeparator();
                     WriteAttributeName(pathPart.Node as XAttribute);
@@ -119,13 +123,13 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
         private void WriteElementName(XElement element)
         {
-            if (string.IsNullOrEmpty(element.Name.NamespaceName))
+            if(string.IsNullOrEmpty(element.Name.NamespaceName))
             {
                 XPath.Append(element.Name.LocalName);
                 return;
             }
             var namespacePrefix = element.GetPrefixOfNamespace(element.Name.Namespace);
-            if (string.IsNullOrEmpty(namespacePrefix))
+            if(string.IsNullOrEmpty(namespacePrefix))
             {
                 XPath.AppendFormat("*[local-name()='{0}'][namespace-uri()='{1}']", element.Name.LocalName, element.Name.NamespaceName);
             }
@@ -137,15 +141,15 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
         protected virtual void WritePredicates(XPathPart pathPart)
         {
-            if (pathPart.Predicates == null)
+            if(pathPart.Predicates == null)
             {
                 return;
             }
-            if (pathPart.Predicates.Count == 0)
+            if(pathPart.Predicates.Count == 0)
             {
                 return;
             }
-            foreach (var predicate in pathPart.Predicates)
+            foreach(var predicate in pathPart.Predicates)
             {
                 WritePredicateStart();
                 WriteAttributeName(predicate);
@@ -162,19 +166,19 @@ namespace ReasonCodeExample.XPathInformation.Writers
         private void WriteAttributeName(XAttribute attribute)
         {
             XPath.Append("@");
-            if (string.IsNullOrEmpty(attribute.Name.NamespaceName))
+            if(string.IsNullOrEmpty(attribute.Name.NamespaceName))
             {
                 XPath.Append(attribute.Name.LocalName);
                 return;
             }
 
-            if (attribute.Parent == null)
+            if(attribute.Parent == null)
             {
                 throw new XmlException(string.Format("Unable to determine namespace prefix for attribute \"{0}\". Parent is null.", attribute.Name));
             }
 
             var namespacePrefix = attribute.Parent.GetPrefixOfNamespace(attribute.Name.Namespace);
-            if (string.IsNullOrEmpty(namespacePrefix))
+            if(string.IsNullOrEmpty(namespacePrefix))
             {
                 XPath.Append(attribute.Name.LocalName);
             }

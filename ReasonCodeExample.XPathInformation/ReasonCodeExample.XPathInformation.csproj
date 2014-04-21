@@ -122,6 +122,7 @@
     <Compile Include="IConfiguration.cs" />
     <Compile Include="Writers\AbsoluteXPathWriter.cs" />
     <Compile Include="Writers\AttributeFilter.cs" />
+    <Compile Include="Writers\DistinctAttributeFilter.cs" />
     <Compile Include="Writers\IAttributeFilter.cs" />
     <Compile Include="Writers\XPathWriter.cs" />
     <Compile Include="XPathSetting.cs" />

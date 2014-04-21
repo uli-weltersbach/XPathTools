@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -6,16 +7,24 @@ namespace ReasonCodeExample.XPathInformation.Writers
 {
     internal class AttributeFilter : IAttributeFilter
     {
-        private readonly IEnumerable<XPathSetting> _settings;
-
         public AttributeFilter(IEnumerable<XPathSetting> settings)
         {
-            _settings = settings;
+            if(settings == null)
+            {
+                throw new ArgumentNullException("settings");
+            }
+            Settings = settings;
         }
 
-        public bool IsIncluded(XAttribute attribute)
+        protected IEnumerable<XPathSetting> Settings
         {
-            return _settings.Any(setting => IsMatch(setting, attribute) && IsMatch(setting, attribute.Parent));
+            get;
+            private set;
+        }
+
+        public virtual bool IsIncluded(XAttribute attribute)
+        {
+            return attribute != null && Settings.Any(setting => IsMatch(setting, attribute) && IsMatch(setting, attribute.Parent));
         }
 
         private bool IsMatch(XPathSetting setting, XAttribute attribute)
