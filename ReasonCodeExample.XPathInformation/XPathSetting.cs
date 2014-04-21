@@ -1,8 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Text;
 
 namespace ReasonCodeExample.XPathInformation
 {
+    [Serializable]
     public class XPathSetting
     {
         [DisplayName("Element name. Leave blank to match any name.")]

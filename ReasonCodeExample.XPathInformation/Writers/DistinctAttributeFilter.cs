@@ -6,8 +6,6 @@ namespace ReasonCodeExample.XPathInformation.Writers
 {
     internal class DistinctAttributeFilter : AttributeFilter
     {
-        private IList<XPathCandidate> _candidates;
-
         public DistinctAttributeFilter(IEnumerable<XPathSetting> settings)
             : base(settings)
         {
@@ -19,23 +17,13 @@ namespace ReasonCodeExample.XPathInformation.Writers
             {
                 return false;
             }
-            if(_candidates == null)
-            {
-                _candidates = FindXPathCandidates(attribute);
-            }
-            return _candidates.Any(candidate => candidate.Attributes.Contains(attribute));
+            var candidates = FindXPathCandidates(attribute);
+            return candidates.Any(candidate => candidate.Attributes.Contains(attribute));
         }
 
         private IList<XPathCandidate> FindXPathCandidates(XAttribute attribute)
         {
-            var candidates = new List<XPathCandidate>();
-            foreach(var element in attribute.Parent.AncestorsAndSelf().Reverse())
-            {
-                var candidate = CreateXPathCandidate(element);
-                candidates.Add(candidate);
-            }
-            // Cache results for current document object
-            return candidates;
+            return attribute.Parent.AncestorsAndSelf().Reverse().Select(CreateXPathCandidate).ToArray();
         }
 
         private XPathCandidate CreateXPathCandidate(XElement element)
