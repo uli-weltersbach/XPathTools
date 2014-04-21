@@ -24,7 +24,11 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
         public virtual bool IsIncluded(XAttribute attribute)
         {
-            return attribute != null && Settings.Any(setting => IsMatch(setting, attribute) && IsMatch(setting, attribute.Parent));
+            if(attribute == null)
+                return false;
+            if (attribute.Parent == null)
+                return false;
+            return Settings.Any(setting => IsMatch(setting, attribute) && IsMatch(setting, attribute.Parent));
         }
 
         private bool IsMatch(XPathSetting setting, XAttribute attribute)
