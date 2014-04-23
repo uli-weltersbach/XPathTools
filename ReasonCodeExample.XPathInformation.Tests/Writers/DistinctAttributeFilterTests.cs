@@ -11,6 +11,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Writers
         [TestCase("<a><b /><b /><b /><b><c id='same' name='unique'/><c id='same' /></b></a>", "/a/b/c[@name='unique']")]
         [TestCase("<a><b /><b /><b /><b><c id='same' type='unique'/><c id='same' /></b></a>", "/a/b/c[@type='unique']")]
         [TestCase("<a><b id='same'><c id='same' /></b><b id='same'><c id='same' /></b><b id='unique'><c id='same' /></b></a>", "/a/b[@id='unique']/c")]
+        [TestCase("<a><b id='same'><c id='same' /></b><b id='same'><c id='same' /></b><b id='unique'><c /><c /><c id='X' /></b></a>", "/a/b[@id='unique']/c[@id='X']")]
         [TestCase("<a:element xmlns:a=\"1\"><b:element xmlns:b=\"2\"/></a:element>", "/a:element/b:element")]
         [TestCase("<a><b id='1' name='1' type='1'/><b id='1' name='2' type='2'/></a>", "/a/b[@name='2']")]
         public void PreferredAttributeIsUsedInDistinctPath(string xml, string expectedXPath)

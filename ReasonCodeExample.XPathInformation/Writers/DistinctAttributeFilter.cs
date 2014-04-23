@@ -13,7 +13,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
         public override bool IsIncluded(XAttribute attribute)
         {
-            if (!base.IsIncluded(attribute))
+            if(!base.IsIncluded(attribute))
             {
                 return false;
             }
@@ -28,7 +28,17 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
         private XAttribute FindCandidateAttribute(XElement element)
         {
-            var identicallyNamedSiblings = element.ElementsBeforeSelf(element.Name).Union(element.ElementsAfterSelf(element.Name));
+            var identicallyNamedSiblings = GetIdenticallyNamedSiblings(element);
+            return identicallyNamedSiblings.Any() ? GetFirstIncludedAttributeWithUniqueValue(element, identicallyNamedSiblings) : null;
+        }
+
+        private IList<XElement> GetIdenticallyNamedSiblings(XElement element)
+        {
+            return element.ElementsBeforeSelf(element.Name).Union(element.ElementsAfterSelf(element.Name)).ToArray();
+        }
+
+        private XAttribute GetFirstIncludedAttributeWithUniqueValue(XElement element, IEnumerable<XElement> identicallyNamedSiblings)
+        {
             return element.Attributes().Where(base.IsIncluded).FirstOrDefault(attribute => HasUniqueValue(attribute, identicallyNamedSiblings));
         }
 
