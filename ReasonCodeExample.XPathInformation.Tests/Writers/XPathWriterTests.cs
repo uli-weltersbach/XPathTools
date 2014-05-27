@@ -31,5 +31,20 @@ namespace ReasonCodeExample.XPathInformation.Tests.Writers
             // Assert
             Assert.That(actualXPath, Is.EqualTo(expectedXPath));
         }
+
+        [Test]
+        public void WriterIsReusable()
+        {
+            // Arrange
+            var writer = new XPathWriter();
+            var element = new XElement("a");
+            writer.Write(element);
+
+            // Act
+            var result = writer.Write(element);
+
+            // Assert
+            Assert.That(result, Is.EqualTo("/a"));
+        }
     }
 }

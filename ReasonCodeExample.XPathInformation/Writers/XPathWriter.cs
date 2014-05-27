@@ -25,7 +25,6 @@ namespace ReasonCodeExample.XPathInformation.Writers
             {
                 throw new ArgumentNullException("filters");
             }
-            XPath = new StringBuilder();
             _filters = filters;
         }
 
@@ -41,6 +40,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
             {
                 return string.Empty;
             }
+            XPath = new StringBuilder();
             var pathParts = GetPathParts(node);
             Write(pathParts);
             return XPath.ToString();
