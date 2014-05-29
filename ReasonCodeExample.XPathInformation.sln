@@ -1,16 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReasonCodeExample.XPathInformation", "ReasonCodeExample.XPathInformation\ReasonCodeExample.XPathInformation.csproj", "{19883877-2B18-4AFA-9EB0-CD5D1F0726B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReasonCodeExample.XPathInformation.Tests", "ReasonCodeExample.XPathInformation.Tests\ReasonCodeExample.XPathInformation.Tests.csproj", "{31C7482E-5ED4-4FB4-96D9-64E0BBB63FF8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{178EC1E7-2424-4876-895F-10E2C923CE97}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{2B97C2D3-FE18-447D-88B9-34D7D9230A43}"
 	ProjectSection(SolutionItems) = preProject
