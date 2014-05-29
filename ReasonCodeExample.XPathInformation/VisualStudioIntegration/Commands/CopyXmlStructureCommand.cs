@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Xml.Linq;
-using ReasonCodeExample.XPathInformation.Formatters;
+using ReasonCodeExample.XPathInformation.Writers;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {
@@ -26,7 +26,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
                 element = obj as XElement;
             else if (obj is XAttribute)
                 element = obj.Parent;
-            return new XmlStructureFormatter().Format(element).ToString(SaveOptions.None);
+            return new XmlStructureWriter().Write(element).ToString(SaveOptions.None);
         }
 
         protected override void OnBeforeQueryStatus(object sender, EventArgs e)

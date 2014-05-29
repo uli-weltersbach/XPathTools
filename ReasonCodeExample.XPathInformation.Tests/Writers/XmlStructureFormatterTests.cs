@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
 using NUnit.Framework;
-using ReasonCodeExample.XPathInformation.Formatters;
+using ReasonCodeExample.XPathInformation.Writers;
 
-namespace ReasonCodeExample.XPathInformation.Tests.Formatters
+namespace ReasonCodeExample.XPathInformation.Tests.Writers
 {
     [TestFixture]
     public class XmlStructureFormatterTests
@@ -18,7 +18,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
             XElement element = document.Root.DescendantsAndSelf().ElementAt(testElementIndex);
 
             // Act
-            string actualXml = new XmlStructureFormatter().Format(element).ToString(SaveOptions.DisableFormatting);
+            string actualXml = new XmlStructureWriter().Write(element).ToString(SaveOptions.DisableFormatting);
 
             // Assert
             Assert.That(actualXml, Is.EqualTo(expectedXml));
@@ -31,7 +31,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Formatters
             XElement original = new XElement("original");
 
             // Act
-            XElement clone = new XmlStructureFormatter().Format(original);
+            XElement clone = new XmlStructureWriter().Write(original);
 
             // Assert
             Assert.That(ReferenceEquals(original, clone), Is.False);

@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
-using System.Xml.Linq;
-using System.Xml.XPath;
-using ReasonCodeExample.XPathInformation.Formatters;
+using ReasonCodeExample.XPathInformation.Writers;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {
     internal class CopyXPathCommand : CopyCommand
     {
-        private readonly IXPathFormatter _formatter;
+        private readonly XPathWriter _writer;
         private string _xpath = string.Empty;
 
-        public CopyXPathCommand(int id, XObjectRepository repository, IXPathFormatter formatter)
+        public CopyXPathCommand(int id, XObjectRepository repository, XPathWriter writer)
             : base(id, repository)
         {
-            if (formatter == null)
-                throw new ArgumentNullException("formatter");
-            _formatter = formatter;
+            if(writer == null)
+            {
+                throw new ArgumentNullException("writer");
+            }
+            _writer = writer;
         }
 
         protected override void OnInvoke(object sender, EventArgs e)
@@ -27,46 +26,23 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 
         protected override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
-            _xpath = _formatter.Format(Repository.Get());
-            if (string.IsNullOrEmpty(_xpath))
+            if(_writer != null)
+            {
+                _xpath = _writer.Write(Repository.Get());
+            }
+            if(string.IsNullOrEmpty(_xpath))
             {
                 Command.Visible = false;
                 return;
             }
-            int elementCount = GetElementCount(_xpath);
-            if (elementCount == 0)
+            var elementCount = new XmlNodeRepository().GetNodeCount(Repository.Get(), _xpath);
+            if(elementCount == 0)
             {
                 Command.Visible = false;
                 return;
             }
             Command.Visible = true;
-            SetCommandText(_xpath, elementCount);
-        }
-
-        private int GetElementCount(string xpath)
-        {
-            XObject current = Repository.Get();
-            if (current == null)
-                return 0;
-            if (current.Document == null)
-                return 0;
-            if (current.Document.Root == null)
-                return 0;
-            try
-            {
-                return current.Document.XPathSelectElements(xpath, new SimpleXmlNamespaceResolver(current.Document)).Count();
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
-        }
-
-        private void SetCommandText(string xpath, int elementCount)
-        {
-            Command.Text = xpath;
-            string matchText = elementCount == 1 ? "match" : "matches";
-            Command.Text = string.Format("({0} {1}) {2}", elementCount, matchText, _xpath);
+            Command.Text = CommandTextFormatter.Format(_xpath, elementCount);
         }
     }
 }

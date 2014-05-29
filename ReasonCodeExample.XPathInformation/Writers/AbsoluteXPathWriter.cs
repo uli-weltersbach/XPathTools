@@ -6,6 +6,10 @@ namespace ReasonCodeExample.XPathInformation.Writers
 {
     internal class AbsoluteXPathWriter : XPathWriter
     {
+        public AbsoluteXPathWriter()
+        {
+        }
+
         public AbsoluteXPathWriter(IEnumerable<IAttributeFilter> filters)
             : base(filters)
         {

@@ -113,10 +113,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="VisualStudioIntegration\CaretPositionLineInfo.cs" />
-    <Compile Include="Formatters\AbsoluteXPathFormatter.cs" />
-    <Compile Include="Formatters\DistinctXPathFormatter.cs" />
-    <Compile Include="Formatters\IXPathFormatter.cs" />
-    <Compile Include="Formatters\XmlStructureFormatter.cs" />
     <Compile Include="SimpleXmlNamespaceResolver.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandTextFormatter.cs" />
     <Compile Include="VisualStudioIntegration\Configuration\SerializableConverter.cs" />
@@ -125,6 +121,7 @@
     <Compile Include="Writers\AttributeFilter.cs" />
     <Compile Include="Writers\DistinctAttributeFilter.cs" />
     <Compile Include="Writers\IAttributeFilter.cs" />
+    <Compile Include="Writers\XmlStructureWriter.cs" />
     <Compile Include="Writers\XPathWriter.cs" />
     <Compile Include="XPathSetting.cs" />
     <Compile Include="VisualStudioIntegration\Configuration\XPathInformationConfiguration.cs">
@@ -136,7 +133,6 @@
     <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommand.cs" />
     <Compile Include="VisualStudioIntegration\Commands\Symbols.cs" />
     <Compile Include="XmlNodeRepository.cs" />
-    <Compile Include="Formatters\GenericXPathFormatter.cs" />
     <Compile Include="XObjectRepository.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformation.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformationFactory.cs" />

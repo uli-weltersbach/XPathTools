@@ -3,11 +3,11 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace ReasonCodeExample.XPathInformation.Formatters
+namespace ReasonCodeExample.XPathInformation.Writers
 {
-    internal class XmlStructureFormatter
+    internal class XmlStructureWriter
     {
-        public XElement Format(XElement element)
+        public XElement Write(XElement element)
         {
             if (element == null)
                 return null;
@@ -20,7 +20,7 @@ namespace ReasonCodeExample.XPathInformation.Formatters
 
         private XDocument CopyAncestorsAndDescendantsOf(XDocument document, XElement element)
         {
-            string xpath = new AbsoluteXPathFormatter().Format(element);
+            string xpath = new AbsoluteXPathWriter().Write(element);
             IList<XElement> elementsToKeep = GetElementsToKeep(document, xpath);
             IList<XElement> allElements = document.Root.DescendantsAndSelf().ToArray();
             foreach (XElement copy in allElements)
