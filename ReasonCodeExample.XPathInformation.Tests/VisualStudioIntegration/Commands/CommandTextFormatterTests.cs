@@ -8,6 +8,8 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
     {
         [TestCase("text", 1, "(1 match) text")]
         [TestCase("text", 2, "(2 matches) text")]
+        [TestCase("abcdefghij", 2, "(2 matches) abcdefghij")]
+        [TestCase("abcdefghijk", 2, "(2 matches) ...bcdefghijk")]
         [TestCase("abcdefghijklmnopqrstuvwxyz", 2, "(2 matches) ...qrstuvwxyz")]
         public void EllipsisIsPrependedCorrectly(string commandText, int elementCount, string expectedCommandText)
         {
