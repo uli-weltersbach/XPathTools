@@ -4,7 +4,6 @@ using System.ComponentModel.Design;
 using System.Drawing.Design;
 using System.Reflection;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.Win32;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configuration
 {
@@ -14,76 +13,6 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configurati
         {
             AlwaysDisplayedAttributesSetting = new BindingList<XPathSetting>();
             PreferredAttributeCandidatesSetting = new BindingList<XPathSetting>();
-        }
-
-        public override void LoadSettingsFromStorage()
-        {
-            base.LoadSettingsFromStorage();
-            LoadCollectionsFromStorage();
-            AlwaysDisplayedAttributesSetting.RaiseListChangedEvents = true;
-            AlwaysDisplayedAttributesSetting.ListChanged += SaveAlwaysDisplayedAttributesSettingToStorage;
-            PreferredAttributeCandidatesSetting.RaiseListChangedEvents = true;
-            PreferredAttributeCandidatesSetting.ListChanged += SavePreferredAttributeCandidatesSettingToStorage;
-        }
-
-        private void LoadCollectionsFromStorage()
-        {
-            Package package = (Package)this.GetService(typeof(Package));
-            if (package == null)
-                return;
-            using (RegistryKey userRegistryRoot = package.UserRegistryRoot)
-            {
-                string settingsRegistryPath = this.SettingsRegistryPath;
-                object automationObject = this.AutomationObject;
-                RegistryKey registryKey = userRegistryRoot.OpenSubKey(settingsRegistryPath, false);
-                if (registryKey == null)
-                    return;
-                using (registryKey)
-                {
-                    string[] valueNames = registryKey.GetValueNames();
-                    foreach (string name in valueNames)
-                    {
-                        PropertyInfo property = automationObject.GetType().GetProperty(name);
-                        if (property == null)
-                            return;
-                        if (property.GetCustomAttribute(typeof(TypeConverterAttribute)) == null)
-                            return;
-                        string convertedValue = registryKey.GetValue(name).ToString();
-                        SerializableConverter<BindingList<XPathSetting>> converter = new SerializableConverter<BindingList<XPathSetting>>();
-                        property.SetValue(automationObject, converter.ConvertFrom(convertedValue));
-                    }
-                }
-            }
-        }
-
-        private void SaveAlwaysDisplayedAttributesSettingToStorage(object sender, ListChangedEventArgs e)
-        {
-            if (e.ListChangedType != ListChangedType.Reset)
-                SaveCollectionToStorage("AlwaysDisplayedAttributesSetting", (BindingList<XPathSetting>)sender);
-        }
-
-        private void SavePreferredAttributeCandidatesSettingToStorage(object sender, ListChangedEventArgs e)
-        {
-            if (e.ListChangedType != ListChangedType.Reset)
-                SaveCollectionToStorage("PreferredAttributeCandidatesSetting", (BindingList<XPathSetting>)sender);
-        }
-
-        private void SaveCollectionToStorage(string propertyName, BindingList<XPathSetting> settings)
-        {
-            Package package = (Package)this.GetService(typeof(Package));
-            if (package == null)
-                return;
-            using (RegistryKey userRegistryRoot = package.UserRegistryRoot)
-            {
-                string settingsRegistryPath = this.SettingsRegistryPath;
-                RegistryKey registryKey = userRegistryRoot.OpenSubKey(settingsRegistryPath, true) ?? userRegistryRoot.CreateSubKey(settingsRegistryPath);
-                using (registryKey)
-                {
-                    SerializableConverter<BindingList<XPathSetting>> converter = new SerializableConverter<BindingList<XPathSetting>>();
-                    object convertedValue = converter.ConvertTo(settings, typeof(string));
-                    registryKey.SetValue(propertyName, convertedValue);
-                }
-            }
         }
 
         [Browsable(false)]
@@ -105,12 +34,6 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configurati
             private set;
         }
 
-        [Browsable(false)]
-        public IList<XPathSetting> AlwaysDisplayedAttributes
-        {
-            get { return AlwaysDisplayedAttributesSetting; }
-        }
-
         [Category("Distinct XPath")]
         [DisplayName("Preferred attribute candidates")]
         [Description("Specify which attributes to use when attempting to determine a \"distinct XPath\" to a node.")]
@@ -124,9 +47,99 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configurati
         }
 
         [Browsable(false)]
+        public IList<XPathSetting> AlwaysDisplayedAttributes
+        {
+            get
+            {
+                return AlwaysDisplayedAttributesSetting;
+            }
+        }
+
+        [Browsable(false)]
         public IList<XPathSetting> PreferredAttributeCandidates
         {
-            get { return PreferredAttributeCandidatesSetting; }
+            get
+            {
+                return PreferredAttributeCandidatesSetting;
+            }
+        }
+
+        public override void LoadSettingsFromStorage()
+        {
+            base.LoadSettingsFromStorage();
+            LoadCollectionsFromStorage();
+            AlwaysDisplayedAttributesSetting.RaiseListChangedEvents = true;
+            AlwaysDisplayedAttributesSetting.ListChanged += SaveAlwaysDisplayedAttributesSettingToStorage;
+            PreferredAttributeCandidatesSetting.RaiseListChangedEvents = true;
+            PreferredAttributeCandidatesSetting.ListChanged += SavePreferredAttributeCandidatesSettingToStorage;
+        }
+
+        private void LoadCollectionsFromStorage()
+        {
+            var package = (Package)GetService(typeof(Package));
+            if(package == null)
+            {
+                return;
+            }
+            using(var userRegistryRoot = package.UserRegistryRoot)
+            {
+                var settingsRegistryPath = SettingsRegistryPath;
+                var automationObject = AutomationObject;
+                var registryKey = userRegistryRoot.OpenSubKey(settingsRegistryPath, false);
+                if(registryKey == null)
+                {
+                    return;
+                }
+                using(registryKey)
+                {
+                    var valueNames = registryKey.GetValueNames();
+                    foreach(var name in valueNames)
+                    {
+                        var property = automationObject.GetType().GetProperty(name);
+                        if(property == null)
+                        {
+                            return;
+                        }
+                        if(property.GetCustomAttribute(typeof(TypeConverterAttribute)) == null)
+                        {
+                            return;
+                        }
+                        var convertedValue = registryKey.GetValue(name).ToString();
+                        var converter = new SerializableConverter<BindingList<XPathSetting>>();
+                        property.SetValue(automationObject, converter.ConvertFrom(convertedValue));
+                    }
+                }
+            }
+        }
+
+        private void SaveAlwaysDisplayedAttributesSettingToStorage(object sender, ListChangedEventArgs e)
+        {
+            SaveCollectionToStorage("AlwaysDisplayedAttributesSetting", (BindingList<XPathSetting>)sender);
+        }
+
+        private void SavePreferredAttributeCandidatesSettingToStorage(object sender, ListChangedEventArgs e)
+        {
+            SaveCollectionToStorage("PreferredAttributeCandidatesSetting", (BindingList<XPathSetting>)sender);
+        }
+
+        private void SaveCollectionToStorage(string propertyName, BindingList<XPathSetting> settings)
+        {
+            var package = (Package)GetService(typeof(Package));
+            if(package == null)
+            {
+                return;
+            }
+            using(var userRegistryRoot = package.UserRegistryRoot)
+            {
+                var settingsRegistryPath = SettingsRegistryPath;
+                var registryKey = userRegistryRoot.OpenSubKey(settingsRegistryPath, true) ?? userRegistryRoot.CreateSubKey(settingsRegistryPath);
+                using(registryKey)
+                {
+                    var converter = new SerializableConverter<BindingList<XPathSetting>>();
+                    var convertedValue = converter.ConvertTo(settings, typeof(string));
+                    registryKey.SetValue(propertyName, convertedValue);
+                }
+            }
         }
     }
 }
