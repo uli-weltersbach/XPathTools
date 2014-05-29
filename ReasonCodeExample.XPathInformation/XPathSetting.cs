@@ -48,7 +48,11 @@ namespace ReasonCodeExample.XPathInformation
             }
             if(!string.IsNullOrEmpty(AttributeNamespace) || !string.IsNullOrEmpty(AttributeName))
             {
-                text.Append("/@");
+                if(!string.IsNullOrEmpty(ElementName))
+                {
+                    text.Append("/");
+                }
+                text.Append("@");
             }
             if(!string.IsNullOrEmpty(AttributeNamespace))
             {
