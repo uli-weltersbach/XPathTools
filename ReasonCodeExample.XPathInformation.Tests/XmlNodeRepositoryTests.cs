@@ -24,12 +24,12 @@ namespace ReasonCodeExample.XPathInformation.Tests
         public void ElementIsFound(string xml, int linePosition, string expectedElementName)
         {
             // Arrange
-            XmlNodeRepository repository = new XmlNodeRepository();
-            XElement rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
+            var repository = new XmlNodeRepository();
+            var rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
 
             // Act
-            XElement element = repository.GetElement(rootElement, 1, linePosition);
-            string elementName = element == null ? string.Empty : element.Name.ToString();
+            var element = repository.GetElement(rootElement, 1, linePosition);
+            var elementName = element == null ? string.Empty : element.Name.ToString();
 
             // Assert
             Assert.That(elementName, Is.EqualTo(expectedElementName));
@@ -43,13 +43,13 @@ namespace ReasonCodeExample.XPathInformation.Tests
         public void AttributeIsFound(string xml, int linePosition, string expectedAttributeName)
         {
             // Arrange
-            XmlNodeRepository repository = new XmlNodeRepository();
-            XElement rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
+            var repository = new XmlNodeRepository();
+            var rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
             const int lineNumber = 1;
 
             // Act
-            XAttribute attribute = repository.GetAttribute(rootElement, lineNumber, linePosition);
-            string attributeName = attribute == null ? string.Empty : attribute.Name.ToString();
+            var attribute = repository.GetAttribute(rootElement, lineNumber, linePosition);
+            var attributeName = attribute == null ? string.Empty : attribute.Name.ToString();
 
             // Assert
             Assert.That(attributeName, Is.EqualTo(expectedAttributeName));
@@ -62,7 +62,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
         public void MultiLineElementIsFound(int lineNumber, int linePosition, string expectedElementName)
         {
             // Arrange
-            string xml = @"<configuration xmlns:patch=""http://www.sitecore.net/xmlconfig/"">
+            var xml = @"<configuration xmlns:patch=""http://www.sitecore.net/xmlconfig/"">
                               <sitecore>
                                 <sites>
                                   <site name=""website"">
@@ -86,13 +86,13 @@ namespace ReasonCodeExample.XPathInformation.Tests
                                 </sites>
                               </sitecore>
                             </configuration>";
-            XElement rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
-            XElement siteElement = rootElement.DescendantsAndSelf("site").LastOrDefault();
-            XmlNodeRepository repository = new XmlNodeRepository();
+            var rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
+            var siteElement = rootElement.DescendantsAndSelf("site").LastOrDefault();
+            var repository = new XmlNodeRepository();
 
             // Act
-            XElement element = repository.GetElement(siteElement, lineNumber, linePosition);
-            string elementName = element == null ? string.Empty : element.Name.ToString();
+            var element = repository.GetElement(siteElement, lineNumber, linePosition);
+            var elementName = element == null ? string.Empty : element.Name.ToString();
 
             // Assert
             Assert.That(elementName, Is.EqualTo(expectedElementName));
@@ -105,7 +105,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
         public void MultiLineElementAttributeIsFound(int lineNumber, int linePosition, string expectedAttributeName)
         {
             // Arrange
-            string xml = @"<configuration xmlns:patch=""http://www.sitecore.net/xmlconfig/"">
+            var xml = @"<configuration xmlns:patch=""http://www.sitecore.net/xmlconfig/"">
                               <sitecore>
                                 <sites>
                                   <site name=""website"">
@@ -129,16 +129,32 @@ namespace ReasonCodeExample.XPathInformation.Tests
                                 </sites>
                               </sitecore>
                             </configuration>";
-            XElement rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
-            XElement siteElement = rootElement.DescendantsAndSelf("site").LastOrDefault();
-            XmlNodeRepository repository = new XmlNodeRepository();
+            var rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
+            var siteElement = rootElement.DescendantsAndSelf("site").LastOrDefault();
+            var repository = new XmlNodeRepository();
 
             // Act
-            XAttribute attribute = repository.GetAttribute(siteElement, lineNumber, linePosition);
-            string attributeName = attribute == null ? string.Empty : attribute.Name.ToString();
+            var attribute = repository.GetAttribute(siteElement, lineNumber, linePosition);
+            var attributeName = attribute == null ? string.Empty : attribute.Name.ToString();
 
             // Assert
             Assert.That(attributeName, Is.EqualTo(expectedAttributeName));
+        }
+
+        [TestCase("<a />", "/a", 1)]
+        [TestCase("<a><b /><b /><b /><b /><b /></a>", "/a/b", 5)]
+        [TestCase("<a><b c=''/><b c=''/><b c=''/><b /><b /></a>", "/a/b/@c", 3)]
+        public void ElementCountIsCorrect(string xml, string xpath, int expectedCount)
+        {
+            // Arrange
+            var document = XDocument.Parse(xml);
+            var repository = new XmlNodeRepository();
+
+            // Act
+            var count = repository.GetNodeCount(document.Root, xpath);
+
+            // Assert
+            Assert.That(count, Is.EqualTo(expectedCount));
         }
     }
 }

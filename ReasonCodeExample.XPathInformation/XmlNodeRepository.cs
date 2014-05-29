@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace ReasonCodeExample.XPathInformation
 {
@@ -22,6 +25,32 @@ namespace ReasonCodeExample.XPathInformation
             _rootElement = document.Root;
             _cachedXmlHashCode = xml.GetHashCode();
             return _rootElement;
+        }
+
+        public int GetNodeCount(XObject xml, string xpath)
+        {
+            if (xml == null)
+            {
+                return 0;
+            }
+            if (xml.Document == null)
+            {
+                return 0;
+            }
+            if (xml.Document.Root == null)
+            {
+                return 0;
+            }
+            try
+            {
+                var namespaceResolver = new SimpleXmlNamespaceResolver(xml.Document);
+                var results = (IEnumerable)xml.Document.XPathEvaluate(xpath, namespaceResolver);
+                return results.OfType<XObject>().Count();
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
         }
 
         /// <summary>
