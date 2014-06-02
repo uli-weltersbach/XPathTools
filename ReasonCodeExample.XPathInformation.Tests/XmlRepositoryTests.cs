@@ -5,15 +5,15 @@ using NUnit.Framework;
 namespace ReasonCodeExample.XPathInformation.Tests
 {
     [TestFixture]
-    public class XmlNodeRepositoryTests
+    public class XmlRepositoryTests
     {
         [Test]
         public void XPathIsStored()
         {
             // Arrange
             var expectedValue = new XElement("value");
-            var repository = new XmlNodeRepository();
-            var otherRepository = new XmlNodeRepository();
+            var repository = new XmlRepository();
+            var otherRepository = new XmlRepository();
 
             // Act
             repository.Put(expectedValue);
@@ -39,7 +39,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
         public void ElementIsFound(string xml, int linePosition, string expectedElementName)
         {
             // Arrange
-            var repository = new XmlNodeRepository();
+            var repository = new XmlRepository();
             var rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
 
             // Act
@@ -58,7 +58,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
         public void AttributeIsFound(string xml, int linePosition, string expectedAttributeName)
         {
             // Arrange
-            var repository = new XmlNodeRepository();
+            var repository = new XmlRepository();
             var rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
             const int lineNumber = 1;
 
@@ -103,7 +103,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
                             </configuration>";
             var rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
             var siteElement = rootElement.DescendantsAndSelf("site").LastOrDefault();
-            var repository = new XmlNodeRepository();
+            var repository = new XmlRepository();
 
             // Act
             var element = repository.GetElement(siteElement, lineNumber, linePosition);
@@ -146,7 +146,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
                             </configuration>";
             var rootElement = XElement.Parse(xml, LoadOptions.SetLineInfo);
             var siteElement = rootElement.DescendantsAndSelf("site").LastOrDefault();
-            var repository = new XmlNodeRepository();
+            var repository = new XmlRepository();
 
             // Act
             var attribute = repository.GetAttribute(siteElement, lineNumber, linePosition);
@@ -163,7 +163,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
         {
             // Arrange
             var document = XDocument.Parse(xml);
-            var repository = new XmlNodeRepository();
+            var repository = new XmlRepository();
 
             // Act
             var count = repository.GetNodeCount(document.Root, xpath);

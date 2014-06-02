@@ -19,14 +19,14 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
     {
         private const string SolutionExists = "{f1536ef8-92ec-443c-9ed7-fdadf150da82}";
         private const string MenuResourceID = "CommandFactory.ctmenu";
-        private readonly XmlNodeRepository _repository;
+        private readonly XmlRepository _repository;
 
         public XPathInformationPackage()
-            : this(new XmlNodeRepository())
+            : this(new XmlRepository())
         {
         }
 
-        public XPathInformationPackage(XmlNodeRepository repository)
+        public XPathInformationPackage(XmlRepository repository)
         {
             _repository = repository;
         }

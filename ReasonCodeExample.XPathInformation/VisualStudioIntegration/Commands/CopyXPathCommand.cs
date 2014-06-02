@@ -9,7 +9,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
         private readonly XPathWriter _writer;
         private string _xpath = string.Empty;
 
-        public CopyXPathCommand(int id, XmlNodeRepository repository, XPathWriter writer)
+        public CopyXPathCommand(int id, XmlRepository repository, XPathWriter writer)
             : base(id, repository)
         {
             if(writer == null)
@@ -35,7 +35,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
                 Command.Visible = false;
                 return;
             }
-            var elementCount = new XmlNodeRepository().GetNodeCount(Repository.Get(), _xpath);
+            var elementCount = new XmlRepository().GetNodeCount(Repository.Get(), _xpath);
             if(elementCount == 0)
             {
                 Command.Visible = false;

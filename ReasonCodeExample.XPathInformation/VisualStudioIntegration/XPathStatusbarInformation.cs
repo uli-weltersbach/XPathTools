@@ -10,7 +10,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
     internal class XPathStatusbarInformation
     {
-        private readonly XmlNodeRepository _nodeRepository = new XmlNodeRepository();
+        private readonly XmlRepository _repository = new XmlRepository();
         private readonly IVsStatusbar _statusbar;
         private readonly XPathWriter _writer;
 
@@ -43,7 +43,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             try
             {
                 StoreCurrentNode(e.TextView);
-                var xpath = _writer.Write(_nodeRepository.Get());
+                var xpath = _writer.Write(_repository.Get());
                 _statusbar.SetText(xpath);
             }
             catch(Exception ex)
@@ -60,10 +60,10 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
         private void StoreCurrentNode(string xml, int lineNumber, int linePosition)
         {
-            var rootElement = _nodeRepository.GetRootElement(xml);
-            var selectedElement = _nodeRepository.GetElement(rootElement, lineNumber, linePosition);
-            var selectedAttribute = _nodeRepository.GetAttribute(selectedElement, lineNumber, linePosition);
-            _nodeRepository.Put(selectedAttribute as XObject ?? selectedElement);
+            var rootElement = _repository.GetRootElement(xml);
+            var selectedElement = _repository.GetElement(rootElement, lineNumber, linePosition);
+            var selectedAttribute = _repository.GetAttribute(selectedElement, lineNumber, linePosition);
+            _repository.Put(selectedAttribute as XObject ?? selectedElement);
         }
     }
 }

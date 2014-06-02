@@ -8,7 +8,7 @@ using System.Xml.XPath;
 
 namespace ReasonCodeExample.XPathInformation
 {
-    internal class XmlNodeRepository
+    internal class XmlRepository
     {
         private int _cachedXmlHashCode;
         private XElement _rootElement;
