@@ -7,7 +7,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
 {
     internal class XmlStructureWriter
     {
-        public XElement Write(XElement element)
+        public string Write(XElement element)
         {
             if (element == null)
                 return null;
@@ -15,7 +15,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
             XDocument copyDocument = new XDocument(new XElement(originalRoot));
             XDocument shallowCopy = CopyAncestorsAndDescendantsOf(copyDocument, element);
             RemoveComments(shallowCopy);
-            return shallowCopy.Root;
+            return shallowCopy.Root.ToString(SaveOptions.None);
         }
 
         private XDocument CopyAncestorsAndDescendantsOf(XDocument document, XElement element)

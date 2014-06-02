@@ -12,10 +12,6 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
         public CopyXPathCommand(int id, XmlRepository repository, XPathWriter writer)
             : base(id, repository)
         {
-            if(writer == null)
-            {
-                throw new ArgumentNullException("writer");
-            }
             _writer = writer;
         }
 
@@ -26,16 +22,14 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 
         protected override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
-            if(_writer != null)
-            {
-                _xpath = _writer.Write(Repository.Get());
-            }
+            var xml = Repository.Get();
+            _xpath = _writer.Write(xml);
             if(string.IsNullOrEmpty(_xpath))
             {
                 Command.Visible = false;
                 return;
             }
-            var elementCount = new XmlRepository().GetNodeCount(Repository.Get(), _xpath);
+            var elementCount = Repository.GetNodeCount(xml, _xpath);
             if(elementCount == 0)
             {
                 Command.Visible = false;

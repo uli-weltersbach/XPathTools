@@ -14,27 +14,29 @@ namespace ReasonCodeExample.XPathInformation.Tests.Writers
         public void XmlStructureIsCreatedCorrectly(string xml, int testElementIndex, string expectedXml)
         {
             // Arrange
-            XDocument document = XDocument.Parse(xml);
-            XElement element = document.Root.DescendantsAndSelf().ElementAt(testElementIndex);
+            var document = XDocument.Parse(xml);
+            var element = document.Root.DescendantsAndSelf().ElementAt(testElementIndex);
 
             // Act
-            string actualXml = new XmlStructureWriter().Write(element).ToString(SaveOptions.DisableFormatting);
+            var actualXml = new XmlStructureWriter().Write(element);
+            var nonFormattedXml = XElement.Parse(actualXml).ToString(SaveOptions.DisableFormatting);
 
             // Assert
-            Assert.That(actualXml, Is.EqualTo(expectedXml));
+            Assert.That(nonFormattedXml, Is.EqualTo(expectedXml));
         }
 
         [Test]
-        public void FormatReturnsClonedElement()
+        public void FormatDoesntModifyOriginalElement()
         {
             // Arrange
-            XElement original = new XElement("original");
+            var b2 = new XElement("b2");
+            var original = new XElement("a", new XElement("b1"), b2);
 
             // Act
-            XElement clone = new XmlStructureWriter().Write(original);
+            var output = new XmlStructureWriter().Write(b2);
 
             // Assert
-            Assert.That(ReferenceEquals(original, clone), Is.False);
+            Assert.That(original.ToString(), Is.StringContaining("b1"));
         }
     }
 }

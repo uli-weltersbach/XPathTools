@@ -15,13 +15,6 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configurati
             PreferredAttributeCandidatesSetting = new BindingList<XPathSetting>();
         }
 
-        [Browsable(false)]
-        public static IConfiguration Current
-        {
-            get;
-            set;
-        }
-
         [Category("Generic XPath")]
         [DisplayName("Always displayed attributes")]
         [Description("Specify attributes which should always be displayed in the XPath.\nE.g. adding the entry \"{http://reasoncodeexample.com/}person/@name\" will display the \"name\"-attribute on all \"person\"-elements in the XML-namespace \"http://reasoncodeexample.com/\".")]

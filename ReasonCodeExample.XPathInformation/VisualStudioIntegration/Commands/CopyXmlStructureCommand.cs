@@ -7,31 +7,34 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {
     internal class CopyXmlStructureCommand : CopyCommand
     {
-        public CopyXmlStructureCommand(int id, XmlRepository repository)
+        private readonly XmlStructureWriter _writer;
+        private string _xml = string.Empty;
+
+        public CopyXmlStructureCommand(int id, XmlRepository repository, XmlStructureWriter writer)
             : base(id, repository)
         {
+            _writer = writer;
         }
 
         protected override void OnInvoke(object sender, EventArgs e)
         {
-            string xml = GetXml();
-            Clipboard.SetText(xml);
-        }
-
-        private string GetXml()
-        {
-            XObject obj = Repository.Get();
-            XElement element = null;
-            if (obj is XElement)
-                element = obj as XElement;
-            else if (obj is XAttribute)
-                element = obj.Parent;
-            return new XmlStructureWriter().Write(element).ToString(SaveOptions.None);
+            Clipboard.SetText(_xml);
         }
 
         protected override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
-            Command.Visible = Repository.Get() != null;
+            var xml = Repository.Get();
+            XElement element = null;
+            if(xml is XElement)
+            {
+                element = xml as XElement;
+            }
+            else if(xml is XAttribute)
+            {
+                element = xml.Parent;
+            }
+            _xml = _writer.Write(element);
+            Command.Visible = !string.IsNullOrEmpty(_xml);
         }
     }
 }
