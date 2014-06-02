@@ -6,13 +6,13 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {
     internal abstract class CopyCommand
     {
-        protected CopyCommand(int commandID, XObjectRepository repository)
+        protected CopyCommand(int commandID, XmlNodeRepository repository)
         {
             Repository = repository;
             Command = new OleMenuCommand(OnInvoke, null, OnBeforeQueryStatus, new CommandID(Guid.Parse(Symbols.PackageID), commandID));
         }
 
-        public XObjectRepository Repository
+        public XmlNodeRepository Repository
         {
             get;
             private set;

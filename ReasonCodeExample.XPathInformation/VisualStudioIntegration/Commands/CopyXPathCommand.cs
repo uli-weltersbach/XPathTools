@@ -9,7 +9,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
         private readonly XPathWriter _writer;
         private string _xpath = string.Empty;
 
-        public CopyXPathCommand(int id, XObjectRepository repository, XPathWriter writer)
+        public CopyXPathCommand(int id, XmlNodeRepository repository, XPathWriter writer)
             : base(id, repository)
         {
             if(writer == null)

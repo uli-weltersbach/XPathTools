@@ -95,7 +95,6 @@
     <Compile Include="Writers\XmlStructureFormatterTests.cs" />
     <Compile Include="Writers\XPathWriterTests.cs" />
     <Compile Include="XmlNodeRepositoryTests.cs" />
-    <Compile Include="XObjectRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

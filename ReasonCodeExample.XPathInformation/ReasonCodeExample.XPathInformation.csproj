@@ -133,7 +133,6 @@
     <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommand.cs" />
     <Compile Include="VisualStudioIntegration\Commands\Symbols.cs" />
     <Compile Include="XmlNodeRepository.cs" />
-    <Compile Include="XObjectRepository.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformation.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformationFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
