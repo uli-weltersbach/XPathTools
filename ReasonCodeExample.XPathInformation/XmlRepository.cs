@@ -12,23 +12,16 @@ namespace ReasonCodeExample.XPathInformation
     {
         private int _cachedXmlHashCode;
         private XElement _rootElement;
-        private static readonly object Lock = new object();
-        private static XObject _stored;
+        private XObject _stored;
 
         public void Put(XObject obj)
         {
-            lock (Lock)
-            {
-                _stored = obj;
-            }
+            _stored = obj;
         }
 
         public XObject Get()
         {
-            lock (Lock)
-            {
-                return _stored;
-            }
+            return _stored;
         }
 
         public XElement GetRootElement(string xml)

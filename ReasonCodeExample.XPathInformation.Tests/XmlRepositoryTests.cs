@@ -7,21 +7,6 @@ namespace ReasonCodeExample.XPathInformation.Tests
     [TestFixture]
     public class XmlRepositoryTests
     {
-        [Test]
-        public void XPathIsStored()
-        {
-            // Arrange
-            var expectedValue = new XElement("value");
-            var repository = new XmlRepository();
-            var otherRepository = new XmlRepository();
-
-            // Act
-            repository.Put(expectedValue);
-
-            // Assert
-            Assert.That(otherRepository.Get(), Is.EqualTo(expectedValue));
-        }
-
         [TestCase("<a />", 1, "")]
         [TestCase("<a />", 2, "a")]
         [TestCase("<node />", 2, "node")]
