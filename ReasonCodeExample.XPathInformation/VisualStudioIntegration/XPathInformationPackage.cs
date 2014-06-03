@@ -17,7 +17,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
     [ProvideAutoLoad(SolutionExists)]
     [ProvideMenuResource(MenuResourceID, 1)]
     [Guid(Symbols.PackageID)]
-    [ProvideOptionPage(typeof(XPathInformationConfiguration), "XPath Information", "General", 0, 0, true)]
+    [ProvideOptionPage(typeof(XPathInformationDialogPage), "XPath Information", "General", 0, 0, true)]
     internal class XPathInformationPackage : Package
     {
         private const string SolutionExists = "{f1536ef8-92ec-443c-9ed7-fdadf150da82}";
@@ -53,7 +53,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
                 var repository = new XmlRepository();
                 _container.Bind<XmlRepository>().ToConstant(repository);
                 
-                var configuration = (XPathInformationConfiguration)GetDialogPage(typeof(XPathInformationConfiguration));
+                var configuration = (XPathInformationDialogPage)GetDialogPage(typeof(XPathInformationDialogPage));
                 _container.Bind<IConfiguration>().ToConstant(configuration);
 
                 var commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));

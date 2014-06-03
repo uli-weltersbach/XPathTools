@@ -128,7 +128,7 @@
     <Compile Include="Writers\XmlStructureWriter.cs" />
     <Compile Include="Writers\XPathWriter.cs" />
     <Compile Include="XPathSetting.cs" />
-    <Compile Include="VisualStudioIntegration\Configuration\XPathInformationConfiguration.cs">
+    <Compile Include="VisualStudioIntegration\Configuration\XPathInformationDialogPage.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="VisualStudioIntegration\XPathInformationPackage.cs" />

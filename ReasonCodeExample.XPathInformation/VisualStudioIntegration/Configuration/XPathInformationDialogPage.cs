@@ -7,9 +7,9 @@ using Microsoft.VisualStudio.Shell;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configuration
 {
-    internal class XPathInformationConfiguration : DialogPage, IConfiguration
+    internal class XPathInformationDialogPage : DialogPage, IConfiguration
     {
-        public XPathInformationConfiguration()
+        public XPathInformationDialogPage()
         {
             AlwaysDisplayedAttributesSetting = new BindingList<XPathSetting>();
             PreferredAttributeCandidatesSetting = new BindingList<XPathSetting>();
