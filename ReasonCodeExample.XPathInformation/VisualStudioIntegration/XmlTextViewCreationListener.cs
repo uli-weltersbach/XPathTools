@@ -13,14 +13,14 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
     {
         private const string XmlContentTypeName = "XML";
         private readonly XmlRepository _repository;
-        private readonly XPathStatusbarInformation _statusbar;
+        private readonly StatusbarAdapter _statusbar;
 
         public XmlTextViewCreationListener()
-            : this(Registry.Current.Get<XmlRepository>(), Registry.Current.Get<XPathStatusbarInformation>())
+            : this(Registry.Current.Get<XmlRepository>(), Registry.Current.Get<StatusbarAdapter>())
         {
         }
 
-        public XmlTextViewCreationListener(XmlRepository repository, XPathStatusbarInformation statusbar)
+        public XmlTextViewCreationListener(XmlRepository repository, StatusbarAdapter statusbar)
         {
             _repository = repository;
             _statusbar = statusbar;

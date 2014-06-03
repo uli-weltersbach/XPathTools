@@ -5,36 +5,49 @@ using System.Xml.XPath;
 
 namespace ReasonCodeExample.XPathInformation.Writers
 {
-    internal class XmlStructureWriter
+    internal class XmlStructureWriter : IWriter
     {
-        public string Write(XElement element)
+        public string Write(XObject xml)
         {
-            if (element == null)
+            XElement element;
+            if(xml is XAttribute)
+            {
+                element = xml.Parent;
+            }
+            else if(xml is XElement)
+            {
+                element = (XElement)xml;
+            }
+            else
+            {
                 return null;
-            XElement originalRoot = element.AncestorsAndSelf().Last();
-            XDocument copyDocument = new XDocument(new XElement(originalRoot));
-            XDocument shallowCopy = CopyAncestorsAndDescendantsOf(copyDocument, element);
+            }
+            var originalRoot = element.AncestorsAndSelf().Last();
+            var copyDocument = new XDocument(new XElement(originalRoot));
+            var shallowCopy = CopyAncestorsAndDescendantsOf(copyDocument, element);
             RemoveComments(shallowCopy);
             return shallowCopy.Root.ToString(SaveOptions.None);
         }
 
         private XDocument CopyAncestorsAndDescendantsOf(XDocument document, XElement element)
         {
-            string xpath = new AbsoluteXPathWriter().Write(element);
-            IList<XElement> elementsToKeep = GetElementsToKeep(document, xpath);
-            IList<XElement> allElements = document.Root.DescendantsAndSelf().ToArray();
-            foreach (XElement copy in allElements)
+            var xpath = new AbsoluteXPathWriter().Write(element);
+            var elementsToKeep = GetElementsToKeep(document, xpath);
+            var allElements = document.Root.DescendantsAndSelf().ToArray();
+            foreach(var copy in allElements)
             {
-                if (!elementsToKeep.Contains(copy))
+                if(!elementsToKeep.Contains(copy))
+                {
                     copy.Remove();
+                }
             }
             return document;
         }
 
         private IList<XElement> GetElementsToKeep(XDocument copyDocument, string xpath)
         {
-            List<XElement> elementsToKeep = new List<XElement>();
-            XElement element = copyDocument.XPathSelectElement(xpath, new SimpleXmlNamespaceResolver(copyDocument));
+            var elementsToKeep = new List<XElement>();
+            var element = copyDocument.XPathSelectElement(xpath, new SimpleXmlNamespaceResolver(copyDocument));
             elementsToKeep.AddRange(element.AncestorsAndSelf());
             elementsToKeep.AddRange(element.Descendants());
             return elementsToKeep;
@@ -42,8 +55,8 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
         private void RemoveComments(XDocument document)
         {
-            IList<XComment> comments = document.DescendantNodes().OfType<XComment>().ToArray();
-            foreach (XComment comment in comments)
+            var comments = document.DescendantNodes().OfType<XComment>().ToArray();
+            foreach(var comment in comments)
             {
                 comment.Remove();
             }

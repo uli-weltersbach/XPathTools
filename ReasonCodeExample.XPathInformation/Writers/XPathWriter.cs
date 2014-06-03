@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace ReasonCodeExample.XPathInformation.Writers
 {
-    internal class XPathWriter
+    internal class XPathWriter : IWriter
     {
         private const string PathPartSeparator = "/";
         private const string PredicateStart = "[";

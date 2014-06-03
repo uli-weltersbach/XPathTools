@@ -5,13 +5,13 @@ using ReasonCodeExample.XPathInformation.Writers;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
-    internal class XPathStatusbarInformation
+    internal class StatusbarAdapter
     {
         private readonly XmlRepository _repository;
         private readonly IVsStatusbar _statusbar;
         private readonly XPathWriter _writer;
 
-        public XPathStatusbarInformation(XmlRepository repository, XPathWriter writer, IVsStatusbar statusbar)
+        public StatusbarAdapter(XmlRepository repository, XPathWriter writer, IVsStatusbar statusbar)
         {
             _repository = repository;
             _writer = writer;

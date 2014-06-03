@@ -125,6 +125,7 @@
     <Compile Include="Writers\AttributeFilter.cs" />
     <Compile Include="Writers\DistinctAttributeFilter.cs" />
     <Compile Include="Writers\IAttributeFilter.cs" />
+    <Compile Include="Writers\IWriter.cs" />
     <Compile Include="Writers\XmlStructureWriter.cs" />
     <Compile Include="Writers\XPathWriter.cs" />
     <Compile Include="XPathSetting.cs" />
@@ -137,7 +138,7 @@
     <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommand.cs" />
     <Compile Include="VisualStudioIntegration\Commands\Symbols.cs" />
     <Compile Include="XmlRepository.cs" />
-    <Compile Include="VisualStudioIntegration\XPathStatusbarInformation.cs" />
+    <Compile Include="VisualStudioIntegration\StatusbarAdapter.cs" />
     <Compile Include="VisualStudioIntegration\XmlTextViewCreationListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

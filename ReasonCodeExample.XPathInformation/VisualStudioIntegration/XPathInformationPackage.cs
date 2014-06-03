@@ -46,7 +46,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
                 _container.Bind<AttributeFilter>().ToSelf();
 
-                _container.Bind<XPathStatusbarInformation>().ToSelf();
+                _container.Bind<StatusbarAdapter>().ToSelf();
                 
                 _container.Bind<XPathWriter>().ToSelf();
 
