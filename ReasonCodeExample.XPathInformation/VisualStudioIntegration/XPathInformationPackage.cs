@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using Microsoft.VisualStudio.Shell;
@@ -40,21 +39,13 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             {
                 base.Initialize();
 
-                _container.Bind<IVsStatusbar>().ToConstant((IVsStatusbar)GetService(typeof(IVsStatusbar)));
-
-                _container.Bind<IList<XPathSetting>>().ToMethod(context => context.Kernel.Get<IConfiguration>().AlwaysDisplayedAttributes);
-
-                _container.Bind<AttributeFilter>().ToSelf();
-
-                _container.Bind<StatusbarAdapter>().ToSelf();
-                
-                _container.Bind<XPathWriter>().ToSelf();
-
                 var repository = new XmlRepository();
                 _container.Bind<XmlRepository>().ToConstant(repository);
-                
+
                 var configuration = (XPathInformationDialogPage)GetDialogPage(typeof(XPathInformationDialogPage));
                 _container.Bind<IConfiguration>().ToConstant(configuration);
+
+                _container.Bind<StatusbarAdapter>().ToConstant(new StatusbarAdapter(repository, () => new XPathWriter(new[] { new AttributeFilter(configuration.AlwaysDisplayedAttributes) }), (IVsStatusbar)GetService(typeof(IVsStatusbar))));
 
                 var commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
                 _container.Bind<IMenuCommandService>().ToConstant(commandService);
@@ -69,22 +60,16 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
         private void InitializeCommands(XmlRepository repository, IConfiguration configuration, IMenuCommandService commandService)
         {
-            var alwaysDisplayedAttributes = configuration.AlwaysDisplayedAttributes;
-
-            var attributeFilter = new AttributeFilter(alwaysDisplayedAttributes);
-
-            var copyGenericXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, repository, new XPathWriter(new[] { attributeFilter }));
+            var copyGenericXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, repository, () => new XPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)}));
             commandService.AddCommand(copyGenericXPathCommand);
 
-            var copyAbsoluteXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyAbsoluteXPath, repository, new AbsoluteXPathWriter(new[] { attributeFilter }));
+            var copyAbsoluteXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyAbsoluteXPath, repository, () => new AbsoluteXPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)}));
             commandService.AddCommand(copyAbsoluteXPathCommand);
 
-            var preferredAttributeCandidates = configuration.PreferredAttributeCandidates;
-            var distinctAttributeFilter = new DistinctAttributeFilter(preferredAttributeCandidates.Union(alwaysDisplayedAttributes));
-            var copyDistinctXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, repository, new XPathWriter(new[] { distinctAttributeFilter }));
+            var copyDistinctXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, repository, () => new XPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes), new DistinctAttributeFilter(configuration.PreferredAttributeCandidates)}));
             commandService.AddCommand(copyDistinctXPathCommand);
 
-            var copyXmlStructureCommand = new CopyXmlStructureCommand(Symbols.CommandIDs.CopyXmlStructure, repository, new XmlStructureWriter());
+            var copyXmlStructureCommand = new CopyXmlStructureCommand(Symbols.CommandIDs.CopyXmlStructure, repository, () => new XmlStructureWriter());
             commandService.AddCommand(copyXmlStructureCommand);
         }
     }

@@ -9,27 +9,33 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
     {
         private readonly XmlRepository _repository;
         private readonly IVsStatusbar _statusbar;
-        private readonly XPathWriter _writer;
+        private readonly Func<XPathWriter> _writerProvider;
 
-        public StatusbarAdapter(XmlRepository repository, XPathWriter writer, IVsStatusbar statusbar)
+        public StatusbarAdapter(XmlRepository repository, Func<XPathWriter> writerProvider, IVsStatusbar statusbar)
         {
             _repository = repository;
-            _writer = writer;
+            _writerProvider = writerProvider;
             _statusbar = statusbar;
         }
 
-        public void UpdateXPath(object sender, CaretPositionChangedEventArgs e)
+        public void SetText(object sender, CaretPositionChangedEventArgs e)
         {
             try
             {
                 var xml = _repository.Get();
-                var xpath = _writer.Write(xml);
-                _statusbar.SetText(xpath);
+                var writer = _writerProvider();
+                var xpath = writer.Write(xml);
+                SetText(xpath);
             }
             catch(Exception ex)
             {
-                _statusbar.SetText(ex.Message);
+                SetText(ex.Message);
             }
+        }
+
+        public void SetText(string text)
+        {
+            _statusbar.SetText(text);
         }
     }
 }

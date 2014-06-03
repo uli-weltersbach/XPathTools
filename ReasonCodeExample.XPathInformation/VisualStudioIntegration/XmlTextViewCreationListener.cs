@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
@@ -37,7 +38,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
                 return;
             }
             textView.Caret.PositionChanged += StoreCurrentNode;
-            textView.Caret.PositionChanged += _statusbar.UpdateXPath;
+            textView.Caret.PositionChanged += _statusbar.SetText;
         }
 
         private void StoreCurrentNode(object sender, CaretPositionChangedEventArgs e)
@@ -57,10 +58,17 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
         private void StoreCurrentNode(string xml, int lineNumber, int linePosition)
         {
-            var rootElement = _repository.GetRootElement(xml);
-            var selectedElement = _repository.GetElement(rootElement, lineNumber, linePosition);
-            var selectedAttribute = _repository.GetAttribute(selectedElement, lineNumber, linePosition);
-            _repository.Put(selectedAttribute as XObject ?? selectedElement);
+            try
+            {
+                var rootElement = _repository.GetRootElement(xml);
+                var selectedElement = _repository.GetElement(rootElement, lineNumber, linePosition);
+                var selectedAttribute = _repository.GetAttribute(selectedElement, lineNumber, linePosition);
+                _repository.Put(selectedAttribute as XObject ?? selectedElement);
+            }
+            catch(Exception ex)
+            {
+                _statusbar.SetText(ex.Message);
+            }
         }
     }
 }
