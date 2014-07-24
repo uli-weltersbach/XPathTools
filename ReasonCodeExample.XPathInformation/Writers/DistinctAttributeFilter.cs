@@ -23,13 +23,27 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
         private IList<XAttribute> FindCandidateAttributes(XAttribute attribute)
         {
-            return attribute.Parent.AncestorsAndSelf().Reverse().Select(FindCandidateAttribute).ToArray();
+            var attributes = new List<XAttribute>();
+            var ancestorsAndSelf = attribute.Parent.AncestorsAndSelf().Reverse();
+            var requiresDistinctAttribute = false;
+            foreach(var element in ancestorsAndSelf)
+            {
+                var hasIdenticallyNamedSiblings = GetIdenticallyNamedSiblings(element).Any();
+                var candidateAttribute = FindCandidateAttribute(element);
+                var hasCandidateAttribute = candidateAttribute != null;
+                requiresDistinctAttribute = requiresDistinctAttribute || (hasIdenticallyNamedSiblings && !hasCandidateAttribute);
+                if (requiresDistinctAttribute || hasIdenticallyNamedSiblings)
+                {
+                    attributes.Add(candidateAttribute);
+                }
+            }
+            return attributes;
         }
 
         private XAttribute FindCandidateAttribute(XElement element)
         {
             var identicallyNamedSiblings = GetIdenticallyNamedSiblings(element);
-            return identicallyNamedSiblings.Any() ? GetFirstIncludedAttributeWithUniqueValue(element, identicallyNamedSiblings) : null;
+            return GetFirstIncludedAttributeWithUniqueValue(element, identicallyNamedSiblings);
         }
 
         private IList<XElement> GetIdenticallyNamedSiblings(XElement element)
