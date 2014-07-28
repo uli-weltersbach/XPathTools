@@ -160,6 +160,7 @@
     </Content>
     <Content Include="VisualStudioIntegration\Resources\CopyAbsoluteXPathCommandIcon.png" />
     <Content Include="VisualStudioIntegration\Resources\CopyDistinctXPathCommandIcon.png" />
+    <Content Include="VisualStudioIntegration\Resources\Plugin installation.png" />
     <Content Include="VisualStudioIntegration\Resources\release-notes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -175,6 +176,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="VisualStudioIntegration\Resources\Screenshot-Copy XPath.png" />
+    <Content Include="VisualStudioIntegration\Resources\Screenshot-Options.png" />
+    <Content Include="VisualStudioIntegration\Resources\Screenshot-Statusbar.png" />
+    <Content Include="VisualStudioIntegration\Resources\Screenshot-XML Structure copy.png" />
+    <Content Include="VisualStudioIntegration\Resources\Screenshot-XML Structure paste.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="VisualStudioIntegration\Resources\VSPackage.resx">
