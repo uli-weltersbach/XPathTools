@@ -163,6 +163,10 @@
     <Content Include="VisualStudioIntegration\Resources\CopyDistinctXPathCommandIcon.png" />
     <Content Include="VisualStudioIntegration\Resources\Discting XPath settings.png" />
     <Content Include="VisualStudioIntegration\Resources\Distinct XPath Sitecore pipeline processor example.png" />
+    <Content Include="VisualStudioIntegration\Resources\license.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="VisualStudioIntegration\Resources\Plugin installation.png" />
     <Content Include="VisualStudioIntegration\Resources\release-notes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

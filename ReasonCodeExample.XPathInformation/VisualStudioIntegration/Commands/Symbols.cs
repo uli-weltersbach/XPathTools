@@ -7,6 +7,7 @@
 
         public struct CommandIDs
         {
+            public const int CopySimplifiedXPath = 0x2022;
             public const int CopyGenericXPath = 0x1022;
             public const int CopyAbsoluteXPath = 0x1023;
             public const int CopyDistinctXPath = 0x1024;

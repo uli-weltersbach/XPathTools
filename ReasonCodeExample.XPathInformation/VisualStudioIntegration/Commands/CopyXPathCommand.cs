@@ -21,10 +21,6 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
                 return;
             }
             var elementCount = Repository.GetNodeCount(xml, Output);
-            if(elementCount == 0)
-            {
-                return;
-            }
             Command.Text = CommandTextFormatter.Format(Output, elementCount);
         }
     }

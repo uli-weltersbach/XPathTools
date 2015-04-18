@@ -13,12 +13,16 @@
             set;
         }
 
-        public static string Format(string xpath, int elementCount)
+        public static string Format(string xpath, int? elementCount)
         {
             var excessChars = xpath.Length - MaxLength;
             var commandText = excessChars > 0 ? "..." + xpath.Substring(excessChars, MaxLength) : xpath;
-            var matchText = elementCount == 1 ? "match" : "matches";
-            return string.Format("({0} {1}) {2}", elementCount, matchText, commandText);
+            if(elementCount.HasValue)
+            {
+              var matchText = elementCount == 1 ? "match" : "matches";
+              return string.Format("({0} {1}) {2}", elementCount, matchText, commandText);
+            }
+            return commandText;
         }
     }
 }

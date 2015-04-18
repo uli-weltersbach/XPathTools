@@ -38,19 +38,19 @@ namespace ReasonCodeExample.XPathInformation
             return _rootElement;
         }
 
-        public int GetNodeCount(XObject xml, string xpath)
+        public int? GetNodeCount(XObject xml, string xpath)
         {
             if (xml == null)
             {
-                return 0;
+                return null;
             }
             if (xml.Document == null)
             {
-                return 0;
+                return null;
             }
             if (xml.Document.Root == null)
             {
-                return 0;
+                return null;
             }
             try
             {
@@ -60,7 +60,7 @@ namespace ReasonCodeExample.XPathInformation
             }
             catch (Exception)
             {
-                return 0;
+                return null;
             }
         }
 
