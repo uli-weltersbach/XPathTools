@@ -16,14 +16,14 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
         {
             // Arrange
             const int expectedAdjustment = 1;
-            ITextSnapshot textSnapshot = Substitute.For<ITextSnapshot>();
+            var textSnapshot = Substitute.For<ITextSnapshot>();
             textSnapshot.GetLineNumberFromPosition(Arg.Any<int>()).Returns(lineNumber);
 
-            ITextView textView = Substitute.For<ITextView>();
+            var textView = Substitute.For<ITextView>();
             textView.TextSnapshot.Returns(textSnapshot);
 
             // Act
-            CaretPositionLineInfo caretPositionLineInfo = new CaretPositionLineInfo(textView, 0);
+            var caretPositionLineInfo = new CaretPositionLineInfo(textView, 0);
 
             // Assert
             Assert.That(caretPositionLineInfo.LineNumber, Is.EqualTo(lineNumber + expectedAdjustment));
@@ -36,15 +36,15 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
         {
             // Arrange
             const int expectedAdjustment = 1;
-            ITextSnapshot textSnapshot = Substitute.For<ITextSnapshot>();
+            var textSnapshot = Substitute.For<ITextSnapshot>();
             textSnapshot.GetLineNumberFromPosition(Arg.Is(caretPosition)).Returns(0);
             textSnapshot.Length.Returns(caretPosition);
 
-            ITextView textView = Substitute.For<ITextView>();
+            var textView = Substitute.For<ITextView>();
             textView.TextSnapshot.Returns(textSnapshot);
 
             // Act
-            CaretPositionLineInfo caretPositionLineInfo = new CaretPositionLineInfo(textView, caretPosition);
+            var caretPositionLineInfo = new CaretPositionLineInfo(textView, caretPosition);
 
             // Assert
             Assert.That(caretPositionLineInfo.LinePosition, Is.EqualTo(caretPosition + expectedAdjustment));

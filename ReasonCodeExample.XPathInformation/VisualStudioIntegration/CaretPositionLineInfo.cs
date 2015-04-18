@@ -56,7 +56,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         private int GetLinePosition(ITextView textView, int caretPosition)
         {
             int lineStart = textView.TextSnapshot.GetLineFromPosition(caretPosition).Start;
-            int caretPositionInLine = caretPosition - lineStart;
+            var caretPositionInLine = caretPosition - lineStart;
             return caretPositionInLine + XmlLineInfoLinePositionOffset;
         }
     }

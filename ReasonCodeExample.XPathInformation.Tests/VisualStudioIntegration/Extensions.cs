@@ -8,11 +8,11 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
     {
         public static AutomationElement FindDescendant(this AutomationElement ancestor, string descendantElementName, double timeoutInSeconds = 5d)
         {
-            DateTime timeout = DateTime.UtcNow.AddSeconds(timeoutInSeconds);
-            TimeSpan retryInterval = TimeSpan.FromSeconds(timeoutInSeconds/5d);
+            var timeout = DateTime.UtcNow.AddSeconds(timeoutInSeconds);
+            var retryInterval = TimeSpan.FromSeconds(timeoutInSeconds/5d);
             while (DateTime.UtcNow < timeout)
             {
-                AutomationElement match = ancestor.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.NameProperty, descendantElementName, PropertyConditionFlags.IgnoreCase));
+                var match = ancestor.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.NameProperty, descendantElementName, PropertyConditionFlags.IgnoreCase));
                 if (match == null)
                     Thread.Sleep(retryInterval);
                 else

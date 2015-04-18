@@ -23,7 +23,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 
         private static void SendMouseInput(MouseEvent mouseEvent)
         {
-            Input mouseInput = new Input
+            var mouseInput = new Input
             {
                 InputType = (int) InputType.Mouse,
                 MouseInput = new MouseInput
@@ -37,7 +37,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
                 mouseInput
             };
 
-            uint result = SendInput((uint) inputs.Length, inputs, Marshal.SizeOf(mouseInput));
+            var result = SendInput((uint) inputs.Length, inputs, Marshal.SizeOf(mouseInput));
             if (result == 0)
                 throw new InvalidOperationException("Unable to click left mouse button.");
         }

@@ -32,7 +32,7 @@ namespace ReasonCodeExample.XPathInformation
             if (_cachedXmlHashCode == xml.GetHashCode())
                 return _rootElement;
 
-            XDocument document = XDocument.Parse(xml, LoadOptions.SetLineInfo);
+            var document = XDocument.Parse(xml, LoadOptions.SetLineInfo);
             _rootElement = document.Root;
             _cachedXmlHashCode = xml.GetHashCode();
             return _rootElement;
@@ -80,15 +80,15 @@ namespace ReasonCodeExample.XPathInformation
             if (rootElement == null)
                 return null;
 
-            IEnumerable<XElement> elements = rootElement.DescendantsAndSelf();
-            XElement matchingElement = (from element in elements
+            var elements = rootElement.DescendantsAndSelf();
+            var matchingElement = (from element in elements
                                         where IsCorrectLine(element, lineNumber)
                                         where IsCorrectPosition(element, linePosition)
                                         select element).LastOrDefault();
             if (matchingElement != null)
                 return matchingElement;
 
-            XAttribute matchingAttribute = GetAttribute(elements, lineNumber, linePosition);
+            var matchingAttribute = GetAttribute(elements, lineNumber, linePosition);
             return matchingAttribute == null ? null : matchingAttribute.Parent;
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Windows.Automation;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 {
@@ -25,13 +24,13 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
         public void StatusbarShowsXPath()
         {
             // Arrange
-            string xml = "<e1><e2><e3 /></e2></e1>";
-            int caretPosition = 11;
-            string expectedXPath = "/e1/e2/e3";
+            var xml = "<e1><e2><e3 /></e2></e1>";
+            var caretPosition = 11;
+            var expectedXPath = "/e1/e2/e3";
             _instance.OpenXmlFile(xml, caretPosition);
 
             // Act
-            AutomationElement statusbar = _instance.MainWindow.FindDescendant(expectedXPath);
+            var statusbar = _instance.MainWindow.FindDescendant(expectedXPath);
 
             // Assert
             Assert.That(statusbar, Is.Not.Null);

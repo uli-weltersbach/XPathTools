@@ -21,22 +21,22 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configurati
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
-            string s = (string) value;
+            var s = (string) value;
             if (string.IsNullOrWhiteSpace(s))
                 return null;
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            object deserializedValue = serializer.Deserialize(new StringReader(s));
+            var serializer = new XmlSerializer(typeof(T));
+            var deserializedValue = serializer.Deserialize(new StringReader(s));
             return deserializedValue;
         }
 
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            StringBuilder content = new StringBuilder();
-            using (StringWriter writer = new StringWriter(content))
+            var serializer = new XmlSerializer(typeof(T));
+            var content = new StringBuilder();
+            using (var writer = new StringWriter(content))
             {
                 serializer.Serialize(writer, value);
-                string serialziedValue = writer.ToString();
+                var serialziedValue = writer.ToString();
                 return serialziedValue;
             }
         }

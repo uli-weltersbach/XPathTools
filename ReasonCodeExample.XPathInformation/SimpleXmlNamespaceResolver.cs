@@ -16,7 +16,7 @@ namespace ReasonCodeExample.XPathInformation
                 return;
             if (document.Root == null)
                 return;
-            foreach (XElement element in document.Root.DescendantsAndSelf())
+            foreach (var element in document.Root.DescendantsAndSelf())
             {
                 if (!_namespaces.ContainsKey(element.Name.NamespaceName))
                     _namespaces.Add(element.Name.Namespace.ToString(), GetNamespacePrefix(element));
@@ -40,7 +40,7 @@ namespace ReasonCodeExample.XPathInformation
 
         private string GetNamespacePrefix(XElement element)
         {
-            Match match = Regex.Match(element.ToString(SaveOptions.DisableFormatting), @"^<(?'NamespacePrefix'\w+):");
+            var match = Regex.Match(element.ToString(SaveOptions.DisableFormatting), @"^<(?'NamespacePrefix'\w+):");
             return match.Success ? match.Groups["NamespacePrefix"].Value : string.Empty;
         }
     }

@@ -93,6 +93,7 @@
     <Compile Include="Writers\AttributeFilterTests.cs" />
     <Compile Include="Writers\DistinctAttributeFilterTests.cs" />
     <Compile Include="Writers\XmlStructureFormatterTests.cs" />
+    <Compile Include="Writers\SimplifiedXPathWriterTests.cs" />
     <Compile Include="Writers\XPathWriterTests.cs" />
     <Compile Include="XmlRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

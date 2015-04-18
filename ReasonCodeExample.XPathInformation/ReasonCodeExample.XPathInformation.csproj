@@ -126,6 +126,7 @@
     <Compile Include="Writers\DistinctAttributeFilter.cs" />
     <Compile Include="Writers\IAttributeFilter.cs" />
     <Compile Include="Writers\IWriter.cs" />
+    <Compile Include="Writers\SimplifiedXPathWriter.cs" />
     <Compile Include="Writers\XmlStructureWriter.cs" />
     <Compile Include="Writers\XPathWriter.cs" />
     <Compile Include="XPathSetting.cs" />

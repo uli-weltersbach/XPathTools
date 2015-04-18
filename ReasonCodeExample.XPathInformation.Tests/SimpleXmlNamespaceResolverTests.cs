@@ -13,11 +13,11 @@ namespace ReasonCodeExample.XPathInformation.Tests
         public void NamespaceNamesAreParsedCorrectly(string xml, string[] expectedNamespaces)
         {
             // Arrange
-            XDocument document = XDocument.Parse(xml);
+            var document = XDocument.Parse(xml);
 
             // Act
-            SimpleXmlNamespaceResolver manager = new SimpleXmlNamespaceResolver(document);
-            ICollection<string> namespaces = manager.GetNamespacesInScope(XmlNamespaceScope.All).Keys;
+            var manager = new SimpleXmlNamespaceResolver(document);
+            var namespaces = manager.GetNamespacesInScope(XmlNamespaceScope.All).Keys;
 
             // Assert
             Assert.That(namespaces, Is.EquivalentTo(expectedNamespaces));
@@ -28,11 +28,11 @@ namespace ReasonCodeExample.XPathInformation.Tests
         public void NamespacePrefixesAreParsedCorrectly(string xml, string[] expectedNamespaces)
         {
             // Arrange
-            XDocument document = XDocument.Parse(xml);
+            var document = XDocument.Parse(xml);
 
             // Act
-            SimpleXmlNamespaceResolver manager = new SimpleXmlNamespaceResolver(document);
-            ICollection<string> namespaces = manager.GetNamespacesInScope(XmlNamespaceScope.All).Values;
+            var manager = new SimpleXmlNamespaceResolver(document);
+            var namespaces = manager.GetNamespacesInScope(XmlNamespaceScope.All).Values;
 
             // Assert
             Assert.That(namespaces, Is.EquivalentTo(expectedNamespaces));

@@ -36,8 +36,8 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
         public void ReStart()
         {
             Stop();
-            string programsFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-            FileInfo executablePath = new FileInfo(Path.Combine(programsFolder, "Microsoft Visual Studio 11.0", "Common7", "IDE", "devenv.exe"));
+            var programsFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+            var executablePath = new FileInfo(Path.Combine(programsFolder, "Microsoft Visual Studio 11.0", "Common7", "IDE", "devenv.exe"));
             if (!executablePath.Exists)
                 throw new FileNotFoundException(string.Format("Didn't find Visual Studio executable at \"{0}\".", executablePath));
             // The VisualStudio process spawns a new process with a different ID.
@@ -47,7 +47,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 
         private void WaitUntillStarted(TimeSpan timeoutDuration)
         {
-            DateTime timeout = DateTime.UtcNow.Add(timeoutDuration);
+            var timeout = DateTime.UtcNow.Add(timeoutDuration);
             while (DateTime.UtcNow < timeout)
             {
                 if (MainWindow == null)
@@ -60,7 +60,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 
         public void Stop()
         {
-            Process process = FindExperimentalInstance();
+            var process = FindExperimentalInstance();
             if (process == null)
                 return;
             if (process.HasExited)
@@ -109,7 +109,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
             // Use "shift F10" shortcut to open context menu
             SendKeys.SendWait("+{F10}");
             MainWindow.FindDescendant(subMenuName).LeftClick();
-            AutomationElementCollection descendants = MainWindow.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ProcessIdProperty, _process.Id));
+            var descendants = MainWindow.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ProcessIdProperty, _process.Id));
             return (from AutomationElement descendant in descendants
                     where descendant.GetSupportedProperties().Contains(AutomationElement.NameProperty)
                     let elementName = descendant.GetCurrentPropertyValue(AutomationElement.NameProperty)

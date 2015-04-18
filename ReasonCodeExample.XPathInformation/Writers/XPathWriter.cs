@@ -131,12 +131,22 @@ namespace ReasonCodeExample.XPathInformation.Writers
             var namespacePrefix = element.GetPrefixOfNamespace(element.Name.Namespace);
             if(string.IsNullOrEmpty(namespacePrefix))
             {
-                XPath.AppendFormat("*[local-name()='{0}'][namespace-uri()='{1}']", element.Name.LocalName, element.Name.NamespaceName);
+                WriteElementNameWithoutPrefix(element.Name);
             }
             else
             {
-                XPath.AppendFormat("{0}:{1}", namespacePrefix, element.Name.LocalName);
+                WriteElementNameWithPrefix(namespacePrefix, element.Name.LocalName);
             }
+        }
+
+        protected virtual void WriteElementNameWithoutPrefix(XName name)
+        {
+            XPath.AppendFormat("*[local-name()='{0}'][namespace-uri()='{1}']", name.LocalName, name.NamespaceName);
+        }
+
+        protected virtual void WriteElementNameWithPrefix(string namespacePrefix, string localName)
+        {
+            XPath.AppendFormat("{0}:{1}", namespacePrefix, localName);
         }
 
         protected virtual void WritePredicates(XPathPart pathPart)
@@ -180,12 +190,22 @@ namespace ReasonCodeExample.XPathInformation.Writers
             var namespacePrefix = attribute.Parent.GetPrefixOfNamespace(attribute.Name.Namespace);
             if(string.IsNullOrEmpty(namespacePrefix))
             {
-                XPath.Append(attribute.Name.LocalName);
+                WriteAttributeNameWithoutPrefix(attribute.Name);
             }
             else
             {
-                XPath.AppendFormat("{0}:{1}", namespacePrefix, attribute.Name.LocalName);
+                WriteAttributeNameWithPrefix(namespacePrefix, attribute.Name.LocalName);
             }
+        }
+
+        protected virtual void WriteAttributeNameWithoutPrefix(XName name)
+        {
+            XPath.Append(name.LocalName);
+        }
+
+        protected virtual void WriteAttributeNameWithPrefix(string namespacePrefix, string localName)
+        {
+            XPath.AppendFormat("{0}:{1}", namespacePrefix, localName);
         }
 
         private void WriteAttributeValue(XAttribute attribute)

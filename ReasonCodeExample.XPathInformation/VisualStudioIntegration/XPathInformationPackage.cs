@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -60,6 +59,9 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
         private void InitializeCommands(XmlRepository repository, IConfiguration configuration, IMenuCommandService commandService)
         {
+            var copySimplifiedXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, repository, () => new SimplifiedXPathWriter(new[] { new AttributeFilter(configuration.AlwaysDisplayedAttributes) }));
+            commandService.AddCommand(copySimplifiedXPathCommand);
+
             var copyGenericXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, repository, () => new XPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)}));
             commandService.AddCommand(copyGenericXPathCommand);
 
