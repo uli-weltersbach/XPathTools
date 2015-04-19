@@ -4,17 +4,17 @@ using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Commands
 {
     [TestFixture]
-    public class CommandTextFormatterTests
+    public class TrimCommandTextFormatterTests
     {
-        [TestCase("text", 1, "(1 match) text")]
-        [TestCase("text", 2, "(2 matches) text")]
-        [TestCase("abcdefghij", 2, "(2 matches) abcdefghij")]
-        [TestCase("abcdefghijk", 2, "(2 matches) ...bcdefghijk")]
-        [TestCase("abcdefghijklmnopqrstuvwxyz", 2, "(2 matches) ...qrstuvwxyz")]
+        [TestCase("text", 1, "text")]
+        [TestCase("text", 2, "text")]
+        [TestCase("abcdefghij", 2, "abcdefghij")]
+        [TestCase("abcdefghijk", 2, "...bcdefghijk")]
+        [TestCase("abcdefghijklmnopqrstuvwxyz", 2, "...qrstuvwxyz")]
         public void EllipsisIsPrependedCorrectly(string commandText, int elementCount, string expectedCommandText)
         {
             // Arrange
-            var textFormatter = new CommandTextFormatter(10);
+            var textFormatter = new TrimCommandTextFormatter(10);
 
             // Act
             var output = textFormatter.Format(commandText, elementCount);

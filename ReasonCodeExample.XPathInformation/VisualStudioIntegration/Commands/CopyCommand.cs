@@ -8,11 +8,12 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {
     internal abstract class CopyCommand
     {
-        protected CopyCommand(int commandID, XmlRepository repository, Func<IWriter> writerProvider)
+        protected CopyCommand(int id, XmlRepository repository, Func<IWriter> writerProvider, ICommandTextFormatter textFormatter)
         {
             Repository = repository;
-            Command = new OleMenuCommand(OnInvoke, null, OnBeforeQueryStatus, new CommandID(Guid.Parse(Symbols.PackageID), commandID));
+            Command = new OleMenuCommand(OnInvoke, null, OnBeforeQueryStatus, new CommandID(Guid.Parse(Symbols.PackageID), id));
             WriterProvider = writerProvider;
+            TextFormatter = textFormatter;
         }
 
         protected XmlRepository Repository
@@ -28,6 +29,12 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
         }
 
         protected Func<IWriter> WriterProvider
+        {
+            get;
+            private set;
+        }
+
+        protected ICommandTextFormatter TextFormatter
         {
             get;
             private set;

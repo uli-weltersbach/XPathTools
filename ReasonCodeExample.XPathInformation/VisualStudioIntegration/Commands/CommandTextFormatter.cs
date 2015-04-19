@@ -1,28 +1,25 @@
 ﻿namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {
-    internal static class CommandTextFormatter
+    internal class CommandTextFormatter : TrimCommandTextFormatter
     {
-        static CommandTextFormatter()
+        public CommandTextFormatter()
         {
-            MaxLength = 80;
         }
 
-        public static int MaxLength
+        public CommandTextFormatter(int maxLength)
+            : base(maxLength)
         {
-            get;
-            set;
         }
 
-        public static string Format(string xpath, int? elementCount)
+        public override string Format(string xpath, int? elementCount)
         {
-            var excessChars = xpath.Length - MaxLength;
-            var commandText = excessChars > 0 ? "..." + xpath.Substring(excessChars, MaxLength) : xpath;
-            if(elementCount.HasValue)
+            var trimmedXPath = base.Format(xpath, elementCount);
+            if (elementCount.HasValue)
             {
-              var matchText = elementCount == 1 ? "match" : "matches";
-              return string.Format("({0} {1}) {2}", elementCount, matchText, commandText);
+                var matchText = elementCount == 1 ? "match" : "matches";
+                return string.Format("({0} {1}) {2}", elementCount, matchText, trimmedXPath);
             }
-            return commandText;
+            return trimmedXPath;
         }
     }
 }
