@@ -188,6 +188,8 @@
     <Content Include="VisualStudioIntegration\Resources\Screenshot-Statusbar.png" />
     <Content Include="VisualStudioIntegration\Resources\Screenshot-XML Structure copy.png" />
     <Content Include="VisualStudioIntegration\Resources\Screenshot-XML Structure paste.png" />
+    <Content Include="VisualStudioIntegration\Resources\CopySimplifiedXPathCommandIcon.png" />
+    <Content Include="VisualStudioIntegration\Resources\CopyXmlStructureCommandIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="VisualStudioIntegration\Resources\VSPackage.resx">
