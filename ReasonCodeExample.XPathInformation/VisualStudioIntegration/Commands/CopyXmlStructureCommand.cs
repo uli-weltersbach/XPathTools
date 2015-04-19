@@ -5,8 +5,8 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {
     internal class CopyXmlStructureCommand : CopyCommand
     {
-        public CopyXmlStructureCommand(int id, XmlRepository repository, Func<IWriter> writerProvider)
-            : base(id, repository, writerProvider)
+        public CopyXmlStructureCommand(int id, XmlRepository repository, Func<IWriter> writerProvider, ICommandTextFormatter textFormatter)
+            : base(id, repository, writerProvider, textFormatter)
         {
         }
 

@@ -5,8 +5,8 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 {
     internal class CopyXPathCommand : CopyCommand
     {
-        public CopyXPathCommand(int id, XmlRepository repository, Func<IWriter> writerProvider)
-            : base(id, repository, writerProvider)
+        public CopyXPathCommand(int id, XmlRepository repository, Func<IWriter> writerProvider, ICommandTextFormatter textFormatter)
+            : base(id, repository, writerProvider, textFormatter)
         {
         }
 
@@ -21,7 +21,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
                 return;
             }
             var elementCount = Repository.GetNodeCount(xml, Output);
-            Command.Text = CommandTextFormatter.Format(Output, elementCount);
+            Command.Text = TextFormatter.Format(Output, elementCount);
         }
     }
 }

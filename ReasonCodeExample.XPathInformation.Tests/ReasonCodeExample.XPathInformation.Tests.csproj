@@ -83,6 +83,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="VisualStudioIntegration\CaretPositionLineInfoTests.cs" />
     <Compile Include="SimpleXmlNamespaceResolverTests.cs" />
+    <Compile Include="VisualStudioIntegration\Commands\TrimCommandTextFormatterTests.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandTextFormatterTests.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommandTests.cs" />
     <Compile Include="VisualStudioIntegration\Extensions.cs" />
