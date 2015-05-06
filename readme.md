@@ -1,4 +1,4 @@
-This is an extension intended for Visual Studio 2012 and 2013. It's available through _Tools &rarr; Extensions and Updates... &rarr; Online_ from within Visual Studio, by searching for "XPath Information" or simply "xpath".
+This is an extension intended for Visual Studio 2012 or later. It's available through _Tools &rarr; Extensions and Updates... &rarr; Online_ from within Visual Studio, by searching for "XPath Information" or simply "xpath".
 
 The extension displays the XPath of the XML-element or -attribute at the caret position when working in files containing XML markup (.config, .build, .properties etc.).  
 
@@ -26,6 +26,6 @@ A "shallow XML structure" can be copied to the clipboard which contains the curr
 
 ![Paste XML structure](https://github.com/uli-weltersbach/XPathInformation/blob/master/ReasonCodeExample.XPathInformation/VisualStudioIntegration/Resources/Screenshot-XML%20Structure%20paste.png)
 
-The extension has been tested with Visual Studio 2012 and Visual Studio 2013 but might work with older versions if tweaked; the source is available from https://github.com/uli-weltersbach/XPathInformation.
+The extension has been tested with Visual Studio 2012 and later but might work with older versions if tweaked; the source is available from https://github.com/uli-weltersbach/XPathInformation.
 
 Please use https://github.com/uli-weltersbach/XPathInformation/issues for feature requests and bug reports.
