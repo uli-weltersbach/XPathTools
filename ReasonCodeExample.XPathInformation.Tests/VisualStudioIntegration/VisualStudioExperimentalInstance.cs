@@ -37,7 +37,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
         {
             Stop();
             var programsFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-            var executablePath = new FileInfo(Path.Combine(programsFolder, "Microsoft Visual Studio 11.0", "Common7", "IDE", "devenv.exe"));
+            var executablePath = new FileInfo(Path.Combine(programsFolder, "Microsoft Visual Studio 12.0", "Common7", "IDE", "devenv.exe"));
             if (!executablePath.Exists)
                 throw new FileNotFoundException(string.Format("Didn't find Visual Studio executable at \"{0}\".", executablePath));
             // The VisualStudio process spawns a new process with a different ID.
