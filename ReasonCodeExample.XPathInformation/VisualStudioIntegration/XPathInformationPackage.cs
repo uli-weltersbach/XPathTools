@@ -12,13 +12,12 @@ using ReasonCodeExample.XPathInformation.Writers;
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [ProvideAutoLoad(SolutionExists)]
+    [ProvideAutoLoad(UIContextGuids.NoSolution)]
     [ProvideMenuResource(MenuResourceID, 1)]
     [Guid(Symbols.PackageID)]
     [ProvideOptionPage(typeof(XPathInformationDialogPage), "XPath Information", "General", 0, 0, true)]
     internal class XPathInformationPackage : Package
     {
-        private const string SolutionExists = "{f1536ef8-92ec-443c-9ed7-fdadf150da82}";
         private const string MenuResourceID = "CommandFactory.ctmenu";
         private readonly IKernel _container;
 
