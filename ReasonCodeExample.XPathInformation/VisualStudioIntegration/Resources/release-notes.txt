@@ -1,4 +1,5 @@
-﻿v3.1.1: Fixed a compatibility issue with .NET Framework 4.6 and Visual Studio 2013.
+﻿v3.1.2: Fixed a compatibility issue with Visual Studio 2012.
+v3.1.1: Fixed a compatibility issue with .NET Framework 4.6 and Visual Studio 2013.
 v3.1: A simplified XPath can now be copied to the clipboard, which excludes any XMLNS information.
 v3.0: It's now possible to configure a list of XML attributes which will always be shown in the statusbar and will be copied to the clipboard when using the various "Copy XPath" commands from the context menu. Open "TOOLS -> Options" and scroll down to the "XPath Information" settings section for more details.
 v2.1: A "shallow XML structure" can now be copied to the clipboard, containing the current element, it's ancestors and descendants; other siblings are excluded. This function is primarily intended for use with Sitecore CMS Web.config include files.
