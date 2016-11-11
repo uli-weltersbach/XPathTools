@@ -4,10 +4,12 @@ A Visual Studio extension which displays the XPath of the XML-element or -attrib
 ## Installation
 Simply open Visual Studio, go to _Tools &rarr; Extensions and Updates... &rarr; Online_ and search for "XPath Information" or simply "xpath"; alternatively, download the VSIX-file from the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/c06c7b10-41c3-4aa9-8707-570eb9d879e6?SRC=VSIDE).
 
+## Usage
+The XPath of the XML-element or attribute at the caret position is displayed in the statusbar.
+
 ![XPath of the caret shown in the status bar](https://github.com/uli-weltersbach/XPathInformation/blob/master/ReasonCodeExample.XPathInformation/VisualStudioIntegration/Resources/Screenshot-Statusbar.png)
 
-## Usage
-The information is displayed in the statusbar and can be copied to the clipboard in various formats, using the _Copy XPath_ commands available through the context menu.  
+It can be copied to the clipboard in various formats, using the _Copy XPath_ commands available through the context menu.  
 
 ![Copy XPath commands](https://github.com/uli-weltersbach/XPathInformation/blob/master/ReasonCodeExample.XPathInformation/VisualStudioIntegration/Resources/Screenshot-Copy%20XPath.png)
 
