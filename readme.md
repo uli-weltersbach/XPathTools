@@ -2,7 +2,7 @@
 A Visual Studio extension which displays the XPath of the XML-element or -attribute at the caret position when working in files containing XML markup (.config, .build, .properties etc.).  
 
 ## Installation
-The simplest is to open Visual Studio, go to _Tools &rarr; Extensions and Updates... &rarr; Online_ and search for "XPath Information" or simply "xpath"; alternatively, download the VSIX-file from the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/c06c7b10-41c3-4aa9-8707-570eb9d879e6?SRC=VSIDE).
+Simply open Visual Studio, go to _Tools &rarr; Extensions and Updates... &rarr; Online_ and search for "XPath Information" or simply "xpath"; alternatively, download the VSIX-file from the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/c06c7b10-41c3-4aa9-8707-570eb9d879e6?SRC=VSIDE).
 
 ![XPath of the caret shown in the status bar](https://github.com/uli-weltersbach/XPathInformation/blob/master/ReasonCodeExample.XPathInformation/VisualStudioIntegration/Resources/Screenshot-Statusbar.png)
 
