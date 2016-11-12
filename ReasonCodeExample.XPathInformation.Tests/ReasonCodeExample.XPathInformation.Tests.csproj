@@ -74,6 +74,7 @@
     <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommandTests.cs" />
     <Compile Include="VisualStudioIntegration\Extensions.cs" />
     <Compile Include="VisualStudioIntegration\Mouse.cs" />
+    <Compile Include="VisualStudioIntegration\VisualStudioVersion.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformationTests.cs" />
     <Compile Include="VisualStudioIntegration\VisualStudioExperimentalInstance.cs" />
     <Compile Include="Writers\AbsoluteXPathWriterTests.cs" />

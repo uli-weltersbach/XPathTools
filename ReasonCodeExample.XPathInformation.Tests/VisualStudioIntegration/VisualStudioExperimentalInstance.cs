@@ -20,10 +20,15 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
             get
             {
                 _process = FindExperimentalInstance();
-                if (_process == null)
+                if(_process == null)
+                {
                     return null;
-                if (_mainWindow == null)
-                    _mainWindow = AutomationElement.RootElement.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ProcessIdProperty, _process.Id));
+                }
+                if(_mainWindow == null)
+                {
+                    var processIdCondition = new PropertyCondition(AutomationElement.ProcessIdProperty, _process.Id);
+                    _mainWindow = AutomationElement.RootElement.FindFirst(TreeScope.Descendants, processIdCondition);
+                }
                 return _mainWindow;
             }
         }
@@ -33,39 +38,67 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
             return Process.GetProcessesByName("devenv").FirstOrDefault(p => p.MainWindowTitle.ToLower().Contains("experimental instance"));
         }
 
-        public void ReStart()
+        public void ReStart(VisualStudioVersion version)
         {
             Stop();
             var programsFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-            var executablePath = new FileInfo(Path.Combine(programsFolder, "Microsoft Visual Studio 12.0", "Common7", "IDE", "devenv.exe"));
-            if (!executablePath.Exists)
+            var versionSpecificPathPart = GetVersionSpecificPathPart(version);
+            var executablePath = new FileInfo(Path.Combine(programsFolder, versionSpecificPathPart, "Common7", "IDE", "devenv.exe"));
+            if(!executablePath.Exists)
+            {
                 throw new FileNotFoundException(string.Format("Didn't find Visual Studio executable at \"{0}\".", executablePath));
+            }
             // The VisualStudio process spawns a new process with a different ID.
-            Process.Start(new ProcessStartInfo(executablePath.FullName, "/RootSuffix Exp"));
+            Process.Start(new ProcessStartInfo(executablePath.FullName, "/RootSuffix Exp /ResetSkipPkgs"));
             WaitUntillStarted(TimeSpan.FromMinutes(3));
         }
 
-        private void WaitUntillStarted(TimeSpan timeoutDuration)
+        private string GetVersionSpecificPathPart(VisualStudioVersion version)
         {
-            var timeout = DateTime.UtcNow.Add(timeoutDuration);
-            while (DateTime.UtcNow < timeout)
+            switch(version)
             {
-                if (MainWindow == null)
-                    Thread.Sleep(TimeSpan.FromSeconds(3));
-                else
-                    return;
+                case VisualStudioVersion.VS2012:
+                    return "Microsoft Visual Studio 11.0";
+                case VisualStudioVersion.VS2013:
+                    return "Microsoft Visual Studio 12.0";
+                case VisualStudioVersion.VS2015:
+                    return "Microsoft Visual Studio 14.0";
+                case VisualStudioVersion.VS2017:
+                    return "Microsoft Visual Studio\\2017\\Enterprise";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(version), version, "Unsupported Visual Studio version.");
             }
-            throw new TimeoutException(string.Format("Visual Studio wasn't started within {0} seconds.", timeoutDuration.TotalSeconds));
         }
 
         public void Stop()
         {
             var process = FindExperimentalInstance();
-            if (process == null)
+            if(process == null)
+            {
                 return;
-            if (process.HasExited)
+            }
+            if(process.HasExited)
+            {
                 return;
+            }
             process.Kill();
+        }
+
+        private void WaitUntillStarted(TimeSpan timeoutDuration)
+        {
+            var timeout = DateTime.UtcNow.Add(timeoutDuration);
+            while(DateTime.UtcNow < timeout)
+            {
+                if(MainWindow == null)
+                {
+                    Thread.Sleep(TimeSpan.FromSeconds(3));
+                }
+                else
+                {
+                    return;
+                }
+            }
+            throw new TimeoutException(string.Format("Visual Studio wasn't started within {0} seconds.", timeoutDuration.TotalSeconds));
         }
 
         public void OpenXmlFile(string content, int caretPosition)

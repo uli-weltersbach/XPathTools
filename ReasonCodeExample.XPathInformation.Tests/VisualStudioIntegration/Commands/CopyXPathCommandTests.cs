@@ -15,13 +15,13 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
     {
         private readonly VisualStudioExperimentalInstance _instance = new VisualStudioExperimentalInstance();
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void StartVisualStudio()
         {
-            _instance.ReStart();
+            _instance.ReStart(VisualStudioVersion.VS2015);
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void StopVisualStudio()
         {
             _instance.Stop();
