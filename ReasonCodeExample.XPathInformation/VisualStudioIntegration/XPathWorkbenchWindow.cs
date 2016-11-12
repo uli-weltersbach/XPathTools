@@ -1,7 +1,8 @@
 ﻿using System.Runtime.InteropServices;
-using System.Windows.Controls;
 using Microsoft.VisualStudio.Shell;
+using Ninject;
 using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
+using ReasonCodeExample.XPathInformation.Workbench;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
@@ -12,7 +13,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             : base(null)
         {
             Caption = "XPath Workbench";
-            Content = new TextBox {Text = "Hello World!"};
+            Content = new XPathWorkbench(Registry.Current.Get<XmlRepository>());
         }
     }
 }

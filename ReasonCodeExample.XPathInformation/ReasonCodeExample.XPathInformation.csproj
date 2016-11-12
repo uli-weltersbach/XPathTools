@@ -194,6 +194,9 @@
     <Compile Include="VisualStudioIntegration\Commands\CommandTextFormatter.cs" />
     <Compile Include="VisualStudioIntegration\Configuration\SerializableConverter.cs" />
     <Compile Include="IConfiguration.cs" />
+    <Compile Include="Workbench\XPathWorkbench.xaml.cs">
+      <DependentUpon>XPathWorkbench.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Writers\AbsoluteXPathWriter.cs" />
     <Compile Include="Writers\AttributeFilter.cs" />
     <Compile Include="Writers\DistinctAttributeFilter.cs" />
@@ -236,9 +239,9 @@
     <Content Include="VisualStudioIntegration\Resources\CopyDistinctXPathCommandIcon.png" />
     <Content Include="VisualStudioIntegration\Resources\Screenshots\Distinct XPath settings.png" />
     <Content Include="VisualStudioIntegration\Resources\Screenshots\Distinct XPath Sitecore pipeline processor example.png" />
-    <Content Include="VisualStudioIntegration\Resources\FindNext.png" />
-    <Content Include="VisualStudioIntegration\Resources\FindPrevious.png" />
-    <Content Include="VisualStudioIntegration\Resources\Find.png" />
+    <Resource Include="VisualStudioIntegration\Resources\FindNext.png" />
+    <Resource Include="VisualStudioIntegration\Resources\FindPrevious.png" />
+    <Resource Include="VisualStudioIntegration\Resources\Find.png" />
     <Content Include="VisualStudioIntegration\Resources\license.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -267,6 +270,7 @@
     <Content Include="VisualStudioIntegration\Resources\CopySimplifiedXPathCommandIcon.png" />
     <Content Include="VisualStudioIntegration\Resources\CopyXmlStructureCommandIcon.png" />
     <Content Include="VisualStudioIntegration\Resources\ShowXPathWorkbenchCommandIcon.png" />
+    <Resource Include="VisualStudioIntegration\Resources\XPath.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="VisualStudioIntegration\Resources\VSPackage.resx">
@@ -292,8 +296,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Workbench\" />
+    <Page Include="Workbench\XPathWorkbench.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
