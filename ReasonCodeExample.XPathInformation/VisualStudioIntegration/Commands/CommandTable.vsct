@@ -95,7 +95,7 @@
 
       <Button guid="PackageID" id="ShowXPathWorkbenchCommand" priority="0x0100" type="Button">
         <Parent guid="PackageID" id="MenuGroup" />
-        <Icon guid="ImagesID" id="CopyXmlStructureCommandIcon" />
+        <Icon guid="ImagesID" id="ShowXPathWorkbenchCommandIcon" />
         <Strings>
           <ButtonText>Open XPath workbench</ButtonText>
           <MenuText>Open XPath workbench</MenuText>
@@ -137,6 +137,7 @@
       <IDSymbol name="CopyDistinctXPathCommandIcon" value="3" />
       <IDSymbol name="CopyXmlStructureCommandIcon" value="4" />
       <IDSymbol name="CopySimplifiedXPathCommandIcon" value="5" />
+      <IDSymbol name="ShowXPathWorkbenchCommandIcon" value="6" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
