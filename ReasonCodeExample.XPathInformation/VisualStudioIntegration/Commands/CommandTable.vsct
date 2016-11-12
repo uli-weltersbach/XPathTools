@@ -1,130 +1,142 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <Extern href="stdidcmd.h"/>
-    <Extern href="vsshlids.h"/>
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
 
-    <Commands package="PackageID">
-        <Menus>
-            <Menu guid="PackageID" id="SubMenu" priority="0x0100">
-                <Parent guid="PackageID" id="MenuGroup" />
-                <CommandFlag>DontCache</CommandFlag>
-                <CommandFlag>DynamicVisibility</CommandFlag>
-                <CommandFlag>TextChanges</CommandFlag>
-                <Strings>
-                    <ButtonText>Copy XPath</ButtonText>
-                    <MenuText>Copy XPath</MenuText>
-                </Strings>
-            </Menu>
-        </Menus>
+  <Commands package="PackageID">
+    <Menus>
+      <Menu guid="PackageID" id="SubMenu" priority="0x0100">
+        <Parent guid="PackageID" id="MenuGroup" />
+        <CommandFlag>DontCache</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>TextChanges</CommandFlag>
+        <Strings>
+          <ButtonText>Copy XPath</ButtonText>
+          <MenuText>Copy XPath</MenuText>
+        </Strings>
+      </Menu>
+    </Menus>
 
-        <Groups>
-            <Group guid="PackageID" id="MenuGroup" priority="0x0400">
-                <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
-            </Group>
+    <Groups>
+      <Group guid="PackageID" id="MenuGroup" priority="0x0400">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
+      </Group>
 
-            <Group guid="PackageID" id="SubMenuGroup" priority="0x0100">
-                <Parent guid="PackageID" id="SubMenu"/>
-            </Group>
-        </Groups>
+      <Group guid="PackageID" id="SubMenuGroup" priority="0x0100">
+        <Parent guid="PackageID" id="SubMenu"/>
+      </Group>
+    </Groups>
 
-        <Buttons>
-            <Button guid="PackageID" id="CopyGenericXPathCommand" priority="0x0100" type="Button">
-                <Parent guid="PackageID" id="SubMenuGroup" />
-                <Icon guid="ImagesID" id="CopyGenericXPathCommandIcon" />
-                <CommandFlag>DontCache</CommandFlag>
-                <CommandFlag>DynamicVisibility</CommandFlag>
-                <CommandFlag>TextChanges</CommandFlag>
-                <Strings>
-                    <ButtonText>Copy generic XPath</ButtonText>
-                    <MenuText>Copy generic XPath</MenuText>
-                    <CommandName>CopyGenericXPath</CommandName>
-                </Strings>
-            </Button>
+    <Buttons>
+      <Button guid="PackageID" id="CopyGenericXPathCommand" priority="0x0100" type="Button">
+        <Parent guid="PackageID" id="SubMenuGroup" />
+        <Icon guid="ImagesID" id="CopyGenericXPathCommandIcon" />
+        <CommandFlag>DontCache</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>TextChanges</CommandFlag>
+        <Strings>
+          <ButtonText>Copy generic XPath</ButtonText>
+          <MenuText>Copy generic XPath</MenuText>
+          <CommandName>CopyGenericXPath</CommandName>
+        </Strings>
+      </Button>
 
-            <Button guid="PackageID" id="CopyAbsoluteXPathCommand" priority="0x0100" type="Button">
-                <Parent guid="PackageID" id="SubMenuGroup" />
-                <Icon guid="ImagesID" id="CopyAbsoluteXPathCommandIcon" />
-                <CommandFlag>DontCache</CommandFlag>
-                <CommandFlag>DynamicVisibility</CommandFlag>
-                <CommandFlag>TextChanges</CommandFlag>
-                <Strings>
-                    <ButtonText>Copy absolute XPath</ButtonText>
-                    <MenuText>Copy absolute XPath</MenuText>
-                    <CommandName>CopyAbsoluteXPath</CommandName>
-                </Strings>
-            </Button>
+      <Button guid="PackageID" id="CopyAbsoluteXPathCommand" priority="0x0100" type="Button">
+        <Parent guid="PackageID" id="SubMenuGroup" />
+        <Icon guid="ImagesID" id="CopyAbsoluteXPathCommandIcon" />
+        <CommandFlag>DontCache</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>TextChanges</CommandFlag>
+        <Strings>
+          <ButtonText>Copy absolute XPath</ButtonText>
+          <MenuText>Copy absolute XPath</MenuText>
+          <CommandName>CopyAbsoluteXPath</CommandName>
+        </Strings>
+      </Button>
 
-            <Button guid="PackageID" id="CopyDistinctXPathCommand" priority="0x0100" type="Button">
-                <Parent guid="PackageID" id="SubMenuGroup" />
-                <Icon guid="ImagesID" id="CopyDistinctXPathCommandIcon" />
-                <CommandFlag>DontCache</CommandFlag>
-                <CommandFlag>DynamicVisibility</CommandFlag>
-                <CommandFlag>TextChanges</CommandFlag>
-                <Strings>
-                    <ButtonText>Copy distinct XPath</ButtonText>
-                    <MenuText>Copy distinct XPath</MenuText>
-                    <CommandName>CopyDistinctXPath</CommandName>
-                </Strings>
-            </Button>
+      <Button guid="PackageID" id="CopyDistinctXPathCommand" priority="0x0100" type="Button">
+        <Parent guid="PackageID" id="SubMenuGroup" />
+        <Icon guid="ImagesID" id="CopyDistinctXPathCommandIcon" />
+        <CommandFlag>DontCache</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>TextChanges</CommandFlag>
+        <Strings>
+          <ButtonText>Copy distinct XPath</ButtonText>
+          <MenuText>Copy distinct XPath</MenuText>
+          <CommandName>CopyDistinctXPath</CommandName>
+        </Strings>
+      </Button>
 
-            <Button guid="PackageID" id="CopySimplifiedXPathCommand" priority="0x0100" type="Button">
-                <Parent guid="PackageID" id="SubMenuGroup" />
-                <Icon guid="ImagesID" id="CopySimplifiedXPathCommandIcon" />
-                <CommandFlag>DontCache</CommandFlag>
-                <CommandFlag>DynamicVisibility</CommandFlag>
-                <CommandFlag>TextChanges</CommandFlag>
-                <Strings>
-                    <ButtonText>Copy simplified XPath</ButtonText>
-                    <MenuText>Copy simplified XPath</MenuText>
-                    <CommandName>CopySimplifiedXPath</CommandName>
-                </Strings>
-            </Button>
+      <Button guid="PackageID" id="CopySimplifiedXPathCommand" priority="0x0100" type="Button">
+        <Parent guid="PackageID" id="SubMenuGroup" />
+        <Icon guid="ImagesID" id="CopySimplifiedXPathCommandIcon" />
+        <CommandFlag>DontCache</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>TextChanges</CommandFlag>
+        <Strings>
+          <ButtonText>Copy simplified XPath</ButtonText>
+          <MenuText>Copy simplified XPath</MenuText>
+          <CommandName>CopySimplifiedXPath</CommandName>
+        </Strings>
+      </Button>
 
-            <Button guid="PackageID" id="CopyXmlStructureCommand" priority="0x0100" type="Button">
-                <Parent guid="PackageID" id="MenuGroup" />
-                <Icon guid="ImagesID" id="CopyXmlStructureCommandIcon" />
-                <CommandFlag>DontCache</CommandFlag>
-                <CommandFlag>DynamicVisibility</CommandFlag>
-                <Strings>
-                    <ButtonText>Copy XML structure</ButtonText>
-                    <MenuText>Copy XML structure</MenuText>
-                    <CommandName>CopyXmlStructure</CommandName>
-                </Strings>
-            </Button>
-        </Buttons>
+      <Button guid="PackageID" id="CopyXmlStructureCommand" priority="0x0100" type="Button">
+        <Parent guid="PackageID" id="MenuGroup" />
+        <Icon guid="ImagesID" id="CopyXmlStructureCommandIcon" />
+        <CommandFlag>DontCache</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Copy XML structure</ButtonText>
+          <MenuText>Copy XML structure</MenuText>
+          <CommandName>CopyXmlStructure</CommandName>
+        </Strings>
+      </Button>
 
-        <Bitmaps>
-            <Bitmap guid="ImagesID" href="..\Resources\CommandIcons.png" />
-        </Bitmaps>
-    </Commands>
 
-    <CommandPlacements>
-        <CommandPlacement guid="PackageID" id="CopyGenericXPathCommand" priority="0x0100">
-            <Parent guid="PackageID" id="SubMenu"/>
-        </CommandPlacement>
+      <Button guid="PackageID" id="ShowXPathWorkbenchCommand" priority="0x0100" type="Button">
+        <Parent guid="PackageID" id="MenuGroup" />
+        <Icon guid="ImagesID" id="CopyXmlStructureCommandIcon" />
+        <Strings>
+          <ButtonText>Open XPath workbench</ButtonText>
+          <MenuText>Open XPath workbench</MenuText>
+          <CommandName>ShowXPathWorkbench</CommandName>
+        </Strings>
+      </Button>
+    </Buttons>
 
-        <CommandPlacement guid="PackageID" id="CopyAbsoluteXPathCommand" priority="0x0200">
-            <Parent guid="PackageID" id="SubMenu"/>
-        </CommandPlacement>
-    </CommandPlacements>
+    <Bitmaps>
+      <Bitmap guid="ImagesID" href="..\Resources\CommandIcons.png" />
+    </Bitmaps>
+  </Commands>
 
-    <Symbols>
-        <GuidSymbol name="PackageID" value="{253aa665-a779-4716-9ded-5b0c2cb66710}">
-            <IDSymbol name="MenuGroup" value="0x1019" />
-            <IDSymbol name="SubMenu" value="0x1020" />
-            <IDSymbol name="SubMenuGroup" value="0x1021" />
-            <IDSymbol name="CopyGenericXPathCommand" value="0x1022" />
-            <IDSymbol name="CopyAbsoluteXPathCommand" value="0x1023" />
-            <IDSymbol name="CopyDistinctXPathCommand" value="0x1024" />
-            <IDSymbol name="CopySimplifiedXPathCommand" value="0x2022" />
-            <IDSymbol name="CopyXmlStructureCommand" value="0x1025" />
-        </GuidSymbol>
-        <GuidSymbol name="ImagesID" value="{ccf04725-e060-4d02-9cd7-2d86a3742cd3}" >
-            <IDSymbol name="CopyGenericXPathCommandIcon" value="1" />
-            <IDSymbol name="CopyAbsoluteXPathCommandIcon" value="2" />
-            <IDSymbol name="CopyDistinctXPathCommandIcon" value="3" />
-            <IDSymbol name="CopyXmlStructureCommandIcon" value="4" />
-            <IDSymbol name="CopySimplifiedXPathCommandIcon" value="5" />
-        </GuidSymbol>
-    </Symbols>
+  <CommandPlacements>
+    <CommandPlacement guid="PackageID" id="CopyGenericXPathCommand" priority="0x0100">
+      <Parent guid="PackageID" id="SubMenu"/>
+    </CommandPlacement>
+
+    <CommandPlacement guid="PackageID" id="CopyAbsoluteXPathCommand" priority="0x0200">
+      <Parent guid="PackageID" id="SubMenu"/>
+    </CommandPlacement>
+  </CommandPlacements>
+
+  <Symbols>
+    <GuidSymbol name="PackageID" value="{253aa665-a779-4716-9ded-5b0c2cb66710}">
+      <IDSymbol name="MenuGroup" value="0x1019" />
+      <IDSymbol name="SubMenu" value="0x1020" />
+      <IDSymbol name="SubMenuGroup" value="0x1021" />
+      <IDSymbol name="CopyGenericXPathCommand" value="0x1022" />
+      <IDSymbol name="CopyAbsoluteXPathCommand" value="0x1023" />
+      <IDSymbol name="CopyDistinctXPathCommand" value="0x1024" />
+      <IDSymbol name="CopySimplifiedXPathCommand" value="0x2022" />
+      <IDSymbol name="CopyXmlStructureCommand" value="0x1025" />
+      <IDSymbol name="ShowXPathWorkbenchCommand" value="0x1026" />
+    </GuidSymbol>
+    <GuidSymbol name="ImagesID" value="{ccf04725-e060-4d02-9cd7-2d86a3742cd3}" >
+      <IDSymbol name="CopyGenericXPathCommandIcon" value="1" />
+      <IDSymbol name="CopyAbsoluteXPathCommandIcon" value="2" />
+      <IDSymbol name="CopyDistinctXPathCommandIcon" value="3" />
+      <IDSymbol name="CopyXmlStructureCommandIcon" value="4" />
+      <IDSymbol name="CopySimplifiedXPathCommandIcon" value="5" />
+    </GuidSymbol>
+  </Symbols>
 </CommandTable>

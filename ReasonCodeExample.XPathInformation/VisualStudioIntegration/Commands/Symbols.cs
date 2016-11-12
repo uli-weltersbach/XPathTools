@@ -12,6 +12,7 @@
             public const int CopyAbsoluteXPath = 0x1023;
             public const int CopyDistinctXPath = 0x1024;
             public const int CopyXmlStructure = 0x1025;
+            public const int ShowXPathWorkbench = 0x1026;
         }
 
         public struct MenuIDs
@@ -19,6 +20,11 @@
             public const int MenuGroup = 0x1019;
             public const int SubMenu = 0x1020;
             public const int SubMenuGroup = 0x1021;
+        }
+
+        public struct ToolWindowIDs
+        {
+            public const string XPathWorkbench = "5A897CD2-96EF-41CF-B52E-8DDCBC6FD8CA";
         }
     }
 }

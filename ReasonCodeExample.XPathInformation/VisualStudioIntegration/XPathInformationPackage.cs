@@ -16,6 +16,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
     [ProvideMenuResource(MenuResourceID, 1)]
     [Guid(Symbols.PackageID)]
     [ProvideOptionPage(typeof(XPathInformationDialogPage), "XPath Information", "General", 0, 0, true)]
+    [ProvideToolWindow(typeof(XPathWorkbenchWindow))]
     internal class XPathInformationPackage : Package
     {
         private const string MenuResourceID = "CommandFactory.ctmenu";
@@ -69,6 +70,8 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
             var copySimplifiedXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopySimplifiedXPath, repository, () => new SimplifiedXPathWriter(new[] { new AttributeFilter(configuration.AlwaysDisplayedAttributes) }), new TrimCommandTextFormatter());
             commandService.AddCommand(copySimplifiedXPathCommand);
+
+            var showXPathWorkbenchCommand = new ShowXPathWorkbenchCommand(this, commandService, Symbols.CommandIDs.ShowXPathWorkbench);
 
             var copyXmlStructureCommand = new CopyXmlStructureCommand(Symbols.CommandIDs.CopyXmlStructure, repository, () => new XmlStructureWriter(), new CommandTextFormatter());
             commandService.AddCommand(copyXmlStructureCommand);
