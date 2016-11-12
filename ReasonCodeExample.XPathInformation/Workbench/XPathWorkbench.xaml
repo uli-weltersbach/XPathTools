@@ -4,12 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ReasonCodeExample.XPathInformation.Workbench"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             Background="{DynamicResource VsBrush.Window}"
+             Foreground="{DynamicResource VsBrush.WindowText}">
     <UserControl.Resources>
-        <Image x:Key="XPath" Source="../VisualStudioIntegration/Resources/XPath.png"/>
-        <Image x:Key="Find" Source="../VisualStudioIntegration/Resources/Find.png"/>
-        <Image x:Key="FindPrevious" Source="../VisualStudioIntegration/Resources/FindPrevious.png"/>
-        <Image x:Key="FindNext" Source="../VisualStudioIntegration/Resources/FindNext.png"/>
+        <Image x:Key="XPath" Source="../VisualStudioIntegration/Resources/XPath.png" />
+        <Image x:Key="Find" Source="../VisualStudioIntegration/Resources/Find.png" />
+        <Image x:Key="FindPrevious" Source="../VisualStudioIntegration/Resources/FindPrevious.png" />
+        <Image x:Key="FindNext" Source="../VisualStudioIntegration/Resources/FindNext.png" />
     </UserControl.Resources>
     <StackPanel>
         <Grid>
@@ -24,8 +26,10 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Image Source="../VisualStudioIntegration/Resources/XPath.png" Grid.Row="0" Grid.Column="0" />
-            <TextBox Grid.Column="1" Grid.Row="0" MinWidth="300" Margin="3" ToolTip="XPath" Name="SearchTextBox" KeyDown="OnSearchKeyDownHandler" />
-            <Button Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="3" Content="{StaticResource Find}" ToolTip="Search" />
+            <TextBox Grid.Column="1" Grid.Row="0" MinWidth="300" Margin="3" ToolTip="XPath" Name="SearchTextBox"
+                     KeyDown="OnSearchKeyDownHandler" />
+            <Button Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="3" Content="{StaticResource Find}"
+                    ToolTip="Search" />
         </Grid>
     </StackPanel>
 </UserControl>
