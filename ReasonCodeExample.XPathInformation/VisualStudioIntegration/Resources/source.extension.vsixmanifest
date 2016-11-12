@@ -8,7 +8,7 @@
         <License>VisualStudioIntegration\Resources\license.txt</License>
         <ReleaseNotes>VisualStudioIntegration\Resources\release-notes.txt</ReleaseNotes>
         <Icon>VisualStudioIntegration\Resources\PackageIcon.png</Icon>
-        <PreviewImage>VisualStudioIntegration\Resources\PreviewImage.png</PreviewImage>
+        <PreviewImage>VisualStudioIntegration\Resources\Screenshots\PreviewImage.png</PreviewImage>
         <Tags>XPath, XML, Web.config, App.config, Sitecore</Tags>
     </Metadata>
     <Installation>

@@ -234,13 +234,16 @@
     </Content>
     <Content Include="VisualStudioIntegration\Resources\CopyAbsoluteXPathCommandIcon.png" />
     <Content Include="VisualStudioIntegration\Resources\CopyDistinctXPathCommandIcon.png" />
-    <Content Include="VisualStudioIntegration\Resources\Discting XPath settings.png" />
-    <Content Include="VisualStudioIntegration\Resources\Distinct XPath Sitecore pipeline processor example.png" />
+    <Content Include="VisualStudioIntegration\Resources\Screenshots\Distinct XPath settings.png" />
+    <Content Include="VisualStudioIntegration\Resources\Screenshots\Distinct XPath Sitecore pipeline processor example.png" />
+    <Content Include="VisualStudioIntegration\Resources\FindNext.png" />
+    <Content Include="VisualStudioIntegration\Resources\FindPrevious.png" />
+    <Content Include="VisualStudioIntegration\Resources\Find.png" />
     <Content Include="VisualStudioIntegration\Resources\license.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="VisualStudioIntegration\Resources\Plugin installation.png" />
+    <Content Include="VisualStudioIntegration\Resources\Screenshots\Plugin installation.png" />
     <Content Include="VisualStudioIntegration\Resources\release-notes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -248,7 +251,7 @@
     <Content Include="VisualStudioIntegration\Resources\CopyGenericXPathCommandIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="VisualStudioIntegration\Resources\PreviewImage.png">
+    <Content Include="VisualStudioIntegration\Resources\Screenshots\PreviewImage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -256,13 +259,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="VisualStudioIntegration\Resources\Screenshot-Copy XPath.png" />
-    <Content Include="VisualStudioIntegration\Resources\Screenshot-Options.png" />
-    <Content Include="VisualStudioIntegration\Resources\Screenshot-Statusbar.png" />
-    <Content Include="VisualStudioIntegration\Resources\Screenshot-XML Structure copy.png" />
-    <Content Include="VisualStudioIntegration\Resources\Screenshot-XML Structure paste.png" />
+    <Content Include="VisualStudioIntegration\Resources\Screenshots\Screenshot-Copy XPath.png" />
+    <Content Include="VisualStudioIntegration\Resources\Screenshots\Screenshot-Options.png" />
+    <Content Include="VisualStudioIntegration\Resources\Screenshots\Screenshot-Statusbar.png" />
+    <Content Include="VisualStudioIntegration\Resources\Screenshots\Screenshot-XML Structure copy.png" />
+    <Content Include="VisualStudioIntegration\Resources\Screenshots\Screenshot-XML Structure paste.png" />
     <Content Include="VisualStudioIntegration\Resources\CopySimplifiedXPathCommandIcon.png" />
     <Content Include="VisualStudioIntegration\Resources\CopyXmlStructureCommandIcon.png" />
+    <Content Include="VisualStudioIntegration\Resources\ShowXPathWorkbenchCommandIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="VisualStudioIntegration\Resources\VSPackage.resx">
