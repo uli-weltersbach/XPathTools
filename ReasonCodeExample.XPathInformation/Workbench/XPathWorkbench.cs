@@ -41,6 +41,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 
         private void Search()
         {
+            SearchResultList.Visibility = Visibility.Hidden;
             SearchResults.Clear();
             if(string.IsNullOrWhiteSpace(SearchTextBox.Text))
             {
@@ -61,6 +62,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
                 {
                     SearchResults.Add(searchResult);
                 }
+                SearchResultList.Visibility = Visibility.Visible;
             }
             catch(Exception ex)
             {

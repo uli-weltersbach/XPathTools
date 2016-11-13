@@ -8,10 +8,10 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}">
     <UserControl.Resources>
-        <Image x:Key="XPath" Source="../VisualStudioIntegration/Resources/XPath.png" />
         <Image x:Key="Find" Source="../VisualStudioIntegration/Resources/Find.png" />
-        <Image x:Key="FindPrevious" Source="../VisualStudioIntegration/Resources/FindPrevious.png" />
-        <Image x:Key="FindNext" Source="../VisualStudioIntegration/Resources/FindNext.png" />
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
     </UserControl.Resources>
     <StackPanel>
         <Grid>
@@ -22,14 +22,28 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Image Source="../VisualStudioIntegration/Resources/XPath.png" Grid.Row="0" Grid.Column="0" />
-            <TextBox Grid.Column="1" Grid.Row="0" MinWidth="300" Margin="3" ToolTip="XPath" Name="SearchTextBox"
-                     KeyDown="OnSearchKeyDownHandler" />
-            <Button Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="3" Content="{StaticResource Find}"
-                    ToolTip="Search" Click="SearchButtonClick" />
+            <TextBox Grid.Column="1" Grid.Row="0" MinWidth="300" Margin="3" ToolTip="XPath" Name="SearchTextBox" KeyDown="OnSearchKeyDownHandler" />
+            <Button Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="3" Content="{StaticResource Find}" ToolTip="Search" Click="SearchButtonClick" />
         </Grid>
+        <ListView HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Name="SearchResultList" Visibility="Hidden">
+            <ListView.ItemsSource>
+                <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:XPathWorkbench}}" Path="SearchResults" />
+            </ListView.ItemsSource>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="Auto" Header="Value">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Value}" Width="200" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Path=LineNumber}" Header="Line number" />
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Path=LinePosition}" Header="Line position" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </StackPanel>
 </UserControl>
