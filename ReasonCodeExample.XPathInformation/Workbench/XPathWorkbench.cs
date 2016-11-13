@@ -18,10 +18,10 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             InitializeComponent();
             _repository = repository;
             _searchResultFactory = searchResultFactory;
-            SearchResults = new ObservableCollection<ElementSearchResult>();
+            SearchResults = new ObservableCollection<SearchResult>();
         }
 
-        public ObservableCollection<ElementSearchResult> SearchResults
+        public ObservableCollection<SearchResult> SearchResults
         {
             get;
         }

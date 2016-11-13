@@ -1,14 +1,8 @@
 namespace ReasonCodeExample.XPathInformation.Workbench
 {
-    public class ElementSearchResult
+    public class SearchResult
     {
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        public string XPath
+        public string Xml
         {
             get;
             set;
