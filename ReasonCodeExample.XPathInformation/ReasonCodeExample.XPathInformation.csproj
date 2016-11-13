@@ -194,6 +194,8 @@
     <Compile Include="VisualStudioIntegration\Commands\CommandTextFormatter.cs" />
     <Compile Include="VisualStudioIntegration\Configuration\SerializableConverter.cs" />
     <Compile Include="IConfiguration.cs" />
+    <Compile Include="Workbench\ElementSearchResult.cs" />
+    <Compile Include="Workbench\SearchResultFactory.cs" />
     <Compile Include="Workbench\XPathWorkbench.xaml.cs">
       <DependentUpon>XPathWorkbench.xaml</DependentUpon>
     </Compile>

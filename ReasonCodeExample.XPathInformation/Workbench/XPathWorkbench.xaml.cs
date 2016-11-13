@@ -1,33 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using ReasonCodeExample.XPathInformation.Writers;
 
 namespace ReasonCodeExample.XPathInformation.Workbench
 {
-    /// <summary>
-    /// Interaction logic for XPathWorkbench.xaml
-    /// </summary>
     public partial class XPathWorkbench : UserControl
     {
         private readonly XmlRepository _repository;
+        private readonly SearchResultFactory _searchResultFactory;
 
-        internal XPathWorkbench(XmlRepository repository)
+        internal XPathWorkbench(XmlRepository repository, SearchResultFactory searchResultFactory)
         {
             InitializeComponent();
             _repository = repository;
-            SearchResults = new ObservableCollection<SearchResult>();
+            _searchResultFactory = searchResultFactory;
+            SearchResults = new ObservableCollection<ElementSearchResult>();
         }
 
-        public ObservableCollection<SearchResult> SearchResults
+        public ObservableCollection<ElementSearchResult> SearchResults
         {
             get;
-            set;
         }
 
         private void OnSearchKeyDownHandler(object sender, KeyEventArgs e)
@@ -60,7 +56,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             try
             {
                 var matches = currentElement?.Document?.XPathEvaluate(SearchTextBox.Text);
-                var searchResults = Parse(matches);
+                var searchResults = _searchResultFactory.Parse(matches);
                 foreach(var searchResult in searchResults)
                 {
                     SearchResults.Add(searchResult);
@@ -70,46 +66,6 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             {
                 MessageBox.Show("Error evaluating XPath.", ex.ToString(), MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-        }
-
-        private IList<SearchResult> Parse(object matches)
-        {
-            var searchResults = new List<SearchResult>();
-            if (matches == null)
-            {
-                return searchResults;
-            }
-            if(matches is IEnumerable<XElement>)
-            {
-                var elements = (IEnumerable<XElement>)matches;
-                foreach(var element in elements)
-                {
-                    var searchResult = new SearchResult {XPath = new AbsoluteXPathWriter().Write(element)};
-                    searchResults.Add(searchResult);
-                }
-            }
-            return searchResults;
-        }
-    }
-
-    public class SearchResult
-    {
-        public string XPath
-        {
-            get;
-            set;
-        }
-
-        public int? LineNumber
-        {
-            get;
-            set;
-        }
-
-        public int? LinePosition
-        {
-            get;
-            set;
         }
     }
 }

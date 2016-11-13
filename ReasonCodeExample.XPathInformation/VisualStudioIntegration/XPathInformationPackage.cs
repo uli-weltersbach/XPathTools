@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Ninject;
 using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
 using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configuration;
+using ReasonCodeExample.XPathInformation.Workbench;
 using ReasonCodeExample.XPathInformation.Writers;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
@@ -42,6 +43,8 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
                 var repository = new XmlRepository();
                 _container.Bind<XmlRepository>().ToConstant(repository);
+
+                _container.Bind<SearchResultFactory>().ToSelf();
 
                 var configuration = (XPathInformationDialogPage)GetDialogPage(typeof(XPathInformationDialogPage));
                 _container.Bind<IConfiguration>().ToConstant(configuration);

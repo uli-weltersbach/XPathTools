@@ -13,7 +13,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             : base(null)
         {
             Caption = "XPath Workbench";
-            Content = new XPathWorkbench(Registry.Current.Get<XmlRepository>());
+            Content = new XPathWorkbench(Registry.Current.Get<XmlRepository>(), Registry.Current.Get<SearchResultFactory>());
         }
     }
 }
