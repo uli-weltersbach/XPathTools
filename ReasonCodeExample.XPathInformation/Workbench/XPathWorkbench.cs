@@ -27,6 +27,8 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             get;
         }
 
+        public event EventHandler<SearchResult> SearchResultSelected;
+
         private void OnSearchKeyDownHandler(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Return)
@@ -69,6 +71,22 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             {
                 MessageBox.Show("Error evaluating XPath.", ex.ToString(), MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        private void OnSearchResultClicked(object sender, MouseButtonEventArgs e)
+        {
+            var listViewItem = sender as ListViewItem;
+            if(listViewItem == null)
+            {
+                return;
+            }
+            var searchResult = (SearchResult)listViewItem.DataContext;
+            OnSearchResultSelected(searchResult);
+        }
+
+        private void OnSearchResultSelected(SearchResult searchResult)
+        {
+            SearchResultSelected?.Invoke(this, searchResult);
         }
     }
 }
