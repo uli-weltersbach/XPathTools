@@ -19,6 +19,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             _repository = repository;
             _searchResultFactory = searchResultFactory;
             SearchResults = new ObservableCollection<SearchResult>();
+            SearchResultList.Visibility = Visibility.Hidden;
         }
 
         public ObservableCollection<SearchResult> SearchResults
