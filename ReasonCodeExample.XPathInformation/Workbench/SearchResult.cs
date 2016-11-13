@@ -2,7 +2,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 {
     public class SearchResult
     {
-        public string Xml
+        public string Value
         {
             get;
             set;

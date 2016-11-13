@@ -10,8 +10,9 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
     public class SearchResultFactoryTests
     {
         private const string Xml = @"<xml>
-    <child name='first' />
-<child name='second' />
+    <child name='first'>Hello World!</child>
+<child name='second'>Guten Morgen Welt!</child>
+<child />
 </xml>";
 
         [TestCase(".", 1)]
@@ -60,6 +61,38 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
         }
 
         [Test]
+        public void ParsesXPathWhichEvaluatesToAttribute()
+        {
+            // Arrange
+            var factory = new SearchResultFactory();
+            var evaluationResult = XElement.Parse(Xml).XPathEvaluate("/child/@name");
+            var expectedAttributeValues = new[]
+                                          {
+                                              "name=\"first\"",
+                                              "name=\"second\""
+                                          };
+            // Act
+            var results = factory.Parse(evaluationResult).Select(s => s.Value).ToArray();
+
+            // Assert
+            Assert.That(results, Is.EquivalentTo(expectedAttributeValues));
+        }
+
+        [Test]
+        public void ParsesXPathWhichEvaluatesToBoolean()
+        {
+            // Arrange
+            var factory = new SearchResultFactory();
+            var evaluationResult = XElement.Parse(Xml).XPathEvaluate("count(/child/@name) > 0");
+
+            // Act
+            var result = factory.Parse(evaluationResult).Single();
+
+            // Assert
+            Assert.That(result.Value, Is.EqualTo(bool.TrueString));
+        }
+
+        [Test]
         public void ParsesXPathWhichEvaluatesToElements()
         {
             // Arrange
@@ -74,21 +107,36 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
         }
 
         [Test]
-        public void ParsesXPathWhichEvaluatesToAttribute()
+        public void ParsesXPathWhichEvaluatesToNumber()
         {
             // Arrange
             var factory = new SearchResultFactory();
-            var evaluationResult = XElement.Parse(Xml).XPathEvaluate("/child/@name");
-            var expectedAttributeValues = new[]
-                                          {
-                                              "name=\"first\"",
-                                              "name=\"second\""
-                                          };
+            var evaluationResult = XElement.Parse(Xml).XPathEvaluate("count(/child/@name)");
+
             // Act
-            var results = factory.Parse(evaluationResult).Select(s => s.Xml).ToArray();
+            var result = factory.Parse(evaluationResult).Single();
 
             // Assert
-            Assert.That(results, Is.EquivalentTo(expectedAttributeValues));
+            Assert.That(result.Value, Is.EqualTo("2"));
+        }
+
+        [Test]
+        public void ParsesXPathWhichEvaluatesToString()
+        {
+            // Arrange
+            var factory = new SearchResultFactory();
+            var evaluationResult = XElement.Parse(Xml).XPathEvaluate("/child/text()");
+            var expectedTextValues = new[]
+                                     {
+                                         "Hello World!",
+                                         "Guten Morgen Welt!"
+                                     };
+
+            // Act
+            var results = factory.Parse(evaluationResult).Select(s => s.Value).ToArray();
+
+            // Assert
+            Assert.That(results, Is.EqualTo(expectedTextValues));
         }
     }
 }

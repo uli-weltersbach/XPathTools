@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -7,22 +8,37 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 {
     internal class SearchResultFactory
     {
-        public IEnumerable<SearchResult> Parse(object rawSearchResults)
+        public IEnumerable<SearchResult> Parse(object xpathResult)
+        {
+            if(xpathResult == null)
+            {
+                return Enumerable.Empty<SearchResult>();
+            }
+
+            if(xpathResult is IEnumerable)
+            {
+                return ParseEnumerableResult(xpathResult as IEnumerable);
+            }
+
+            return new[]
+                   {
+                       ParseSimpleResult(xpathResult)
+                   };
+        }
+
+        private IEnumerable<SearchResult> ParseEnumerableResult(IEnumerable xpathResults)
         {
             var searchResults = new List<SearchResult>();
-            if(rawSearchResults == null)
+            foreach(var xpathResult in xpathResults)
             {
-                return searchResults;
-            }
-            if(rawSearchResults is IEnumerable)
-            {
-                foreach(var element in (IEnumerable)rawSearchResults)
+                var searchResult = TryParseElementSearchResult(xpathResult as XElement) ?? TryParseAttributeSearchResult(xpathResult as XAttribute);
+                if(searchResult == null)
                 {
-                    var searchResult = TryParseElementSearchResult(element as XElement) ?? TryParseAttributeSearchResult(element as XAttribute);
-                    if(searchResult != null)
-                    {
-                        searchResults.Add(searchResult);
-                    }
+                    searchResults.Add(ParseSimpleResult(xpathResult));
+                }
+                else
+                {
+                    searchResults.Add(searchResult);
                 }
             }
             return searchResults;
@@ -34,7 +50,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             {
                 return null;
             }
-            var searchResult = new SearchResult {Xml = element.ToString(SaveOptions.None)};
+            var searchResult = new SearchResult {Value = element.ToString(SaveOptions.None)};
             SetLineInfo(element, searchResult);
             return searchResult;
         }
@@ -54,9 +70,14 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             {
                 return null;
             }
-            var searchResult = new SearchResult {Xml = attribute.ToString()};
+            var searchResult = new SearchResult {Value = attribute.ToString()};
             SetLineInfo(attribute, searchResult);
             return searchResult;
+        }
+
+        private SearchResult ParseSimpleResult(object xpathResult)
+        {
+            return new SearchResult { Value = xpathResult.ToString() };
         }
     }
 }
