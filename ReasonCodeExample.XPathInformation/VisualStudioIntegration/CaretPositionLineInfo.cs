@@ -6,18 +6,6 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
     internal class CaretPositionLineInfo : IXmlLineInfo
     {
-        /// <summary>
-        /// Visual Studio text lines are 0-based while 
-        /// <c>IXmlLineInfo</c> uses 1-based.
-        /// </summary>
-        private const int TextEditorLineNumberOffset = 1;
-
-        /// <summary>
-        /// The start of an <c>IXmlLineInfo</c> is the first letter in 
-        /// the element name (e.g. "f" in &lt;fitting&gt;).
-        /// </summary>
-        private const int XmlLineInfoLinePositionOffset = 1;
-
         public CaretPositionLineInfo(CaretPositionChangedEventArgs e)
             : this(e.TextView, e.NewPosition.BufferPosition.Position)
         {
@@ -50,14 +38,14 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
         private int GetLineNumber(ITextView textView, int caretPosition)
         {
-            return textView.TextSnapshot.GetLineNumberFromPosition(caretPosition) + TextEditorLineNumberOffset;
+            return textView.TextSnapshot.GetLineNumberFromPosition(caretPosition) + Constants.TextEditorLineNumberOffset;
         }
 
         private int GetLinePosition(ITextView textView, int caretPosition)
         {
             int lineStart = textView.TextSnapshot.GetLineFromPosition(caretPosition).Start;
             var caretPositionInLine = caretPosition - lineStart;
-            return caretPositionInLine + XmlLineInfoLinePositionOffset;
+            return caretPositionInLine + Constants.XmlLineInfoLinePositionOffset;
         }
     }
 }
