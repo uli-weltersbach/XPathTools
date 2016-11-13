@@ -101,6 +101,8 @@
     <Compile Include="VisualStudioIntegration\VisualStudioVersion.cs" />
     <Compile Include="VisualStudioIntegration\XPathStatusbarInformationTests.cs" />
     <Compile Include="VisualStudioIntegration\VisualStudioExperimentalInstance.cs" />
+    <Compile Include="Workbench\SearchResultFactoryTests.cs" />
+    <Compile Include="Workbench\XPathWorkbenchTests.cs" />
     <Compile Include="Writers\AbsoluteXPathWriterTests.cs" />
     <Compile Include="Writers\AttributeFilterTests.cs" />
     <Compile Include="Writers\DistinctAttributeFilterTests.cs" />
