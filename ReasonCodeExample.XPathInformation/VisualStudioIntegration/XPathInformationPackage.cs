@@ -2,6 +2,7 @@
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Windows;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Ninject;
@@ -17,6 +18,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
     [Guid(Symbols.PackageID)]
     [ProvideOptionPage(typeof(XPathInformationDialogPage), "XPath Information", "General", 0, 0, true)]
     [ProvideToolWindow(typeof(XPathWorkbenchWindow))]
+    //[ProvideToolWindowVisibility(typeof(XPathWorkbenchWindow), VSConstants.UICONTEXT.CodeWindow_string)]
     internal class XPathInformationPackage : Package
     {
         private const string MenuResourceID = "CommandFactory.ctmenu";
