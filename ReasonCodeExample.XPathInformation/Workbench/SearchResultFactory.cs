@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Linq;
 using ReasonCodeExample.XPathInformation.Writers;
 
@@ -13,16 +15,34 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             {
                 return searchResults;
             }
-            if(rawSearchResults is IEnumerable<XElement>)
+            if(rawSearchResults is IEnumerable)
             {
-                var elements = (IEnumerable<XElement>)rawSearchResults;
-                foreach(var element in elements)
+                foreach(var element in (IEnumerable)rawSearchResults)
                 {
-                    var searchResult = new ElementSearchResult {XPath = new AbsoluteXPathWriter().Write(element)};
-                    searchResults.Add(searchResult);
+                    var searchResult = TryParseElementSearchResult(element as XElement);
+                    if(searchResult != null)
+                    {
+                        searchResults.Add(searchResult);
+                    }
                 }
             }
             return searchResults;
+        }
+
+        private static ElementSearchResult TryParseElementSearchResult(XElement element)
+        {
+            if(element == null)
+            {
+                return null;
+            }
+            var lineInfo = element as IXmlLineInfo;
+            var searchResult = new ElementSearchResult {XPath = new AbsoluteXPathWriter().Write(element)};
+            if(lineInfo.HasLineInfo())
+            {
+                searchResult.LineNumber = lineInfo.LineNumber;
+                searchResult.LinePosition = lineInfo.LinePosition;
+            }
+            return searchResult;
         }
     }
 }
