@@ -50,7 +50,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             {
                 return null;
             }
-            var searchResult = new SearchResult {Value = element.ToString(SaveOptions.None)};
+            var searchResult = new SearchResult {Value = element.ToString(SaveOptions.None), SelectionLength = element.Name.LocalName.Length};
             SetLineInfo(element, searchResult);
             return searchResult;
         }
@@ -70,14 +70,14 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             {
                 return null;
             }
-            var searchResult = new SearchResult {Value = attribute.ToString()};
+            var searchResult = new SearchResult {Value = attribute.ToString(), SelectionLength = attribute.Name.LocalName.Length};
             SetLineInfo(attribute, searchResult);
             return searchResult;
         }
 
         private SearchResult ParseSimpleResult(object xpathResult)
         {
-            return new SearchResult { Value = xpathResult.ToString() };
+            return new SearchResult {Value = xpathResult.ToString()};
         }
     }
 }

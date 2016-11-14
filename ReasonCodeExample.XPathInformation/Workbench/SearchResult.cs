@@ -19,5 +19,10 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             get;
             set;
         }
+        public int? SelectionLength
+        {
+            get;
+            set;
+        }
     }
 }

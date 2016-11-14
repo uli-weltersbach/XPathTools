@@ -138,5 +138,21 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
             // Assert
             Assert.That(results, Is.EqualTo(expectedTextValues));
         }
+
+        [TestCase(".", 3)]
+        [TestCase("/child[@name='first']", 5)]
+        [TestCase("/child[@name='second']", 5)]
+        public void SetsSelectionLength(string xpath, int expectedLength)
+        {
+            // Arrange
+            var factory = new SearchResultFactory();
+            var evaluationResult = XElement.Parse(Xml, LoadOptions.SetLineInfo).XPathEvaluate(xpath);
+
+            // Act
+            var result = factory.Parse(evaluationResult).Single();
+
+            // Assert
+            Assert.That(result.SelectionLength, Is.EqualTo(expectedLength));
+        }
     }
 }

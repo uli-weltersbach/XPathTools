@@ -36,11 +36,11 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
                 var dte = (DTE)Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(DTE));
                 var textSelection = (TextSelection)(dte?.ActiveDocument?.Selection);
                 var lineNumber = searchResult.LineNumber.Value;
-                var selectionStart = searchResult.LinePosition.Value - Constants.XmlLineInfoLinePositionOffset;
+                var selectionStart = searchResult.LinePosition.Value;
                 textSelection?.MoveTo(lineNumber, selectionStart, false);
-                if(!string.IsNullOrWhiteSpace(searchResult.Value))
+                if(searchResult.SelectionLength.HasValue)
                 {
-                    var selectionEnd = selectionStart + searchResult.Value.Length;
+                    var selectionEnd = selectionStart + searchResult.SelectionLength.Value;
                     textSelection?.MoveToLineAndOffset(lineNumber, selectionEnd, true);
                 }
             }
