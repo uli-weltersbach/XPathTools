@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,6 +11,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 {
     public partial class XPathWorkbench : UserControl
     {
+        private const int MaxSearchResultCount = 50;
         private readonly XmlRepository _repository;
         private readonly SearchResultFactory _searchResultFactory;
 
@@ -60,12 +63,10 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 
             try
             {
-                SearchResultText.Text = "Working...";
                 var matches = rootElement.Document?.XPathEvaluate(SearchTextBox.Text);
                 var searchResults = _searchResultFactory.Parse(matches);
-                var resultText = searchResults.Count == 1 ? "result" : "results";
-                SearchResultText.Text = $"{searchResults.Count} {resultText}.";
-                foreach(var searchResult in searchResults)
+                SearchResultText.Text = FormatSearchResultCount(searchResults);
+                foreach(var searchResult in searchResults.Take(MaxSearchResultCount))
                 {
                     SearchResults.Add(searchResult);
                 }
@@ -75,6 +76,17 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             {
                 SearchResultText.Text = "Error evaluating XPath." + Environment.NewLine + Environment.NewLine + ex;
             }
+        }
+
+        private string FormatSearchResultCount(ICollection<SearchResult> searchResults)
+        {
+            var countText = Math.Min(searchResults.Count, MaxSearchResultCount).ToString();
+            if(searchResults.Count > MaxSearchResultCount)
+            {
+                countText += " of " + searchResults.Count;
+            }
+            var resultText = searchResults.Count == 1 ? "result" : "results";
+            return $"Showing {countText} {resultText}.";
         }
 
         private void OnSearchResultClicked(object sender, MouseButtonEventArgs e)
