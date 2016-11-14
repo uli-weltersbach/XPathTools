@@ -15,7 +15,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         public XPathWorkbenchWindow()
             : base(null)
         {
-            Caption = "XPath Information";
+            Caption = "XPath Information - Workbench";
             var workbench = new XPathWorkbench(Registry.Current.Get<XmlRepository>(), Registry.Current.Get<SearchResultFactory>());
             workbench.SearchResultSelected += GoToSearchResult;
             Content = workbench;

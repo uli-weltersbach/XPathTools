@@ -111,15 +111,15 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 
         private void OpenNewFileDialog()
         {
-            MainWindow.FindDescendant("File").LeftClick();
-            MainWindow.FindDescendant("New").LeftClick();
-            MainWindow.FindDescendant("File...").LeftClick();
+            MainWindow.FindDescendantByText("File").LeftClick();
+            MainWindow.FindDescendantByText("New").LeftClick();
+            MainWindow.FindDescendantByText("File...").LeftClick();
         }
 
         private void OpenNewXmlFile()
         {
-            MainWindow.FindDescendant("XML File").LeftClick();
-            MainWindow.FindDescendant("Open").LeftClick();
+            MainWindow.FindDescendantByText("XML File").LeftClick();
+            MainWindow.FindDescendantByText("Open").LeftClick();
         }
 
         private void InsertContentIntoNewXmlFile(string content)
@@ -141,7 +141,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
         {
             // Use "shift F10" shortcut to open context menu
             SendKeys.SendWait("+{F10}");
-            MainWindow.FindDescendant(entryName).LeftClick();
+            MainWindow.FindDescendantByText(entryName).LeftClick();
         }
 
         public IList<AutomationElement> GetContextMenuSubMenuCommands(string subMenuName, Regex commandName)

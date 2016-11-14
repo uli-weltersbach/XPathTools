@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Xml.Linq;
+using NUnit.Framework;
 using ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration;
 
 namespace ReasonCodeExample.XPathInformation.Tests.Workbench
@@ -57,15 +58,20 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
         //    Assert.That(, Is.EqualTo());
         //}
 
-        //[Test]
-        //public void WorkbenchShowsSearchResultCount()
-        //{
-        //    // Arrange
+        [Test]
+        public void WorkbenchShowsSearchResultCount()
+        {
+            // Arrange
+            var xml = new XElement("xml", new XElement("child"), new XElement("child"), new XElement("child"), new XElement("child"));
+            _instance.OpenXmlFile(xml.ToString(), 2);
 
-        //    // Act
+            // Act
+            _instance.ClickContextMenuEntry("Open XPath workbench");
+            var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
+            xpathWorkbench.Run("//child");
 
-        //    // Assert
-        //    Assert.That(, Is.EqualTo());
-        //}
+            // Assert
+            Assert.That(xpathWorkbench.SearchResultCount, Is.EqualTo("4 results."));
+        }
     }
 }

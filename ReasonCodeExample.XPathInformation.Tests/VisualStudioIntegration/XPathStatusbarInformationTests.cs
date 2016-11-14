@@ -30,7 +30,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
             _instance.OpenXmlFile(xml, caretPosition);
 
             // Act
-            var statusbar = _instance.MainWindow.FindDescendant(expectedXPath);
+            var statusbar = _instance.MainWindow.FindDescendantByText(expectedXPath);
 
             // Assert
             Assert.That(statusbar, Is.Not.Null);

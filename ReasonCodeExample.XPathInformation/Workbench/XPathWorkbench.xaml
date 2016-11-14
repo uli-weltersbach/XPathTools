@@ -24,15 +24,16 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Image Source="../VisualStudioIntegration/Resources/XPath.png" Grid.Row="0" Grid.Column="0" />
-            <TextBox Grid.Column="1" Grid.Row="0" MinWidth="300" Margin="3" ToolTip="XPath" Name="SearchTextBox"
+            <TextBox x:Name="SearchTextBox" Grid.Column="1" Grid.Row="0" MinWidth="300" Margin="3" ToolTip="XPath"
                      KeyDown="OnSearchKeyDownHandler" />
-            <Button Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="3" Padding="3"
+            <Button x:Name="SearchButton" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="3" Padding="3"
                     Content="{StaticResource Find}"
                     ToolTip="Search" Click="SearchButtonClick" />
         </Grid>
+        <TextBlock DockPanel.Dock="Top" AutomationProperties.AutomationId="SearchResultCount" x:Name="SearchResultCount" Foreground="{DynamicResource VsBrush.WindowText}" />
         <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <ListView SelectionMode="Single" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0"
-                      Name="SearchResultList">
+                      x:Name="SearchResultList">
                 <ListView.ItemsSource>
                     <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:XPathWorkbench}}"
                              Path="SearchResults" />

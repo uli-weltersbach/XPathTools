@@ -8,16 +8,16 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 {
     internal class SearchResultFactory
     {
-        public IEnumerable<SearchResult> Parse(object xpathResult)
+        public IList<SearchResult> Parse(object xpathResult)
         {
             if(xpathResult == null)
             {
-                return Enumerable.Empty<SearchResult>();
+                return Enumerable.Empty<SearchResult>().ToList();
             }
 
             if(xpathResult is IEnumerable)
             {
-                return ParseEnumerableResult(xpathResult as IEnumerable);
+                return ParseEnumerableResult(xpathResult as IEnumerable).ToList();
             }
 
             return new[]
