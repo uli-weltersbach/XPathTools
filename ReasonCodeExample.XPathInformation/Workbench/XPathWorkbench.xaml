@@ -30,7 +30,7 @@
                     Content="{StaticResource Find}"
                     ToolTip="Search" Click="SearchButtonClick" />
         </Grid>
-        <TextBlock DockPanel.Dock="Top" AutomationProperties.AutomationId="SearchResultCount" x:Name="SearchResultCount" Foreground="{DynamicResource VsBrush.WindowText}" />
+        <TextBlock DockPanel.Dock="Top" AutomationProperties.AutomationId="SearchResultText" x:Name="SearchResultText" Foreground="{DynamicResource VsBrush.WindowText}" />
         <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <ListView SelectionMode="Single" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0"
                       x:Name="SearchResultList">

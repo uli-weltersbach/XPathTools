@@ -19,11 +19,11 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
 
         public bool IsVisible => ToolWindowPane != null;
 
-        public string SearchResultCount
+        public string SearchResultText
         {
             get
             {
-                var searchResultCountElement = ToolWindowPane.FindDescendantByAutomationId("SearchResultCount");
+                var searchResultCountElement = ToolWindowPane.FindDescendantByAutomationId("SearchResultText");
                 return searchResultCountElement.GetText();
             }
         }

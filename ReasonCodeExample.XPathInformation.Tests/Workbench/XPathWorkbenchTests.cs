@@ -47,16 +47,21 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
             Assert.That(xpathWorkbench.IsVisible, Is.True);
         }
 
-        //[Test]
-        //public void WorkbenchRunsQueryEvenThoughNoNodeIsSelected()
-        //{
-        //    // Arrange
+        [Test]
+        public void WorkbenchRunsQueryEvenThoughNoNodeIsSelected()
+        {
+            // Arrange
+            var xml = new XElement("xml");
+            _instance.OpenXmlFile(xml.ToString(), 0);
 
-        //    // Act
+            // Act
+            _instance.ClickContextMenuEntry("Open XPath workbench");
+            var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
+            xpathWorkbench.Run("§ invalid XPath §");
 
-        //    // Assert
-        //    Assert.That(, Is.EqualTo());
-        //}
+            // Assert
+            Assert.That(xpathWorkbench.SearchResultText, Does.Contain("Error evaluating XPath."));
+        }
 
         [Test]
         public void WorkbenchShowsSearchResultCount()
@@ -71,7 +76,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
             xpathWorkbench.Run("//child");
 
             // Assert
-            Assert.That(xpathWorkbench.SearchResultCount, Is.EqualTo("4 results."));
+            Assert.That(xpathWorkbench.SearchResultText, Is.EqualTo("4 results."));
         }
     }
 }

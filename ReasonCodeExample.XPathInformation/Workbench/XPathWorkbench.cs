@@ -47,7 +47,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
         {
             SearchResultList.Visibility = Visibility.Hidden;
             SearchResults.Clear();
-            SearchResultCount.Text = string.Empty;
+            SearchResultText.Text = string.Empty;
 
             if (string.IsNullOrWhiteSpace(SearchTextBox.Text))
             {
@@ -62,11 +62,11 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 
             try
             {
-                SearchResultCount.Text = "Working...";
+                SearchResultText.Text = "Working...";
                 var matches = currentElement?.Document?.XPathEvaluate(SearchTextBox.Text);
                 var searchResults = _searchResultFactory.Parse(matches);
                 var resultText = searchResults.Count == 1 ? "result" : "results";
-                SearchResultCount.Text = $"{searchResults.Count} {resultText}.";
+                SearchResultText.Text = $"{searchResults.Count} {resultText}.";
                 foreach (var searchResult in searchResults)
                 {
                     SearchResults.Add(searchResult);
@@ -75,8 +75,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             }
             catch(Exception ex)
             {
-                SearchResultCount.Text = string.Empty;
-                MessageBox.Show("Error evaluating XPath.", ex.ToString(), MessageBoxButton.OK, MessageBoxImage.Warning);
+                SearchResultText.Text = "Error evaluating XPath." + Environment.NewLine + Environment.NewLine + ex;
             }
         }
 
