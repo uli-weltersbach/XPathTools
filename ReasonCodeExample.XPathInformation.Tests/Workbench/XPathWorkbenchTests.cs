@@ -37,7 +37,8 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
         public void WorkbenchIsActivatedViaContextMenu()
         {
             // Arrange
-            _instance.OpenXmlFile("<xml />", 2);
+            var xml = new XElement("xml");
+            _instance.OpenXmlFile(xml.ToString(), 0);
 
             // Act
             _instance.ClickContextMenuEntry("Open XPath workbench");
@@ -67,16 +68,16 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
         public void WorkbenchShowsSearchResultCount()
         {
             // Arrange
-            var xml = new XElement("xml", new XElement("child"), new XElement("child"), new XElement("child"), new XElement("child"));
-            _instance.OpenXmlFile(xml.ToString(), 2);
+            var xml = new XElement("xml");
+            _instance.OpenXmlFile(xml.ToString(SaveOptions.DisableFormatting), 0);
 
             // Act
             _instance.ClickContextMenuEntry("Open XPath workbench");
             var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
-            xpathWorkbench.Run("//child");
+            xpathWorkbench.Run("/xml");
 
             // Assert
-            Assert.That(xpathWorkbench.SearchResultText, Is.EqualTo("4 results."));
+            Assert.That(xpathWorkbench.SearchResultText, Is.EqualTo("1 result."));
         }
     }
 }
