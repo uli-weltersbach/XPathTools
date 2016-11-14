@@ -22,17 +22,6 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
             _instance.Stop();
         }
 
-        //[Test]
-        //public void SearchIsRunInBackgroundThread()
-        //{
-        //    // Arrange
-
-        //    // Act
-
-        //    // Assert
-        //    Assert.That(, Is.EqualTo());
-        //}
-
         [Test]
         public void WorkbenchIsActivatedViaContextMenu()
         {
@@ -77,7 +66,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
             xpathWorkbench.Run("/xml");
 
             // Assert
-            Assert.That(xpathWorkbench.SearchResultText, Is.EqualTo("1 result."));
+            Assert.That(xpathWorkbench.SearchResultText, Does.Contain("1 result."));
         }
     }
 }
