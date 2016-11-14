@@ -22,7 +22,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         {
             try
             {
-                var xml = _repository.Get();
+                var xml = _repository.GetSelected();
                 var writer = _writerProvider();
                 var xpath = writer.Write(xml);
                 SetText(xpath);

@@ -33,6 +33,9 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             {
                 return;
             }
+
+            _repository.LoadXml(textView.TextSnapshot.GetText());
+
             if(textView.Caret == null)
             {
                 return;
@@ -60,10 +63,11 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         {
             try
             {
-                var rootElement = _repository.GetRootElement(xml);
+                _repository.LoadXml(xml);
+                var rootElement = _repository.GetRootElement();
                 var selectedElement = _repository.GetElement(rootElement, lineNumber, linePosition);
                 var selectedAttribute = _repository.GetAttribute(selectedElement, lineNumber, linePosition);
-                _repository.Put(selectedAttribute as XObject ?? selectedElement);
+                _repository.SetSelected(selectedAttribute as XObject ?? selectedElement);
             }
             catch(Exception ex)
             {

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Xml.Linq;
 using System.Xml.XPath;
 
 namespace ReasonCodeExample.XPathInformation.Workbench
@@ -49,13 +47,13 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             SearchResults.Clear();
             SearchResultText.Text = string.Empty;
 
-            if (string.IsNullOrWhiteSpace(SearchTextBox.Text))
+            if(string.IsNullOrWhiteSpace(SearchTextBox.Text))
             {
                 return;
             }
 
-            var currentElement = _repository.Get() as XNode;
-            if(currentElement == null)
+            var rootElement = _repository.GetRootElement();
+            if(rootElement == null)
             {
                 return;
             }
@@ -63,11 +61,11 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             try
             {
                 SearchResultText.Text = "Working...";
-                var matches = currentElement?.Document?.XPathEvaluate(SearchTextBox.Text);
+                var matches = rootElement.Document?.XPathEvaluate(SearchTextBox.Text);
                 var searchResults = _searchResultFactory.Parse(matches);
                 var resultText = searchResults.Count == 1 ? "result" : "results";
                 SearchResultText.Text = $"{searchResults.Count} {resultText}.";
-                foreach (var searchResult in searchResults)
+                foreach(var searchResult in searchResults)
                 {
                     SearchResults.Add(searchResult);
                 }

@@ -14,27 +14,39 @@ namespace ReasonCodeExample.XPathInformation
         private XElement _rootElement;
         private XObject _stored;
 
-        public void Put(XObject obj)
+        public void SetSelected(XObject obj)
         {
             _stored = obj;
         }
 
-        public XObject Get()
+        public XObject GetSelected()
         {
             return _stored;
         }
 
-        public XElement GetRootElement(string xml)
+        public void LoadXml(string xml)
         {
             if (string.IsNullOrEmpty(xml))
-                return null;
+                return;
 
             if (_cachedXmlHashCode == xml.GetHashCode())
-                return _rootElement;
+                return;
 
-            var document = XDocument.Parse(xml, LoadOptions.SetLineInfo);
+            XDocument document;
+            try
+            {
+                document = XDocument.Parse(xml, LoadOptions.SetLineInfo);
+            }
+            catch (Exception)
+            {
+                return;
+            }
             _rootElement = document.Root;
             _cachedXmlHashCode = xml.GetHashCode();
+        }
+
+        public XElement GetRootElement()
+        {
             return _rootElement;
         }
 

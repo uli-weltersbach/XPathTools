@@ -12,7 +12,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
 
         protected override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
-            var xml = Repository.Get();
+            var xml = Repository.GetSelected();
             var writer = WriterProvider();
             Output = writer.Write(xml);
             Command.Visible = !string.IsNullOrEmpty(Output);
