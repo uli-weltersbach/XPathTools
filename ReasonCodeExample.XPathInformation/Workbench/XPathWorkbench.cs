@@ -22,6 +22,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             _searchResultFactory = searchResultFactory;
             SearchResults = new ObservableCollection<SearchResult>();
             SearchResultList.Visibility = Visibility.Hidden;
+            SearchResultList.PreviewMouseWheel += ScrollSearchResults;
         }
 
         public ObservableCollection<SearchResult> SearchResults
@@ -33,7 +34,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 
         private void OnSearchKeyDownHandler(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Return)
+            if (e.Key == Key.Return)
             {
                 Search();
             }
@@ -50,13 +51,13 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             SearchResults.Clear();
             SearchResultText.Text = string.Empty;
 
-            if(string.IsNullOrWhiteSpace(SearchTextBox.Text))
+            if (string.IsNullOrWhiteSpace(SearchTextBox.Text))
             {
                 return;
             }
 
             var rootElement = _repository.GetRootElement();
-            if(rootElement == null)
+            if (rootElement == null)
             {
                 return;
             }
@@ -66,13 +67,13 @@ namespace ReasonCodeExample.XPathInformation.Workbench
                 var matches = rootElement.Document?.XPathEvaluate(SearchTextBox.Text);
                 var searchResults = _searchResultFactory.Parse(matches);
                 SearchResultText.Text = FormatSearchResultCount(searchResults);
-                foreach(var searchResult in searchResults.Take(MaxSearchResultCount))
+                foreach (var searchResult in searchResults.Take(MaxSearchResultCount))
                 {
                     SearchResults.Add(searchResult);
                 }
                 SearchResultList.Visibility = Visibility.Visible;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 SearchResultText.Text = "Error evaluating XPath." + Environment.NewLine + Environment.NewLine + ex;
             }
@@ -81,7 +82,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
         private string FormatSearchResultCount(ICollection<SearchResult> searchResults)
         {
             var countText = Math.Min(searchResults.Count, MaxSearchResultCount).ToString();
-            if(searchResults.Count > MaxSearchResultCount)
+            if (searchResults.Count > MaxSearchResultCount)
             {
                 countText += " of " + searchResults.Count;
             }
@@ -92,7 +93,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
         private void OnSearchResultClicked(object sender, MouseButtonEventArgs e)
         {
             var listViewItem = sender as ListViewItem;
-            if(listViewItem == null)
+            if (listViewItem == null)
             {
                 return;
             }
@@ -103,6 +104,20 @@ namespace ReasonCodeExample.XPathInformation.Workbench
         private void OnSearchResultSelected(SearchResult searchResult)
         {
             SearchResultSelected?.Invoke(this, searchResult);
+        }
+
+        private void ScrollSearchResults(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Handled)
+            {
+                return;
+            }
+            e.Handled = true;
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+            eventArg.RoutedEvent = MouseWheelEvent;
+            eventArg.Source = sender;
+            var parent = (UIElement)((Control)sender).Parent;
+            parent.RaiseEvent(eventArg);
         }
     }
 }
