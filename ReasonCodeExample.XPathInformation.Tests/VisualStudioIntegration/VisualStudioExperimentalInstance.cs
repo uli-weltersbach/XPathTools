@@ -137,11 +137,16 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
             SendKeys.SendWait("{Right " + caretPosition + "}");
         }
 
-        public IList<AutomationElement> GetContextMenuCommands(string subMenuName, Regex commandName)
+        public void ClickContextMenuEntry(string entryName)
         {
             // Use "shift F10" shortcut to open context menu
             SendKeys.SendWait("+{F10}");
-            MainWindow.FindDescendant(subMenuName).LeftClick();
+            MainWindow.FindDescendant(entryName).LeftClick();
+        }
+
+        public IList<AutomationElement> GetContextMenuSubMenuCommands(string subMenuName, Regex commandName)
+        {
+            ClickContextMenuEntry(subMenuName);
             var descendants = MainWindow.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ProcessIdProperty, _process.Id));
             return (from AutomationElement descendant in descendants
                     where descendant.GetSupportedProperties().Contains(AutomationElement.NameProperty)

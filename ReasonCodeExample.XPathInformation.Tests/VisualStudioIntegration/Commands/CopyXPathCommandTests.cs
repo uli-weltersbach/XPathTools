@@ -59,7 +59,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Comma
 
         private IList<AutomationElement> GetAvailableCopyXPathCommands()
         {
-            return _instance.GetContextMenuCommands("Copy XPath", new Regex(@"\(\d+ match"));
+            return _instance.GetContextMenuSubMenuCommands("Copy XPath", new Regex(@"\(\d+ match"));
         }
     }
 }
