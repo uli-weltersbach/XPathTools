@@ -10,7 +10,7 @@ namespace ReasonCodeExample.XPathInformation
 {
     internal class XmlRepository
     {
-        private int _cachedXmlHashCode;
+        private int? _cachedXmlHashCode;
         private XElement _rootElement;
         private XObject _stored;
 
@@ -32,6 +32,8 @@ namespace ReasonCodeExample.XPathInformation
             if (_cachedXmlHashCode == xml.GetHashCode())
                 return;
 
+            _rootElement = null;
+            _cachedXmlHashCode = null;
             XDocument document;
             try
             {
