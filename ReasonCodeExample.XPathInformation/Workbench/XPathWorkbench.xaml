@@ -25,6 +25,9 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
         </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
     </UserControl.Resources>
     <DockPanel>
         <Grid DockPanel.Dock="Top">
@@ -44,8 +47,10 @@
                     Content="{StaticResource Find}"
                     ToolTip="Search" Click="SearchButtonClick" />
         </Grid>
+        
         <TextBlock DockPanel.Dock="Top" AutomationProperties.AutomationId="SearchResultText" x:Name="SearchResultText"
                    Foreground="{DynamicResource VsBrush.WindowText}" Margin="3" />
+        
         <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="3">
             <ListView SelectionMode="Single" VerticalAlignment="Top" HorizontalAlignment="Left"
                       x:Name="SearchResultList">
@@ -64,7 +69,7 @@
                         <GridViewColumn Width="Auto">
                             <GridViewColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="Line number" TextAlignment="Left" />
+                                    <TextBlock Text="Line number" TextAlignment="Left" Padding="3"/>
                                 </DataTemplate>                                
                             </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
@@ -76,7 +81,7 @@
                         <GridViewColumn Width="Auto">
                             <GridViewColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="Line position" TextAlignment="Left" />
+                                    <TextBlock Text="Line position" TextAlignment="Left" Padding="3" />
                                 </DataTemplate>
                             </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
@@ -88,7 +93,7 @@
                         <GridViewColumn Width="Auto">
                             <GridViewColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="Value" TextAlignment="Left" />
+                                    <TextBlock Text="Value" TextAlignment="Left" Padding="3" />
                                 </DataTemplate>
                             </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>

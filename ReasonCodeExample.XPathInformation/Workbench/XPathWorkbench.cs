@@ -87,7 +87,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
                 countText += " of " + searchResults.Count;
             }
             var resultText = searchResults.Count == 1 ? "result" : "results";
-            return $"Showing {countText} {resultText}.";
+            return $"Showing {countText} {resultText}. Click to navigate.";
         }
 
         private void OnSearchResultClicked(object sender, MouseButtonEventArgs e)
