@@ -50,7 +50,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             {
                 return null;
             }
-            var searchResult = new SearchResult {Value = element.ToString(SaveOptions.None), SelectionLength = element.Name.LocalName.Length};
+            var searchResult = new SearchResult {Value = element.ToString(SaveOptions.DisableFormatting), SelectionLength = element.Name.LocalName.Length};
             SetLineInfo(element, searchResult);
             return searchResult;
         }
