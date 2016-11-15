@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,7 +10,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 {
     public partial class XPathWorkbench : UserControl
     {
-        private const int MaxSearchResultCount = 50;
+        public const int MaxSearchResultCount = 50;
         private readonly XmlRepository _repository;
         private readonly SearchResultFactory _searchResultFactory;
 
@@ -21,7 +20,6 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             _repository = repository;
             _searchResultFactory = searchResultFactory;
             SearchResults = new ObservableCollection<SearchResult>();
-            SearchResultList.Visibility = Visibility.Hidden;
             SearchResultList.PreviewMouseWheel += ScrollSearchResults;
         }
 
@@ -31,55 +29,33 @@ namespace ReasonCodeExample.XPathInformation.Workbench
         }
 
         public event EventHandler<SearchResult> SearchResultSelected;
-
-        private void OnSearchKeyDownHandler(object sender, KeyEventArgs e)
+        
+        public IList<SearchResult> Search(string xpath)
         {
-            if (e.Key == Key.Return)
+            if (string.IsNullOrWhiteSpace(xpath))
             {
-                Search();
-            }
-        }
-
-        private void SearchButtonClick(object sender, RoutedEventArgs e)
-        {
-            Search();
-        }
-
-        private void Search()
-        {
-            SearchResultList.Visibility = Visibility.Hidden;
-            SearchResults.Clear();
-            SearchResultText.Text = string.Empty;
-
-            if (string.IsNullOrWhiteSpace(SearchTextBox.Text))
-            {
-                return;
+                return new SearchResult[0];
             }
 
             var rootElement = _repository.GetRootElement();
             if (rootElement == null)
             {
-                return;
+                return new SearchResult[0];
             }
 
             try
             {
-                var matches = rootElement.Document?.XPathEvaluate(SearchTextBox.Text);
+                var matches = rootElement.Document?.XPathEvaluate(xpath);
                 var searchResults = _searchResultFactory.Parse(matches);
-                SearchResultText.Text = FormatSearchResultCount(searchResults);
-                foreach (var searchResult in searchResults.Take(MaxSearchResultCount))
-                {
-                    SearchResults.Add(searchResult);
-                }
-                SearchResultList.Visibility = Visibility.Visible;
+                return searchResults;
             }
             catch (Exception ex)
             {
-                SearchResultText.Text = "Error evaluating XPath." + Environment.NewLine + Environment.NewLine + ex;
+                throw new InvalidOperationException("Error evaluating XPath.", ex);
             }
         }
 
-        private string FormatSearchResultCount(ICollection<SearchResult> searchResults)
+        public string FormatSearchResultCount(ICollection<SearchResult> searchResults)
         {
             var countText = Math.Min(searchResults.Count, MaxSearchResultCount).ToString();
             if (searchResults.Count > MaxSearchResultCount)
@@ -98,11 +74,6 @@ namespace ReasonCodeExample.XPathInformation.Workbench
                 return;
             }
             var searchResult = (SearchResult)listViewItem.DataContext;
-            OnSearchResultSelected(searchResult);
-        }
-
-        private void OnSearchResultSelected(SearchResult searchResult)
-        {
             SearchResultSelected?.Invoke(this, searchResult);
         }
 

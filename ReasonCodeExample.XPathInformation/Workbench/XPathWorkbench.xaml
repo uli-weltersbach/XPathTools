@@ -30,24 +30,6 @@
         </Style>
     </UserControl.Resources>
     <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Image Source="../VisualStudioIntegration/Resources/XPath.png" Grid.Row="0" Grid.Column="0"  Margin="3,3,0,3" />
-            <TextBox x:Name="SearchTextBox" Grid.Column="1" Grid.Row="0" MinWidth="300" Margin="3" ToolTip="XPath"
-                     KeyDown="OnSearchKeyDownHandler" />
-            <Button x:Name="SearchButton" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="0,3,3,3"
-                    Padding="3"
-                    Content="{StaticResource Find}"
-                    ToolTip="Search" Click="SearchButtonClick" />
-        </Grid>
-        
         <TextBlock DockPanel.Dock="Top" AutomationProperties.AutomationId="SearchResultText" x:Name="SearchResultText"
                    Foreground="{DynamicResource VsBrush.WindowText}" Margin="3" />
         
@@ -69,7 +51,7 @@
                         <GridViewColumn Width="Auto">
                             <GridViewColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="Line number" TextAlignment="Left" Padding="3"/>
+                                    <TextBlock Text="Line" TextAlignment="Left" Padding="3"/>
                                 </DataTemplate>                                
                             </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
@@ -81,7 +63,7 @@
                         <GridViewColumn Width="Auto">
                             <GridViewColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="Line position" TextAlignment="Left" Padding="3" />
+                                    <TextBlock Text="Col" TextAlignment="Left" Padding="3" />
                                 </DataTemplate>
                             </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
