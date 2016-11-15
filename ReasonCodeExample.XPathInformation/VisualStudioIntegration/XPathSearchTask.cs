@@ -24,14 +24,12 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             {
                 control.SearchResults.Clear();
             });
-            uint resultCount = 0;
             this.ErrorCode = VSConstants.S_OK;
             try
             {
                 string xpath = this.SearchQuery.SearchString;
                 var searchResults = control.Search(xpath);
-                SearchCallback.ReportProgress(this, (uint)searchResults.Count, (uint)searchResults.Count);
-                resultCount = (uint)searchResults.Count;
+                this.SearchResults = (uint)searchResults.Count;
                 ThreadHelper.Generic.Invoke(() =>
                 {
                     foreach (var searchResult in searchResults.Take(XPathWorkbench.MaxSearchResultCount))
@@ -48,10 +46,6 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
                 {
                     control.SearchResultText.Text = e.ToString();
                 });
-            }
-            finally
-            {
-                this.SearchResults = resultCount;
             }
 
             // Call the implementation of this method in the base class.   

@@ -25,8 +25,12 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
         </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Style TargetType="ListView">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}" Value="0">
+                    <Setter Property="Visibility" Value="Hidden" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
     <DockPanel>

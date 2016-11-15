@@ -15,6 +15,11 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
     [Guid(Symbols.ToolWindowIDs.XPathWorkbench)]
     internal sealed class XPathWorkbenchWindow : ToolWindowPane
     {
+        public override bool SearchEnabled
+        {
+            get { return true; }
+        }
+
         public XPathWorkbenchWindow()
             : base(null)
         {
@@ -22,11 +27,6 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             var workbench = new XPathWorkbench(Registry.Current.Get<XmlRepository>(), Registry.Current.Get<SearchResultFactory>());
             workbench.SearchResultSelected += GoToSearchResult;
             Content = workbench;
-        }
-
-        public override bool SearchEnabled
-        {
-            get { return true; }
         }
 
         private void GoToSearchResult(object sender, SearchResult searchResult)
@@ -69,6 +69,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         {
             XPathWorkbench control = (XPathWorkbench)this.Content;
             control.SearchResults.Clear();
+            control.SearchResultText.Text = null;
         }
 
         public override void ProvideSearchSettings(IVsUIDataSource pSearchSettings)
@@ -76,8 +77,10 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             Utilities.SetValue(pSearchSettings,
                 SearchSettingsDataSource.SearchStartTypeProperty.Name,
                 (uint)VSSEARCHSTARTTYPE.SST_ONDEMAND);
+
             Utilities.SetValue(pSearchSettings,
                 SearchSettingsDataSource.RestartSearchIfUnchangedProperty.Name, true);
+
             Utilities.SetValue(pSearchSettings,
                 SearchSettingsDataSource.SearchWatermarkProperty.Name, "Enter XPath...");
         }

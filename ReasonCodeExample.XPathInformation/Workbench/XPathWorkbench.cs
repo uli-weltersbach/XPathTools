@@ -57,6 +57,16 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 
         public void SetSearchResultCount(ICollection<SearchResult> searchResults)
         {
+            if(searchResults == null)
+            {
+                SearchResultText.Text = null;
+                return;
+            }
+            if (searchResults.Count == 0)
+            {
+                SearchResultText.Text = "No results.";
+                return;
+            }
             var countText = Math.Min(searchResults.Count, MaxSearchResultCount).ToString();
             if (searchResults.Count > MaxSearchResultCount)
             {
