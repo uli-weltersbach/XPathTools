@@ -9,15 +9,7 @@
              Foreground="{DynamicResource VsBrush.WindowText}">
     <UserControl.Resources>
         <Image x:Key="Find" Source="../VisualStudioIntegration/Resources/Find.png" />
-        <Style TargetType="GridViewColumnHeader">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        </Style>
         <Style TargetType="DataGridColumnHeader">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        </Style>
-        <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
         </Style>
@@ -25,7 +17,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
         </Style>
-        <Style TargetType="ListView">
+        <Style TargetType="DataGrid">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}" Value="0">
                     <Setter Property="Visibility" Value="Hidden" />
@@ -36,61 +28,50 @@
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" AutomationProperties.AutomationId="SearchResultText" x:Name="SearchResultText"
                    Foreground="{DynamicResource VsBrush.WindowText}" Margin="3" />
-        
-        <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="3">
-            <ListView SelectionMode="Single" VerticalAlignment="Top" HorizontalAlignment="Left"
-                      x:Name="SearchResultList">
-                <ListView.ItemsSource>
-                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:XPathWorkbench}}"
-                             Path="SearchResults" />
-                </ListView.ItemsSource>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="OnSearchResultClicked" />
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="Auto">
-                            <GridViewColumn.HeaderTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="Line" TextAlignment="Left" Padding="3"/>
-                                </DataTemplate>                                
-                            </GridViewColumn.HeaderTemplate>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding LineNumber}" TextAlignment="Right" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="Auto">
-                            <GridViewColumn.HeaderTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="Col" TextAlignment="Left" Padding="3" />
-                                </DataTemplate>
-                            </GridViewColumn.HeaderTemplate>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding LinePosition}" TextAlignment="Right" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="Auto">
-                            <GridViewColumn.HeaderTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="Value" TextAlignment="Left" Padding="3" />
-                                </DataTemplate>
-                            </GridViewColumn.HeaderTemplate>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Value}" TextTrimming="CharacterEllipsis" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </ScrollViewer>
+
+        <DataGrid DockPanel.Dock="Top" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
+            <DataGrid.ItemsSource>
+                <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:XPathWorkbench}}" 
+                         Path="SearchResults" />
+            </DataGrid.ItemsSource>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="Auto" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Line" TextAlignment="Left" Padding="3"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding LineNumber}" TextAlignment="Right" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="Auto" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Col" TextAlignment="Left" Padding="3" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding LinePosition}" TextAlignment="Right" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Value" TextAlignment="Left" Padding="3" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Value}" TextTrimming="CharacterEllipsis" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </DockPanel>
 </UserControl>
