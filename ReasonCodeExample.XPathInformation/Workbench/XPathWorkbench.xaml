@@ -9,6 +9,22 @@
              Foreground="{DynamicResource VsBrush.WindowText}">
     <UserControl.Resources>
         <Image x:Key="Find" Source="../VisualStudioIntegration/Resources/Find.png" />
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        </Style>
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        </Style>
     </UserControl.Resources>
     <DockPanel>
         <Grid DockPanel.Dock="Top">
@@ -45,24 +61,39 @@
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="Auto" Header="Line number">
+                        <GridViewColumn Width="Auto">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Line number" TextAlignment="Left" />
+                                </DataTemplate>                                
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding LineNumber}" TextAlignment="Right" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="Auto" Header="Line position">
+                        <GridViewColumn Width="Auto">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Line position" TextAlignment="Left" />
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding LinePosition}" TextAlignment="Right" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="Auto" Header="Value">
+                        <GridViewColumn Width="Auto">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Value" TextAlignment="Left" />
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Value}" MaxHeight="20" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding Value}" TextTrimming="CharacterEllipsis" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
