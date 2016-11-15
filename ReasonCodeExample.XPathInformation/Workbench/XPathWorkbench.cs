@@ -10,7 +10,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 {
     public partial class XPathWorkbench : UserControl
     {
-        public const int MaxSearchResultCount = 50;
+        public const int MaxSearchResultCount = int.MaxValue;
         private readonly XmlRepository _repository;
         private readonly SearchResultFactory _searchResultFactory;
 
