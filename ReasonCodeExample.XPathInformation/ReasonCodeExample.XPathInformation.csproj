@@ -190,6 +190,7 @@
     <Compile Include="VisualStudioIntegration\Commands\ICommandTextFormatter.cs" />
     <Compile Include="VisualStudioIntegration\Commands\ShowXPathWorkbenchCommand.cs" />
     <Compile Include="VisualStudioIntegration\Constants.cs" />
+    <Compile Include="VisualStudioIntegration\XPathSearchTask.cs" />
     <Compile Include="VisualStudioIntegration\XPathWorkbenchWindow.cs" />
     <Compile Include="VisualStudioIntegration\Commands\TrimCommandTextFormatter.cs" />
     <Compile Include="VisualStudioIntegration\Commands\CommandTextFormatter.cs" />

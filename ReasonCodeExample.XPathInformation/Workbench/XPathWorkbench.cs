@@ -55,7 +55,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             }
         }
 
-        public string FormatSearchResultCount(ICollection<SearchResult> searchResults)
+        public void SetSearchResultCount(ICollection<SearchResult> searchResults)
         {
             var countText = Math.Min(searchResults.Count, MaxSearchResultCount).ToString();
             if (searchResults.Count > MaxSearchResultCount)
@@ -63,7 +63,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
                 countText += " of " + searchResults.Count;
             }
             var resultText = searchResults.Count == 1 ? "result" : "results";
-            return $"Showing {countText} {resultText}. Click to navigate.";
+            SearchResultText.Text = $"Showing {countText} {resultText}. Click to navigate.";
         }
 
         private void OnSearchResultClicked(object sender, MouseButtonEventArgs e)
