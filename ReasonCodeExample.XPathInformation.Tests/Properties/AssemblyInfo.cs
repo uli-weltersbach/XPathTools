@@ -5,4 +5,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("Reason→Code→Example (http://reasoncodeexample.com)")]
 [assembly: AssemblyProduct("ReasonCodeExample.XPathInformation.Tests")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("3.1.3.*")]
+[assembly: AssemblyVersion("4.0.0.*")]

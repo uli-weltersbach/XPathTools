@@ -1,4 +1,5 @@
-﻿v3.1.3: Fixed a compatibility issue with Visual Studio 2017 RC1 extension initialization order.
+﻿v4.0.0: XPath workbench added.
+v3.1.3: Fixed a compatibility issue with Visual Studio 2017 RC1 extension initialization order.
 v3.1.2: Fixed a compatibility issue with Visual Studio 2012.
 v3.1.1: Fixed a compatibility issue with .NET Framework 4.6 and Visual Studio 2013.
 v3.1: A simplified XPath can now be copied to the clipboard, which excludes any XMLNS information.
