@@ -3,39 +3,51 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.11.0"
              xmlns:local="clr-namespace:ReasonCodeExample.XPathInformation.Workbench"
              mc:Ignorable="d"
-             Background="{DynamicResource VsBrush.Window}"
-             Foreground="{DynamicResource VsBrush.WindowText}">
+             Background="Transparent">
     <UserControl.Resources>
-        <Image x:Key="Find" Source="../VisualStudioIntegration/Resources/Find.png" />
-        <Style TargetType="DataGridColumnHeader">
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="Transparent" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}" Value="0">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <!--<Style TargetType="DataGridColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static vsfx:EnvironmentColors.GridHeadingBackgroundBrushKey}}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsfx:EnvironmentColors.GridHeadingTextBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsfx:EnvironmentColors.GridLineBrushKey}}" />
         </Style>
         <Style TargetType="DataGridCell">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        </Style>
-        <Style TargetType="DataGrid">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}" Value="0">
-                    <Setter Property="Visibility" Value="Hidden" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsfx:EnvironmentColors.ToolWindowTextBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsfx:EnvironmentColors.GridLineBrushKey}}" />
+        </Style>-->
     </UserControl.Resources>
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" AutomationProperties.AutomationId="SearchResultText" x:Name="SearchResultText"
-                   Foreground="{DynamicResource VsBrush.WindowText}" Margin="3" />
+                   Foreground="{DynamicResource VsBrush.WindowText}" Padding="3" />
 
-        <DataGrid DockPanel.Dock="Top" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
+        <DataGrid DockPanel.Dock="Top" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False"
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="True">
             <DataGrid.ItemsSource>
                 <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:XPathWorkbench}}" 
                          Path="SearchResults" />
             </DataGrid.ItemsSource>
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseLeftButtonUp" Handler="OnSearchResultClicked"/>
+                </Style>
+            </DataGrid.ItemContainerStyle>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="Auto" IsReadOnly="True">
+                <DataGridTemplateColumn Width="Auto" IsReadOnly="True" SortMemberPath="LineNumber">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="Line" TextAlignment="Left" Padding="3"/>
@@ -47,7 +59,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="Auto" IsReadOnly="True">
+
+                <DataGridTemplateColumn Width="Auto" IsReadOnly="True" SortMemberPath="LinePosition">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="Col" TextAlignment="Left" Padding="3" />
@@ -59,7 +72,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="*" IsReadOnly="True">
+
+                <DataGridTemplateColumn Width="*" IsReadOnly="True" SortMemberPath="Value">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="Value" TextAlignment="Left" Padding="3" />

@@ -20,7 +20,6 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             _repository = repository;
             _searchResultFactory = searchResultFactory;
             SearchResults = new ObservableCollection<SearchResult>();
-            SearchResultList.PreviewMouseWheel += ScrollSearchResults;
         }
 
         public ObservableCollection<SearchResult> SearchResults
@@ -78,7 +77,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 
         private void OnSearchResultClicked(object sender, MouseButtonEventArgs e)
         {
-            var listViewItem = sender as ListViewItem;
+            var listViewItem = sender as FrameworkElement;
             if (listViewItem == null)
             {
                 return;
