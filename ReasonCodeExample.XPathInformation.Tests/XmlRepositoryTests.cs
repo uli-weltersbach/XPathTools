@@ -156,5 +156,19 @@ namespace ReasonCodeExample.XPathInformation.Tests
             // Assert
             Assert.That(count, Is.EqualTo(expectedCount));
         }
+
+        [Test]
+        public void ResetXmlOnLoad()
+        {
+            // Arrange
+            var repository = new XmlRepository();
+            repository.LoadXml("<this-is-xml />");
+
+            // Act
+            repository.LoadXml("This is not XML.");
+
+            // Assert
+            Assert.That(repository.GetRootElement(), Is.Null);
+        }
     }
 }

@@ -95,6 +95,8 @@
       <Button guid="PackageID" id="ShowXPathWorkbenchCommand" priority="0x0100" type="Button">
         <Parent guid="PackageID" id="MenuGroup" />
         <Icon guid="ImagesID" id="ShowXPathWorkbenchCommandIcon" />
+        <CommandFlag>DontCache</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Open XPath Runner</ButtonText>
           <MenuText>Open XPath Runner</MenuText>
