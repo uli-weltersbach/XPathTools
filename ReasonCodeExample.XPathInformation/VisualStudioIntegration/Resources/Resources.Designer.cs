@@ -61,6 +61,15 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open XPath Runner.
+        /// </summary>
+        internal static string ShowXPathWorkbenchCommandText {
+            get {
+                return ResourceManager.GetString("ShowXPathWorkbenchCommandText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error navigating to matching node..
         /// </summary>
         internal static string XPathWorkbenchNavigationErrorText {

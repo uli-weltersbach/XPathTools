@@ -18,8 +18,8 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
                 throw new ArgumentNullException(nameof(commandService));
             }
             var menuCommandID = new CommandID(Guid.Parse(Symbols.PackageID), id);
-            var menuItem = new MenuCommand(ShowToolWindow, menuCommandID);
-            commandService.AddCommand(menuItem);
+            var menuCommand = new OleMenuCommand(ShowToolWindow, menuCommandID, Resources.Resources.ShowXPathWorkbenchCommandText);
+            commandService.AddCommand(menuCommand);
         }
 
         private void ShowToolWindow(object sender, EventArgs e)
