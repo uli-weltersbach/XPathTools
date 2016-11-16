@@ -92,13 +92,12 @@
         </Strings>
       </Button>
 
-
       <Button guid="PackageID" id="ShowXPathWorkbenchCommand" priority="0x0100" type="Button">
         <Parent guid="PackageID" id="MenuGroup" />
         <Icon guid="ImagesID" id="ShowXPathWorkbenchCommandIcon" />
         <Strings>
-          <ButtonText>Open XPath workbench</ButtonText>
-          <MenuText>Open XPath workbench</MenuText>
+          <ButtonText>Open XPath Runner</ButtonText>
+          <MenuText>Open XPath Runner</MenuText>
           <CommandName>ShowXPathWorkbench</CommandName>
         </Strings>
       </Button>
