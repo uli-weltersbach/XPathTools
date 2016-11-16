@@ -26,11 +26,15 @@ namespace ReasonCodeExample.XPathInformation
 
         public void LoadXml(string xml)
         {
-            if (string.IsNullOrEmpty(xml))
+            if(string.IsNullOrEmpty(xml))
+            {
                 return;
+            }
 
-            if (_cachedXmlHashCode == xml.GetHashCode())
+            if(_cachedXmlHashCode == xml.GetHashCode())
+            {
                 return;
+            }
 
             _rootElement = null;
             _cachedXmlHashCode = null;
@@ -39,7 +43,7 @@ namespace ReasonCodeExample.XPathInformation
             {
                 document = XDocument.Parse(xml, LoadOptions.SetLineInfo);
             }
-            catch (Exception)
+            catch(Exception)
             {
                 return;
             }
@@ -54,15 +58,15 @@ namespace ReasonCodeExample.XPathInformation
 
         public int? GetNodeCount(XObject xml, string xpath)
         {
-            if (xml == null)
+            if(xml == null)
             {
                 return null;
             }
-            if (xml.Document == null)
+            if(xml.Document == null)
             {
                 return null;
             }
-            if (xml.Document.Root == null)
+            if(xml.Document.Root == null)
             {
                 return null;
             }
@@ -72,7 +76,7 @@ namespace ReasonCodeExample.XPathInformation
                 var results = (IEnumerable)xml.Document.XPathEvaluate(xpath, namespaceResolver);
                 return results.OfType<XObject>().Count();
             }
-            catch (Exception)
+            catch(Exception)
             {
                 return null;
             }
@@ -91,16 +95,20 @@ namespace ReasonCodeExample.XPathInformation
         /// <returns>The matching XML node or <c>null</c> if no match was found.</returns>
         public XElement GetElement(XElement rootElement, int lineNumber, int linePosition)
         {
-            if (rootElement == null)
+            if(rootElement == null)
+            {
                 return null;
+            }
 
             var elements = rootElement.DescendantsAndSelf();
             var matchingElement = (from element in elements
-                                        where IsCorrectLine(element, lineNumber)
-                                        where IsCorrectPosition(element, linePosition)
-                                        select element).LastOrDefault();
-            if (matchingElement != null)
+                                   where IsCorrectLine(element, lineNumber)
+                                   where IsCorrectPosition(element, linePosition)
+                                   select element).LastOrDefault();
+            if(matchingElement != null)
+            {
                 return matchingElement;
+            }
 
             var matchingAttribute = GetAttribute(elements, lineNumber, linePosition);
             return matchingAttribute == null ? null : matchingAttribute.Parent;
@@ -127,9 +135,14 @@ namespace ReasonCodeExample.XPathInformation
 
         public XAttribute GetAttribute(XElement element, int lineNumber, int linePosition)
         {
-            if (element == null)
+            if(element == null)
+            {
                 return null;
-            return GetAttribute(new[] { element }, lineNumber, linePosition);
+            }
+            return GetAttribute(new[]
+                                {
+                                    element
+                                }, lineNumber, linePosition);
         }
     }
 }
