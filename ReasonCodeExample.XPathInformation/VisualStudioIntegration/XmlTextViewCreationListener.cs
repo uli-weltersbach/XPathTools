@@ -40,8 +40,14 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             {
                 return;
             }
+            textView.Closed += ResetXml;
             textView.Caret.PositionChanged += StoreCurrentNode;
             textView.Caret.PositionChanged += _statusbar.SetText;
+        }
+
+        private void ResetXml(object sender, EventArgs e)
+        {
+            _repository.LoadXml(null);
         }
 
         private void StoreCurrentNode(object sender, CaretPositionChangedEventArgs e)
