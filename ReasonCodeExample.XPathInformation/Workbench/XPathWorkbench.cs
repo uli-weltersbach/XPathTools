@@ -28,16 +28,16 @@ namespace ReasonCodeExample.XPathInformation.Workbench
         }
 
         public event EventHandler<SearchResult> SearchResultSelected;
-        
+
         public IList<SearchResult> Search(string xpath)
         {
-            if (string.IsNullOrWhiteSpace(xpath))
+            if(string.IsNullOrWhiteSpace(xpath))
             {
                 return new SearchResult[0];
             }
 
             var rootElement = _repository.GetRootElement();
-            if (rootElement == null)
+            if(rootElement == null)
             {
                 return new SearchResult[0];
             }
@@ -48,7 +48,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
                 var searchResults = _searchResultFactory.Parse(matches);
                 return searchResults;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new InvalidOperationException("Error evaluating XPath.", ex);
             }
@@ -61,13 +61,13 @@ namespace ReasonCodeExample.XPathInformation.Workbench
                 SearchResultText.Text = null;
                 return;
             }
-            if (searchResults.Count == 0)
+            if(searchResults.Count == 0)
             {
                 SearchResultText.Text = "No results.";
                 return;
             }
             var countText = Math.Min(searchResults.Count, MaxSearchResultCount).ToString();
-            if (searchResults.Count > MaxSearchResultCount)
+            if(searchResults.Count > MaxSearchResultCount)
             {
                 countText += " of " + searchResults.Count;
             }
@@ -77,18 +77,18 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 
         private void OnSearchResultClicked(object sender, MouseButtonEventArgs e)
         {
-            var listViewItem = sender as FrameworkElement;
-            if (listViewItem == null)
+            var frameworkElement = sender as FrameworkElement;
+            if(frameworkElement == null)
             {
                 return;
             }
-            var searchResult = (SearchResult)listViewItem.DataContext;
+            var searchResult = (SearchResult)frameworkElement.DataContext;
             SearchResultSelected?.Invoke(this, searchResult);
         }
 
         private void ScrollSearchResults(object sender, MouseWheelEventArgs e)
         {
-            if (e.Handled)
+            if(e.Handled)
             {
                 return;
             }

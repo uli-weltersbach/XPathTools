@@ -1,56 +1,53 @@
 ﻿using System;
-using Microsoft.VisualStudio.Shell;
-using ReasonCodeExample.XPathInformation.Workbench;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell.Interop;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using ReasonCodeExample.XPathInformation.Workbench;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
     internal class XPathSearchTask : VsSearchTask
     {
-        private XPathWorkbenchWindow m_toolWindow;
+        private readonly XPathWorkbenchWindow _workbenchWindow;
 
-        public XPathSearchTask(uint dwCookie, IVsSearchQuery pSearchQuery, IVsSearchCallback pSearchCallback, XPathWorkbenchWindow toolwindow)
-            : base(dwCookie, pSearchQuery, pSearchCallback)
+        public XPathSearchTask(uint taskIdCookie, IVsSearchQuery searchQuery, IVsSearchCallback searchCallback, XPathWorkbenchWindow workbenchWindow)
+            : base(taskIdCookie, searchQuery, searchCallback)
         {
-            m_toolWindow = toolwindow;
+            _workbenchWindow = workbenchWindow;
         }
 
         protected override void OnStartSearch()
         {
-            XPathWorkbench control = (XPathWorkbench)m_toolWindow.Content;
-            ThreadHelper.Generic.Invoke(() =>
-            {
-                control.SearchResults.Clear();
-            });
-            this.ErrorCode = VSConstants.S_OK;
+            var workbench = (XPathWorkbench)_workbenchWindow.Content;
+            ThreadHelper.Generic.Invoke(() => { workbench.SearchResults.Clear(); });
+            ErrorCode = VSConstants.S_OK;
             try
             {
-                string xpath = this.SearchQuery.SearchString;
-                var searchResults = control.Search(xpath);
-                this.SearchResults = (uint)searchResults.Count;
-                ThreadHelper.Generic.Invoke(() =>
-                {
-                    foreach (var searchResult in searchResults.Take(XPathWorkbench.MaxSearchResultCount))
-                    {
-                        control.SearchResults.Add(searchResult);
-                    }
-                    control.SetSearchResultCount(searchResults);
-                });
+                var xpath = SearchQuery.SearchString;
+                var searchResults = workbench.Search(xpath);
+                SearchResults = (uint)searchResults.Count;
+                ThreadHelper.Generic.Invoke(() => { UpdateSearchResults(searchResults, workbench); });
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                this.ErrorCode = VSConstants.E_FAIL;
-                ThreadHelper.Generic.Invoke(() =>
-                {
-                    control.SearchResultText.Text = e.ToString();
-                });
+                ErrorCode = VSConstants.E_FAIL;
+                ThreadHelper.Generic.Invoke(() => { workbench.SearchResultText.Text = e.ToString(); });
             }
 
             // Call the implementation of this method in the base class.   
             // This sets the task status to complete and reports task completion.   
             base.OnStartSearch();
+        }
+
+        private static void UpdateSearchResults(IList<SearchResult> searchResults, XPathWorkbench workbench)
+        {
+            foreach(var searchResult in searchResults.Take(XPathWorkbench.MaxSearchResultCount))
+            {
+                workbench.SearchResults.Add(searchResult);
+            }
+            workbench.SetSearchResultCount(searchResults);
         }
 
         protected override void OnStopSearch()
