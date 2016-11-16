@@ -19,7 +19,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
     [Guid(Symbols.PackageID)]
     [ProvideOptionPage(typeof(XPathInformationDialogPage), "XPath Information", "General", 0, 0, true)]
     [ProvideToolWindow(typeof(XPathWorkbenchWindow))]
-    [ProvideToolWindowVisibility(typeof(XPathWorkbenchWindow), VSConstants.UICONTEXT.CodeWindow_string)]
+    [ProvideToolWindowVisibility(typeof(XPathWorkbenchWindow), VSConstants.UICONTEXT.SolutionExists_string)]
     internal class XPathInformationPackage : Package
     {
         private const string MenuResourceID = "CommandFactory.ctmenu";
