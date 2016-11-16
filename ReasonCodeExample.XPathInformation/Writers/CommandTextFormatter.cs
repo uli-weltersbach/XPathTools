@@ -1,4 +1,4 @@
-﻿namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
+﻿namespace ReasonCodeExample.XPathInformation.Writers
 {
     internal class CommandTextFormatter : TrimCommandTextFormatter
     {

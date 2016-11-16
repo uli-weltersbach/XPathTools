@@ -3,8 +3,9 @@ using System.ComponentModel.Design;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
 
-namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
+namespace ReasonCodeExample.XPathInformation.Workbench
 {
     internal class ShowXPathWorkbenchCommand
     {
@@ -18,7 +19,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands
                 throw new ArgumentNullException(nameof(commandService));
             }
             var menuCommandID = new CommandID(Guid.Parse(Symbols.PackageID), id);
-            var menuCommand = new OleMenuCommand(ShowToolWindow, menuCommandID, Resources.Resources.ShowXPathWorkbenchCommandText);
+            var menuCommand = new OleMenuCommand(ShowToolWindow, menuCommandID, PackageResources.ShowXPathWorkbenchCommandText);
             commandService.AddCommand(menuCommand);
         }
 

@@ -36,7 +36,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Writers
             var output = new XmlStructureWriter().Write(b2);
 
             // Assert
-            Assert.That(original.ToString(), Is.StringContaining("b1"));
+            Assert.That(original.ToString(), Does.Contain("b1"));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
+using ReasonCodeExample.XPathInformation.Writers;
 
-namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration.Commands
+namespace ReasonCodeExample.XPathInformation.Tests.Writers
 {
     [TestFixture]
     public class TrimCommandTextFormatterTests

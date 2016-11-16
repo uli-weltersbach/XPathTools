@@ -6,8 +6,6 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Ninject;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configuration;
 using ReasonCodeExample.XPathInformation.Workbench;
 using ReasonCodeExample.XPathInformation.Writers;
 

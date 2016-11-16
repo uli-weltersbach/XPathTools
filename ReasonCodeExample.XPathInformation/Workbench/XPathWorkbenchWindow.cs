@@ -7,10 +7,9 @@ using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Ninject;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
-using ReasonCodeExample.XPathInformation.Workbench;
+using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
 
-namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
+namespace ReasonCodeExample.XPathInformation.Workbench
 {
     [Guid(Symbols.ToolWindowIDs.XPathWorkbench)]
     internal sealed class XPathWorkbenchWindow : ToolWindowPane
@@ -18,7 +17,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         public XPathWorkbenchWindow()
             : base(null)
         {
-            Caption = Resources.Resources.XPathWorkbenchWindowTitle;
+            Caption = PackageResources.XPathWorkbenchWindowTitle;
             var workbench = new XPathWorkbench(Registry.Current.Get<XmlRepository>(), Registry.Current.Get<SearchResultFactory>());
             workbench.SearchResultSelected += GoToSearchResult;
             Content = workbench;
@@ -51,7 +50,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             }
             catch(Exception)
             {
-                MessageBox.Show(Resources.Resources.XPathWorkbenchNavigationErrorText, Resources.Resources.XPathWorkbenchNavigationErrorTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(PackageResources.XPathWorkbenchNavigationErrorText, PackageResources.XPathWorkbenchNavigationErrorTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -77,7 +76,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
             Utilities.SetValue(searchSettings, SearchSettingsDataSource.RestartSearchIfUnchangedProperty.Name, true);
 
-            Utilities.SetValue(searchSettings, SearchSettingsDataSource.SearchWatermarkProperty.Name, Resources.Resources.XPathWorkbenchSearchWatermark);
+            Utilities.SetValue(searchSettings, SearchSettingsDataSource.SearchWatermarkProperty.Name, PackageResources.XPathWorkbenchSearchWatermark);
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Reflection;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.Win32;
 
-namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration.Configuration
+namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
     internal class XPathInformationDialogPage : DialogPage, IConfiguration
     {

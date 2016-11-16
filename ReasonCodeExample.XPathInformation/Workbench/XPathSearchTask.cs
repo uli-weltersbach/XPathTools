@@ -4,9 +4,8 @@ using System.Linq;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using ReasonCodeExample.XPathInformation.Workbench;
 
-namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
+namespace ReasonCodeExample.XPathInformation.Workbench
 {
     internal class XPathSearchTask : VsSearchTask
     {

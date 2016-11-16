@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <FileUpgradeFlags>
@@ -86,10 +86,6 @@
       <HintPath>..\packages\VSSDK.CoreUtility.11.0.4\lib\net45\Microsoft.VisualStudio.CoreUtility.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.GraphModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\VSSDK.GraphModel.11.0.4\lib\net45\Microsoft.VisualStudio.GraphModel.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\packages\VSSDK.OLE.Interop.7.0.4\lib\net20\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
       <Private>True</Private>
@@ -101,11 +97,6 @@
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\VSSDK.Shell.Immutable.10.10.0.4\lib\net40\Microsoft.VisualStudio.Shell.Immutable.10.0.dll</HintPath>
-      <Private>True</Private>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\VSSDK.Shell.Immutable.11.11.0.4\lib\net45\Microsoft.VisualStudio.Shell.Immutable.11.0.dll</HintPath>
       <Private>True</Private>
       <Private>False</Private>
     </Reference>
@@ -138,10 +129,6 @@
       <HintPath>..\packages\VSSDK.Text.11.0.4\lib\net45\Microsoft.VisualStudio.Text.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.Text.Logic, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\VSSDK.Text.11.0.4\lib\net45\Microsoft.VisualStudio.Text.Logic.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Microsoft.VisualStudio.Text.UI, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\VSSDK.Text.11.0.4\lib\net45\Microsoft.VisualStudio.Text.UI.dll</HintPath>
       <Private>False</Private>
@@ -150,32 +137,16 @@
       <HintPath>..\packages\VSSDK.Text.11.0.4\lib\net45\Microsoft.VisualStudio.Text.UI.Wpf.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <HintPath>..\packages\VSSDK.TextManager.Interop.7.0.4\lib\net20\Microsoft.VisualStudio.TextManager.Interop.dll</HintPath>
-      <Private>True</Private>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TextManager.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <HintPath>..\packages\VSSDK.TextManager.Interop.8.8.0.4\lib\net20\Microsoft.VisualStudio.TextManager.Interop.8.0.dll</HintPath>
-      <Private>True</Private>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <HintPath>..\packages\VSSDK.DTE.7.0.4\lib\net20\stdole.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xaml" />
@@ -187,19 +158,19 @@
     <Compile Include="Registry.cs" />
     <Compile Include="VisualStudioIntegration\CaretPositionLineInfo.cs" />
     <Compile Include="SimpleXmlNamespaceResolver.cs" />
-    <Compile Include="VisualStudioIntegration\Commands\ICommandTextFormatter.cs" />
-    <Compile Include="VisualStudioIntegration\Commands\ShowXPathWorkbenchCommand.cs" />
+    <Compile Include="Writers\ICommandTextFormatter.cs" />
+    <Compile Include="Workbench\ShowXPathWorkbenchCommand.cs" />
     <Compile Include="VisualStudioIntegration\Constants.cs" />
-    <Compile Include="VisualStudioIntegration\Resources\Resources.Designer.cs">
+    <Compile Include="VisualStudioIntegration\PackageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>PackageResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="VisualStudioIntegration\XPathSearchTask.cs" />
-    <Compile Include="VisualStudioIntegration\XPathWorkbenchWindow.cs" />
-    <Compile Include="VisualStudioIntegration\Commands\TrimCommandTextFormatter.cs" />
-    <Compile Include="VisualStudioIntegration\Commands\CommandTextFormatter.cs" />
-    <Compile Include="VisualStudioIntegration\Configuration\SerializableConverter.cs" />
+    <Compile Include="Workbench\XPathSearchTask.cs" />
+    <Compile Include="Workbench\XPathWorkbenchWindow.cs" />
+    <Compile Include="Writers\TrimCommandTextFormatter.cs" />
+    <Compile Include="Writers\CommandTextFormatter.cs" />
+    <Compile Include="VisualStudioIntegration\SerializableConverter.cs" />
     <Compile Include="IConfiguration.cs" />
     <Compile Include="Workbench\SearchResult.cs" />
     <Compile Include="Workbench\SearchResultFactory.cs" />
@@ -215,14 +186,14 @@
     <Compile Include="Writers\XmlStructureWriter.cs" />
     <Compile Include="Writers\XPathWriter.cs" />
     <Compile Include="XPathSetting.cs" />
-    <Compile Include="VisualStudioIntegration\Configuration\XPathInformationDialogPage.cs">
+    <Compile Include="VisualStudioIntegration\XPathInformationDialogPage.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="VisualStudioIntegration\XPathInformationPackage.cs" />
-    <Compile Include="VisualStudioIntegration\Commands\CopyCommand.cs" />
-    <Compile Include="VisualStudioIntegration\Commands\CopyXmlStructureCommand.cs" />
-    <Compile Include="VisualStudioIntegration\Commands\CopyXPathCommand.cs" />
-    <Compile Include="VisualStudioIntegration\Commands\Symbols.cs" />
+    <Compile Include="Writers\CopyCommand.cs" />
+    <Compile Include="Writers\CopyXmlStructureCommand.cs" />
+    <Compile Include="Writers\CopyXPathCommand.cs" />
+    <Compile Include="VisualStudioIntegration\Symbols.cs" />
     <Compile Include="XmlRepository.cs" />
     <Compile Include="VisualStudioIntegration\StatusbarAdapter.cs" />
     <Compile Include="VisualStudioIntegration\XmlTextViewCreationListener.cs" />
@@ -230,62 +201,62 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="VisualStudioIntegration\Resources\source.extension.vsixmanifest">
+    <None Include="VisualStudioIntegration\source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <VSCTCompile Include="VisualStudioIntegration\Commands\CommandTable.vsct">
+    <VSCTCompile Include="VisualStudioIntegration\CommandTable.vsct">
       <ResourceName>CommandFactory.ctmenu</ResourceName>
       <SubType>Designer</SubType>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="VisualStudioIntegration\Resources\CommandIcons.png">
+    <Content Include="Assets\CommandIcons.png">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="VisualStudioIntegration\Resources\CopyAbsoluteXPathCommandIcon.png" />
-    <Content Include="VisualStudioIntegration\Resources\CopyDistinctXPathCommandIcon.png" />
-    <Content Include="VisualStudioIntegration\Resources\Screenshots\Distinct XPath settings.png" />
-    <Content Include="VisualStudioIntegration\Resources\Screenshots\Distinct XPath Sitecore pipeline processor example.png" />
-    <Resource Include="VisualStudioIntegration\Resources\FindNext.png" />
-    <Resource Include="VisualStudioIntegration\Resources\FindPrevious.png" />
-    <Resource Include="VisualStudioIntegration\Resources\Find.png" />
-    <Content Include="VisualStudioIntegration\Resources\license.txt">
+    <Content Include="Assets\CopyAbsoluteXPathCommandIcon.png" />
+    <Content Include="Assets\CopyDistinctXPathCommandIcon.png" />
+    <Content Include="Assets\Screenshots\Distinct XPath settings.png" />
+    <Content Include="Assets\Screenshots\Distinct XPath Sitecore pipeline processor example.png" />
+    <Resource Include="Assets\FindNext.png" />
+    <Resource Include="Assets\FindPrevious.png" />
+    <Resource Include="Assets\Find.png" />
+    <Content Include="license.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="VisualStudioIntegration\Resources\Screenshots\Plugin installation.png" />
-    <Content Include="VisualStudioIntegration\Resources\release-notes.txt">
+    <Content Include="Assets\Screenshots\Plugin installation.png" />
+    <Content Include="release-notes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="VisualStudioIntegration\Resources\CopyGenericXPathCommandIcon.png">
+    <Content Include="Assets\CopyGenericXPathCommandIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="VisualStudioIntegration\Resources\Screenshots\PreviewImage.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="VisualStudioIntegration\Resources\PackageIcon.png">
+    <Content Include="Assets\Screenshots\PreviewImage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="VisualStudioIntegration\Resources\Screenshots\Screenshot-Copy XPath.png" />
-    <Content Include="VisualStudioIntegration\Resources\Screenshots\Screenshot-Options.png" />
-    <Content Include="VisualStudioIntegration\Resources\Screenshots\Screenshot-Statusbar.png" />
-    <Content Include="VisualStudioIntegration\Resources\Screenshots\Screenshot-XML Structure copy.png" />
-    <Content Include="VisualStudioIntegration\Resources\Screenshots\Screenshot-XML Structure paste.png" />
-    <Content Include="VisualStudioIntegration\Resources\CopySimplifiedXPathCommandIcon.png" />
-    <Content Include="VisualStudioIntegration\Resources\CopyXmlStructureCommandIcon.png" />
-    <Content Include="VisualStudioIntegration\Resources\ShowXPathWorkbenchCommandIcon.png" />
-    <Resource Include="VisualStudioIntegration\Resources\XPath.png" />
+    <Content Include="Assets\PackageIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Assets\Screenshots\Screenshot-Copy XPath.png" />
+    <Content Include="Assets\Screenshots\Screenshot-Options.png" />
+    <Content Include="Assets\Screenshots\Screenshot-Statusbar.png" />
+    <Content Include="Assets\Screenshots\Screenshot-XML Structure copy.png" />
+    <Content Include="Assets\Screenshots\Screenshot-XML Structure paste.png" />
+    <Content Include="Assets\CopySimplifiedXPathCommandIcon.png" />
+    <Content Include="Assets\CopyXmlStructureCommandIcon.png" />
+    <Content Include="Assets\ShowXPathWorkbenchCommandIcon.png" />
+    <Resource Include="Assets\XPath.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="VisualStudioIntegration\Resources\Resources.resx">
+    <EmbeddedResource Include="VisualStudioIntegration\PackageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-	  <MergeWithCTO>true</MergeWithCTO>
+      <LastGenOutput>PackageResources.Designer.cs</LastGenOutput>
+      <MergeWithCTO>true</MergeWithCTO>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
