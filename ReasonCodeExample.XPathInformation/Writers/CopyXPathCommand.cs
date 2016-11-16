@@ -11,6 +11,11 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
         protected override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
+            if(!Repository.HasContent)
+            {
+                Command.Visible = false;
+                return;
+            }
             var xml = Repository.GetSelected();
             var writer = WriterProvider();
             Output = writer.Write(xml);

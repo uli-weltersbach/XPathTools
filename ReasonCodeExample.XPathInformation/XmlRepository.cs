@@ -14,6 +14,14 @@ namespace ReasonCodeExample.XPathInformation
         private XElement _rootElement;
         private XObject _stored;
 
+        public bool HasContent
+        {
+            get
+            {
+                return _rootElement != null;
+            }
+        }
+
         public void SetSelected(XObject obj)
         {
             _stored = obj;
@@ -26,18 +34,19 @@ namespace ReasonCodeExample.XPathInformation
 
         public void LoadXml(string xml)
         {
-            if(string.IsNullOrEmpty(xml))
-            {
-                return;
-            }
-
-            if(_cachedXmlHashCode == xml.GetHashCode())
+            if(_cachedXmlHashCode == xml?.GetHashCode())
             {
                 return;
             }
 
             _rootElement = null;
             _cachedXmlHashCode = null;
+
+            if (string.IsNullOrWhiteSpace(xml))
+            {
+                return;
+            }
+
             XDocument document;
             try
             {

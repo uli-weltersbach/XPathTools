@@ -27,7 +27,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 
         private void OnBeforeQueryStatus(object sender, EventArgs eventArgs)
         {
-            ((OleMenuCommand)sender).Visible = _repository.GetRootElement() != null;
+            ((OleMenuCommand)sender).Visible = _repository.HasContent;
         }
 
         private void ShowToolWindow(object sender, EventArgs e)
