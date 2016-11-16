@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Ninject;
 using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Commands;
+using ReasonCodeExample.XPathInformation.VisualStudioIntegration.Resources;
 using ReasonCodeExample.XPathInformation.Workbench;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
@@ -18,7 +19,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         public XPathWorkbenchWindow()
             : base(null)
         {
-            Caption = "XPath Information - Workbench";
+            Caption = VSPackage.XPathWorkbenchWindowTitle;
             var workbench = new XPathWorkbench(Registry.Current.Get<XmlRepository>(), Registry.Current.Get<SearchResultFactory>());
             workbench.SearchResultSelected += GoToSearchResult;
             Content = workbench;
@@ -51,7 +52,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             }
             catch(Exception)
             {
-                MessageBox.Show("Error navigating to matching node.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(VSPackage.XPathWorkbenchNavigationErrorText, VSPackage.XPathWorkbenchNavigationErrorTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -77,7 +78,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
             Utilities.SetValue(searchSettings, SearchSettingsDataSource.RestartSearchIfUnchangedProperty.Name, true);
 
-            Utilities.SetValue(searchSettings, SearchSettingsDataSource.SearchWatermarkProperty.Name, "Enter XPath...");
+            Utilities.SetValue(searchSettings, SearchSettingsDataSource.SearchWatermarkProperty.Name, VSPackage.XPathWorkbenchSearchWatermark);
         }
     }
 }

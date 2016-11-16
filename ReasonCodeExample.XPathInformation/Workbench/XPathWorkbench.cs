@@ -54,7 +54,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             }
         }
 
-        public void SetSearchResultCount(ICollection<SearchResult> searchResults)
+        public void UpdateSearchResultText(ICollection<SearchResult> searchResults)
         {
             if(searchResults == null)
             {
@@ -84,20 +84,6 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             }
             var searchResult = (SearchResult)frameworkElement.DataContext;
             SearchResultSelected?.Invoke(this, searchResult);
-        }
-
-        private void ScrollSearchResults(object sender, MouseWheelEventArgs e)
-        {
-            if(e.Handled)
-            {
-                return;
-            }
-            e.Handled = true;
-            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
-            eventArg.RoutedEvent = MouseWheelEvent;
-            eventArg.Source = sender;
-            var parent = (UIElement)((Control)sender).Parent;
-            parent.RaiseEvent(eventArg);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             {
                 workbench.SearchResults.Add(searchResult);
             }
-            workbench.SetSearchResultCount(searchResults);
+            workbench.UpdateSearchResultText(searchResults);
         }
 
         protected override void OnStopSearch()
