@@ -32,7 +32,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             catch(Exception e)
             {
                 ErrorCode = VSConstants.E_FAIL;
-                ThreadHelper.Generic.Invoke(() => { workbench.SearchResultText.Text = e.ToString(); });
+                ThreadHelper.Generic.Invoke(() => { workbench.SearchResultText.Text = e.Message; });
             }
 
             // Call the implementation of this method in the base class.   
