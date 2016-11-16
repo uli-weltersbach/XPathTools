@@ -8,6 +8,9 @@
              mc:Ignorable="d"
              Background="Transparent">
     <UserControl.Resources>
+        <Style x:Key="CellTextStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="3,0,3,0" />
+        </Style>
         <Style TargetType="DataGrid">
             <Setter Property="Background" Value="Transparent" />
             <Style.Triggers>
@@ -16,20 +19,22 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <!--<Style TargetType="DataGridColumnHeader">
+        <Style TargetType="DataGridColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
-            <Setter Property="Background" Value="{DynamicResource {x:Static vsfx:EnvironmentColors.GridHeadingBackgroundBrushKey}}" />
+            <Setter Property="Padding" Value="3" />
+            <!--<Setter Property="Background" Value="{DynamicResource {x:Static vsfx:EnvironmentColors.GridHeadingBackgroundBrushKey}}" />
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vsfx:EnvironmentColors.GridHeadingTextBrushKey}}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsfx:EnvironmentColors.GridLineBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsfx:EnvironmentColors.GridLineBrushKey}}" />-->
         </Style>
         <Style TargetType="DataGridCell">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
-            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="3" />
+            <!--<Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vsfx:EnvironmentColors.ToolWindowTextBrushKey}}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsfx:EnvironmentColors.GridLineBrushKey}}" />
-        </Style>-->
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsfx:EnvironmentColors.GridLineBrushKey}}" />-->
+        </Style>
     </UserControl.Resources>
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" AutomationProperties.AutomationId="SearchResultText" x:Name="SearchResultText"
@@ -50,12 +55,12 @@
                 <DataGridTemplateColumn Width="Auto" IsReadOnly="True" SortMemberPath="LineNumber">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="Line" TextAlignment="Left" Padding="3"/>
+                            <TextBlock Text="Line" TextAlignment="Left" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding LineNumber}" TextAlignment="Right" />
+                            <TextBlock Text="{Binding LineNumber}" TextAlignment="Right" Style="{StaticResource CellTextStyle}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -63,12 +68,12 @@
                 <DataGridTemplateColumn Width="Auto" IsReadOnly="True" SortMemberPath="LinePosition">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="Col" TextAlignment="Left" Padding="3" />
+                            <TextBlock Text="Col" TextAlignment="Left" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding LinePosition}" TextAlignment="Right" />
+                            <TextBlock Text="{Binding LinePosition}" TextAlignment="Right" Style="{StaticResource CellTextStyle}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -76,12 +81,12 @@
                 <DataGridTemplateColumn Width="*" IsReadOnly="True" SortMemberPath="Value">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="Value" TextAlignment="Left" Padding="3" />
+                            <TextBlock Text="Value" TextAlignment="Left" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Value}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding Value}" TextTrimming="CharacterEllipsis" Style="{StaticResource CellTextStyle}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
