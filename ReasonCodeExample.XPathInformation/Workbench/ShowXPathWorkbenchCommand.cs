@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -27,7 +28,15 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 
         private void OnBeforeQueryStatus(object sender, EventArgs eventArgs)
         {
-            ((OleMenuCommand)sender).Visible = _repository.HasContent;
+            var command = (OleMenuCommand)sender;
+            if (!_repository.HasContent)
+            {
+                command.Visible = false;
+                return;
+            }
+            var dte = (DTE)Package.GetGlobalService(typeof(DTE));
+            var isXmlDocument = string.Equals(dte?.ActiveDocument?.Language, "XML", StringComparison.InvariantCultureIgnoreCase);
+            command.Visible = isXmlDocument;
         }
 
         private void ShowToolWindow(object sender, EventArgs e)
