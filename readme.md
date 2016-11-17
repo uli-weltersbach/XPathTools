@@ -15,4 +15,4 @@ See the [Wiki](https://github.com/uli-weltersbach/XPathInformation/wiki).
 Please use [Issues](https://github.com/uli-weltersbach/XPathInformation/issues) for feature requests and bug reports.
 
 ## Feedback
-If you find this plugin helpful, pay me in virtual fame by rating this plugin on the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=UliWeltersbach.XPathInformation) :)
+If you find this plugin helpful, pay me in shiny stars by rating it on the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=UliWeltersbach.XPathInformation) :)
