@@ -1,5 +1,4 @@
 # XPath Information
-A Visual Studio extension which displays the XPath of the XML-element or -attribute at the caret position when working in files containing XML markup (.config, .build, .properties etc.).  
 
 ![XPath Information screenshot.](https://github.com/uli-weltersbach/XPathInformation/blob/master/ReasonCodeExample.XPathInformation/Assets/Screenshots/PackagePreviewImage.png)
 
