@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="ReasonCodeExample.XPathInformation.v1.0" Version="4.0.0" Language="en-US" Publisher="Uli Weltersbach" />
+    <Identity Id="ReasonCodeExample.XPathInformation.v1.0" Version="4.0.0.2" Language="en-US" Publisher="Uli Weltersbach" />
     <DisplayName>XPath Information</DisplayName>
-    <Description xml:space="preserve">Displays the XPath of the element or attribute at the caret position when working in files containing XML markup (.config, .build, .properties etc.). The XPath is displayed in the statusbar and can be copied to the clipboard in various formats using the context menu.</Description>
-    <MoreInfo>http://reasoncodeexample.com/2014/07/28/working-with-large-xml-files-without-losing-your-sanity/</MoreInfo>
+    <Description xml:space="preserve">Run any XPath and XPath function; navigate through results at the click of a button.
+Show and copy any XPath incl. XML namespaces; avoid XML namespace induced headaches.
+Keep track of the current XPath via the statusbar.</Description>
+    <MoreInfo>https://github.com/uli-weltersbach/XPathInformation/wiki</MoreInfo>
     <License>license.txt</License>
     <ReleaseNotes>release-notes.txt</ReleaseNotes>
     <Icon>Assets\PackageIcon.png</Icon>
-    <PreviewImage>Assets\Screenshots\PreviewImage.png</PreviewImage>
+    <PreviewImage>Assets\Screenshots\PackagePreviewImage.png</PreviewImage>
     <Tags>XPath, XML, Web.config, App.config, Sitecore</Tags>
   </Metadata>
   <Installation>
