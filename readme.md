@@ -1,5 +1,7 @@
 # XPath Information
-A Visual Studio extension which displays the XPath of the XML-element or -attribute at the caret position when working in files containing XML markup (.config, .build, .properties etc.).  
+A Visual Studio Extension which can run any XPath and XPath function; navigates through results at the click of a button. Can show and copy any XPath incl. XML namespaces, avoiding XML namespace induced headaches. Keeps track of the current XPath via the statusbar.
+
+![XPath Information screenshot.](https://github.com/uli-weltersbach/XPathInformation/blob/master/ReasonCodeExample.XPathInformation/Assets/Screenshots/PackagePreviewImage.png)
 
 ## Installation
 ### Visual Studio
