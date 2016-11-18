@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="ReasonCodeExample.XPathInformation.v1.0" Version="4.0.0.2" Language="en-US" Publisher="Uli Weltersbach" />
+    <Identity Id="ReasonCodeExample.XPathInformation.v1.0" Version="4.0.0.3" Language="en-US" Publisher="Uli Weltersbach" />
     <DisplayName>XPath Information</DisplayName>
-    <Description xml:space="preserve">Run any XPath and XPath function; navigate through results at the click of a button.
-Show and copy any XPath incl. XML namespaces; avoid XML namespace induced headaches.
-Keep track of the current XPath via the statusbar.</Description>
+    <Description xml:space="preserve">Runs any XPath and XPath function. Navigate through results at the click of a button.
+Displays and copies XPath incl. XML namespaces in various formats, avoiding complex XMLNS nightmares.
+Keeps track of the current XPath via the statusbar.</Description>
     <MoreInfo>https://github.com/uli-weltersbach/XPathInformation/wiki</MoreInfo>
     <License>license.txt</License>
     <ReleaseNotes>release-notes.txt</ReleaseNotes>
