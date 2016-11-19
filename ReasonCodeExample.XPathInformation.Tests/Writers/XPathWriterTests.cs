@@ -17,7 +17,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Writers
         [TestCase("<ns:a xmlns:ns=\"-\" ns:w=\"1\" />", "/ns:a[@ns:w='1']/@ns:w")]
         [TestCase("<a xmlns=\"no-prefix\" w=\"1\" />", "/*[local-name()='a'][namespace-uri()='no-prefix'][@w='1']")]
         [TestCase("<a xmlns=\"no-prefix\" w=\"1\" />", "/*[local-name()='a'][namespace-uri()='no-prefix'][@w='1']/@w")]
-        [TestCase("<a xmlns=\"no-prefix\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:w=\"1\" />", "/*[local-name()='a'][namespace-uri()='no-prefix']/@xlink:w")]
+        //[TestCase("<a xmlns=\"no-prefix\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:w=\"1\" />", "/*[local-name()='a'][namespace-uri()='no-prefix']/@xlink:w")]
         public void WriteOutputIsValid(string xml, string expectedXPath)
         {
             // Arrange
