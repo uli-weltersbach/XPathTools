@@ -1,28 +1,22 @@
 ﻿using System;
-using EnvDTE;
-using Microsoft.VisualStudio.Shell;
 
 namespace ReasonCodeExample.XPathInformation.Writers
 {
     internal class CopyXPathCommand : CopyCommand
     {
-        public CopyXPathCommand(int id, XmlRepository repository, Func<IWriter> writerProvider, ICommandTextFormatter textFormatter)
-            : base(id, repository, writerProvider, textFormatter)
+        private readonly ActiveDocument _activeDocument;
+
+        public CopyXPathCommand(int id, XmlRepository repository, ActiveDocument activeDocument, Func<IWriter> writerProvider, ICommandTextFormatter textFormatter)
+            : base(id, repository, activeDocument, writerProvider, textFormatter)
         {
+            _activeDocument = activeDocument;
         }
 
         protected override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
-            if (!Repository.HasContent)
+            base.OnBeforeQueryStatus(sender, e);
+            if(!Command.Visible)
             {
-                Command.Visible = false;
-                return;
-            }
-            var dte = (DTE)Package.GetGlobalService(typeof(DTE));
-            var isXmlDocument = string.Equals(dte?.ActiveDocument?.Language, "XML", StringComparison.InvariantCultureIgnoreCase);
-            if (!isXmlDocument)
-            {
-                Command.Visible = false;
                 return;
             }
             var xml = Repository.GetSelected();

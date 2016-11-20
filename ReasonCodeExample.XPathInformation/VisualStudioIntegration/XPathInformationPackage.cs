@@ -62,21 +62,24 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
         private void InitializeCommands(XmlRepository repository, IConfiguration configuration, IMenuCommandService commandService)
         {
-            var copyGenericXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, repository, () => new XPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)}), new CommandTextFormatter());
+            var activeDocument = new ActiveDocument();
+
+            var copyGenericXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, repository, activeDocument, () => new XPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)}), new CommandTextFormatter());
             commandService.AddCommand(copyGenericXPathCommand);
 
-            var copyAbsoluteXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyAbsoluteXPath, repository, () => new AbsoluteXPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)}), new CommandTextFormatter());
+            var copyAbsoluteXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyAbsoluteXPath, repository, activeDocument, () => new AbsoluteXPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)}), new CommandTextFormatter());
             commandService.AddCommand(copyAbsoluteXPathCommand);
 
-            var copyDistinctXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, repository, () => new XPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes), new DistinctAttributeFilter(configuration.PreferredAttributeCandidates)}), new CommandTextFormatter());
+            var copyDistinctXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, repository, activeDocument, () => new XPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes), new DistinctAttributeFilter(configuration.PreferredAttributeCandidates)}), new CommandTextFormatter());
             commandService.AddCommand(copyDistinctXPathCommand);
 
-            var copySimplifiedXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopySimplifiedXPath, repository, () => new SimplifiedXPathWriter(new[] { new AttributeFilter(configuration.AlwaysDisplayedAttributes) }), new TrimCommandTextFormatter());
+            var copySimplifiedXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopySimplifiedXPath, repository, activeDocument, () => new SimplifiedXPathWriter(new[] { new AttributeFilter(configuration.AlwaysDisplayedAttributes) }), new TrimCommandTextFormatter());
             commandService.AddCommand(copySimplifiedXPathCommand);
 
-            var showXPathWorkbenchCommand = new ShowXPathWorkbenchCommand(this, commandService, Symbols.CommandIDs.ShowXPathWorkbench, repository, new ActiveDocument());
+            var showXPathWorkbenchCommand = new ShowXPathWorkbenchCommand(this, commandService, Symbols.CommandIDs.ShowXPathWorkbench, repository, activeDocument);
+            commandService.AddCommand(showXPathWorkbenchCommand.Command);
 
-            var copyXmlStructureCommand = new CopyXmlStructureCommand(Symbols.CommandIDs.CopyXmlStructure, repository, () => new XmlStructureWriter(), new CommandTextFormatter());
+            var copyXmlStructureCommand = new CopyXmlStructureCommand(Symbols.CommandIDs.CopyXmlStructure, repository, activeDocument, () => new XmlStructureWriter(), new CommandTextFormatter());
             commandService.AddCommand(copyXmlStructureCommand);
         }
     }

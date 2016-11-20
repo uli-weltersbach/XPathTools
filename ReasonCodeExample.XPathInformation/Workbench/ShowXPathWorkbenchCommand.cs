@@ -13,6 +13,11 @@ namespace ReasonCodeExample.XPathInformation.Workbench
         private readonly Package _package;
         private readonly XmlRepository _repository;
 
+        public OleMenuCommand Command
+        {
+            get;
+        }
+
         public ShowXPathWorkbenchCommand(Package package, IMenuCommandService commandService, int id, XmlRepository repository, ActiveDocument activeDocument)
         {
             _package = package;
@@ -23,8 +28,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
                 throw new ArgumentNullException(nameof(commandService));
             }
             var menuCommandID = new CommandID(Guid.Parse(Symbols.PackageID), id);
-            var menuCommand = new OleMenuCommand(ShowToolWindow, null, OnBeforeQueryStatus, menuCommandID, PackageResources.ShowXPathWorkbenchCommandText);
-            commandService.AddCommand(menuCommand);
+            Command = new OleMenuCommand(ShowToolWindow, null, OnBeforeQueryStatus, menuCommandID, PackageResources.ShowXPathWorkbenchCommandText);
         }
 
         private void OnBeforeQueryStatus(object sender, EventArgs eventArgs)

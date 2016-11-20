@@ -8,8 +8,11 @@ namespace ReasonCodeExample.XPathInformation.Writers
 {
     internal abstract class CopyCommand
     {
-        protected CopyCommand(int id, XmlRepository repository, Func<IWriter> writerProvider, ICommandTextFormatter textFormatter)
+        private readonly ActiveDocument _activeDocument;
+
+        protected CopyCommand(int id, XmlRepository repository, ActiveDocument activeDocument, Func<IWriter> writerProvider, ICommandTextFormatter textFormatter)
         {
+            _activeDocument = activeDocument;
             Repository = repository;
             Command = new OleMenuCommand(OnInvoke, null, OnBeforeQueryStatus, new CommandID(Guid.Parse(Symbols.PackageID), id));
             WriterProvider = writerProvider;
@@ -51,7 +54,10 @@ namespace ReasonCodeExample.XPathInformation.Writers
             Clipboard.SetText(Output);
         }
 
-        protected abstract void OnBeforeQueryStatus(object sender, EventArgs e);
+        protected virtual void OnBeforeQueryStatus(object sender, EventArgs e)
+        {
+            Command.Visible = Repository.HasContent && _activeDocument.IsXmlDocument;
+        }
 
         public static implicit operator OleMenuCommand(CopyCommand command)
         {

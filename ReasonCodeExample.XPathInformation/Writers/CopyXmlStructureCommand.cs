@@ -1,28 +1,19 @@
 ﻿using System;
-using EnvDTE;
-using Microsoft.VisualStudio.Shell;
 
 namespace ReasonCodeExample.XPathInformation.Writers
 {
     internal class CopyXmlStructureCommand : CopyCommand
     {
-        public CopyXmlStructureCommand(int id, XmlRepository repository, Func<IWriter> writerProvider, ICommandTextFormatter textFormatter)
-            : base(id, repository, writerProvider, textFormatter)
+        public CopyXmlStructureCommand(int id, XmlRepository repository, ActiveDocument activeDocument, Func<IWriter> writerProvider, ICommandTextFormatter textFormatter)
+            : base(id, repository, activeDocument, writerProvider, textFormatter)
         {
         }
 
         protected override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
-            if (!Repository.HasContent)
+            base.OnBeforeQueryStatus(sender, e);
+            if(!Command.Visible)
             {
-                Command.Visible = false;
-                return;
-            }
-            var dte = (DTE)Package.GetGlobalService(typeof(DTE));
-            var isXmlDocument = string.Equals(dte?.ActiveDocument?.Language, "XML", StringComparison.InvariantCultureIgnoreCase);
-            if(!isXmlDocument)
-            {
-                Command.Visible = false;
                 return;
             }
             var xml = Repository.GetSelected();
