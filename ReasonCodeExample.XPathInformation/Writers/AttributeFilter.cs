@@ -24,10 +24,10 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
         public virtual bool IsIncluded(XAttribute attribute)
         {
-            if(attribute == null)
+            if (attribute?.Parent == null)
+            {
                 return false;
-            if (attribute.Parent == null)
-                return false;
+            }
             return Settings.Any(setting => IsMatch(setting, attribute) && IsMatch(setting, attribute.Parent));
         }
 

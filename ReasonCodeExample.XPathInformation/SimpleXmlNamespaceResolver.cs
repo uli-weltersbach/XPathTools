@@ -12,13 +12,12 @@ namespace ReasonCodeExample.XPathInformation
 
         public SimpleXmlNamespaceResolver(XDocument document)
         {
-            if(document == null)
+            if (document?.Root == null)
+            {
                 return;
+            }
 
-            if(document.Root == null)
-                return;
-
-            foreach(var element in document.Root.DescendantsAndSelf())
+            foreach (var element in document.Root.DescendantsAndSelf())
             {
                 var elementNamespace = element.Name.Namespace.ToString();
                 if(!string.IsNullOrWhiteSpace(element.Name.NamespaceName) && !_namespaces.ContainsKey(elementNamespace))

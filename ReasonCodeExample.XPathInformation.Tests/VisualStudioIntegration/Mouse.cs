@@ -10,7 +10,10 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
         public static void LeftClick(Point point)
         {
             if (!SetCursorPos(Convert.ToInt32(point.X), Convert.ToInt32(point.Y)))
+            {
                 throw new InvalidOperationException("Unable to move mouse to " + point + ".");
+            }
+
             LeftClick();
             Thread.Sleep(TimeSpan.FromSeconds(0.5));
         }
@@ -39,7 +42,9 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 
             var result = SendInput((uint) inputs.Length, inputs, Marshal.SizeOf(mouseInput));
             if (result == 0)
+            {
                 throw new InvalidOperationException("Unable to click left mouse button.");
+            }
         }
 
         [DllImport("user32.dll", SetLastError = true)]

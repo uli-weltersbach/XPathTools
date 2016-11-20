@@ -23,7 +23,10 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         {
             var s = (string) value;
             if (string.IsNullOrWhiteSpace(s))
+            {
                 return null;
+            }
+
             var serializer = new XmlSerializer(typeof(T));
             var deserializedValue = serializer.Deserialize(new StringReader(s));
             return deserializedValue;
