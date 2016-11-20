@@ -13,5 +13,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         /// the element name (e.g. "f" in &lt;fitting&gt;).
         /// </summary>
         public const int XmlLineInfoLinePositionOffset = 1;
+
+        public const string XmlContentTypeName = "XML";
     }
 }

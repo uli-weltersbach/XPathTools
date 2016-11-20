@@ -9,10 +9,9 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
     [Export(typeof(IWpfTextViewCreationListener))]
     [TextViewRole(PredefinedTextViewRoles.Document)]
-    [ContentType(XmlContentTypeName)]
+    [ContentType(Constants.XmlContentTypeName)]
     internal class XmlTextViewCreationListener : IWpfTextViewCreationListener
     {
-        private const string XmlContentTypeName = "XML";
         private readonly XmlRepository _repository;
         private readonly StatusbarAdapter _statusbar;
 
