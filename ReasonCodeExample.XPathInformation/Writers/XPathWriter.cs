@@ -23,7 +23,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
         {
             if(filters == null)
             {
-                throw new ArgumentNullException("filters");
+                throw new ArgumentNullException(nameof(filters));
             }
             _filters = filters;
         }
@@ -59,7 +59,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
             }
             else
             {
-                throw new ArgumentException("Node is not an element or attribute: " + node.GetType(), "node");
+                throw new ArgumentException("Node is not an element or attribute: " + node.GetType(), nameof(node));
             }
 
             var parts = new List<XPathPart>();

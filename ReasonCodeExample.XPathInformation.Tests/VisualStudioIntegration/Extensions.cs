@@ -49,7 +49,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
         {
             if(element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
             Mouse.LeftClick(element.GetClickablePoint());
             return element;

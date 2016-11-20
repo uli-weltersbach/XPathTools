@@ -18,11 +18,11 @@ namespace ReasonCodeExample.XPathInformation.Tests
         {
             if(string.IsNullOrEmpty(xml))
             {
-                throw new ArgumentNullException("xml", "xml is null or empty");
+                throw new ArgumentNullException(nameof(xml), "xml is null or empty");
             }
             if(string.IsNullOrEmpty(xpath))
             {
-                throw new ArgumentNullException("xpath", "xpath is null or empty");
+                throw new ArgumentNullException(nameof(xpath), "xpath is null or empty");
             }
             var document = XDocument.Parse(xml);
             return ((IEnumerable)document.Root.XPathEvaluate(xpath, new SimpleXmlNamespaceResolver(document))).Cast<XObject>().ToList();

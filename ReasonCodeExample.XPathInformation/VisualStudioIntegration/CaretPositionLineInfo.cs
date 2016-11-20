@@ -14,7 +14,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         public CaretPositionLineInfo(ITextView textView, int caretPosition)
         {
             if (textView == null)
-                throw new ArgumentNullException("textView");
+                throw new ArgumentNullException(nameof(textView));
             LineNumber = GetLineNumber(textView, caretPosition);
             LinePosition = GetLinePosition(textView, caretPosition);
         }
