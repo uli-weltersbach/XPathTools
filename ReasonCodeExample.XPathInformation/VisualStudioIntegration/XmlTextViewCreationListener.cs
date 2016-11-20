@@ -29,17 +29,11 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
         public void TextViewCreated(IWpfTextView textView)
         {
-            if(textView == null)
+            if(textView?.Caret == null)
             {
                 return;
             }
-
             _repository.LoadXml(textView.TextSnapshot.GetText());
-
-            if(textView.Caret == null)
-            {
-                return;
-            }
             textView.Closed += ResetXml;
             textView.Caret.PositionChanged += StoreCurrentNode;
             textView.Caret.PositionChanged += _statusbar.SetText;
@@ -52,11 +46,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
         private void StoreCurrentNode(object sender, CaretPositionChangedEventArgs e)
         {
-            if(e == null)
-            {
-                return;
-            }
-            if(e.TextView == null)
+            if(e?.TextView == null)
             {
                 return;
             }
@@ -73,7 +63,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
                 var rootElement = _repository.GetRootElement();
                 var selectedElement = _repository.GetElement(rootElement, lineNumber, linePosition);
                 var selectedAttribute = _repository.GetAttribute(selectedElement, lineNumber, linePosition);
-                _repository.SetSelected(selectedAttribute as XObject ?? selectedElement);
+                _repository.SetSelected((XObject)selectedAttribute ?? selectedElement);
             }
             catch(Exception ex)
             {
