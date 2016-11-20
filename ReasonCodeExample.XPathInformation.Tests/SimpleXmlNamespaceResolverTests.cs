@@ -25,6 +25,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
 
         [TestCase("<a:element xmlns:a=\"1\"/>", new[] {"a"})]
         [TestCase("<a:element xmlns:a=\"1\"><b:element xmlns:b=\"2\"/></a:element>", new[] {"a", "b"})]
+        [TestCase("<a xmlns:xlink=\"http://www.w3.org/1999/xlink\" />", new [] {"xlink"})]
         public void NamespacePrefixesAreParsedCorrectly(string xml, string[] expectedNamespaces)
         {
             // Arrange
