@@ -14,35 +14,59 @@ namespace ReasonCodeExample.XPathInformation
         {
             if(document == null)
                 return;
+
             if(document.Root == null)
                 return;
+
             foreach(var element in document.Root.DescendantsAndSelf())
             {
-                if (!string.IsNullOrWhiteSpace(element.Name.NamespaceName) && !_namespaces.ContainsKey(element.Name.Namespace.ToString()))
+                var elementNamespace = element.Name.Namespace.ToString();
+                if(!string.IsNullOrWhiteSpace(element.Name.NamespaceName) && !_namespaces.ContainsKey(elementNamespace))
                 {
-                    var elementPrefix = GetNamespacePrefix(element);
-                    _namespaces.Add(element.Name.Namespace.ToString(), elementPrefix);
+                    var elementNamespacePrefix = GetNamespacePrefix(element);
+                    _namespaces.Add(elementNamespace, elementNamespacePrefix);
                 }
 
                 foreach(var attribute in element.Attributes())
                 {
-                    var prefix = GetNamespacePrefix(attribute);
-                    if(string.IsNullOrEmpty(prefix))
-                        continue;
-
-                    string namespaceName = null;
+                    string attributeNamespace;
+                    string attributeNamespacePrefix;
                     if(attribute.IsNamespaceDeclaration)
                     {
-                        namespaceName = attribute.Value;
+                        attributeNamespace = attribute.Value;
+                        attributeNamespacePrefix = GetNamespacePrefixFromXmlnsDeclaration(attribute);
                     }
                     else
                     {
-                        namespaceName = attribute.Name.NamespaceName;
+                        attributeNamespace = attribute.Name.Namespace.ToString();
+                        attributeNamespacePrefix = GetNamespacePrefix(attribute);
                     }
-                    if (!_namespaces.ContainsKey(namespaceName))
-                        _namespaces.Add(namespaceName, GetNamespacePrefix(attribute));
+                    if(!string.IsNullOrEmpty(attributeNamespace) && !_namespaces.ContainsKey(attributeNamespace))
+                    {
+                        _namespaces.Add(attributeNamespace, attributeNamespacePrefix);
+                    }
                 }
             }
+        }
+
+        private string GetNamespacePrefix(XElement element)
+        {
+            var match = Regex.Match(element.ToString(SaveOptions.DisableFormatting), @"^<(?'NamespacePrefix'\w+):");
+            return match.Success ? match.Groups["NamespacePrefix"].Value : string.Empty;
+        }
+
+        private string GetNamespacePrefixFromXmlnsDeclaration(XAttribute attribute)
+        {
+            var attr = attribute.ToString();
+            var match = Regex.Match(attr, @"^xmlns:(?'NamespacePrefix'\w+)=");
+            return match.Success ? match.Groups["NamespacePrefix"].Value : string.Empty;
+        }
+
+        private string GetNamespacePrefix(XAttribute attribute)
+        {
+            var attr = attribute.ToString();
+            var match = Regex.Match(attr, @"^(?'NamespacePrefix'\w+):");
+            return match.Success ? match.Groups["NamespacePrefix"].Value : string.Empty;
         }
 
         public IDictionary<string, string> GetNamespacesInScope(XmlNamespaceScope scope)
@@ -58,19 +82,6 @@ namespace ReasonCodeExample.XPathInformation
         public string LookupPrefix(string namespaceName)
         {
             return _namespaces.ContainsKey(namespaceName) ? _namespaces[namespaceName] : null;
-        }
-
-        private string GetNamespacePrefix(XElement element)
-        {
-            var match = Regex.Match(element.ToString(SaveOptions.DisableFormatting), @"^<(?'NamespacePrefix'\w+):");
-            return match.Success ? match.Groups["NamespacePrefix"].Value : string.Empty;
-        }
-
-        private string GetNamespacePrefix(XAttribute attribute)
-        {
-            var attr = attribute.ToString();
-            var match = Regex.Match(attr, @"^xmlns:(?'NamespacePrefix'\w+)=");
-            return match.Success ? match.Groups["NamespacePrefix"].Value : string.Empty;
         }
     }
 }
