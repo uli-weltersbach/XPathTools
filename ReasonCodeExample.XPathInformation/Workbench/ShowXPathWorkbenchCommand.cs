@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Design;
-using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -10,13 +9,15 @@ namespace ReasonCodeExample.XPathInformation.Workbench
 {
     internal class ShowXPathWorkbenchCommand
     {
+        private readonly ActiveDocument _activeDocument;
         private readonly Package _package;
         private readonly XmlRepository _repository;
 
-        public ShowXPathWorkbenchCommand(Package package, IMenuCommandService commandService, int id, XmlRepository repository)
+        public ShowXPathWorkbenchCommand(Package package, IMenuCommandService commandService, int id, XmlRepository repository, ActiveDocument activeDocument)
         {
             _package = package;
             _repository = repository;
+            _activeDocument = activeDocument;
             if(commandService == null)
             {
                 throw new ArgumentNullException(nameof(commandService));
@@ -29,14 +30,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
         private void OnBeforeQueryStatus(object sender, EventArgs eventArgs)
         {
             var command = (OleMenuCommand)sender;
-            if (!_repository.HasContent)
-            {
-                command.Visible = false;
-                return;
-            }
-            var dte = (DTE)Package.GetGlobalService(typeof(DTE));
-            var isXmlDocument = string.Equals(dte?.ActiveDocument?.Language, "XML", StringComparison.InvariantCultureIgnoreCase);
-            command.Visible = isXmlDocument;
+            command.Visible = _repository.HasContent && _activeDocument.IsXmlDocument;
         }
 
         private void ShowToolWindow(object sender, EventArgs e)

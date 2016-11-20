@@ -137,6 +137,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveDocument.cs" />
     <Compile Include="Registry.cs" />
     <Compile Include="VisualStudioIntegration\CaretPositionLineInfo.cs" />
     <Compile Include="SimpleXmlNamespaceResolver.cs" />
