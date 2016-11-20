@@ -46,7 +46,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
             var executablePath = new FileInfo(Path.Combine(programsFolder, versionSpecificPathPart, "Common7", "IDE", "devenv.exe"));
             if(!executablePath.Exists)
             {
-                throw new FileNotFoundException(string.Format("Didn't find Visual Studio executable at \"{0}\".", executablePath));
+                throw new FileNotFoundException($"Didn't find Visual Studio executable at \"{executablePath}\".");
             }
             // The VisualStudio process spawns a new process with a different ID.
             Process.Start(new ProcessStartInfo(executablePath.FullName, "/RootSuffix Exp /ResetSkipPkgs"));
@@ -98,7 +98,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
                     return;
                 }
             }
-            throw new TimeoutException(string.Format("Visual Studio wasn't started within {0} seconds.", timeoutDuration.TotalSeconds));
+            throw new TimeoutException($"Visual Studio wasn't started within {timeoutDuration.TotalSeconds} seconds.");
         }
 
         public void OpenXmlFile(string content, int caretPosition)

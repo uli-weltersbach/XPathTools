@@ -184,7 +184,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
 
             if(attribute.Parent == null)
             {
-                throw new XmlException(string.Format("Unable to determine namespace prefix for attribute \"{0}\". Parent is null.", attribute.Name));
+                throw new XmlException($"Unable to determine namespace prefix for attribute \"{attribute.Name}\". Parent is null.");
             }
 
             var namespacePrefix = attribute.Parent.GetPrefixOfNamespace(attribute.Name.Namespace);

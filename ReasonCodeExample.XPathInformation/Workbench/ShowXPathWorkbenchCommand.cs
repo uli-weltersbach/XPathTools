@@ -38,7 +38,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             var toolWindowPane = _package.FindToolWindow(typeof(XPathWorkbenchWindow), 0, true);
             if(toolWindowPane?.Frame == null)
             {
-                throw new NotSupportedException(string.Format("{0}: Cannot create tool window.", GetType()));
+                throw new NotSupportedException($"{GetType()}: Cannot create tool window.");
             }
             var windowFrame = (IVsWindowFrame)toolWindowPane.Frame;
             ErrorHandler.ThrowOnFailure(windowFrame.Show());

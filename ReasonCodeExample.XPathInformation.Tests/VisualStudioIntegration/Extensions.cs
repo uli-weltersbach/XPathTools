@@ -42,7 +42,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
                     return match;
                 }
             }
-            throw new TimeoutException(string.Format("Element \"{0}\" wasn't found within {1} seconds.", propertyCondition.Value, timeoutInSeconds));
+            throw new TimeoutException($"Element \"{propertyCondition.Value}\" wasn't found within {timeoutInSeconds} seconds.");
         }
 
         public static AutomationElement LeftClick(this AutomationElement element)

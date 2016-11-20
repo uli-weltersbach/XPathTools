@@ -17,7 +17,7 @@
             if (elementCount.HasValue)
             {
                 var matchText = elementCount == 1 ? "match" : "matches";
-                return string.Format("({0} {1}) {2}", elementCount, matchText, trimmedXPath);
+                return $"({elementCount} {matchText}) {trimmedXPath}";
             }
             return trimmedXPath;
         }
