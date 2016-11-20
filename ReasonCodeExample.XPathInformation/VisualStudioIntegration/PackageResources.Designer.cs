@@ -61,11 +61,47 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} results. Click to navigate..
+        /// </summary>
+        internal static string MultipleResultText {
+            get {
+                return ResourceManager.GetString("MultipleResultText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No results..
+        /// </summary>
+        internal static string NoResultsText {
+            get {
+                return ResourceManager.GetString("NoResultsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open XPath Runner.
         /// </summary>
         internal static string ShowXPathWorkbenchCommandText {
             get {
                 return ResourceManager.GetString("ShowXPathWorkbenchCommandText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} result. Click to navigate..
+        /// </summary>
+        internal static string SingleResultText {
+            get {
+                return ResourceManager.GetString("SingleResultText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error evaluating XPath..
+        /// </summary>
+        internal static string XPathEvaluationErrorText {
+            get {
+                return ResourceManager.GetString("XPathEvaluationErrorText", resourceCulture);
             }
         }
         

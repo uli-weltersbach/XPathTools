@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MultipleResultText" xml:space="preserve">
+    <value>{0} results. Click to navigate.</value>
+  </data>
+  <data name="NoResultsText" xml:space="preserve">
+    <value>No results.</value>
+  </data>
   <data name="ShowXPathWorkbenchCommandText" xml:space="preserve">
     <value>Open XPath Runner</value>
+  </data>
+  <data name="SingleResultText" xml:space="preserve">
+    <value>{0} result. Click to navigate.</value>
+  </data>
+  <data name="XPathEvaluationErrorText" xml:space="preserve">
+    <value>Error evaluating XPath.</value>
   </data>
   <data name="XPathWorkbenchNavigationErrorText" xml:space="preserve">
     <value>Error navigating to matching node.</value>

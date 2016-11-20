@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.XPath;
+using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
 
 namespace ReasonCodeExample.XPathInformation.Workbench
 {
@@ -50,7 +51,7 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             }
             catch(Exception ex)
             {
-                throw new InvalidOperationException("Error evaluating XPath.", ex);
+                throw new InvalidOperationException(PackageResources.XPathEvaluationErrorText, ex);
             }
         }
 
@@ -63,16 +64,15 @@ namespace ReasonCodeExample.XPathInformation.Workbench
             }
             if(searchResults.Count == 0)
             {
-                SearchResultText.Text = "No results.";
+                SearchResultText.Text = PackageResources.NoResultsText;
                 return;
             }
-            var countText = Math.Min(searchResults.Count, MaxSearchResultCount).ToString();
-            if(searchResults.Count > MaxSearchResultCount)
+            if(searchResults.Count == 1)
             {
-                countText += " of " + searchResults.Count;
+                SearchResultText.Text = string.Format(PackageResources.SingleResultText, searchResults.Count);
+                return;
             }
-            var resultText = searchResults.Count == 1 ? "result" : "results";
-            SearchResultText.Text = $"Showing {countText} {resultText}. Click to navigate.";
+            SearchResultText.Text = string.Format(PackageResources.MultipleResultText, searchResults.Count);
         }
 
         private void OnSearchResultClicked(object sender, MouseButtonEventArgs e)
