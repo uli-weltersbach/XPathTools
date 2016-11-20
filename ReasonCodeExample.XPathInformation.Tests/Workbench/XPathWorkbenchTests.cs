@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using NUnit.Framework;
 using ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration;
+using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
 
 namespace ReasonCodeExample.XPathInformation.Tests.Workbench
 {
@@ -30,7 +31,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
             _instance.OpenXmlFile(xml.ToString(), 0);
 
             // Act
-            _instance.ClickContextMenuEntry("Open XPath workbench");
+            _instance.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
             var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
 
             // Assert
@@ -45,12 +46,12 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
             _instance.OpenXmlFile(xml.ToString(), 0);
 
             // Act
-            _instance.ClickContextMenuEntry("Open XPath workbench");
+            _instance.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
             var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
             xpathWorkbench.Run("§ invalid XPath §");
 
             // Assert
-            Assert.That(xpathWorkbench.SearchResultText, Does.Contain("Error evaluating XPath."));
+            Assert.That(xpathWorkbench.SearchResultText, Does.Contain(PackageResources.XPathEvaluationErrorText));
         }
 
         [Test]
@@ -61,12 +62,12 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
             _instance.OpenXmlFile(xml.ToString(SaveOptions.DisableFormatting), 0);
 
             // Act
-            _instance.ClickContextMenuEntry("Open XPath workbench");
+            _instance.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
             var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
             xpathWorkbench.Run("/xml");
 
             // Assert
-            Assert.That(xpathWorkbench.SearchResultText, Does.Contain("1 result."));
+            Assert.That(xpathWorkbench.SearchResultText, Does.Contain(PackageResources.SingleResultText));
         }
     }
 }
