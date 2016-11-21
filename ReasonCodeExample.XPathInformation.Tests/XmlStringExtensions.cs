@@ -7,7 +7,7 @@ using System.Xml.XPath;
 
 namespace ReasonCodeExample.XPathInformation.Tests
 {
-    internal static class Extensions
+    internal static class XmlStringExtensions
     {
         public static XObject SelectSingleNode(this string xml, string xpath)
         {

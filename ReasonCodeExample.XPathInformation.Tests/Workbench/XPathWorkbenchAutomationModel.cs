@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using System.Windows.Automation;
-using System.Windows.Controls;
+using System.Windows.Forms;
 using ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration;
-using ReasonCodeExample.XPathInformation.Workbench;
+using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace ReasonCodeExample.XPathInformation.Tests.Workbench
 {
@@ -15,7 +15,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
             _mainWindow = mainWindow;
         }
 
-        public AutomationElement ToolWindowPane => _mainWindow.FindDescendantByType<XPathWorkbench>();
+        public AutomationElement ToolWindowPane => _mainWindow.FindDescendantByText(PackageResources.XPathWorkbenchWindowTitle);
 
         public bool IsVisible => ToolWindowPane != null;
 
@@ -44,20 +44,10 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
             }
         }
 
-        public void ClickSearchButton()
-        {
-            ToolWindowPane.FindDescendantByType<Button>().LeftClick();
-        }
-
-        public void Run(string xpath)
+        public void Search(string xpath)
         {
             SearchText = xpath;
-            ClickSearchButton();
-        }
-
-        public IEnumerable<string> GetResults()
-        {
-            return null;
+            SendKeys.SendWait("{Enter}");
         }
     }
 }

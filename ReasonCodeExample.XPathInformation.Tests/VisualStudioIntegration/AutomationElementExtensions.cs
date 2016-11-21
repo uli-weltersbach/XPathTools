@@ -5,14 +5,13 @@ using System.Windows.Controls;
 
 namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
 {
-    internal static class Extensions
+    internal static class AutomationElementExtensions
     {
         public static AutomationElement FindDescendantByType<T>(this AutomationElement ancestor, double timeoutInSeconds = 5d) where T : Control
         {
             var propertyCondition = new PropertyCondition(AutomationElement.ClassNameProperty, typeof(T).Name, PropertyConditionFlags.IgnoreCase);
             return FindDescendant(ancestor, timeoutInSeconds, propertyCondition);
         }
-
 
         public static AutomationElement FindDescendantByAutomationId(this AutomationElement ancestor, string automationId, double timeoutInSeconds = 5d)
         {

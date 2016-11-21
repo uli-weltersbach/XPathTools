@@ -48,7 +48,7 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
             // Act
             _instance.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
             var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
-            xpathWorkbench.Run("§ invalid XPath §");
+            xpathWorkbench.Search("§ invalid XPath §");
 
             // Assert
             Assert.That(xpathWorkbench.SearchResultText, Does.Contain(PackageResources.XPathEvaluationErrorText));
@@ -60,14 +60,15 @@ namespace ReasonCodeExample.XPathInformation.Tests.Workbench
             // Arrange
             var xml = new XElement("xml");
             _instance.OpenXmlFile(xml.ToString(SaveOptions.DisableFormatting), 0);
-
-            // Act
             _instance.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
             var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
-            xpathWorkbench.Run("/xml");
+            var expectedResultText = string.Format(PackageResources.SingleResultText, 1);
+
+            // Act
+            xpathWorkbench.Search("/xml");
 
             // Assert
-            Assert.That(xpathWorkbench.SearchResultText, Does.Contain(PackageResources.SingleResultText));
+            Assert.That(xpathWorkbench.SearchResultText, Does.Contain(expectedResultText));
         }
     }
 }
