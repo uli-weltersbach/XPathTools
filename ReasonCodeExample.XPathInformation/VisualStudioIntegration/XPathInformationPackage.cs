@@ -64,6 +64,9 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         {
             var activeDocument = new ActiveDocument();
 
+            var subMenu = CreateSubMenu(activeDocument);
+            commandService.AddCommand(subMenu);
+
             var copyGenericXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, repository, activeDocument, () => new XPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)}), new CommandTextFormatter());
             commandService.AddCommand(copyGenericXPathCommand);
 
@@ -81,6 +84,13 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
             var copyXmlStructureCommand = new CopyXmlStructureCommand(Symbols.CommandIDs.CopyXmlStructure, repository, activeDocument, () => new XmlStructureWriter(), new CommandTextFormatter());
             commandService.AddCommand(copyXmlStructureCommand);
+        }
+
+        private OleMenuCommand CreateSubMenu(ActiveDocument activeDocument)
+        {
+            EventHandler onBeforeQuery = (sender, args) => { ((OleMenuCommand)sender).Visible = activeDocument.IsXmlDocument; };
+            var subMenuCommandId = new CommandID(Guid.Parse(Symbols.PackageID), Symbols.MenuIDs.SubMenu);
+            return new OleMenuCommand(null, null, onBeforeQuery, subMenuCommandId);
         }
     }
 }
