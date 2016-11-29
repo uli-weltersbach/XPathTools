@@ -1,4 +1,5 @@
-﻿v4.1.0: UX and styling improvements.
+﻿v4.2.0: IoC container simplification and styling fixes.
+v4.1.0: UX and styling improvements.
 v4.0.1: Fixed an issue reg. attribute XML namespaces.
 v4.0.0.2: Package preview image updated.
 v4.0.0.1: Description and "More Info URL" updated to improve usability.
