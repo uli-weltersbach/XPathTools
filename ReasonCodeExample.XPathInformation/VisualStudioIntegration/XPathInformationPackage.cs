@@ -5,7 +5,6 @@ using System.Windows;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Ninject;
 using ReasonCodeExample.XPathInformation.Workbench;
 using ReasonCodeExample.XPathInformation.Writers;
 
@@ -21,14 +20,14 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
     internal class XPathInformationPackage : Package
     {
         private const string MenuResourceID = "CommandFactory.ctmenu";
-        private readonly IKernel _container;
+        private readonly ServiceContainer _container;
 
         public XPathInformationPackage()
             : this(Registry.Current)
         {
         }
 
-        public XPathInformationPackage(IKernel container)
+        public XPathInformationPackage(ServiceContainer container)
         {
             _container = container;
         }
@@ -40,17 +39,17 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
                 base.Initialize();
 
                 var repository = new XmlRepository();
-                _container.Bind<XmlRepository>().ToConstant(repository);
+                _container.Set<XmlRepository>(repository);
 
-                _container.Bind<SearchResultFactory>().ToSelf();
+                _container.Set<SearchResultFactory>(new SearchResultFactory());
 
                 var configuration = (XPathInformationDialogPage)GetDialogPage(typeof(XPathInformationDialogPage));
-                _container.Bind<IConfiguration>().ToConstant(configuration);
+                _container.Set<IConfiguration>(configuration);
 
-                _container.Bind<StatusbarAdapter>().ToConstant(new StatusbarAdapter(repository, () => new XPathWriter(new[] { new AttributeFilter(configuration.AlwaysDisplayedAttributes) }), (IVsStatusbar)GetService(typeof(IVsStatusbar))));
+                _container.Set<StatusbarAdapter>(new StatusbarAdapter(repository, () => new XPathWriter(new[] { new AttributeFilter(configuration.AlwaysDisplayedAttributes) }), (IVsStatusbar)GetService(typeof(IVsStatusbar))));
 
                 var commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
-                _container.Bind<IMenuCommandService>().ToConstant(commandService);
+                _container.Set<IMenuCommandService>(commandService);
 
                 InitializeCommands(repository, configuration, commandService);
             }

@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
-using Ninject;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {

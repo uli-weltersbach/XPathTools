@@ -6,7 +6,6 @@ using Microsoft.Internal.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Ninject;
 using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
 
 namespace ReasonCodeExample.XPathInformation.Workbench
