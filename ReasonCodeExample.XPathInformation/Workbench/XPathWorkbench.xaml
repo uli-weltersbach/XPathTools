@@ -36,7 +36,8 @@
                    Foreground="{DynamicResource {x:Static shell:VsBrushes.ToolWindowTextKey}}" Padding="3" />
 
         <DataGrid DockPanel.Dock="Top" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False"
-                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="True">
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="True"
+                  Background="Transparent" RowHeaderWidth="0">
             <DataGrid.ItemsSource>
                 <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:XPathWorkbench}}" 
                          Path="SearchResults" />
