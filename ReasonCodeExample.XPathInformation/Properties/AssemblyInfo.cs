@@ -7,7 +7,7 @@ using ReasonCodeExample.XPathInformation.Properties;
 [assembly: AssemblyCompany("Reason→Code→Example (http://reasoncodeexample.com)")]
 [assembly: AssemblyProduct("ReasonCodeExample.XPathInformation")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("4.2.0.*")]
+[assembly: AssemblyVersion("4.2.1.*")]
 [assembly: InternalsVisibleTo(InternalsVisibleTo.ReasonCodeExampleXPathInformationTests)]
 [assembly: InternalsVisibleTo(InternalsVisibleTo.DynamicProxyGenAssembly2)]
 [assembly: InternalsVisibleTo(InternalsVisibleTo.CastleCore)]
