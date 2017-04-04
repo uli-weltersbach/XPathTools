@@ -170,5 +170,19 @@ namespace ReasonCodeExample.XPathInformation.Tests
             // Assert
             Assert.That(repository.GetRootElement(), Is.Null);
         }
+
+
+        [Test]
+        public void HandlesDtdReferencesGracefully()
+        {
+            // Arrange
+            var repository = new XmlRepository();
+
+            // Act
+            repository.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><!DOCTYPE database SYSTEM \"GameObjDb.dtd\"><class>&lock;</class>");
+
+            // Assert
+            Assert.That(repository.GetRootElement(), Is.Not.Null);
+        }
     }
 }
