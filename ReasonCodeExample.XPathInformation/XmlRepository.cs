@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
@@ -50,7 +51,15 @@ namespace ReasonCodeExample.XPathInformation
             XDocument document;
             try
             {
-                document = XDocument.Parse(xml, LoadOptions.SetLineInfo);
+                XmlReaderSettings settings = new XmlReaderSettings
+                {
+                    DtdProcessing = DtdProcessing.Parse
+                };
+                using(var stringReader = new StringReader(xml))
+                using(var xmlReader = XmlReader.Create(stringReader, settings))
+                {
+                    document = XDocument.Load(xmlReader, LoadOptions.SetLineInfo);
+                }
             }
             catch(Exception)
             {
