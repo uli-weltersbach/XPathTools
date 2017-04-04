@@ -173,7 +173,27 @@ namespace ReasonCodeExample.XPathInformation.Tests
         }
 
         [Test]
-        public void HandlesDtdReferencesGracefully()
+        public void HandlesAbsoluteeDtdReferencesGracefully()
+        {
+            // Arrange
+            var xmlFilePath = Path.GetTempFileName();
+            File.WriteAllText(xmlFilePath, XML);
+
+            var dtdFilePath = Path.GetTempFileName();
+            File.WriteAllText(dtdFilePath, DTD);
+
+            var xml = File.ReadAllText(xmlFilePath).Replace(DtdFilePlaceholder, dtdFilePath);
+            var repository = new XmlRepository();
+
+            // Act
+            repository.LoadXml(xml);
+
+            // Assert
+            Assert.That(repository.GetRootElement(), Is.Not.Null);
+        }
+
+        [Test]
+        public void HandlesRelativeDtdReferencesGracefully()
         {
             // Arrange
             var xmlFilePath = Path.GetTempFileName();
@@ -183,7 +203,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
             File.WriteAllText(dtdFilePath, DTD);
             var dtdFileName = Path.GetFileName(dtdFilePath);
 
-            var xml = File.ReadAllText(xmlFilePath).Replace("<DTD FILE NAME>", dtdFileName);
+            var xml = File.ReadAllText(xmlFilePath).Replace(DtdFilePlaceholder, dtdFileName);
             var repository = new XmlRepository();
 
             // Act
@@ -194,8 +214,9 @@ namespace ReasonCodeExample.XPathInformation.Tests
         }
 
         #region XML
+        private const string DtdFilePlaceholder = "<DTD FILE RELATIVE OR ABSOLUTE URI>";
         private const string XML = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<!DOCTYPE database SYSTEM ""<DTD FILE NAME>"">
+<!DOCTYPE database SYSTEM """ + DtdFilePlaceholder + @""">
 <database>
   <server id=""v12"" lang=""cz"">
     <continent name=""Kalimdor"">
