@@ -16,5 +16,14 @@ namespace ReasonCodeExample.XPathInformation
                 return isXmlDocument;
             }
         }
+
+        public string AbsolutePath
+        {
+            get
+            {
+                var dte = (DTE)Package.GetGlobalService(typeof(DTE));
+                return dte?.ActiveDocument?.FullName;
+            }
+        }
     }
 }
