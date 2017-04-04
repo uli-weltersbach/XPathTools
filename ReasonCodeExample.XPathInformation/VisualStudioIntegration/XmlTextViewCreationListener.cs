@@ -13,16 +13,18 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
     {
         private readonly XmlRepository _repository;
         private readonly StatusbarAdapter _statusbar;
+        private readonly ActiveDocument _activeDocument;
 
         public XmlTextViewCreationListener()
-            : this(Registry.Current.Get<XmlRepository>(), Registry.Current.Get<StatusbarAdapter>())
+            : this(Registry.Current.Get<XmlRepository>(), Registry.Current.Get<StatusbarAdapter>(), Registry.Current.Get<ActiveDocument>())
         {
         }
 
-        public XmlTextViewCreationListener(XmlRepository repository, StatusbarAdapter statusbar)
+        public XmlTextViewCreationListener(XmlRepository repository, StatusbarAdapter statusbar, ActiveDocument activeDocument)
         {
             _repository = repository;
             _statusbar = statusbar;
+            _activeDocument = activeDocument;
         }
 
         public void TextViewCreated(IWpfTextView textView)
@@ -31,7 +33,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             {
                 return;
             }
-            _repository.LoadXml(textView.TextSnapshot.GetText());
+            _repository.LoadXml(textView.TextSnapshot.GetText(), _activeDocument.AbsolutePath);
             textView.Closed += ResetXml;
             textView.Caret.PositionChanged += StoreCurrentNode;
             textView.Caret.PositionChanged += _statusbar.SetText;
@@ -39,7 +41,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
         private void ResetXml(object sender, EventArgs e)
         {
-            _repository.LoadXml(null);
+            _repository.LoadXml(null, null);
         }
 
         private void StoreCurrentNode(object sender, CaretPositionChangedEventArgs e)
@@ -57,7 +59,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         {
             try
             {
-                _repository.LoadXml(xml);
+                _repository.LoadXml(xml, _activeDocument.AbsolutePath);
                 var rootElement = _repository.GetRootElement();
                 var selectedElement = _repository.GetElement(rootElement, lineNumber, linePosition);
                 var selectedAttribute = _repository.GetAttribute(selectedElement, lineNumber, linePosition);

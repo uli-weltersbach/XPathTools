@@ -163,10 +163,10 @@ namespace ReasonCodeExample.XPathInformation.Tests
         {
             // Arrange
             var repository = new XmlRepository();
-            repository.LoadXml("<this-is-xml />");
+            repository.LoadXml("<this-is-xml />", null);
 
             // Act
-            repository.LoadXml("This is not XML.");
+            repository.LoadXml("This is not XML.", null);
 
             // Assert
             Assert.That(repository.GetRootElement(), Is.Null);
@@ -186,7 +186,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
             var repository = new XmlRepository();
 
             // Act
-            repository.LoadXml(xml);
+            repository.LoadXml(xml, null);
 
             // Assert
             Assert.That(repository.GetRootElement(), Is.Not.Null);
@@ -207,7 +207,7 @@ namespace ReasonCodeExample.XPathInformation.Tests
             var repository = new XmlRepository();
 
             // Act
-            repository.LoadXml(xml, new System.Uri(xmlFilePath));
+            repository.LoadXml(xml, xmlFilePath);
 
             // Assert
             Assert.That(repository.GetRootElement(), Is.Not.Null);

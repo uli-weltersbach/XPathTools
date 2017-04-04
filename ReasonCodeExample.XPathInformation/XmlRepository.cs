@@ -33,7 +33,7 @@ namespace ReasonCodeExample.XPathInformation
             return _stored;
         }
 
-        public void LoadXml(string xml)
+        public void LoadXml(string xml, string filePath)
         {
             if(_cachedXmlHashCode == xml?.GetHashCode())
             {
@@ -53,10 +53,11 @@ namespace ReasonCodeExample.XPathInformation
             {
                 XmlReaderSettings settings = new XmlReaderSettings
                 {
-                    DtdProcessing = DtdProcessing.Parse
+                    DtdProcessing = DtdProcessing.Parse,
+                    XmlResolver = new XmlUrlResolver()
                 };
                 using(var stringReader = new StringReader(xml))
-                using(var xmlReader = XmlReader.Create(stringReader, settings))
+                using(var xmlReader = XmlReader.Create(stringReader, settings, filePath))
                 {
                     document = XDocument.Load(xmlReader, LoadOptions.SetLineInfo);
                 }
