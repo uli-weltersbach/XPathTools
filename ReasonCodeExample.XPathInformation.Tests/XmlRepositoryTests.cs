@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
 using NUnit.Framework;
+using System.IO;
 
 namespace ReasonCodeExample.XPathInformation.Tests
 {
@@ -171,15 +172,18 @@ namespace ReasonCodeExample.XPathInformation.Tests
             Assert.That(repository.GetRootElement(), Is.Null);
         }
 
-
         [Test]
         public void HandlesDtdReferencesGracefully()
         {
             // Arrange
+            var dtd = "<!ENTITY lock \"warlock\">";
+            var dtdFileName = Path.GetTempFileName();
+            File.WriteAllText(dtdFileName, dtd);
+            var xml = $"<?xml version=\"1.0\" encoding=\"utf-8\"?><!DOCTYPE database SYSTEM \"{dtdFileName}\"><class>&lock;</class>";
             var repository = new XmlRepository();
 
             // Act
-            repository.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><!DOCTYPE database SYSTEM \"GameObjDb.dtd\"><class>&lock;</class>");
+            repository.LoadXml(xml);
 
             // Assert
             Assert.That(repository.GetRootElement(), Is.Not.Null);
