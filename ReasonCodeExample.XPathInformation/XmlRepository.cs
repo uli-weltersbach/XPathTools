@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -33,7 +34,12 @@ namespace ReasonCodeExample.XPathInformation
             return _stored;
         }
 
-        public void LoadXml(string xml, string filePath)
+        /// <summary>
+        /// Loads the specified XML into this repository, replacing any previously loaded XML.
+        /// </summary>
+        /// <param name="xml">XML markup. Can be <c>null</c>.</param>
+        /// <param name="baseUri">The base URI used to resolve relative paths for e.g. DTD references. Can be <c>null</c>.</param>
+        public void LoadXml(string xml, string baseUri)
         {
             if(_cachedXmlHashCode == xml?.GetHashCode())
             {
@@ -57,13 +63,14 @@ namespace ReasonCodeExample.XPathInformation
                     XmlResolver = new XmlUrlResolver()
                 };
                 using(var stringReader = new StringReader(xml))
-                using(var xmlReader = XmlReader.Create(stringReader, settings, filePath))
+                using(var xmlReader = XmlReader.Create(stringReader, settings, baseUri))
                 {
                     document = XDocument.Load(xmlReader, LoadOptions.SetLineInfo);
                 }
             }
-            catch(Exception)
+            catch(Exception ex)
             {
+                Debug.WriteLine(ex.ToString());
                 return;
             }
             _rootElement = document.Root;

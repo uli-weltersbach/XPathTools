@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
+using System.Diagnostics;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
@@ -67,7 +68,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             }
             catch(Exception ex)
             {
-                _statusbar.SetText(ex.Message);
+                Debug.WriteLine(ex.ToString());
             }
         }
     }

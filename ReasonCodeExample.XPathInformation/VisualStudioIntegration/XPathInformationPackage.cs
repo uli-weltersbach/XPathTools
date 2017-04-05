@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
-using System.Windows;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using ReasonCodeExample.XPathInformation.Workbench;
 using ReasonCodeExample.XPathInformation.Writers;
+using System.Diagnostics;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
@@ -38,6 +38,9 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             {
                 base.Initialize();
 
+                var activeDocument = new ActiveDocument();
+                _container.Set<ActiveDocument>(activeDocument);
+
                 var repository = new XmlRepository();
                 _container.Set<XmlRepository>(repository);
 
@@ -51,18 +54,16 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
                 var commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
                 _container.Set<IMenuCommandService>(commandService);
 
-                InitializeCommands(repository, configuration, commandService);
+                InitializeCommands(activeDocument, repository, configuration, commandService);
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error in " + GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+                Debug.WriteLine(ex.ToString());
             }
         }
 
-        private void InitializeCommands(XmlRepository repository, IConfiguration configuration, IMenuCommandService commandService)
+        private void InitializeCommands(ActiveDocument activeDocument, XmlRepository repository, IConfiguration configuration, IMenuCommandService commandService)
         {
-            var activeDocument = new ActiveDocument();
-
             var subMenu = CreateSubMenu(activeDocument);
             commandService.AddCommand(subMenu);
 
