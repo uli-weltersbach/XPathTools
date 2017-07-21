@@ -33,7 +33,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             }
         }
 
-        public void SetText(string text)
+        private void SetText(string text)
         {
             _statusbar.SetText(text);
         }
