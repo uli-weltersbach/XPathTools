@@ -49,7 +49,9 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
                 var configuration = (XPathInformationDialogPage)GetDialogPage(typeof(XPathInformationDialogPage));
                 _container.Set<IConfiguration>(configuration);
 
-                _container.Set<StatusbarAdapter>(new StatusbarAdapter(repository, () => new XPathWriter(new[] { new AttributeFilter(configuration.AlwaysDisplayedAttributes) }), (IVsStatusbar)GetService(typeof(IVsStatusbar))));
+                Func<XPathWriter> writerProvider = () => new XPathWriter(new[] { new AttributeFilter(configuration.AlwaysDisplayedAttributes) });
+                var statusbar = (IVsStatusbar)GetService(typeof(IVsStatusbar));
+                _container.Set<StatusbarAdapter>(new StatusbarAdapter(repository, writerProvider, statusbar));
 
                 var commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
                 _container.Set<IMenuCommandService>(commandService);
