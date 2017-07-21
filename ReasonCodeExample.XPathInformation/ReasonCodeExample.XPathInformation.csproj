@@ -136,6 +136,7 @@
   <ItemGroup>
     <Compile Include="ActiveDocument.cs" />
     <Compile Include="Registry.cs" />
+    <Compile Include="ServiceContainer.cs" />
     <Compile Include="VisualStudioIntegration\CaretPositionLineInfo.cs" />
     <Compile Include="SimpleXmlNamespaceResolver.cs" />
     <Compile Include="Writers\ICommandTextFormatter.cs" />
