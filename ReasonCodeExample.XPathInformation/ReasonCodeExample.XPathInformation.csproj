@@ -166,6 +166,7 @@
     <Compile Include="Writers\SimplifiedXPathWriter.cs" />
     <Compile Include="Writers\XmlStructureWriter.cs" />
     <Compile Include="Writers\XPathWriter.cs" />
+    <Compile Include="Writers\XPathWriterFactory.cs" />
     <Compile Include="XPathSetting.cs" />
     <Compile Include="VisualStudioIntegration\XPathInformationDialogPage.cs">
       <SubType>Component</SubType>
