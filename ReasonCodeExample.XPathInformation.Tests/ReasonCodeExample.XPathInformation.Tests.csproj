@@ -79,6 +79,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VisualStudioIntegration\XPathInformationDialogPageTests.cs" />
     <Compile Include="XmlStringExtensions.cs" />
     <Compile Include="VisualStudioIntegration\CaretPositionLineInfoTests.cs" />
     <Compile Include="SimpleXmlNamespaceResolverTests.cs" />
