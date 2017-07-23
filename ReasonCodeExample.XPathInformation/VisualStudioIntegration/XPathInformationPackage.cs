@@ -37,26 +37,10 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             try
             {
                 base.Initialize();
-
-                var activeDocument = new ActiveDocument();
-                _container.Set<ActiveDocument>(activeDocument);
-
-                var repository = new XmlRepository();
-                _container.Set<XmlRepository>(repository);
-
-                _container.Set<SearchResultFactory>(new SearchResultFactory());
-
                 var configuration = (XPathInformationDialogPage)GetDialogPage(typeof(XPathInformationDialogPage));
-                _container.Set<IConfiguration>(configuration);
-
-                var writerFactory = new XPathWriterFactory(configuration);
-
-                InitializeStatusbar(configuration, writerFactory, repository);
-
                 var commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
-                _container.Set<IMenuCommandService>(commandService);
-
-                InitializeCommands(activeDocument, repository, writerFactory, commandService);
+                var statusbar = (IVsStatusbar)GetService(typeof(IVsStatusbar));
+                Initialize(configuration, commandService, statusbar);
             }
             catch(Exception ex)
             {
@@ -64,11 +48,24 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             }
         }
 
-        private void InitializeStatusbar(IConfiguration configuration, XPathWriterFactory writerFactory, XmlRepository repository)
+        public void Initialize(IConfiguration configuration, IMenuCommandService commandService, IVsStatusbar statusbar)
+        {
+            _container.Set<IConfiguration>(configuration);
+            _container.Set<IMenuCommandService>(commandService);
+            var activeDocument = new ActiveDocument();
+            _container.Set<ActiveDocument>(activeDocument);
+            var repository = new XmlRepository();
+            _container.Set<XmlRepository>(repository);
+            _container.Set<SearchResultFactory>(new SearchResultFactory());
+            var writerFactory = new XPathWriterFactory(configuration);
+            InitializeStatusbar(configuration, writerFactory, repository, statusbar);
+            InitializeCommands(activeDocument, repository, writerFactory, commandService);
+        }
+
+        private void InitializeStatusbar(IConfiguration configuration, XPathWriterFactory writerFactory, XmlRepository repository, IVsStatusbar statusbar)
         {
             var xpathFormat = configuration.StatusbarXPathFormat ?? XPathFormat.Generic;
             Func<IWriter> writerProvider = () => writerFactory.CreateForXPathFormat(xpathFormat);
-            var statusbar = (IVsStatusbar)GetService(typeof(IVsStatusbar));
             _container.Set<StatusbarAdapter>(new StatusbarAdapter(repository, writerProvider, statusbar));
         }
 

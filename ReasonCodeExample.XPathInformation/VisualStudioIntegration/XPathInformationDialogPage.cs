@@ -150,12 +150,12 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
         private void SaveAlwaysDisplayedAttributesSettingToStorage(object sender, ListChangedEventArgs e)
         {
-            SaveCollectionToStorage("AlwaysDisplayedAttributesSetting", (BindingList<XPathSetting>)sender);
+            SaveCollectionToStorage(nameof(AlwaysDisplayedAttributesSetting), (BindingList<XPathSetting>)sender);
         }
 
         private void SavePreferredAttributeCandidatesSettingToStorage(object sender, ListChangedEventArgs e)
         {
-            SaveCollectionToStorage("PreferredAttributeCandidatesSetting", (BindingList<XPathSetting>)sender);
+            SaveCollectionToStorage(nameof(PreferredAttributeCandidatesSetting), (BindingList<XPathSetting>)sender);
         }
 
         private void SaveCollectionToStorage(string propertyName, BindingList<XPathSetting> settings)
