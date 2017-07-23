@@ -139,6 +139,7 @@
     <Compile Include="ServiceContainer.cs" />
     <Compile Include="VisualStudioIntegration\CaretPositionLineInfo.cs" />
     <Compile Include="SimpleXmlNamespaceResolver.cs" />
+    <Compile Include="VisualStudioIntegration\XPathFormat.cs" />
     <Compile Include="Writers\ICommandTextFormatter.cs" />
     <Compile Include="Workbench\ShowXPathWorkbenchCommand.cs" />
     <Compile Include="VisualStudioIntegration\Constants.cs" />

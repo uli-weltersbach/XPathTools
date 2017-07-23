@@ -17,6 +17,15 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             PreferredAttributeCandidatesSetting = new BindingList<XPathSetting>();
         }
 
+        [Category("Statusbar")]
+        [DisplayName("Statusbar XPath format")]
+        [Description("Select the XPath format used in the statusbar.")]
+        public XPathFormat StatusbarXPathFormatSetting
+        {
+            get;
+            set;
+        }
+
         [Category("Generic XPath")]
         [DisplayName("Always displayed attributes")]
         [Description("Specify attributes which should always be displayed in the XPath.\nE.g. adding the entry \"{http://reasoncodeexample.com/}person/@name\" will display the \"name\"-attribute on all \"person\"-elements in the XML-namespace \"http://reasoncodeexample.com/\".")]
@@ -26,7 +35,6 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         public BindingList<XPathSetting> AlwaysDisplayedAttributesSetting
         {
             get;
-            private set;
         }
 
         [Category("Distinct XPath")]
@@ -38,7 +46,15 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         public BindingList<XPathSetting> PreferredAttributeCandidatesSetting
         {
             get;
-            private set;
+        }
+
+        [Browsable(false)]
+        public XPathFormat StatusbarXPathFormat
+        {
+            get
+            {
+                return StatusbarXPathFormatSetting;
+            }
         }
 
         [Browsable(false)]
@@ -57,13 +73,6 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             {
                 return PreferredAttributeCandidatesSetting;
             }
-        }
-
-        [Browsable(false)]
-        public string StatusbarXPathPreference
-        {
-            get;
-            set;
         }
 
         public override void LoadSettingsFromStorage()
