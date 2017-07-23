@@ -12,25 +12,9 @@ namespace ReasonCodeExample.XPathInformation.Writers
             _configuration = configuration;
         }
 
-        public IWriter CreateFromFriendlyName(string xpathWriterFriendlyName)
+        public IWriter CreateFromXPathFormat(XPathFormat format)
         {
-            switch(xpathWriterFriendlyName)
-            {
-                case "Generic":
-                    return CreateFromCommandId(Symbols.CommandIDs.CopyGenericXPath);
-
-                case "Absolute":
-                    return CreateFromCommandId(Symbols.CommandIDs.CopyAbsoluteXPath);
-
-                case "Distinct":
-                    return CreateFromCommandId(Symbols.CommandIDs.CopyDistinctXPath);
-
-                case "Simplified":
-                    return CreateFromCommandId(Symbols.CommandIDs.CopySimplifiedXPath);
-
-                default:
-                    throw new ArgumentException($"Unsupported XPath writer friendly name '{xpathWriterFriendlyName}'.");
-            }
+            return CreateFromCommandId((int)format);
         }
 
         public IWriter CreateFromCommandId(int xpathWriterCommandId)

@@ -5,7 +5,7 @@ namespace ReasonCodeExample.XPathInformation
 {
     internal interface IConfiguration
     {
-        XPathFormat StatusbarXPathFormat
+        XPathFormat? StatusbarXPathFormat
         {
             get;
         }

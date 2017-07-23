@@ -49,7 +49,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         }
 
         [Browsable(false)]
-        public XPathFormat StatusbarXPathFormat
+        public XPathFormat? StatusbarXPathFormat
         {
             get
             {

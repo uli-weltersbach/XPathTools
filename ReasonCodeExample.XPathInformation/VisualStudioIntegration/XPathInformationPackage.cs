@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using ReasonCodeExample.XPathInformation.Workbench;
 using ReasonCodeExample.XPathInformation.Writers;
-using System.Diagnostics;
 
 namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 {
@@ -64,19 +64,12 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             }
         }
 
-        private void InitializeStatusbar(XPathInformationDialogPage configuration, XPathWriterFactory writerFactory, XmlRepository repository)
+        private void InitializeStatusbar(IConfiguration configuration, XPathWriterFactory writerFactory, XmlRepository repository)
         {
-            Func<IWriter> statusbarWriterProvider;
-            if(string.IsNullOrWhiteSpace(configuration.StatusbarXPathPreference))
-            {
-                statusbarWriterProvider = () => writerFactory.CreateFromCommandId(Symbols.CommandIDs.CopyGenericXPath);
-            }
-            else
-            {
-                statusbarWriterProvider = () => writerFactory.CreateFromFriendlyName(configuration.StatusbarXPathPreference);
-            }
+            var xpathFormat = configuration.StatusbarXPathFormat ?? XPathFormat.Generic;
+            Func<IWriter> writerProvider = () => writerFactory.CreateFromXPathFormat(xpathFormat);
             var statusbar = (IVsStatusbar)GetService(typeof(IVsStatusbar));
-            _container.Set<StatusbarAdapter>(new StatusbarAdapter(repository, statusbarWriterProvider, statusbar));
+            _container.Set<StatusbarAdapter>(new StatusbarAdapter(repository, writerProvider, statusbar));
         }
 
         private void InitializeCommands(ActiveDocument activeDocument, XmlRepository repository, IConfiguration configuration, IMenuCommandService commandService)
@@ -93,7 +86,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             var copyDistinctXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, repository, activeDocument, () => new XPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes), new DistinctAttributeFilter(configuration.PreferredAttributeCandidates)}), new CommandTextFormatter());
             commandService.AddCommand(copyDistinctXPathCommand);
 
-            var copySimplifiedXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopySimplifiedXPath, repository, activeDocument, () => new SimplifiedXPathWriter(new[] { new AttributeFilter(configuration.AlwaysDisplayedAttributes) }), new TrimCommandTextFormatter());
+            var copySimplifiedXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopySimplifiedXPath, repository, activeDocument, () => new SimplifiedXPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)}), new TrimCommandTextFormatter());
             commandService.AddCommand(copySimplifiedXPathCommand);
 
             var showXPathWorkbenchCommand = new ShowXPathWorkbenchCommand(this, commandService, Symbols.CommandIDs.ShowXPathWorkbench, repository, activeDocument);
