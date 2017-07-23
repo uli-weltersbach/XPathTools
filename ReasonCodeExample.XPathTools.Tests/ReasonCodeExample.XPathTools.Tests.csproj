@@ -176,7 +176,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReasonCodeExample.XPathInformation\ReasonCodeExample.XPathTools.csproj">
+    <ProjectReference Include="..\ReasonCodeExample.XPathTools\ReasonCodeExample.XPathTools.csproj">
       <Project>{19883877-2b18-4afa-9eb0-cd5d1f0726b1}</Project>
       <Name>ReasonCodeExample.XPathTools</Name>
     </ProjectReference>
