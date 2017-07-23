@@ -28,7 +28,7 @@ namespace ReasonCodeExample.XPathInformation.Writers
                     return new AbsoluteXPathWriter(new[] {new AttributeFilter(_configuration.AlwaysDisplayedAttributes)});
 
                 case Symbols.CommandIDs.CopyDistinctXPath:
-                    return new XPathWriter(new[] { new AttributeFilter(_configuration.AlwaysDisplayedAttributes), new DistinctAttributeFilter(_configuration.PreferredAttributeCandidates) });
+                    return new XPathWriter(new[] {new AttributeFilter(_configuration.AlwaysDisplayedAttributes), new DistinctAttributeFilter(_configuration.PreferredAttributeCandidates)});
 
                 case Symbols.CommandIDs.CopySimplifiedXPath:
                     return new SimplifiedXPathWriter(new[] {new AttributeFilter(_configuration.AlwaysDisplayedAttributes)});
