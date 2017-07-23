@@ -56,7 +56,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
                 var commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
                 _container.Set<IMenuCommandService>(commandService);
 
-                InitializeCommands(activeDocument, repository, configuration, commandService);
+                InitializeCommands(activeDocument, repository, writerFactory, commandService);
             }
             catch(Exception ex)
             {
@@ -72,27 +72,32 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             _container.Set<StatusbarAdapter>(new StatusbarAdapter(repository, writerProvider, statusbar));
         }
 
-        private void InitializeCommands(ActiveDocument activeDocument, XmlRepository repository, IConfiguration configuration, IMenuCommandService commandService)
+        private void InitializeCommands(ActiveDocument activeDocument, XmlRepository repository, XPathWriterFactory writerFactory, IMenuCommandService commandService)
         {
             var subMenu = CreateSubMenu(activeDocument);
             commandService.AddCommand(subMenu);
 
-            var copyGenericXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, repository, activeDocument, () => new XPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)}), new CommandTextFormatter());
+            var copyGenericXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, repository, activeDocument,
+                () => writerFactory.CreateFromCommandId(Symbols.CommandIDs.CopyGenericXPath), new CommandTextFormatter());
             commandService.AddCommand(copyGenericXPathCommand);
 
-            var copyAbsoluteXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyAbsoluteXPath, repository, activeDocument, () => new AbsoluteXPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)}), new CommandTextFormatter());
+            var copyAbsoluteXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyAbsoluteXPath, repository, activeDocument,
+                () => writerFactory.CreateFromCommandId(Symbols.CommandIDs.CopyAbsoluteXPath), new CommandTextFormatter());
             commandService.AddCommand(copyAbsoluteXPathCommand);
 
-            var copyDistinctXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, repository, activeDocument, () => new XPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes), new DistinctAttributeFilter(configuration.PreferredAttributeCandidates)}), new CommandTextFormatter());
+            var copyDistinctXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, repository, activeDocument,
+                () => writerFactory.CreateFromCommandId(Symbols.CommandIDs.CopyDistinctXPath), new CommandTextFormatter());
             commandService.AddCommand(copyDistinctXPathCommand);
 
-            var copySimplifiedXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopySimplifiedXPath, repository, activeDocument, () => new SimplifiedXPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)}), new TrimCommandTextFormatter());
+            var copySimplifiedXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopySimplifiedXPath, repository, activeDocument,
+                () => writerFactory.CreateFromCommandId(Symbols.CommandIDs.CopySimplifiedXPath), new TrimCommandTextFormatter());
             commandService.AddCommand(copySimplifiedXPathCommand);
 
             var showXPathWorkbenchCommand = new ShowXPathWorkbenchCommand(this, commandService, Symbols.CommandIDs.ShowXPathWorkbench, repository, activeDocument);
             commandService.AddCommand(showXPathWorkbenchCommand.Command);
 
-            var copyXmlStructureCommand = new CopyXmlStructureCommand(Symbols.CommandIDs.CopyXmlStructure, repository, activeDocument, () => new XmlStructureWriter(), new CommandTextFormatter());
+            var copyXmlStructureCommand = new CopyXmlStructureCommand(Symbols.CommandIDs.CopyXmlStructure, repository, activeDocument,
+                () => new XmlStructureWriter(), new CommandTextFormatter());
             commandService.AddCommand(copyXmlStructureCommand);
         }
 
