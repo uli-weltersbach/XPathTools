@@ -10,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{2B97C2D3
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReasonCodeExample.XPathInformation", "ReasonCodeExample.XPathInformation\ReasonCodeExample.XPathInformation.csproj", "{19883877-2B18-4AFA-9EB0-CD5D1F0726B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReasonCodeExample.XPathTools", "ReasonCodeExample.XPathInformation\ReasonCodeExample.XPathTools.csproj", "{19883877-2B18-4AFA-9EB0-CD5D1F0726B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReasonCodeExample.XPathInformation.Tests", "ReasonCodeExample.XPathInformation.Tests\ReasonCodeExample.XPathInformation.Tests.csproj", "{31C7482E-5ED4-4FB4-96D9-64E0BBB63FF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReasonCodeExample.XPathTools.Tests", "ReasonCodeExample.XPathInformation.Tests\ReasonCodeExample.XPathTools.Tests.csproj", "{31C7482E-5ED4-4FB4-96D9-64E0BBB63FF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
