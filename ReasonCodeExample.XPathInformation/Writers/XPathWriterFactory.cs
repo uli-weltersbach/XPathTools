@@ -1,7 +1,7 @@
 ﻿using System;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
-namespace ReasonCodeExample.XPathInformation.Writers
+namespace ReasonCodeExample.XPathTools.Writers
 {
     internal class XPathWriterFactory
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
-using Constants = ReasonCodeExample.XPathInformation.VisualStudioIntegration.Constants;
+using Constants = ReasonCodeExample.XPathTools.VisualStudioIntegration.Constants;
 
-namespace ReasonCodeExample.XPathInformation
+namespace ReasonCodeExample.XPathTools
 {
     internal class ActiveDocument
     {

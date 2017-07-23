@@ -6,9 +6,9 @@ using Microsoft.Internal.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
-namespace ReasonCodeExample.XPathInformation.Workbench
+namespace ReasonCodeExample.XPathTools.Workbench
 {
     [Guid(Symbols.ToolWindowIDs.XPathWorkbench)]
     internal sealed class XPathWorkbenchWindow : ToolWindowPane

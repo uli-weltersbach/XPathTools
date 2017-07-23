@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration {
+namespace ReasonCodeExample.XPathTools.VisualStudioIntegration {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ReasonCodeExample.XPathInformation.VisualStudioIntegration.PackageResources", typeof(PackageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ReasonCodeExample.XPathTools.VisualStudioIntegration.PackageResources", typeof(PackageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

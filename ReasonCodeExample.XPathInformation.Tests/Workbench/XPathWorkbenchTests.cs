@@ -1,9 +1,9 @@
 ﻿using System.Xml.Linq;
 using NUnit.Framework;
-using ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
-namespace ReasonCodeExample.XPathInformation.Tests.Workbench
+namespace ReasonCodeExample.XPathTools.Tests.Workbench
 {
     [TestFixture]
     [Category("Integration")]

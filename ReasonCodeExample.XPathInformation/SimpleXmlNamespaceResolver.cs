@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace ReasonCodeExample.XPathInformation
+namespace ReasonCodeExample.XPathTools
 {
     public class SimpleXmlNamespaceResolver : IXmlNamespaceResolver
     {

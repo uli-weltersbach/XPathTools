@@ -3,7 +3,7 @@ using System.Xml.Linq;
 using NUnit.Framework;
 using System.IO;
 
-namespace ReasonCodeExample.XPathInformation.Tests
+namespace ReasonCodeExample.XPathTools.Tests
 {
     [TestFixture]
     public class XmlRepositoryTests

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace ReasonCodeExample.XPathInformation.Workbench
+namespace ReasonCodeExample.XPathTools.Workbench
 {
     internal class SearchResultFactory
     {

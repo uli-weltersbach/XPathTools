@@ -5,7 +5,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace ReasonCodeExample.XPathInformation.Workbench
+namespace ReasonCodeExample.XPathTools.Workbench
 {
     internal class XPathSearchTask : VsSearchTask
     {

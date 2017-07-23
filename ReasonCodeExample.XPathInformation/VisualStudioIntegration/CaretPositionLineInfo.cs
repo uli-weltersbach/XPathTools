@@ -2,7 +2,7 @@
 using System.Xml;
 using Microsoft.VisualStudio.Text.Editor;
 
-namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
+namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 {
     internal class CaretPositionLineInfo : IXmlLineInfo
     {

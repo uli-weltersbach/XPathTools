@@ -44,8 +44,8 @@
     <ProjectGuid>{19883877-2B18-4AFA-9EB0-CD5D1F0726B1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReasonCodeExample.XPathInformation</RootNamespace>
-    <AssemblyName>ReasonCodeExample.XPathInformation</AssemblyName>
+    <RootNamespace>ReasonCodeExample.XPathTools</RootNamespace>
+    <AssemblyName>ReasonCodeExample.XPathTools</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>

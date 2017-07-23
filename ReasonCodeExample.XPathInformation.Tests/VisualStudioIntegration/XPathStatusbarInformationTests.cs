@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
+namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
 {
     [TestFixture]
     [Category("Integration")]

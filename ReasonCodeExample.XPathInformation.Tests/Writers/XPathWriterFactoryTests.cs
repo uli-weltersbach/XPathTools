@@ -1,10 +1,10 @@
 ﻿using System;
 using NSubstitute;
 using NUnit.Framework;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
-using ReasonCodeExample.XPathInformation.Writers;
+using ReasonCodeExample.XPathTools.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.Writers;
 
-namespace ReasonCodeExample.XPathInformation.Tests.Writers
+namespace ReasonCodeExample.XPathTools.Tests.Writers
 {
     public class XPathWriterFactoryTests
     {

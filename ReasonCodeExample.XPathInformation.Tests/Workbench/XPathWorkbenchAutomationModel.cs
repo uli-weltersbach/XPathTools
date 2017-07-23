@@ -1,10 +1,10 @@
 using System.Windows.Automation;
 using System.Windows.Forms;
-using ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 using TextBox = System.Windows.Controls.TextBox;
 
-namespace ReasonCodeExample.XPathInformation.Tests.Workbench
+namespace ReasonCodeExample.XPathTools.Tests.Workbench
 {
     public class XPathWorkbenchAutomationModel
     {

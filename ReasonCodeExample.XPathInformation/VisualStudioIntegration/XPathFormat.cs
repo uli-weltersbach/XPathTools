@@ -1,4 +1,4 @@
-﻿namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
+﻿namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 {
     public enum XPathFormat
     {

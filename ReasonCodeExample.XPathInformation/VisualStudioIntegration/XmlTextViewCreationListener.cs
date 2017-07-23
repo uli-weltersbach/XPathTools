@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
 using System.Diagnostics;
 
-namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
+namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 {
     [Export(typeof(IWpfTextViewCreationListener))]
     [TextViewRole(PredefinedTextViewRoles.Document)]

@@ -8,7 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace ReasonCodeExample.XPathInformation
+namespace ReasonCodeExample.XPathTools
 {
     internal class XmlRepository
     {

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace ReasonCodeExample.XPathInformation.Writers
+namespace ReasonCodeExample.XPathTools.Writers
 {
     internal class XmlStructureWriter : IWriter
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace ReasonCodeExample.XPathInformation.Tests
+namespace ReasonCodeExample.XPathTools.Tests
 {
     internal static class XmlStringExtensions
     {

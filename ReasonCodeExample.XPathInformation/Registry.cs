@@ -1,4 +1,4 @@
-﻿namespace ReasonCodeExample.XPathInformation
+﻿namespace ReasonCodeExample.XPathTools
 {
     internal static class Registry
     {

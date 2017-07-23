@@ -1,8 +1,8 @@
-﻿<UserControl x:Class="ReasonCodeExample.XPathInformation.Workbench.XPathWorkbench"
+﻿<UserControl x:Class="ReasonCodeExample.XPathTools.Workbench.XPathWorkbench"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.11.0"
-             xmlns:local="clr-namespace:ReasonCodeExample.XPathInformation.Workbench">
+             xmlns:local="clr-namespace:ReasonCodeExample.XPathTools.Workbench">
     <UserControl.Resources>
         <Style TargetType="DataGrid">
             <Style.Triggers>

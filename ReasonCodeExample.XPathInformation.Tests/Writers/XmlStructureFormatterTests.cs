@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
 using NUnit.Framework;
-using ReasonCodeExample.XPathInformation.Writers;
+using ReasonCodeExample.XPathTools.Writers;
 
-namespace ReasonCodeExample.XPathInformation.Tests.Writers
+namespace ReasonCodeExample.XPathTools.Tests.Writers
 {
     [TestFixture]
     public class XmlStructureFormatterTests

@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace ReasonCodeExample.XPathInformation.Writers
+namespace ReasonCodeExample.XPathTools.Writers
 {
     internal class XPathWriter : IWriter
     {

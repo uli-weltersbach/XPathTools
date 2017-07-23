@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ReasonCodeExample.XPathInformation.Writers
+namespace ReasonCodeExample.XPathTools.Writers
 {
     internal class CopyXPathCommand : CopyCommand
     {

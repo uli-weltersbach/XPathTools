@@ -5,9 +5,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.XPath;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
-namespace ReasonCodeExample.XPathInformation.Workbench
+namespace ReasonCodeExample.XPathTools.Workbench
 {
     public partial class XPathWorkbench : UserControl
     {

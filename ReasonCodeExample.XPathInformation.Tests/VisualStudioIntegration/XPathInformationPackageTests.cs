@@ -3,9 +3,9 @@ using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell.Interop;
 using NSubstitute;
 using NUnit.Framework;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
-namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
+namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
 {
     public class XPathInformationPackageTests
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor;
-using ReasonCodeExample.XPathInformation.Writers;
+using ReasonCodeExample.XPathTools.Writers;
 
-namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
+namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 {
     internal class StatusbarAdapter
     {

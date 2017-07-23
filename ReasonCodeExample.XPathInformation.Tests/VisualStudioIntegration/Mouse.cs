@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 
-namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
+namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
 {
     internal static class Mouse
     {

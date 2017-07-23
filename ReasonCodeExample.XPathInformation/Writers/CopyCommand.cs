@@ -2,9 +2,9 @@
 using System.ComponentModel.Design;
 using System.Windows;
 using Microsoft.VisualStudio.Shell;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
-namespace ReasonCodeExample.XPathInformation.Writers
+namespace ReasonCodeExample.XPathTools.Writers
 {
     internal abstract class CopyCommand
     {

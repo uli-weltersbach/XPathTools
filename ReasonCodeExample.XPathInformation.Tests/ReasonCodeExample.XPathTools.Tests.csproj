@@ -7,8 +7,8 @@
     <ProjectGuid>{31C7482E-5ED4-4FB4-96D9-64E0BBB63FF8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReasonCodeExample.XPathInformation.Tests</RootNamespace>
-    <AssemblyName>ReasonCodeExample.XPathInformation.Tests</AssemblyName>
+    <RootNamespace>ReasonCodeExample.XPathTools.Tests</RootNamespace>
+    <AssemblyName>ReasonCodeExample.XPathTools.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

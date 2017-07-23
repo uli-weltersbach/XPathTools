@@ -5,10 +5,10 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Automation;
 using NUnit.Framework;
-using ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
 using Assert = NUnit.Framework.Assert;
 
-namespace ReasonCodeExample.XPathInformation.Tests.Writers
+namespace ReasonCodeExample.XPathTools.Tests.Writers
 {
     [TestFixture]
     [Category("Integration")]

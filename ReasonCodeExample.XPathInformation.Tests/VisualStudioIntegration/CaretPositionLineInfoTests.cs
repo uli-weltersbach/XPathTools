@@ -2,9 +2,9 @@
 using Microsoft.VisualStudio.Text.Editor;
 using NSubstitute;
 using NUnit.Framework;
-using ReasonCodeExample.XPathInformation.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
-namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
+namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
 {
     [TestFixture]
     public class CaretPositionLineInfoTests

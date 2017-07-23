@@ -8,7 +8,7 @@ using System.Threading;
 using System.Windows.Automation;
 using System.Windows.Forms;
 
-namespace ReasonCodeExample.XPathInformation.Tests.VisualStudioIntegration
+namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
 {
     internal class VisualStudioExperimentalInstance
     {

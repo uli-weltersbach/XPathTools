@@ -1,4 +1,4 @@
-namespace ReasonCodeExample.XPathInformation.Workbench
+namespace ReasonCodeExample.XPathTools.Workbench
 {
     public class SearchResult
     {

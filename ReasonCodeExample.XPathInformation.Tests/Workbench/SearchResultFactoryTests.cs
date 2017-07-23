@@ -2,9 +2,9 @@
 using System.Xml.Linq;
 using System.Xml.XPath;
 using NUnit.Framework;
-using ReasonCodeExample.XPathInformation.Workbench;
+using ReasonCodeExample.XPathTools.Workbench;
 
-namespace ReasonCodeExample.XPathInformation.Tests.Workbench
+namespace ReasonCodeExample.XPathTools.Tests.Workbench
 {
     [TestFixture]
     public class SearchResultFactoryTests

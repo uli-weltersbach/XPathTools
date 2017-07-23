@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using ReasonCodeExample.XPathInformation.Workbench;
-using ReasonCodeExample.XPathInformation.Writers;
+using ReasonCodeExample.XPathTools.Workbench;
+using ReasonCodeExample.XPathTools.Writers;
 
-namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
+namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [ProvideAutoLoad(UIContextGuids.NoSolution)]

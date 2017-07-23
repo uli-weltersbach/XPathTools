@@ -3,7 +3,7 @@ using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
 
-namespace ReasonCodeExample.XPathInformation.Tests
+namespace ReasonCodeExample.XPathTools.Tests
 {
     [TestFixture]
     public class SimpleXmlNamespaceResolverTests
