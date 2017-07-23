@@ -12,12 +12,12 @@ namespace ReasonCodeExample.XPathInformation.Writers
             _configuration = configuration;
         }
 
-        public IWriter CreateFromXPathFormat(XPathFormat format)
+        public IWriter CreateForXPathFormat(XPathFormat format)
         {
-            return CreateFromCommandId((int)format);
+            return CreateForCommandId((int)format);
         }
 
-        public IWriter CreateFromCommandId(int xpathWriterCommandId)
+        public IWriter CreateForCommandId(int xpathWriterCommandId)
         {
             switch(xpathWriterCommandId)
             {

@@ -67,7 +67,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         private void InitializeStatusbar(IConfiguration configuration, XPathWriterFactory writerFactory, XmlRepository repository)
         {
             var xpathFormat = configuration.StatusbarXPathFormat ?? XPathFormat.Generic;
-            Func<IWriter> writerProvider = () => writerFactory.CreateFromXPathFormat(xpathFormat);
+            Func<IWriter> writerProvider = () => writerFactory.CreateForXPathFormat(xpathFormat);
             var statusbar = (IVsStatusbar)GetService(typeof(IVsStatusbar));
             _container.Set<StatusbarAdapter>(new StatusbarAdapter(repository, writerProvider, statusbar));
         }
@@ -78,19 +78,19 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             commandService.AddCommand(subMenu);
 
             var copyGenericXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyGenericXPath, repository, activeDocument,
-                () => writerFactory.CreateFromCommandId(Symbols.CommandIDs.CopyGenericXPath), new CommandTextFormatter());
+                () => writerFactory.CreateForCommandId(Symbols.CommandIDs.CopyGenericXPath), new CommandTextFormatter());
             commandService.AddCommand(copyGenericXPathCommand);
 
             var copyAbsoluteXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyAbsoluteXPath, repository, activeDocument,
-                () => writerFactory.CreateFromCommandId(Symbols.CommandIDs.CopyAbsoluteXPath), new CommandTextFormatter());
+                () => writerFactory.CreateForCommandId(Symbols.CommandIDs.CopyAbsoluteXPath), new CommandTextFormatter());
             commandService.AddCommand(copyAbsoluteXPathCommand);
 
             var copyDistinctXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopyDistinctXPath, repository, activeDocument,
-                () => writerFactory.CreateFromCommandId(Symbols.CommandIDs.CopyDistinctXPath), new CommandTextFormatter());
+                () => writerFactory.CreateForCommandId(Symbols.CommandIDs.CopyDistinctXPath), new CommandTextFormatter());
             commandService.AddCommand(copyDistinctXPathCommand);
 
             var copySimplifiedXPathCommand = new CopyXPathCommand(Symbols.CommandIDs.CopySimplifiedXPath, repository, activeDocument,
-                () => writerFactory.CreateFromCommandId(Symbols.CommandIDs.CopySimplifiedXPath), new TrimCommandTextFormatter());
+                () => writerFactory.CreateForCommandId(Symbols.CommandIDs.CopySimplifiedXPath), new TrimCommandTextFormatter());
             commandService.AddCommand(copySimplifiedXPathCommand);
 
             var showXPathWorkbenchCommand = new ShowXPathWorkbenchCommand(this, commandService, Symbols.CommandIDs.ShowXPathWorkbench, repository, activeDocument);
