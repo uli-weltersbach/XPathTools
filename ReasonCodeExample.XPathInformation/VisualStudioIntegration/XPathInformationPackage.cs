@@ -64,8 +64,11 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
 
         private void InitializeStatusbar(IConfiguration configuration, XPathWriterFactory writerFactory, XmlRepository repository, IVsStatusbar statusbar)
         {
-            var xpathFormat = configuration.StatusbarXPathFormat ?? XPathFormat.Generic;
-            Func<IWriter> writerProvider = () => writerFactory.CreateForXPathFormat(xpathFormat);
+            Func<IWriter> writerProvider = () =>
+            {
+                var xpathFormat = configuration.StatusbarXPathFormat ?? XPathFormat.Generic;
+                return writerFactory.CreateForXPathFormat(xpathFormat);
+            };
             _container.Set<StatusbarAdapter>(new StatusbarAdapter(repository, writerProvider, statusbar));
         }
 
