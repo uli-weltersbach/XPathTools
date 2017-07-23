@@ -9,9 +9,9 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
     {
         private readonly XmlRepository _repository;
         private readonly IVsStatusbar _statusbar;
-        private readonly Func<XPathWriter> _writerProvider;
+        private readonly Func<IWriter> _writerProvider;
 
-        public StatusbarAdapter(XmlRepository repository, Func<XPathWriter> writerProvider, IVsStatusbar statusbar)
+        public StatusbarAdapter(XmlRepository repository, Func<IWriter> writerProvider, IVsStatusbar statusbar)
         {
             _repository = repository;
             _writerProvider = writerProvider;
