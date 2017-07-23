@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing.Design;
@@ -20,7 +21,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         [Category("Statusbar")]
         [DisplayName("Statusbar XPath format")]
         [Description("Select the XPath format used in the statusbar.")]
-        public XPathFormat StatusbarXPathFormatSetting
+        public XPathFormat? StatusbarXPathFormatSetting
         {
             get;
             set;
@@ -35,6 +36,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         public BindingList<XPathSetting> AlwaysDisplayedAttributesSetting
         {
             get;
+            private set;
         }
 
         [Category("Distinct XPath")]
@@ -46,6 +48,7 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
         public BindingList<XPathSetting> PreferredAttributeCandidatesSetting
         {
             get;
+            private set;
         }
 
         [Browsable(false)]
