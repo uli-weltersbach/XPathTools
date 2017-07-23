@@ -133,7 +133,7 @@ namespace ReasonCodeExample.XPathTools.VisualStudioIntegration {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XPath Information - Runner.
+        ///   Looks up a localized string similar to XPath Tools - Runner.
         /// </summary>
         internal static string XPathWorkbenchWindowTitle {
             get {
