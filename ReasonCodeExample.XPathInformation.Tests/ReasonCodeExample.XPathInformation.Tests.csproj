@@ -149,6 +149,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VisualStudioIntegration\XPathInformationPackageTests.cs" />
     <Compile Include="Writers\XPathWriterFactoryTests.cs" />
     <Compile Include="XmlStringExtensions.cs" />
     <Compile Include="VisualStudioIntegration\CaretPositionLineInfoTests.cs" />
