@@ -3,7 +3,7 @@ image: Visual Studio 2015
 configuration: Release
 platform: Any CPU
 before_build:
-- cmd: nuget.exe restore ReasonCodeExample.XPathInformation.sln
+- cmd: nuget.exe restore ReasonCodeExample.XPathTools.sln
 build:
   verbosity: minimal
 test:
@@ -11,5 +11,5 @@ test:
     except:
     - Integration
 artifacts:
-- path: ReasonCodeExample.XPathInformation/bin/release/*.vsix
+- path: ReasonCodeExample.XPathTools/bin/release/*.vsix
   name: VSIX
