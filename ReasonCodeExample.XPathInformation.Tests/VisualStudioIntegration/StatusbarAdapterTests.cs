@@ -4,7 +4,7 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
 {
     [TestFixture]
     [Category("Integration")]
-    public class XPathStatusbarInformationTests
+    public class StatusbarAdapterTests
     {
         private readonly VisualStudioExperimentalInstance _instance = new VisualStudioExperimentalInstance();
 

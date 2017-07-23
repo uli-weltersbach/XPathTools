@@ -10,9 +10,9 @@ using Microsoft.Win32;
 
 namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 {
-    internal class XPathInformationDialogPage : DialogPage, IConfiguration
+    internal class XPathToolsDialogPage : DialogPage, IConfiguration
     {
-        public XPathInformationDialogPage()
+        public XPathToolsDialogPage()
         {
             AlwaysDisplayedAttributesSetting = new BindingList<XPathSetting>();
             PreferredAttributeCandidatesSetting = new BindingList<XPathSetting>();

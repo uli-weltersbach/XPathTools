@@ -141,6 +141,10 @@
     <Compile Include="VisualStudioIntegration\CaretPositionLineInfo.cs" />
     <Compile Include="SimpleXmlNamespaceResolver.cs" />
     <Compile Include="VisualStudioIntegration\XPathFormat.cs" />
+    <Compile Include="VisualStudioIntegration\XPathToolsDialogPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="VisualStudioIntegration\XPathToolsPackage.cs" />
     <Compile Include="Writers\ICommandTextFormatter.cs" />
     <Compile Include="Workbench\ShowXPathWorkbenchCommand.cs" />
     <Compile Include="VisualStudioIntegration\Constants.cs" />
@@ -170,10 +174,6 @@
     <Compile Include="Writers\XPathWriter.cs" />
     <Compile Include="Writers\XPathWriterFactory.cs" />
     <Compile Include="XPathSetting.cs" />
-    <Compile Include="VisualStudioIntegration\XPathInformationDialogPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="VisualStudioIntegration\XPathInformationPackage.cs" />
     <Compile Include="Writers\CopyCommand.cs" />
     <Compile Include="Writers\CopyXmlStructureCommand.cs" />
     <Compile Include="Writers\CopyXPathCommand.cs" />

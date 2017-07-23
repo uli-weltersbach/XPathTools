@@ -14,20 +14,20 @@ namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
     [ProvideAutoLoad(UIContextGuids.NoSolution)]
     [ProvideMenuResource(MenuResourceID, 1)]
     [Guid(Symbols.PackageID)]
-    [ProvideOptionPage(typeof(XPathInformationDialogPage), "XPath Information", "General", 0, 0, true)]
+    [ProvideOptionPage(typeof(XPathToolsDialogPage), "XPath Tools", "General", 0, 0, true)]
     [ProvideToolWindow(typeof(XPathWorkbenchWindow), Transient = true)]
     [ProvideToolWindowVisibility(typeof(XPathWorkbenchWindow), VSConstants.UICONTEXT.CodeWindow_string)]
-    internal class XPathInformationPackage : Package
+    internal class XPathToolsPackage : Package
     {
         private const string MenuResourceID = "CommandFactory.ctmenu";
         private readonly ServiceContainer _container;
 
-        public XPathInformationPackage()
+        public XPathToolsPackage()
             : this(Registry.Current)
         {
         }
 
-        public XPathInformationPackage(ServiceContainer container)
+        public XPathToolsPackage(ServiceContainer container)
         {
             _container = container;
         }
@@ -37,7 +37,7 @@ namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
             try
             {
                 base.Initialize();
-                var configuration = (XPathInformationDialogPage)GetDialogPage(typeof(XPathInformationDialogPage));
+                var configuration = (XPathToolsDialogPage)GetDialogPage(typeof(XPathToolsDialogPage));
                 var commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
                 var statusbar = (IVsStatusbar)GetService(typeof(IVsStatusbar));
                 Initialize(configuration, commandService, statusbar);

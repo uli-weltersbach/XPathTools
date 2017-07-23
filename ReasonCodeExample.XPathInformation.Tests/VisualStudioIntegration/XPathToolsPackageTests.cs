@@ -7,7 +7,7 @@ using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
 namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
 {
-    public class XPathInformationPackageTests
+    public class XPathToolsPackageTests
     {
         [TestCase(XPathFormat.Generic, "<a><b id='hello'><c/></b></a>", 19, "/a/b[@id='hello']/c")]
         [TestCase(XPathFormat.Absolute, "<a id='world'><b><c/></b></a>", 19, "/a[1][@id='world']/b[1]/c[1]")]
@@ -16,7 +16,7 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             // Arrange
             var serviceContainer = new ServiceContainer();
 
-            var package = new XPathInformationPackage(serviceContainer);
+            var package = new XPathToolsPackage(serviceContainer);
 
             // Set up the configuration to a default XPathFormat
             var configuration = Substitute.For<IConfiguration>();

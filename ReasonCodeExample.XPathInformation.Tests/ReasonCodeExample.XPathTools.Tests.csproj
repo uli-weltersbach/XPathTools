@@ -150,7 +150,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VisualStudioIntegration\XPathInformationPackageTests.cs" />
+    <Compile Include="VisualStudioIntegration\StatusbarAdapterTests.cs" />
+    <Compile Include="VisualStudioIntegration\XPathToolsPackageTests.cs" />
     <Compile Include="Writers\XPathWriterFactoryTests.cs" />
     <Compile Include="XmlStringExtensions.cs" />
     <Compile Include="VisualStudioIntegration\CaretPositionLineInfoTests.cs" />
@@ -161,7 +162,6 @@
     <Compile Include="VisualStudioIntegration\AutomationElementExtensions.cs" />
     <Compile Include="VisualStudioIntegration\Mouse.cs" />
     <Compile Include="VisualStudioIntegration\VisualStudioVersion.cs" />
-    <Compile Include="VisualStudioIntegration\XPathStatusbarInformationTests.cs" />
     <Compile Include="VisualStudioIntegration\VisualStudioExperimentalInstance.cs" />
     <Compile Include="Workbench\SearchResultFactoryTests.cs" />
     <Compile Include="Workbench\XPathWorkbenchAutomationModel.cs" />
