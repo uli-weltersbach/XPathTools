@@ -59,6 +59,13 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             }
         }
 
+        [Browsable(false)]
+        public string StatusbarXPathPreference
+        {
+            get;
+            set;
+        }
+
         public override void LoadSettingsFromStorage()
         {
             base.LoadSettingsFromStorage();

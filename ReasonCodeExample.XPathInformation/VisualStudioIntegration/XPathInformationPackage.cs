@@ -49,9 +49,9 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
                 var configuration = (XPathInformationDialogPage)GetDialogPage(typeof(XPathInformationDialogPage));
                 _container.Set<IConfiguration>(configuration);
 
-                Func<XPathWriter> writerProvider = () => new XPathWriter(new[] { new AttributeFilter(configuration.AlwaysDisplayedAttributes) });
-                var statusbar = (IVsStatusbar)GetService(typeof(IVsStatusbar));
-                _container.Set<StatusbarAdapter>(new StatusbarAdapter(repository, writerProvider, statusbar));
+                var writerFactory = new XPathWriterFactory(configuration);
+
+                InitializeStatusbar(configuration, writerFactory, repository);
 
                 var commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
                 _container.Set<IMenuCommandService>(commandService);
@@ -62,6 +62,21 @@ namespace ReasonCodeExample.XPathInformation.VisualStudioIntegration
             {
                 Debug.WriteLine(ex.ToString());
             }
+        }
+
+        private void InitializeStatusbar(XPathInformationDialogPage configuration, XPathWriterFactory writerFactory, XmlRepository repository)
+        {
+            Func<IWriter> statusbarWriterProvider;
+            if(string.IsNullOrWhiteSpace(configuration.StatusbarXPathPreference))
+            {
+                statusbarWriterProvider = () => writerFactory.CreateFromCommandId(Symbols.CommandIDs.CopyGenericXPath);
+            }
+            else
+            {
+                statusbarWriterProvider = () => writerFactory.CreateFromFriendlyName(configuration.StatusbarXPathPreference);
+            }
+            var statusbar = (IVsStatusbar)GetService(typeof(IVsStatusbar));
+            _container.Set<StatusbarAdapter>(new StatusbarAdapter(repository, statusbarWriterProvider, statusbar));
         }
 
         private void InitializeCommands(ActiveDocument activeDocument, XmlRepository repository, IConfiguration configuration, IMenuCommandService commandService)
