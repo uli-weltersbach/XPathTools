@@ -54,27 +54,31 @@ namespace ReasonCodeExample.XPathTools
                 return;
             }
 
-            XDocument document;
+            XDocument document = TryParseXml(xml, baseUri, DtdProcessing.Parse) ?? TryParseXml(xml, baseUri, DtdProcessing.Ignore);
+            _rootElement = document?.Root;
+            _cachedXmlHashCode = xml?.GetHashCode();
+        }
+
+        private XDocument TryParseXml(string xml, string baseUri, DtdProcessing dtdProcessingMode)
+        {
             try
             {
                 XmlReaderSettings settings = new XmlReaderSettings
                 {
-                    DtdProcessing = DtdProcessing.Parse,
+                    DtdProcessing = dtdProcessingMode,
                     XmlResolver = new XmlUrlResolver()
                 };
                 using(var stringReader = new StringReader(xml))
                 using(var xmlReader = XmlReader.Create(stringReader, settings, baseUri))
                 {
-                    document = XDocument.Load(xmlReader, LoadOptions.SetLineInfo);
+                    return XDocument.Load(xmlReader, LoadOptions.SetLineInfo);
                 }
             }
             catch(Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
-                return;
+                return null;
             }
-            _rootElement = document.Root;
-            _cachedXmlHashCode = xml.GetHashCode();
         }
 
         public XElement GetRootElement()

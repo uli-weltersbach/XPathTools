@@ -213,6 +213,20 @@ namespace ReasonCodeExample.XPathTools.Tests
             Assert.That(repository.GetRootElement(), Is.Not.Null);
         }
 
+        [Test]
+        public void TriesToIgnoreDtdProcessingAsAFallback()
+        {
+            // Arrange
+            var xml = "<?xml version='1.0'?><!DOCTYPE datasets SYSTEM 'http://127.0.0.1/this-DTD-does-not-exist.dtd'><root />";
+            var repository = new XmlRepository();
+
+            // Act
+            repository.LoadXml(xml, "http://127.0.0.1");
+
+            // Assert
+            Assert.That(repository.GetRootElement(), Is.Not.Null);
+        }
+
         #region XML
         private const string DtdFilePlaceholder = "<DTD FILE RELATIVE OR ABSOLUTE URI>";
         private const string XML = @"<?xml version=""1.0"" encoding=""utf-8""?>
