@@ -206,7 +206,9 @@
     <Resource Include="Assets\FindNext.png" />
     <Resource Include="Assets\FindPrevious.png" />
     <Resource Include="Assets\Find.png" />
-    <Content Include="Assets\PackagePreviewImage.png" />
+    <Content Include="Assets\PackagePreviewImage.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="license.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
