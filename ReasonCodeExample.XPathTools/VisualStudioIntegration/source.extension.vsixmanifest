@@ -9,7 +9,7 @@ Track and copy XPaths incl. XML namespaces in various formats, taking the hassle
     <License>license.txt</License>
     <ReleaseNotes>release-notes.txt</ReleaseNotes>
     <Icon>Assets\PackageIcon.png</Icon>
-    <PreviewImage>Assets\Screenshots\PackagePreviewImage.png</PreviewImage>
+    <PreviewImage>Assets\PackagePreviewImage.png</PreviewImage>
     <Tags>XPath, XML, Web.config, App.config, Sitecore</Tags>
   </Metadata>
   <Installation>

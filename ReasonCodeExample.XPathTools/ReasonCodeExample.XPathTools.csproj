@@ -203,28 +203,14 @@
     </Content>
     <Content Include="Assets\CopyAbsoluteXPathCommandIcon.png" />
     <Content Include="Assets\CopyDistinctXPathCommandIcon.png" />
-    <Content Include="Assets\Screenshots\Copy-absolute-XPath.png" />
-    <Content Include="Assets\Screenshots\Copy-distinct-XPath.png" />
-    <Content Include="Assets\Screenshots\Copy-generic-XPath.png" />
-    <Content Include="Assets\Screenshots\Copy-simple-XPath.png" />
-    <Content Include="Assets\Screenshots\Copying-an-XPath.png" />
-    <Content Include="Assets\Screenshots\Distinct XPath settings.png" />
-    <Content Include="Assets\Screenshots\Distinct XPath Sitecore pipeline processor example.png" />
     <Resource Include="Assets\FindNext.png" />
     <Resource Include="Assets\FindPrevious.png" />
     <Resource Include="Assets\Find.png" />
-    <Content Include="Assets\Screenshots\Distinct-XPath-options.png" />
-    <Content Include="Assets\Screenshots\Generic-XPath-options.png" />
-    <Content Include="Assets\Screenshots\Open-XPath-runner.png" />
-    <Content Include="Assets\Screenshots\PreviewImage.png" />
-    <Content Include="Assets\Screenshots\Statusbar.png" />
-    <Content Include="Assets\Screenshots\XPath-runner-sample-1.png" />
-    <Content Include="Assets\Screenshots\XPath-runner-sample-2.png" />
+    <Content Include="Assets\PackagePreviewImage.png" />
     <Content Include="license.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Assets\Screenshots\Plugin installation.png" />
     <Content Include="release-notes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -232,19 +218,10 @@
     <Content Include="Assets\CopyGenericXPathCommandIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Screenshots\PackagePreviewImage.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Content Include="Assets\PackageIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Assets\Screenshots\Screenshot-Copy XPath.png" />
-    <Content Include="Assets\Screenshots\Screenshot-Options.png" />
-    <Content Include="Assets\Screenshots\Screenshot-Statusbar.png" />
-    <Content Include="Assets\Screenshots\Screenshot-XML Structure copy.png" />
-    <Content Include="Assets\Screenshots\Screenshot-XML Structure paste.png" />
     <Content Include="Assets\CopySimplifiedXPathCommandIcon.png" />
     <Content Include="Assets\CopyXmlStructureCommandIcon.png" />
     <Content Include="Assets\ShowXPathWorkbenchCommandIcon.png" />
