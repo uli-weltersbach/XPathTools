@@ -3,6 +3,8 @@ A Visual Studio Extension which can run any XPath and XPath function; navigates 
 
 ![XPath Tools screenshot.](https://github.com/uli-weltersbach/XPathTools/wiki/images/PackagePreviewImage.png)
 
+[![Build status](https://ci.appveyor.com/api/projects/status/q8j6j61ho4oa23ww/branch/master?svg=true)](https://ci.appveyor.com/project/uli-weltersbach/xpathtools/branch/master)
+
 ## Installation
 ### Visual Studio
 Open Visual Studio, go to _Tools &rarr; Extensions and Updates... &rarr; Online_ and search for "XPath Tools" or simply "xpath".
