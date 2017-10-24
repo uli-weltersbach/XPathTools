@@ -101,12 +101,15 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             throw new TimeoutException($"Visual Studio wasn't started within {timeoutDuration.TotalSeconds} seconds.");
         }
 
-        public void OpenXmlFile(string content, int caretPosition)
+        public void OpenXmlFile(string content, int? caretPosition)
         {
             OpenNewFileDialog();
             OpenNewXmlFile();
             InsertContentIntoNewXmlFile(content);
-            SetCaretPosition(caretPosition);
+            if(caretPosition.HasValue)
+            {
+                SetCaretPosition(caretPosition.Value);
+            }
         }
 
         private void OpenNewFileDialog()
