@@ -2,8 +2,7 @@
 using NUnit.Framework;
 using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
-using ReasonCodeExample.XPathTools.Workbench;
-using System.Threading;
+using System.Windows.Forms;
 
 namespace ReasonCodeExample.XPathTools.Tests.Workbench
 {
@@ -16,13 +15,13 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         [OneTimeSetUp]
         public void StartVisualStudio()
         {
-            //_instance.ReStart(VisualStudioVersion.VS2015);
+            _instance.ReStart(VisualStudioVersion.VS2015);
         }
 
         [OneTimeTearDown]
         public void StopVisualStudio()
         {
-            //_instance.Stop();
+            _instance.Stop();
         }
 
         [Test]
@@ -74,29 +73,29 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         }
 
         [Test]
-        [Apartment(ApartmentState.STA)]
         public void WorkbenchHandlesXmlNamespaces()
         {
             // Arrange
-            var xml = @"<configuration xmlns:xdt=""http://schemas.microsoft.com/XML-Document-Transform"">
-                            <runtime>
-                                <assemblyBinding xmlns=""urn:schemas-microsoft-com:asm.v1"" xmlns:urn=""urn:schemas-microsoft-com:asm.v1"">
-                                    <dependentAssembly xdt:Transform=""Replace"" xdt:Locator=""XPath(/configuration/runtime//*[local-name()='assemblyIdentity' and @name='Newtonsoft.Json']/..)"">
-                                        <assemblyIdentity name=""Newtonsoft.Json"" publicKeyToken=""30ad4fe6b2a6aeed"" />
-                                        <bindingRedirect oldVersion=""0.0.0.0-6.0.0.0"" newVersion=""6.0.0.0"" />
-                                    </dependentAssembly>
-                                </assemblyBinding>
-                            </runtime>
-                        </configuration>";
-            var repository = new XmlRepository();
-            repository.LoadXml(xml, null);
-            var workbench = new XPathWorkbench(repository, new SearchResultFactory());
+            EnterXmlWithNestedQuotationMarks();
+            _instance.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
+            var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
+            var expectedResultText = string.Format(PackageResources.SingleResultText, 1);
 
             // Act
-            var results = workbench.Search("/configuration/runtime/urn:assemblyBinding/urn:dependentAssembly/urn:assemblyIdentity[@name='Newtonsoft.Json']");
+            xpathWorkbench.Search("/urn:assemblyBinding/urn:dependentAssembly");
 
             // Assert
-            Assert.That(results.Count, Is.EqualTo(1));
+            Assert.That(xpathWorkbench.SearchResultText, Does.Contain(expectedResultText));
+        }
+
+        private void EnterXmlWithNestedQuotationMarks()
+        {
+            var xmlPart1 = "<assemblyBinding xmlns=\"urn:schemas-microsoft-com:asm.v1\" xmlns:urn=\"";
+            _instance.OpenXmlFile(xmlPart1, null);
+            SendKeys.SendWait("{BACKSPACE}"); // Required because VS automatically completes the quotation mark pair for xmlns:urn=".
+            var xmlPart2 = "urn:schemas-microsoft-com:asm.v1\"><dependentAssembly /></assemblyBinding>";
+            SendKeys.SendWait(xmlPart2);
+            SendKeys.SendWait("{HOME}");
         }
     }
 }
