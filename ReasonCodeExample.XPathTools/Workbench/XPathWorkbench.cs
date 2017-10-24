@@ -45,7 +45,8 @@ namespace ReasonCodeExample.XPathTools.Workbench
 
             try
             {
-                var matches = rootElement.Document?.XPathEvaluate(xpath);
+                var namespaceResolver = new SimpleXmlNamespaceResolver(rootElement.Document);
+                var matches = rootElement.Document?.XPathEvaluate(xpath, namespaceResolver);
                 var searchResults = _searchResultFactory.Parse(matches);
                 return searchResults;
             }
