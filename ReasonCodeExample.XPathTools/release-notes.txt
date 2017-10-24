@@ -1,4 +1,5 @@
-﻿v5.0.0: The XML parser now falls back to ignoring DTD processing when a DTD-related error occurs. Renamed the plugin from "XPath Information" to "XPath Tools", as the feature suite has increased a lot over the past 4 years.
+﻿v5.0.1: Fixed XMLNS handling in the XPath Runner.
+v5.0.0: The XML parser now falls back to ignoring DTD processing when a DTD-related error occurs. Renamed the plugin from "XPath Information" to "XPath Tools", as the feature suite has increased a lot over the past 4 years.
 v4.3.0: The XPath format used by the statusbar can now be changed via the options page.
 v4.2.2: DTD processing is now enabled when parsing XML documents.
 v4.2.1: The XPath runner tool window no longer loads on Visual Studio startup.
