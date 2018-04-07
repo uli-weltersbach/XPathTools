@@ -32,13 +32,13 @@ namespace ReasonCodeExample.XPathTools.Workbench
 
         public IList<SearchResult> Search(string xpath)
         {
-            if(string.IsNullOrWhiteSpace(xpath))
+            if (string.IsNullOrWhiteSpace(xpath))
             {
                 return new SearchResult[0];
             }
 
             var rootElement = _repository.GetRootElement();
-            if(rootElement == null)
+            if (rootElement == null)
             {
                 return new SearchResult[0];
             }
@@ -50,7 +50,7 @@ namespace ReasonCodeExample.XPathTools.Workbench
                 var searchResults = _searchResultFactory.Parse(matches);
                 return searchResults;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new InvalidOperationException(PackageResources.XPathEvaluationErrorText, ex);
             }
@@ -58,17 +58,17 @@ namespace ReasonCodeExample.XPathTools.Workbench
 
         public void UpdateSearchResultText(ICollection<SearchResult> searchResults)
         {
-            if(searchResults == null)
+            if (searchResults == null)
             {
                 SearchResultText.Text = null;
                 return;
             }
-            if(searchResults.Count == 0)
+            if (searchResults.Count == 0)
             {
                 SearchResultText.Text = PackageResources.NoResultsText;
                 return;
             }
-            if(searchResults.Count == 1)
+            if (searchResults.Count == 1)
             {
                 SearchResultText.Text = string.Format(PackageResources.SingleResultText, searchResults.Count);
                 return;
@@ -79,12 +79,21 @@ namespace ReasonCodeExample.XPathTools.Workbench
         private void OnSearchResultClicked(object sender, MouseButtonEventArgs e)
         {
             var frameworkElement = sender as FrameworkElement;
-            if(frameworkElement == null)
+            if (frameworkElement == null)
             {
                 return;
             }
             var searchResult = (SearchResult)frameworkElement.DataContext;
             SearchResultSelected?.Invoke(this, searchResult);
+        }
+
+        private void OnCopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
+        {
+            // TODO: Handle multi-select somehow.
+            if (e.Item is SearchResult)
+            {
+                Clipboard.SetText(((SearchResult)e.Item).Value);
+            }
         }
     }
 }

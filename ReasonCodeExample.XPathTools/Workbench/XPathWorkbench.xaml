@@ -43,7 +43,7 @@
 
         <DataGrid DockPanel.Dock="Top" SelectionMode="Extended" SelectionUnit="Cell" AutoGenerateColumns="False"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="True"
-                  Background="Transparent" RowHeaderWidth="0">
+                  Background="Transparent" RowHeaderWidth="0" CopyingRowClipboardContent="OnCopyingRowClipboardContent">
             <DataGrid.ItemsSource>
                 <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:XPathWorkbench}}" 
                          Path="SearchResults" />
