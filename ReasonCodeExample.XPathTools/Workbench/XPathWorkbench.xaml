@@ -41,7 +41,7 @@
         <TextBlock DockPanel.Dock="Top" AutomationProperties.AutomationId="SearchResultText" x:Name="SearchResultText"
                    Foreground="{DynamicResource {x:Static shell:VsBrushes.ToolWindowTextKey}}" Padding="3" />
 
-        <DataGrid DockPanel.Dock="Top" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False"
+        <DataGrid DockPanel.Dock="Top" SelectionMode="Extended" SelectionUnit="Cell" AutoGenerateColumns="False"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="True"
                   Background="Transparent" RowHeaderWidth="0">
             <DataGrid.ItemsSource>
