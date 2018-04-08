@@ -43,7 +43,7 @@
 
         <DataGrid DockPanel.Dock="Top" SelectionMode="Extended" SelectionUnit="Cell" AutoGenerateColumns="False"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="True"
-                  Background="Transparent" RowHeaderWidth="0" CopyingRowClipboardContent="OnCopyingRowClipboardContent">
+                  Background="Transparent" RowHeaderWidth="0">
             <DataGrid.ItemsSource>
                 <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:XPathWorkbench}}" 
                          Path="SearchResults" />
@@ -56,7 +56,7 @@
             </DataGrid.ItemContainerStyle>
 
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="Auto" IsReadOnly="True" SortMemberPath="LineNumber">
+                <DataGridTemplateColumn Width="Auto" IsReadOnly="True" SortMemberPath="LineNumber" ClipboardContentBinding="{Binding LineNumber}">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="Line" TextAlignment="Left" Style="{StaticResource CellTextStyle}" />
@@ -69,7 +69,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="Auto" IsReadOnly="True" SortMemberPath="LinePosition">
+                <DataGridTemplateColumn Width="Auto" IsReadOnly="True" SortMemberPath="LinePosition" ClipboardContentBinding="{Binding LinePosition}">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="Col" TextAlignment="Left" Style="{StaticResource CellTextStyle}" />
@@ -82,7 +82,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="*" IsReadOnly="True" SortMemberPath="Value">
+                <DataGridTemplateColumn Width="*" IsReadOnly="True" SortMemberPath="Value" ClipboardContentBinding="{Binding Value}">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="Value" TextAlignment="Left" Style="{StaticResource CellTextStyle}" />

@@ -86,14 +86,5 @@ namespace ReasonCodeExample.XPathTools.Workbench
             var searchResult = (SearchResult)frameworkElement.DataContext;
             SearchResultSelected?.Invoke(this, searchResult);
         }
-
-        private void OnCopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
-        {
-            // TODO: Handle multi-select somehow.
-            if (e.Item is SearchResult)
-            {
-                Clipboard.SetText(((SearchResult)e.Item).Value);
-            }
-        }
     }
 }
