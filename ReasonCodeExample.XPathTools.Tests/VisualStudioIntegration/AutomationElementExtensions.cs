@@ -7,28 +7,30 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
 {
     internal static class AutomationElementExtensions
     {
-        public static AutomationElement FindDescendantByType<T>(this AutomationElement ancestor, double timeoutInSeconds = 5d) where T : Control
+        private const int DefaultTimeoutInSeconds = 15;
+
+        public static AutomationElement FindDescendantByType<T>(this AutomationElement ancestor, int timeoutInSeconds = DefaultTimeoutInSeconds) where T : Control
         {
             var propertyCondition = new PropertyCondition(AutomationElement.ClassNameProperty, typeof(T).Name, PropertyConditionFlags.IgnoreCase);
             return FindDescendant(ancestor, timeoutInSeconds, propertyCondition);
         }
 
-        public static AutomationElement FindDescendantByAutomationId(this AutomationElement ancestor, string automationId, double timeoutInSeconds = 5d)
+        public static AutomationElement FindDescendantByAutomationId(this AutomationElement ancestor, string automationId, int timeoutInSeconds = DefaultTimeoutInSeconds)
         {
             var propertyCondition = new PropertyCondition(AutomationElement.AutomationIdProperty, automationId, PropertyConditionFlags.IgnoreCase);
             return FindDescendant(ancestor, timeoutInSeconds, propertyCondition);
         }
 
-        public static AutomationElement FindDescendantByText(this AutomationElement ancestor, string descendantElementText, double timeoutInSeconds = 5d)
+        public static AutomationElement FindDescendantByText(this AutomationElement ancestor, string descendantElementText, int timeoutInSeconds = DefaultTimeoutInSeconds)
         {
             var propertyCondition = new PropertyCondition(AutomationElement.NameProperty, descendantElementText, PropertyConditionFlags.IgnoreCase);
             return FindDescendant(ancestor, timeoutInSeconds, propertyCondition);
         }
 
-        private static AutomationElement FindDescendant(AutomationElement ancestor, double timeoutInSeconds, PropertyCondition propertyCondition)
+        private static AutomationElement FindDescendant(AutomationElement ancestor, int timeoutInSeconds, PropertyCondition propertyCondition)
         {
             var timeout = DateTime.UtcNow.AddSeconds(timeoutInSeconds);
-            var retryInterval = TimeSpan.FromSeconds(timeoutInSeconds / 5d);
+            var retryInterval = TimeSpan.FromSeconds(1);
             while(DateTime.UtcNow < timeout)
             {
                 var match = ancestor.FindFirst(TreeScope.Descendants, propertyCondition);

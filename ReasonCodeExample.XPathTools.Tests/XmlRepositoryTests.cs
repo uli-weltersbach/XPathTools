@@ -2,6 +2,8 @@
 using System.Xml.Linq;
 using NUnit.Framework;
 using System.IO;
+using System.Diagnostics;
+using System;
 
 namespace ReasonCodeExample.XPathTools.Tests
 {
@@ -173,7 +175,7 @@ namespace ReasonCodeExample.XPathTools.Tests
         }
 
         [Test]
-        public void HandlesAbsoluteeDtdReferencesGracefully()
+        public void HandlesAbsoluteDtdReferencesGracefully()
         {
             // Arrange
             var xmlFilePath = Path.GetTempFileName();
@@ -225,6 +227,24 @@ namespace ReasonCodeExample.XPathTools.Tests
 
             // Assert
             Assert.That(repository.GetRootElement(), Is.Not.Null);
+        }
+
+        [Test]
+        public void HandlesValidDtdUriReferencesGracefully()
+        {
+            // Arrange
+            var xml = XHTML;
+            var repository = new XmlRepository();
+            var stopwatch = new Stopwatch();
+
+            // Act
+            stopwatch.Start();
+            repository.LoadXml(xml, null);
+            stopwatch.Stop();
+
+            // Assert
+            Assert.That(repository.GetRootElement(), Is.Not.Null);
+            Assert.That(stopwatch.Elapsed, Is.LessThan(TimeSpan.FromSeconds(2)));
         }
 
         #region XML
@@ -441,6 +461,29 @@ ownerID IDREF #REQUIRED>
 <!ENTITY war ""warrior"">
 <!ELEMENT icon EMPTY>
 <!ATTLIST icon src CDATA #REQUIRED>";
+        #endregion
+
+        #region XHTML
+        private const string XHTML = @"<?xml version=""1.0"" encoding=""UTF-8"" ?>
+<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
+<html xmlns=""http://www.w3.org/1999/xhtml"">
+
+<head>
+    <title>Online</title>
+    <script type=""text/javascript"" src=""masken/includes/js/j-0.js"">//</script>
+    <script type=""text/javascript"" src=""masken/includes/js/g-0.js"">//</script>
+    <link rel=""stylesheet"" type=""text/css"" href=""masken/includes/css/g-0.css"" />
+</head>
+
+<body onload=""javascript:setup();"">
+
+    <form id=""daten"" action=""{{{Intern_FORMACTION}}}"" method=""post"">
+        <div id=""aussendiv"">
+            <input name=""Z0000"" type=""hidden"" value=""7"" />
+        </div>
+    </form>
+</body>
+</html>";
         #endregion
     }
 }

@@ -66,7 +66,7 @@ namespace ReasonCodeExample.XPathTools
                 XmlReaderSettings settings = new XmlReaderSettings
                 {
                     DtdProcessing = dtdProcessingMode,
-                    XmlResolver = new XmlUrlResolver()
+                    XmlResolver = new FileXmlUrlResolver()
                 };
                 using(var stringReader = new StringReader(xml))
                 using(var xmlReader = XmlReader.Create(stringReader, settings, baseUri))

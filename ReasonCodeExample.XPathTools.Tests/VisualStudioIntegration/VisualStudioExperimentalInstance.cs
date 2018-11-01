@@ -38,12 +38,11 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             return Process.GetProcessesByName("devenv").FirstOrDefault(p => p.MainWindowTitle.ToLower().Contains("experimental instance"));
         }
 
-        public void ReStart(VisualStudioVersion version)
+        public void ReStart()
         {
             Stop();
             var programsFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-            var versionSpecificPathPart = GetVersionSpecificPathPart(version);
-            var executablePath = new FileInfo(Path.Combine(programsFolder, versionSpecificPathPart, "Common7", "IDE", "devenv.exe"));
+            var executablePath = FindLatestVisualStudioUsingVswhere();
             if(!executablePath.Exists)
             {
                 throw new FileNotFoundException($"Didn't find Visual Studio executable at \"{executablePath}\".");
@@ -51,23 +50,6 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             // The VisualStudio process spawns a new process with a different ID.
             Process.Start(new ProcessStartInfo(executablePath.FullName, "/RootSuffix Exp /ResetSkipPkgs"));
             WaitUntillStarted(TimeSpan.FromMinutes(3));
-        }
-
-        private string GetVersionSpecificPathPart(VisualStudioVersion version)
-        {
-            switch(version)
-            {
-                case VisualStudioVersion.VS2012:
-                    return "Microsoft Visual Studio 11.0";
-                case VisualStudioVersion.VS2013:
-                    return "Microsoft Visual Studio 12.0";
-                case VisualStudioVersion.VS2015:
-                    return "Microsoft Visual Studio 14.0";
-                case VisualStudioVersion.VS2017:
-                    return "Microsoft Visual Studio\\2017\\Enterprise";
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(version), version, "Unsupported Visual Studio version.");
-            }
         }
 
         public void Stop()
@@ -82,6 +64,40 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
                 return;
             }
             process.Kill();
+        }
+
+        private FileInfo FindLatestVisualStudioUsingVswhere()
+        {
+            var programsFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+            var vswhereExePath = new FileInfo(Path.Combine(programsFolder, "Microsoft Visual Studio", "Installer", "vswhere.exe"));
+            if (!vswhereExePath.Exists)
+            {
+                throw new FileNotFoundException($"Didn't find vswhere.exe at \"{vswhereExePath}\".");
+            }
+            Process process = new Process();
+            process.StartInfo.FileName = vswhereExePath.FullName;
+            process.StartInfo.Arguments = "-latest";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.Start();
+            string output = process.StandardOutput.ReadToEnd();
+            string error = process.StandardError.ReadToEnd();
+            process.WaitForExit();
+            if (!string.IsNullOrWhiteSpace(error))
+            {
+                throw new Exception($"Error calling vswhere.exe (\"{vswhereExePath}\"): {error}");
+            }
+            if (string.IsNullOrWhiteSpace(output))
+            {
+                throw new Exception($"vswhere.exe (\"{vswhereExePath}\") output was null or empty.");
+            }
+            var match = Regex.Match(output, "^productPath: (.*)$", RegexOptions.Multiline);
+            if (match.Success)
+            {
+                return new FileInfo(match.Groups[1].Value.Trim());
+            }
+            throw new Exception($"vswhere.exe (\"{vswhereExePath}\") output didn't include product path: {output}");
         }
 
         private void WaitUntillStarted(TimeSpan timeoutDuration)

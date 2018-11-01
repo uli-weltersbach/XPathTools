@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Automation;
 using NUnit.Framework;
 using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
-using Assert = NUnit.Framework.Assert;
 
 namespace ReasonCodeExample.XPathTools.Tests.Writers
 {
     [TestFixture]
     [Category("Integration")]
+    [Apartment(ApartmentState.STA)]
     public class CopyXPathCommandTests
     {
         private readonly VisualStudioExperimentalInstance _instance = new VisualStudioExperimentalInstance();
@@ -19,7 +20,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
         [OneTimeSetUp]
         public void StartVisualStudio()
         {
-            _instance.ReStart(VisualStudioVersion.VS2015);
+            _instance.ReStart();
         }
 
         [OneTimeTearDown]
@@ -28,11 +29,12 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
             _instance.Stop();
         }
 
-        [TestCase("<xml />", 2, "/xml")]
-        [STAThread]
-        public void XPathCommandsAreAvailable(string xml, int caretPosition, string expectedXPath)
+        [Test]
+        public void XPathCommandsAreAvailable()
         {
             // Arrange
+            var xml = "<xml />";
+            var caretPosition = 2;
             _instance.OpenXmlFile(xml, caretPosition);
 
             // Act
@@ -42,11 +44,13 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
             Assert.That(matches.Count, Is.EqualTo(3));
         }
 
-        [TestCase("<xml />", 2, "/xml")]
-        [STAThread]
-        public void GenericXPathIsCopiedToClipboard(string xml, int caretPosition, string expectedXPath)
+        [Test]
+        public void GenericXPathIsCopiedToClipboard()
         {
             // Arrange
+            var xml = "<xml />";
+            var caretPosition = 2;
+            var expectedXPath = "/xml";
             _instance.OpenXmlFile(xml, caretPosition);
             var matches = GetAvailableCopyXPathCommands();
             var copyGenericXPathCommand = matches.First();
