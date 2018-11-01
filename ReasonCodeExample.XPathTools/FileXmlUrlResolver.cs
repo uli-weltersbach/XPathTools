@@ -28,10 +28,7 @@ namespace ReasonCodeExample.XPathTools
             {
                 return base.GetEntity(absoluteUri, role, ofObjectToReturn);
             }
-            else
-            {
-                throw new NotSupportedException();
-            }
+            throw new NotSupportedException($"URI scheme \"{absoluteUri.Scheme}\" isn't supported by {nameof(FileXmlUrlResolver)}.");
         }
 
         public override Task<object> GetEntityAsync(Uri absoluteUri, string role, Type ofObjectToReturn)
