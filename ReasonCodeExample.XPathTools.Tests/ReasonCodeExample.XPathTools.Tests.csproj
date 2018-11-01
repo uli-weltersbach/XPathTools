@@ -165,7 +165,6 @@
     <Compile Include="Writers\CopyXPathCommandTests.cs" />
     <Compile Include="VisualStudioIntegration\AutomationElementExtensions.cs" />
     <Compile Include="VisualStudioIntegration\Mouse.cs" />
-    <Compile Include="VisualStudioIntegration\VisualStudioVersion.cs" />
     <Compile Include="VisualStudioIntegration\VisualStudioExperimentalInstance.cs" />
     <Compile Include="Workbench\SearchResultFactoryTests.cs" />
     <Compile Include="Workbench\XPathWorkbenchAutomationModel.cs" />

@@ -11,7 +11,7 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
         [OneTimeSetUp]
         public void StartVisualStudio()
         {
-            _instance.ReStart(VisualStudioVersion.VS2015);
+            _instance.ReStart();
         }
 
         [OneTimeTearDown]

@@ -38,7 +38,7 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             return Process.GetProcessesByName("devenv").FirstOrDefault(p => p.MainWindowTitle.ToLower().Contains("experimental instance"));
         }
 
-        public void ReStart(VisualStudioVersion version)
+        public void ReStart()
         {
             Stop();
             var programsFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
