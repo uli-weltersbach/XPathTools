@@ -18,16 +18,6 @@ namespace ReasonCodeExample.XPathTools
     /// </remarks>
     internal class FileXmlUrlResolver : XmlUrlResolver
     {
-        public override Uri ResolveUri(Uri baseUri, string relativeUri)
-        {
-            return base.ResolveUri(baseUri, relativeUri);
-        }
-
-        public override bool SupportsType(Uri absoluteUri, Type type)
-        {
-            return base.SupportsType(absoluteUri, type);
-        }
-
         public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
         {
             if (absoluteUri == null)
