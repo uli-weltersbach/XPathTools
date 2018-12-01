@@ -45,12 +45,13 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
             // Arrange
             var documentWithWhitespace = new XDocument(new XElement("a", new XText(" \r\n \r\n \r\n"), new XElement("b"), new XText(" \r\n \r\n \r\n"), new XElement("c"), new XText(" \r\n \r\n \r\n")));
             var element = documentWithWhitespace.Root.Element("c");
+            var expectedOutput = XElement.Parse("<a><c /></a>").ToString(SaveOptions.None);
 
             // Act
             var output = new XmlStructureWriter().Write(element);
 
             // Assert
-            Assert.That(output, Is.EqualTo("<a><c /></a>"));
+            Assert.That(output, Is.EqualTo(expectedOutput));
         }
     }
 }
