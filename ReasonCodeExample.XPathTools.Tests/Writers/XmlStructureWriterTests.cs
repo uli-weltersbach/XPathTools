@@ -6,7 +6,7 @@ using ReasonCodeExample.XPathTools.Writers;
 namespace ReasonCodeExample.XPathTools.Tests.Writers
 {
     [TestFixture]
-    public class XmlStructureFormatterTests
+    public class XmlStructureWriterTests
     {
         [TestCase("<configuration><runtime><child /><assemblyBinding xmlns='urn:schemas-microsoft-com:asm.v1'><child /><child /></assemblyBinding><test xmlns='urn:schemas-microsoft-com:asm.v1'><child /><child /></test><child /></runtime><child /></configuration>", 2, "<configuration><runtime><child /></runtime></configuration>")]
         [TestCase("<configuration xmlns:ns1='urn:schemas-microsoft-com:asm.v1'><runtime><ns1:assemblyBinding /></runtime><child /></configuration>", 2, "<configuration xmlns:ns1=\"urn:schemas-microsoft-com:asm.v1\"><runtime><ns1:assemblyBinding /></runtime></configuration>")]
@@ -26,7 +26,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
         }
 
         [Test]
-        public void FormatDoesntModifyOriginalElement()
+        public void OriginalElementIsLeftIntact()
         {
             // Arrange
             var b2 = new XElement("b2");
@@ -37,6 +37,22 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
 
             // Assert
             Assert.That(original.ToString(), Does.Contain("b1"));
+        }
+
+        [Test]
+        public void XmlStructureExcludesWhitespace()
+        {
+            // Arrange
+            var documentWithWhitespace = new XDocument(new XElement("a", new XText(" \r\n \r\n \r\n"), new XElement("b"), new XText(" \r\n \r\n \r\n"), new XElement("c"), new XText(" \r\n \r\n \r\n")));
+            var element = documentWithWhitespace.Root.Element("c");
+
+            // Act
+            var output = new XmlStructureWriter().Write(element);
+
+            // Assert
+            Assert.That(output, Is.EqualTo(@"<a>
+  <e />
+</a>"));
         }
     }
 }
