@@ -50,9 +50,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
             var output = new XmlStructureWriter().Write(element);
 
             // Assert
-            Assert.That(output, Is.EqualTo(@"<a>
-  <e />
-</a>"));
+            Assert.That(output, Is.EqualTo("<a><c /></a>"));
         }
     }
 }
