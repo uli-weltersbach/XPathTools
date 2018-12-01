@@ -26,6 +26,7 @@ namespace ReasonCodeExample.XPathTools.Writers
             var copyDocument = new XDocument(new XElement(originalRoot));
             var shallowCopy = CopyAncestorsAndDescendantsOf(copyDocument, element);
             RemoveComments(shallowCopy);
+            RemoveEmptyTextNodes(shallowCopy);
             return shallowCopy.Root.ToString(SaveOptions.None);
         }
 
@@ -59,6 +60,15 @@ namespace ReasonCodeExample.XPathTools.Writers
             foreach(var comment in comments)
             {
                 comment.Remove();
+            }
+        }
+
+        private void RemoveEmptyTextNodes(XDocument document)
+        {
+            var emptyTexts = document.DescendantNodes().OfType<XText>().Where(text => string.IsNullOrEmpty(text.Value?.Trim())).ToArray();
+            foreach(var emptyText in emptyTexts)
+            {
+                emptyText.Remove();
             }
         }
     }
