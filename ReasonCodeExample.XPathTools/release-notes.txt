@@ -1,4 +1,5 @@
-﻿v5.2.1: URL resolving for external DTDs and XSDs is now limited to local files. See issue #30 for details (https://github.com/uli-weltersbach/XPathTools/issues/30).
+﻿v5.2.2: Blank text nodes are now stripped from the output of the "Copy XML structure" command. See issue #34 for details (https://github.com/uli-weltersbach/XPathTools/issues/34).
+v5.2.1: URL resolving for external DTDs and XSDs is now limited to local files. See issue #30 for details (https://github.com/uli-weltersbach/XPathTools/issues/30).
 v5.2.0: XPath Runner query results can now be copied to the clipboard.
 v5.1.0: Selected rows are now highlighted in the XPath Runner.
 v5.0.1: Fixed XMLNS handling in the XPath Runner.
