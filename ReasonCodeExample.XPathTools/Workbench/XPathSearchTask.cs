@@ -19,6 +19,7 @@ namespace ReasonCodeExample.XPathTools.Workbench
 
         protected override void OnStartSearch()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             var workbench = (XPathWorkbench)_workbenchWindow.Content;
             ThreadHelper.Generic.Invoke(() => { workbench.SearchResults.Clear(); });
             ErrorCode = VSConstants.S_OK;
