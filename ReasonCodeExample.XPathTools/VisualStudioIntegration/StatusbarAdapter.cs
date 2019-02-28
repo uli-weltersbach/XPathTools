@@ -13,9 +13,9 @@ namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 
         public StatusbarAdapter(XmlRepository repository, Func<IWriter> writerProvider, IVsStatusbar statusbar)
         {
-            _repository = repository;
-            _writerProvider = writerProvider;
-            _statusbar = statusbar;
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _writerProvider = writerProvider ?? throw new ArgumentNullException(nameof(writerProvider));
+            _statusbar = statusbar ?? throw new ArgumentNullException(nameof(statusbar));
         }
 
         public void SetText(object sender, CaretPositionChangedEventArgs e)
@@ -35,6 +35,7 @@ namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 
         private void SetText(string text)
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             _statusbar.SetText(text);
         }
     }
