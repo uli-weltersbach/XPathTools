@@ -20,9 +20,11 @@ namespace ReasonCodeExample.XPathTools.Workbench
 
         public ShowXPathWorkbenchCommand(Package package, IMenuCommandService commandService, int id, XmlRepository repository, ActiveDocument activeDocument)
         {
-            _package = package;
-            _repository = repository;
-            _activeDocument = activeDocument;
+            _package = package ?? throw new ArgumentNullException(nameof(package));
+            if (commandService == null)
+                throw new ArgumentNullException(nameof(commandService));
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _activeDocument = activeDocument ?? throw new ArgumentNullException(nameof(activeDocument));
             if(commandService == null)
             {
                 throw new ArgumentNullException(nameof(commandService));
@@ -39,6 +41,7 @@ namespace ReasonCodeExample.XPathTools.Workbench
 
         private void ShowToolWindow(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             var toolWindowPane = _package.FindToolWindow(typeof(XPathWorkbenchWindow), 0, true);
             if(toolWindowPane?.Frame == null)
             {
