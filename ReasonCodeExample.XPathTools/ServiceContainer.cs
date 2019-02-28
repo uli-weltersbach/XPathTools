@@ -18,7 +18,7 @@ namespace ReasonCodeExample.XPathTools
       {
         return (T)_services[typeof(T)];
       }
-      return default(T);
+      throw new InvalidOperationException($"A service of type '{typeof(T).FullName}' hasn't been registered.");
     }
   }
 }
