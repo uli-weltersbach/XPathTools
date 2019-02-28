@@ -12,11 +12,11 @@ namespace ReasonCodeExample.XPathTools.Writers
 
         protected CopyCommand(int id, XmlRepository repository, ActiveDocument activeDocument, Func<IWriter> writerProvider, ICommandTextFormatter textFormatter)
         {
-            _activeDocument = activeDocument;
-            Repository = repository;
+            Repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _activeDocument = activeDocument ?? throw new ArgumentNullException(nameof(activeDocument));
             Command = new OleMenuCommand(OnInvoke, null, OnBeforeQueryStatus, new CommandID(Guid.Parse(Symbols.PackageID), id));
-            WriterProvider = writerProvider;
-            TextFormatter = textFormatter;
+            WriterProvider = writerProvider ?? throw new ArgumentNullException(nameof(writerProvider));
+            TextFormatter = textFormatter ?? throw new ArgumentNullException(nameof(textFormatter));
         }
 
         protected XmlRepository Repository
