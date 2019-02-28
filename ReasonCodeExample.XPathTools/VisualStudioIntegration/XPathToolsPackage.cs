@@ -2,6 +2,7 @@
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -10,14 +11,14 @@ using ReasonCodeExample.XPathTools.Writers;
 
 namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 {
-    [PackageRegistration(UseManagedResourcesOnly = true)]
-    [ProvideAutoLoad(UIContextGuids.NoSolution)]
+    [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
+    [ProvideAutoLoad(UIContextGuids.CodeWindow, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideMenuResource(MenuResourceID, 1)]
     [Guid(Symbols.PackageID)]
     [ProvideOptionPage(typeof(XPathToolsDialogPage), "XPath Tools", "General", 0, 0, true)]
     [ProvideToolWindow(typeof(XPathWorkbenchWindow), Transient = true)]
     [ProvideToolWindowVisibility(typeof(XPathWorkbenchWindow), VSConstants.UICONTEXT.CodeWindow_string)]
-    internal class XPathToolsPackage : Package
+    internal class XPathToolsPackage : AsyncPackage
     {
         private const string MenuResourceID = "CommandFactory.ctmenu";
         private readonly ServiceContainer _container;
@@ -32,17 +33,20 @@ namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
             _container = container;
         }
 
-        protected override void Initialize()
+        protected override async System.Threading.Tasks.Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
+            await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             try
             {
-                base.Initialize();
                 var configuration = (XPathToolsDialogPage)GetDialogPage(typeof(XPathToolsDialogPage));
-                var commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
-                var statusbar = (IVsStatusbar)GetService(typeof(IVsStatusbar));
+                var menuCommandServiceTask = GetServiceAsync(typeof(IMenuCommandService));
+                var statusbarServiceTask = GetServiceAsync(typeof(IVsStatusbar));
+                await System.Threading.Tasks.Task.WhenAll(menuCommandServiceTask, statusbarServiceTask);
+                var commandService = (IMenuCommandService) await menuCommandServiceTask;
+                var statusbar = (IVsStatusbar) await statusbarServiceTask;
                 Initialize(configuration, commandService, statusbar);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
             }
@@ -50,6 +54,12 @@ namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 
         public void Initialize(IConfiguration configuration, IMenuCommandService commandService, IVsStatusbar statusbar)
         {
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
+            if (commandService == null)
+                throw new ArgumentNullException(nameof(commandService));
+            if (statusbar == null)
+                throw new ArgumentNullException(nameof(statusbar));
             _container.Set<IConfiguration>(configuration);
             _container.Set<IMenuCommandService>(commandService);
             var activeDocument = new ActiveDocument();
