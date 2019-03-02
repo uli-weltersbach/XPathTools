@@ -40,7 +40,7 @@ namespace ReasonCodeExample.XPathTools
             serviceContainer.Set(writerFactory);
 
             var searchResultFactory = new SearchResultFactory();
-            serviceContainer.Set<SearchResultFactory>(searchResultFactory);
+            serviceContainer.Set(searchResultFactory);
 
             ThreadHelper.ThrowIfNotOnUIThread();
             var statusbarService = (IVsStatusbar)Package.GetGlobalService(typeof(IVsStatusbar));
