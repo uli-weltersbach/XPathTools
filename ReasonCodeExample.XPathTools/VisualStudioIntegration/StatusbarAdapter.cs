@@ -1,7 +1,9 @@
 ﻿using System;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor;
 using ReasonCodeExample.XPathTools.Writers;
+using Task = System.Threading.Tasks.Task;
 
 namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 {
@@ -35,8 +37,13 @@ namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 
         private void SetText(string text)
         {
-            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
-            _statusbar.SetText(text);
+            ThreadHelper.JoinableTaskFactory.Run(() =>
+                                                 {
+#pragma warning disable VSTHRD010 // Invoke single-threaded types on Main thread
+                                                     _statusbar.SetText(text);
+#pragma warning restore VSTHRD010 // Invoke single-threaded types on Main thread
+                                                     return Task.CompletedTask;
+                                                 });
         }
     }
 }
