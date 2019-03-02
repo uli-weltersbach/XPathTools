@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Windows;
 using Microsoft.VisualStudio.Shell;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
@@ -14,7 +15,7 @@ namespace ReasonCodeExample.XPathTools.Writers
         {
             Repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _activeDocument = activeDocument ?? throw new ArgumentNullException(nameof(activeDocument));
-            Command = new OleMenuCommand(OnInvoke, null, OnBeforeQueryStatus, new CommandID(Guid.Parse(Symbols.PackageID), id));
+            Command = new OleMenuCommand(OnInvoke, OnChange, OnBeforeQueryStatus, new CommandID(Guid.Parse(Symbols.PackageID), id));
             WriterProvider = writerProvider ?? throw new ArgumentNullException(nameof(writerProvider));
             TextFormatter = textFormatter ?? throw new ArgumentNullException(nameof(textFormatter));
         }
@@ -51,7 +52,15 @@ namespace ReasonCodeExample.XPathTools.Writers
 
         private void OnInvoke(object sender, EventArgs e)
         {
-            Clipboard.SetText(Output);
+            if (!string.IsNullOrEmpty(Output))
+            {
+                Clipboard.SetText(Output);
+            }
+        }
+
+        protected virtual void OnChange(object sender, EventArgs e)
+        {
+            Debug.WriteLine($"{GetType()}: OnChange(sender: {sender}, e: {e})");
         }
 
         protected virtual void OnBeforeQueryStatus(object sender, EventArgs e)

@@ -5,13 +5,14 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using ReasonCodeExample.XPathTools.Workbench;
 using ReasonCodeExample.XPathTools.Writers;
 
 namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 {
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    //[ProvideAutoLoad(UIContextGuids.NoSolution, PackageAutoLoadFlags.BackgroundLoad)]
+    //[ProvideAutoLoad(UIContextGuids.CodeWindow, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideMenuResource(MenuResourceID, 1)]
     [Guid(Symbols.PackageID)]
     [ProvideOptionPage(typeof(XPathToolsDialogPage), "XPath Tools", "General", 0, 0, true)]

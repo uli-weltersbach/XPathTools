@@ -117,6 +117,32 @@
     </Bitmaps>
   </Commands>
 
+    <VisibilityConstraints>
+        <VisibilityItem guid="PackageID" id="CopyGenericXPathCommand" context="UICONTEXT_EmptySolution" />
+        <VisibilityItem guid="PackageID" id="CopyGenericXPathCommand" context="UICONTEXT_SolutionHasSingleProject" />
+        <VisibilityItem guid="PackageID" id="CopyGenericXPathCommand" context="UICONTEXT_SolutionHasMultipleProjects" />
+
+        <VisibilityItem guid="PackageID" id="CopyAbsoluteXPathCommand" context="UICONTEXT_EmptySolution" />
+        <VisibilityItem guid="PackageID" id="CopyAbsoluteXPathCommand" context="UICONTEXT_SolutionHasSingleProject" />
+        <VisibilityItem guid="PackageID" id="CopyAbsoluteXPathCommand" context="UICONTEXT_SolutionHasMultipleProjects" />
+
+        <VisibilityItem guid="PackageID" id="CopyDistinctXPathCommand" context="UICONTEXT_EmptySolution" />
+        <VisibilityItem guid="PackageID" id="CopyDistinctXPathCommand" context="UICONTEXT_SolutionHasSingleProject" />
+        <VisibilityItem guid="PackageID" id="CopyDistinctXPathCommand" context="UICONTEXT_SolutionHasMultipleProjects" />
+
+        <VisibilityItem guid="PackageID" id="CopySimplifiedXPathCommand" context="UICONTEXT_EmptySolution" />
+        <VisibilityItem guid="PackageID" id="CopySimplifiedXPathCommand" context="UICONTEXT_SolutionHasSingleProject" />
+        <VisibilityItem guid="PackageID" id="CopySimplifiedXPathCommand" context="UICONTEXT_SolutionHasMultipleProjects" />
+
+        <VisibilityItem guid="PackageID" id="CopyXmlStructureCommand" context="UICONTEXT_EmptySolution" />
+        <VisibilityItem guid="PackageID" id="CopyXmlStructureCommand" context="UICONTEXT_SolutionHasSingleProject" />
+        <VisibilityItem guid="PackageID" id="CopyXmlStructureCommand" context="UICONTEXT_SolutionHasMultipleProjects" />
+
+        <VisibilityItem guid="PackageID" id="ShowXPathWorkbenchCommand" context="UICONTEXT_EmptySolution" />
+        <VisibilityItem guid="PackageID" id="ShowXPathWorkbenchCommand" context="UICONTEXT_SolutionHasSingleProject" />
+        <VisibilityItem guid="PackageID" id="ShowXPathWorkbenchCommand" context="UICONTEXT_SolutionHasMultipleProjects" />
+    </VisibilityConstraints>
+
   <Symbols>
     <GuidSymbol name="PackageID" value="{253aa665-a779-4716-9ded-5b0c2cb66710}">
       <IDSymbol name="MenuGroup" value="0x1019" />
