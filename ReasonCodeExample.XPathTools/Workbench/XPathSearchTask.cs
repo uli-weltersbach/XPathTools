@@ -23,7 +23,7 @@ namespace ReasonCodeExample.XPathTools.Workbench
             Task.WaitAll(SearchAsync());
         }
 
-        private async System.Threading.Tasks.Task SearchAsync()
+        private async Task SearchAsync()
         {
             var workbench = (XPathWorkbench)_workbenchWindow.Content;
             ThreadHelper.Generic.Invoke(() => { workbench.SearchResults.Clear(); });
@@ -53,6 +53,7 @@ namespace ReasonCodeExample.XPathTools.Workbench
             {
                 workbench.SearchResults.Add(searchResult);
             }
+
             workbench.UpdateSearchResultText(searchResults);
         }
 
