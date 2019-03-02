@@ -18,17 +18,11 @@ namespace ReasonCodeExample.XPathTools.Workbench
             get;
         }
 
-        public ShowXPathWorkbenchCommand(Package package, IMenuCommandService commandService, int id, XmlRepository repository, ActiveDocument activeDocument)
+        public ShowXPathWorkbenchCommand(Package package, int id, XmlRepository repository, ActiveDocument activeDocument)
         {
             _package = package ?? throw new ArgumentNullException(nameof(package));
-            if (commandService == null)
-                throw new ArgumentNullException(nameof(commandService));
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _activeDocument = activeDocument ?? throw new ArgumentNullException(nameof(activeDocument));
-            if(commandService == null)
-            {
-                throw new ArgumentNullException(nameof(commandService));
-            }
             var menuCommandID = new CommandID(Guid.Parse(Symbols.PackageID), id);
             Command = new OleMenuCommand(ShowToolWindow, null, OnBeforeQueryStatus, menuCommandID, PackageResources.ShowXPathWorkbenchCommandText);
         }
@@ -41,12 +35,12 @@ namespace ReasonCodeExample.XPathTools.Workbench
 
         private void ShowToolWindow(object sender, EventArgs e)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
             var toolWindowPane = _package.FindToolWindow(typeof(XPathWorkbenchWindow), 0, true);
-            if(toolWindowPane?.Frame == null)
+            if (toolWindowPane?.Frame == null)
             {
                 throw new NotSupportedException($"{GetType()}: Cannot create tool window.");
             }
+            ThreadHelper.ThrowIfNotOnUIThread();
             var windowFrame = (IVsWindowFrame)toolWindowPane.Frame;
             ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.Workbench;
 using ReasonCodeExample.XPathTools.Writers;
 
 namespace ReasonCodeExample.XPathTools
@@ -11,28 +13,43 @@ namespace ReasonCodeExample.XPathTools
         static Registry()
         {
             Current = new ServiceContainer();
-            RegisterDefaultServices();
+            try
+            {
+                RegisterDefaultServices(Current);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"{typeof(Registry)}: Error registering default services. {ex}");
+                throw;
+            }
         }
 
-        private static void RegisterDefaultServices()
+        private static void RegisterDefaultServices(ServiceContainer serviceContainer)
         {
             var xmlRepository = new XmlRepository();
-            Current.Set(xmlRepository);
+            serviceContainer.Set(xmlRepository);
 
             var activeDocument = new ActiveDocument();
-            Current.Set(activeDocument);
+            serviceContainer.Set(activeDocument);
+
+            var configuration = new XPathToolsDialogPage();
+            configuration.LoadSettingsFromStorage();
+            serviceContainer.Set<IConfiguration>(configuration);
+
+            var writerFactory = new XPathWriterFactory(configuration);
+            serviceContainer.Set(writerFactory);
+
+            var searchResultFactory = new SearchResultFactory();
+            serviceContainer.Set<SearchResultFactory>(searchResultFactory);
 
             ThreadHelper.ThrowIfNotOnUIThread();
             var statusbarService = (IVsStatusbar)Package.GetGlobalService(typeof(IVsStatusbar));
-            var configuration = new XPathToolsDialogPage();
-            configuration.LoadSettingsFromStorage();
-            var writerFactory = new XPathWriterFactory(configuration);
             Func<IWriter> writerProvider = () =>
                                            {
                                                var xpathFormat = configuration.StatusbarXPathFormat ?? XPathFormat.Generic;
                                                return writerFactory.CreateForXPathFormat(xpathFormat);
                                            };
-            Current.Set(new StatusbarAdapter(xmlRepository, writerProvider, statusbarService));
+            serviceContainer.Set(new StatusbarAdapter(xmlRepository, writerProvider, statusbarService));
         }
 
         public static ServiceContainer Current
