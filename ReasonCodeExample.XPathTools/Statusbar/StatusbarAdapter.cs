@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Text.Editor;
 using ReasonCodeExample.XPathTools.Writers;
 using Task = System.Threading.Tasks.Task;
 
-namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
+namespace ReasonCodeExample.XPathTools.Statusbar
 {
     internal class StatusbarAdapter
     {

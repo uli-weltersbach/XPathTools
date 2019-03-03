@@ -206,8 +206,8 @@
     <Compile Include="Writers\CopyXPathCommand.cs" />
     <Compile Include="VisualStudioIntegration\Symbols.cs" />
     <Compile Include="XmlRepository.cs" />
-    <Compile Include="VisualStudioIntegration\StatusbarAdapter.cs" />
-    <Compile Include="VisualStudioIntegration\XmlTextViewCreationListener.cs" />
+    <Compile Include="Statusbar\StatusbarAdapter.cs" />
+    <Compile Include="Statusbar\XmlTextViewCreationListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

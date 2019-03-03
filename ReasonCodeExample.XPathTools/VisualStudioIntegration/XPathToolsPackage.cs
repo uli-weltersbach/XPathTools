@@ -28,6 +28,8 @@ namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             try
             {
+                var configuration = (IConfiguration)GetDialogPage(typeof(XPathToolsDialogPage));
+                Registry.Current.Set(configuration);
                 var menuCommandService = (IMenuCommandService)await GetServiceAsync(typeof(IMenuCommandService));
                 InitializeCommands(Registry.Current.Get<ActiveDocument>(), Registry.Current.Get<XmlRepository>(), Registry.Current.Get<XPathWriterFactory>(), menuCommandService);
             }
