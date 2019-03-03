@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using ReasonCodeExample.XPathTools.Statusbar;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 using ReasonCodeExample.XPathTools.Workbench;
 using ReasonCodeExample.XPathTools.Writers;
@@ -31,12 +32,8 @@ namespace ReasonCodeExample.XPathTools
 
             var activeDocument = new ActiveDocument();
             serviceContainer.Set(activeDocument);
-
-            var configuration = new XPathToolsDialogPage();
-            configuration.LoadSettingsFromStorage();
-            serviceContainer.Set<IConfiguration>(configuration);
-
-            var writerFactory = new XPathWriterFactory(configuration);
+            
+            var writerFactory = new XPathWriterFactory(() => Current.Get<IConfiguration>());
             serviceContainer.Set(writerFactory);
 
             var searchResultFactory = new SearchResultFactory();
@@ -46,6 +43,7 @@ namespace ReasonCodeExample.XPathTools
             var statusbarService = (IVsStatusbar)Package.GetGlobalService(typeof(IVsStatusbar));
             Func<IWriter> writerProvider = () =>
                                            {
+                                               var configuration = Current.Get<IConfiguration>();
                                                var xpathFormat = configuration.StatusbarXPathFormat ?? XPathFormat.Generic;
                                                return writerFactory.CreateForXPathFormat(xpathFormat);
                                            };

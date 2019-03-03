@@ -5,11 +5,11 @@ namespace ReasonCodeExample.XPathTools.Writers
 {
     internal class XPathWriterFactory
     {
-        private readonly IConfiguration _configuration;
+        private readonly Func<IConfiguration> _configurationProvider;
 
-        public XPathWriterFactory(IConfiguration configuration)
+        public XPathWriterFactory(Func<IConfiguration> configurationProvider)
         {
-            _configuration = configuration;
+            _configurationProvider = configurationProvider ?? throw new ArgumentNullException(nameof(configurationProvider));
         }
 
         public IWriter CreateForXPathFormat(XPathFormat format)
@@ -19,19 +19,20 @@ namespace ReasonCodeExample.XPathTools.Writers
 
         public IWriter CreateForCommandId(int xpathWriterCommandId)
         {
+            var configuration = _configurationProvider();
             switch(xpathWriterCommandId)
             {
                 case Symbols.CommandIDs.CopyGenericXPath:
-                    return new XPathWriter(new[] {new AttributeFilter(_configuration.AlwaysDisplayedAttributes)});
+                    return new XPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)});
 
                 case Symbols.CommandIDs.CopyAbsoluteXPath:
-                    return new AbsoluteXPathWriter(new[] {new AttributeFilter(_configuration.AlwaysDisplayedAttributes)});
+                    return new AbsoluteXPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)});
 
                 case Symbols.CommandIDs.CopyDistinctXPath:
-                    return new XPathWriter(new[] {new AttributeFilter(_configuration.AlwaysDisplayedAttributes), new DistinctAttributeFilter(_configuration.PreferredAttributeCandidates)});
+                    return new XPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes), new DistinctAttributeFilter(configuration.PreferredAttributeCandidates)});
 
                 case Symbols.CommandIDs.CopySimplifiedXPath:
-                    return new SimplifiedXPathWriter(new[] {new AttributeFilter(_configuration.AlwaysDisplayedAttributes)});
+                    return new SimplifiedXPathWriter(new[] {new AttributeFilter(configuration.AlwaysDisplayedAttributes)});
 
                 default:
                     throw new ArgumentException($"Unsupported XPath writer ID '{xpathWriterCommandId}'.");
