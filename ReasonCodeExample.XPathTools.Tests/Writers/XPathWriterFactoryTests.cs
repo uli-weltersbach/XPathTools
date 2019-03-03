@@ -16,7 +16,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
         {
             // Arrange
             var configuration = Substitute.For<IConfiguration>();
-            var factory = new XPathWriterFactory(configuration);
+            var factory = new XPathWriterFactory(() => configuration);
 
             // Act
             var writer = factory.CreateForXPathFormat(format);
