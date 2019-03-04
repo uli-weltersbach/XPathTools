@@ -8,6 +8,7 @@ using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
 namespace ReasonCodeExample.XPathTools.Tests
 {
+    [Ignore("Must be replaced with actual end-to-end test using Visual Studio dialog page.")]
     public class RegistryTests
     {
         [TestCase(XPathFormat.Generic, "<a><b id='hello'><c/></b></a>", 19, "/a/b[@id='hello']/c")]
@@ -15,7 +16,7 @@ namespace ReasonCodeExample.XPathTools.Tests
         public void StatusbarXPathFormatChangesWhenConfigurationIsChanged(XPathFormat xpathFormat, string xml, int xmlElementIndex, string expectedXPath)
         {
             // Arrange
-            var serviceContainer = new ServiceContainer();
+            var serviceContainer = Registry.Current;
 
             // Set up the configuration to a default XPathFormat
             var configuration = Substitute.For<IConfiguration>();
@@ -27,7 +28,6 @@ namespace ReasonCodeExample.XPathTools.Tests
             // Initialize all services, incl. the statusbar adapter
             var menuCommandService = Substitute.For<IMenuCommandService>();
             var statusbar = Substitute.For<IVsStatusbar>();
-            //registry.Initialize(configuration, menuCommandService, statusbar);
 
             // Set up the XML repo initialized by the package
             var xmlRepository = serviceContainer.Get<XmlRepository>();
