@@ -32,8 +32,8 @@ namespace ReasonCodeExample.XPathTools
 
             var activeDocument = new ActiveDocument();
             serviceContainer.Set(activeDocument);
-            
-            var writerFactory = new XPathWriterFactory(() => Current.Get<IConfiguration>());
+
+            var writerFactory = new XPathWriterFactory(GetCurrentConfiguration);
             serviceContainer.Set(writerFactory);
 
             var searchResultFactory = new SearchResultFactory();
@@ -41,13 +41,21 @@ namespace ReasonCodeExample.XPathTools
 
             ThreadHelper.ThrowIfNotOnUIThread();
             var statusbarService = (IVsStatusbar)Package.GetGlobalService(typeof(IVsStatusbar));
-            Func<IWriter> writerProvider = () =>
-                                           {
-                                               var configuration = Current.Get<IConfiguration>();
-                                               var xpathFormat = configuration.StatusbarXPathFormat ?? XPathFormat.Generic;
-                                               return writerFactory.CreateForXPathFormat(xpathFormat);
-                                           };
-            serviceContainer.Set(new StatusbarAdapter(xmlRepository, writerProvider, statusbarService));
+
+            serviceContainer.Set(new StatusbarAdapter(xmlRepository, GetCurrentStatusbarXPathWriter, statusbarService));
+        }
+
+        private static IConfiguration GetCurrentConfiguration()
+        {
+            return Current.Get<IConfiguration>();
+        }
+
+        private static IWriter GetCurrentStatusbarXPathWriter()
+        {
+            var configuration = GetCurrentConfiguration();
+            var xpathFormat = configuration.StatusbarXPathFormat ?? XPathFormat.Generic;
+            var writerFactory = Current.Get<XPathWriterFactory>();
+            return writerFactory.CreateForXPathFormat(xpathFormat);
         }
 
         public static ServiceContainer Current
