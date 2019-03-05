@@ -36,7 +36,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
         public void StatusbarXPathFormatChangesWhenConfigurationIsChanged(XPathFormat xpathFormat, string xml, int xmlElementIndex, string expectedXPath)
         {
             // Arrange
-            _instance.OpenXmlFile(xml, xmlElementIndex);
+            //_instance.OpenXmlFile(xml, xmlElementIndex);
             var configuration = new XPathToolsDialogPageAutomationModel(_instance.MainWindow);
             
             // Act
