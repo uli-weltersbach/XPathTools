@@ -163,6 +163,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\XPathToolsDialogPageAutomationModel.cs" />
     <Compile Include="Statusbar\StatusbarAdapterTests.cs" />
     <Compile Include="Configuration\ConfigurationTests.cs" />
     <Compile Include="Writers\XPathWriterFactoryTests.cs" />
