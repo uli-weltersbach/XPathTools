@@ -200,14 +200,14 @@
     <Compile Include="Writers\XmlStructureWriter.cs" />
     <Compile Include="Writers\XPathWriter.cs" />
     <Compile Include="Writers\XPathWriterFactory.cs" />
-    <Compile Include="XPathSetting.cs" />
+    <Compile Include="Configuration\XPathSetting.cs" />
     <Compile Include="Writers\CopyCommand.cs" />
     <Compile Include="Writers\CopyXmlStructureCommand.cs" />
     <Compile Include="Writers\CopyXPathCommand.cs" />
     <Compile Include="VisualStudioIntegration\Symbols.cs" />
     <Compile Include="XmlRepository.cs" />
     <Compile Include="Statusbar\StatusbarAdapter.cs" />
-    <Compile Include="Statusbar\XmlTextViewCreationListener.cs" />
+    <Compile Include="VisualStudioIntegration\XmlTextViewCreationListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

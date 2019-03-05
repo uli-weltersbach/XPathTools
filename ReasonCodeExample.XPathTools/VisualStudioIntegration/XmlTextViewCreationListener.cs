@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
-using ReasonCodeExample.XPathTools.VisualStudioIntegration;
+using ReasonCodeExample.XPathTools.Statusbar;
 
-namespace ReasonCodeExample.XPathTools.Statusbar
+namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 {
     [Export(typeof(IWpfTextViewCreationListener))]
     [TextViewRole(PredefinedTextViewRoles.Document)]
