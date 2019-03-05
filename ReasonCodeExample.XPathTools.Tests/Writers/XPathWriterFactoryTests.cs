@@ -1,6 +1,7 @@
 ﻿using System;
 using NSubstitute;
 using NUnit.Framework;
+using ReasonCodeExample.XPathTools.Configuration;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 using ReasonCodeExample.XPathTools.Writers;
 

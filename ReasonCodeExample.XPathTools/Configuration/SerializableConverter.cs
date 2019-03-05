@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
+namespace ReasonCodeExample.XPathTools.Configuration
 {
     public class SerializableConverter<T> : TypeConverter
     {

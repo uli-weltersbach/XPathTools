@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using ReasonCodeExample.XPathTools.Configuration;
 using ReasonCodeExample.XPathTools.Statusbar;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 using ReasonCodeExample.XPathTools.Workbench;

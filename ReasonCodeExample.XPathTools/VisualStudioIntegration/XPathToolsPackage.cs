@@ -6,6 +6,7 @@ using System.Threading;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using ReasonCodeExample.XPathTools.Configuration;
 using ReasonCodeExample.XPathTools.Workbench;
 using ReasonCodeExample.XPathTools.Writers;
 

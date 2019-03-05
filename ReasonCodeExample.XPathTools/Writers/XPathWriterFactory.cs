@@ -1,4 +1,5 @@
 ﻿using System;
+using ReasonCodeExample.XPathTools.Configuration;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
 namespace ReasonCodeExample.XPathTools.Writers

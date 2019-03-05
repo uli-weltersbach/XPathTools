@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
-namespace ReasonCodeExample.XPathTools
+namespace ReasonCodeExample.XPathTools.Configuration
 {
     internal interface IConfiguration
     {

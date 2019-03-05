@@ -3,13 +3,14 @@ using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell.Interop;
 using NSubstitute;
 using NUnit.Framework;
+using ReasonCodeExample.XPathTools.Configuration;
 using ReasonCodeExample.XPathTools.Statusbar;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
-namespace ReasonCodeExample.XPathTools.Tests
+namespace ReasonCodeExample.XPathTools.Tests.Configuration
 {
-    [Ignore("Must be replaced with actual end-to-end test using Visual Studio dialog page.")]
-    public class RegistryTests
+    [Category("Integration")]
+    public class ConfigurationTests
     {
         [TestCase(XPathFormat.Generic, "<a><b id='hello'><c/></b></a>", 19, "/a/b[@id='hello']/c")]
         [TestCase(XPathFormat.Absolute, "<a id='world'><b><c/></b></a>", 19, "/a[1][@id='world']/b[1]/c[1]")]

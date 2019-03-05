@@ -164,7 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Statusbar\StatusbarAdapterTests.cs" />
-    <Compile Include="RegistryTests.cs" />
+    <Compile Include="Configuration\ConfigurationTests.cs" />
     <Compile Include="Writers\XPathWriterFactoryTests.cs" />
     <Compile Include="XmlStringExtensions.cs" />
     <Compile Include="VisualStudioIntegration\CaretPositionLineInfoTests.cs" />
