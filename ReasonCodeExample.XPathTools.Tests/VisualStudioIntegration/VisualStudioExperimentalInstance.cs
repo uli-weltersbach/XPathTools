@@ -41,7 +41,6 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
         public void ReStart()
         {
             Stop();
-            var programsFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
             var executablePath = FindLatestVisualStudioUsingVswhere();
             if(!executablePath.Exists)
             {
