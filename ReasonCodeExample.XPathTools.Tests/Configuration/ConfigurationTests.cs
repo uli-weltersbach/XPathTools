@@ -37,15 +37,16 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
         public void StatusbarXPathFormatChangesWhenConfigurationIsChanged(XPathFormat xpathFormat, string xml, int xmlElementIndex, string expectedXPath)
         {
             // Arrange
-            _instance.OpenXmlFile(xml, xmlElementIndex);
             var configuration = new XPathToolsDialogPageAutomationModel(_instance.MainWindow);
-            
+            configuration.SetStatusbarXPathFormat(XPathFormat.Simplified);
+            _instance.OpenXmlFile(xml, xmlElementIndex);
+
             // Act
             configuration.SetStatusbarXPathFormat(xpathFormat);
 
             // Assert
-            var statusbar = _instance.MainWindow.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.AutomationIdProperty, "StatusBarContainer", PropertyConditionFlags.IgnoreCase));
-            Assert.That(statusbar.GetText(), Is.EqualTo(expectedXPath));
+            var statusbar = _instance.MainWindow.FindDescendantByText(expectedXPath);
+            Assert.That(statusbar, Is.Not.Null);
         }
     }
 }
