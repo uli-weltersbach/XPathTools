@@ -44,12 +44,12 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
             var classNameCondition = new PropertyCondition(AutomationElement.ClassNameProperty, className, PropertyConditionFlags.IgnoreCase);
             var nameCondition = new PropertyCondition(AutomationElement.NameProperty, menuItemText, PropertyConditionFlags.IgnoreCase);
             var condition = new AndCondition(classNameCondition, nameCondition);
-            return _mainWindow.FindDescendant(condition);
+            return ancestor.FindDescendant(condition);
         }
 
         private AutomationElement OpenOptionsDialog(AutomationElement toolsMenu)
         {
-            var optionsMenuEntry = FindMenuItem("Options", toolsMenu);
+            var optionsMenuEntry = FindMenuItem("Options...", toolsMenu);
             optionsMenuEntry.LeftClick();
 
             var optionsDialog = AutomationElement.FocusedElement;
