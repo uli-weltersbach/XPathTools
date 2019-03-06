@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Automation;
-using System.Windows.Forms;
-using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
+﻿using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
+using System;
+using System.Threading;
+using System.Windows.Automation;
 
 namespace ReasonCodeExample.XPathTools.Tests.Configuration
 {
@@ -26,24 +22,38 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
 
         public void Open()
         {
-            // "Alt + t" to open "Tools"-menu
-            SendKeys.SendWait("%{t}");
-            // "o" to open "Options..."
-            SendKeys.SendWait("o");
-            // "Ctrl + E" to activate option search
-            SendKeys.SendWait("^{e}");
-            // Search for "XPath Tools"
-            SendKeys.SendWait("XPath Tools");
-            SendKeys.SendWait("{ENTER}");
-            // Interact with the XPath Tools settings
-            SendKeys.SendWait("{TAB}");
-            SendKeys.SendWait("{TAB}");
-            SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
-            SendKeys.SendWait("{TAB}");
-            var firstLetterOfDesiredStatusbarXPathFormatOption = XPathFormat.Distinct.ToString()[0].ToString();
-            SendKeys.SendWait(firstLetterOfDesiredStatusbarXPathFormatOption);
-            // Close the dialog
-            //SendKeys.SendWait("{ENTER}");
+            var toolsMenu = OpenToolsMenu();
+            var optionsDialog = OpenOptionsDialog(toolsMenu);
+            var xpathToolsSettings = optionsDialog.FindDescendantByText("XPath Tools");
+            xpathToolsSettings.SetFocus();
+            xpathToolsSettings.LeftClick();
+            var statusbarSetting = optionsDialog.FindDescendantByText("Statusbar XPath format");
+            statusbarSetting.SetFocus();
+        }
+
+        private AutomationElement OpenToolsMenu()
+        {
+            var toolsMenu = FindMenuItem("Tools", _mainWindow);
+            toolsMenu.LeftClick();
+            return toolsMenu;
+        }
+
+        private AutomationElement FindMenuItem(string menuItemText, AutomationElement ancestor)
+        {
+            var className = "MenuItem";
+            var classNameCondition = new PropertyCondition(AutomationElement.ClassNameProperty, className, PropertyConditionFlags.IgnoreCase);
+            var nameCondition = new PropertyCondition(AutomationElement.NameProperty, menuItemText, PropertyConditionFlags.IgnoreCase);
+            var condition = new AndCondition(classNameCondition, nameCondition);
+            return _mainWindow.FindDescendant(condition);
+        }
+
+        private AutomationElement OpenOptionsDialog(AutomationElement toolsMenu)
+        {
+            var optionsMenuEntry = FindMenuItem("Options", toolsMenu);
+            optionsMenuEntry.LeftClick();
+
+            var optionsDialog = AutomationElement.FocusedElement;
+            return optionsDialog;
         }
 
         public void Close()
