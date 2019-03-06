@@ -77,8 +77,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
         {
             if (IsOpen)
             {
-                OptionsDialog.SetFocus();
-                SendKeys.SendWait("{ENTER}");
+                OptionsDialog.FindDescendantByText("OK").LeftClick();
             }
         }
 

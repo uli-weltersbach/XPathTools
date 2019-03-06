@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Windows.Automation;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.Shell.Interop;
 using NSubstitute;
@@ -36,15 +37,15 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
         public void StatusbarXPathFormatChangesWhenConfigurationIsChanged(XPathFormat xpathFormat, string xml, int xmlElementIndex, string expectedXPath)
         {
             // Arrange
-            //_instance.OpenXmlFile(xml, xmlElementIndex);
+            _instance.OpenXmlFile(xml, xmlElementIndex);
             var configuration = new XPathToolsDialogPageAutomationModel(_instance.MainWindow);
             
             // Act
             configuration.SetStatusbarXPathFormat(xpathFormat);
 
             // Assert
-            throw new NotImplementedException();
-            // CHECK THAT STATUSBAR TEXT MATCHES "expectedXPath"
+            var statusbar = _instance.MainWindow.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.AutomationIdProperty, "StatusBarContainer", PropertyConditionFlags.IgnoreCase));
+            Assert.That(statusbar.GetText(), Is.EqualTo(expectedXPath));
         }
     }
 }
