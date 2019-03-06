@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Windows.Automation;
+using System.Windows.Forms;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.Shell.Interop;
 using NSubstitute;
@@ -32,8 +33,9 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
             _instance.Stop();
         }
         
-        [TestCase(XPathFormat.Generic, "<a><b id='hello'><c/></b></a>", 19, "/a/b[@id='hello']/c")]
-        [TestCase(XPathFormat.Absolute, "<a id='world'><b><c/></b></a>", 19, "/a[1][@id='world']/b[1]/c[1]")]
+        [TestCase(XPathFormat.Generic, "<a><b id='hello'><c/></b></a>", 19, "/a/b/c")]
+        [TestCase(XPathFormat.Absolute, "<a id='world'><b><c/></b></a>", 19, "/a[1]/b[1]/c[1]")]
+        [TestCase(XPathFormat.Distinct, "<a><b id='hello'><c/></b></a>", 19, "/a/b[@id='hello']/c")]
         public void StatusbarXPathFormatChangesWhenConfigurationIsChanged(XPathFormat xpathFormat, string xml, int xmlElementIndex, string expectedXPath)
         {
             // Arrange
@@ -43,10 +45,12 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
 
             // Act
             configuration.SetStatusbarXPathFormat(xpathFormat);
+            SendKeys.SendWait("{LEFT}"); // Move the caret to trigger a statusbar update
 
             // Assert
-            var statusbar = _instance.MainWindow.FindDescendantByText(expectedXPath);
-            Assert.That(statusbar, Is.Not.Null);
+            var statusbar = _instance.MainWindow.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ClassNameProperty, "StatusBar", PropertyConditionFlags.IgnoreCase));
+            var text = statusbar.FindDescendantByText(expectedXPath);
+            Assert.That(text, Is.Not.Null);
         }
     }
 }

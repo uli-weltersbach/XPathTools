@@ -145,7 +145,12 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             // Write content starting on a new line, after the XML declaration
             SendKeys.SendWait("{End}");
             SendKeys.SendWait("{Enter}");
-            SendKeys.SendWait(content);
+            // Using the clipboard avoids issues due to quotation mark auto completion when e.g. XML attributes are typed
+            var thread = new Thread(() => Clipboard.SetText(content));
+            thread.SetApartmentState(ApartmentState.STA); // Set the thread to STA
+            thread.Start();
+            thread.Join(); // Wait for the thread to end
+            SendKeys.SendWait("^(v)");
         }
 
         private void SetCaretPosition(int caretPosition)
