@@ -1,8 +1,7 @@
 ﻿using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
-using System;
-using System.Threading;
 using System.Windows.Automation;
+using System.Windows.Forms;
 
 namespace ReasonCodeExample.XPathTools.Tests.Configuration
 {
@@ -15,20 +14,29 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
             _mainWindow = mainWindow;
         }
 
-        public bool IsOpen
+        private bool IsOpen
         {
-            get;
+            get
+            {
+                return OptionsDialog != null;
+            }
         }
 
-        public void Open()
+        private AutomationElement OptionsDialog
+        {
+            get
+            {
+                return _mainWindow.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Options", PropertyConditionFlags.IgnoreCase));
+            }
+        }
+
+        private void Open()
         {
             var toolsMenu = OpenToolsMenu();
+
             var optionsDialog = OpenOptionsDialog(toolsMenu);
-            var xpathToolsSettings = optionsDialog.FindDescendantByText("XPath Tools");
-            xpathToolsSettings.SetFocus();
-            xpathToolsSettings.LeftClick();
-            var statusbarSetting = optionsDialog.FindDescendantByText("Statusbar XPath format");
-            statusbarSetting.SetFocus();
+
+            SetXPathToolsSettingsFocus(optionsDialog);
         }
 
         private AutomationElement OpenToolsMenu()
@@ -52,20 +60,46 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
             var optionsMenuEntry = FindMenuItem("Options...", toolsMenu);
             optionsMenuEntry.LeftClick();
 
-            var optionsDialog = AutomationElement.FocusedElement;
+            var optionsDialog = _mainWindow.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Options"));
             return optionsDialog;
         }
 
-        public void Close()
+        private void SetXPathToolsSettingsFocus(AutomationElement optionsDialog)
         {
+            var xpathToolsSettings = optionsDialog.FindDescendantByText("XPath Tools");
+            xpathToolsSettings.SetFocus();
+            xpathToolsSettings.LeftClick();
+            var propertiesWindow = optionsDialog.FindDescendant(new PropertyCondition(AutomationElement.NameProperty, "Properties Window", PropertyConditionFlags.IgnoreCase));
+            propertiesWindow.LeftClick();
+        }
+
+        private void Close()
+        {
+            if (IsOpen)
+            {
+                OptionsDialog.SetFocus();
+                SendKeys.SendWait("{ENTER}");
+            }
         }
 
         public void SetStatusbarXPathFormat(XPathFormat format)
         {
-            if (!IsOpen)
+            // Ensure options dialog is closed before starting interaction sequence
+            Close();
+
+            // Open the XPath options dialog page
+            Open();
+
+            // This assumes that the XPath Tools settings page has focus
+            for (var i = 0; i < 6; i++)
             {
-                Open();
+                // Move to the last setting
+                SendKeys.SendWait("{DOWN}");
             }
+            // Select the desired format - requires all formats to start with a different letter!
+            var firstLetter = format.ToString()[0].ToString();
+            SendKeys.SendWait(firstLetter);
+
             Close();
         }
     }
