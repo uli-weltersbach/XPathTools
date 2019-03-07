@@ -7,18 +7,18 @@ namespace ReasonCodeExample.XPathTools.Tests.Statusbar
     [Category("Integration")]
     public class StatusbarAdapterTests
     {
-        private readonly VisualStudioExperimentalInstance _instance = new VisualStudioExperimentalInstance();
+        private readonly VisualStudioExperimentalInstance _visualStudio = new VisualStudioExperimentalInstance();
 
         [OneTimeSetUp]
         public void StartVisualStudio()
         {
-            _instance.ReStart();
+            _visualStudio.ReStart();
         }
 
         [OneTimeTearDown]
         public void StopVisualStudio()
         {
-            _instance.Stop();
+            _visualStudio.Stop();
         }
 
         [Test]
@@ -28,13 +28,13 @@ namespace ReasonCodeExample.XPathTools.Tests.Statusbar
             var xml = "<e1><e2><e3 /></e2></e1>";
             var caretPosition = 11;
             var expectedXPath = "/e1/e2/e3";
-            _instance.OpenXmlFile(xml, caretPosition);
+            _visualStudio.OpenXmlFile(xml, caretPosition);
 
             // Act
-            var statusbar = _instance.MainWindow.FindDescendantByText(expectedXPath);
+            var statusbar = new StatusbarAutomationModel(_visualStudio.MainWindow);
 
             // Assert
-            Assert.That(statusbar, Is.Not.Null);
+            Assert.That(statusbar.GetText(), Is.EqualTo(expectedXPath));
         }
     }
 }

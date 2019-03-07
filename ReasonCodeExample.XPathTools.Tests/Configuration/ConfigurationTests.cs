@@ -1,6 +1,7 @@
 ﻿using System.Windows.Automation;
 using System.Windows.Forms;
 using NUnit.Framework;
+using ReasonCodeExample.XPathTools.Tests.Statusbar;
 using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
@@ -39,9 +40,8 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
             SendKeys.SendWait("{LEFT}"); // Move the caret to trigger a statusbar update
 
             // Assert
-            var statusbar = _visualStudio.MainWindow.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ClassNameProperty, "StatusBar", PropertyConditionFlags.IgnoreCase));
-            var text = statusbar.FindDescendantByText(expectedXPath);
-            Assert.That(text, Is.Not.Null);
+            var statusbar = new StatusbarAutomationModel(_visualStudio.MainWindow);
+            Assert.That(statusbar.GetText(), Is.EqualTo(expectedXPath));
         }
     }
 }
