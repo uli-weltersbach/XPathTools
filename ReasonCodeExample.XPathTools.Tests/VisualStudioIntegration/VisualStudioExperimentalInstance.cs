@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Automation;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
 {
@@ -25,11 +24,13 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
                 {
                     return null;
                 }
+
                 if(_mainWindow == null)
                 {
                     var processIdCondition = new PropertyCondition(AutomationElement.ProcessIdProperty, _process.Id);
                     _mainWindow = AutomationElement.RootElement.FindFirst(TreeScope.Descendants, processIdCondition);
                 }
+
                 return _mainWindow;
             }
         }
@@ -47,6 +48,7 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             {
                 throw new FileNotFoundException($"Didn't find Visual Studio executable at \"{executablePath}\".");
             }
+
             // The VisualStudio process spawns a new process with a different ID.
             Process.Start(new ProcessStartInfo(executablePath.FullName, "/RootSuffix Exp /ResetSkipPkgs"));
             WaitUntillStarted(TimeSpan.FromMinutes(3));
@@ -59,10 +61,12 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             {
                 return;
             }
+
             if(process.HasExited)
             {
                 return;
             }
+
             process.Kill();
         }
 
@@ -70,10 +74,11 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
         {
             var programsFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
             var vswhereExePath = new FileInfo(Path.Combine(programsFolder, "Microsoft Visual Studio", "Installer", "vswhere.exe"));
-            if (!vswhereExePath.Exists)
+            if(!vswhereExePath.Exists)
             {
                 throw new FileNotFoundException($"Didn't find vswhere.exe at \"{vswhereExePath}\".");
             }
+
             Process process = new Process();
             process.StartInfo.FileName = vswhereExePath.FullName;
             process.StartInfo.Arguments = "-latest";
@@ -84,19 +89,22 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             string output = process.StandardOutput.ReadToEnd();
             string error = process.StandardError.ReadToEnd();
             process.WaitForExit();
-            if (!string.IsNullOrWhiteSpace(error))
+            if(!string.IsNullOrWhiteSpace(error))
             {
                 throw new Exception($"Error calling vswhere.exe (\"{vswhereExePath}\"): {error}");
             }
-            if (string.IsNullOrWhiteSpace(output))
+
+            if(string.IsNullOrWhiteSpace(output))
             {
                 throw new Exception($"vswhere.exe (\"{vswhereExePath}\") output was null or empty.");
             }
+
             var match = Regex.Match(output, "^productPath: (.*)$", RegexOptions.Multiline);
-            if (match.Success)
+            if(match.Success)
             {
                 return new FileInfo(match.Groups[1].Value.Trim());
             }
+
             throw new Exception($"vswhere.exe (\"{vswhereExePath}\") output didn't include product path: {output}");
         }
 
@@ -114,6 +122,7 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
                     return;
                 }
             }
+
             throw new TimeoutException($"Visual Studio wasn't started within {timeoutDuration.TotalSeconds} seconds.");
         }
 
@@ -132,46 +141,50 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
         {
             var temporaryFile = new FileInfo(Path.GetTempFileName());
             temporaryFile.MoveTo(temporaryFile.FullName + ".xml");
-            var xmlDocument = XDocument.Parse(content);
-            xmlDocument.Save(temporaryFile.OpenWrite(), SaveOptions.DisableFormatting);
+            File.WriteAllText(temporaryFile.FullName, content);
             return temporaryFile;
         }
 
         private void OpenFilePickerDialog()
         {
-            var fileMenu = MainWindow.FindDescendantByText("File").LeftClick();
-            var openMenu = fileMenu.FindDescendantByText("Open").LeftClick();
-            openMenu.FindDescendantByText("File...").LeftClick();
+            FindMenuItem("File", MainWindow).LeftClick();
+            FindMenuItem("Open", MainWindow).LeftClick();
+            FindMenuItem("File...", MainWindow).LeftClick();
+        }
+
+        private AutomationElement FindMenuItem(string menuItemText, AutomationElement ancestor)
+        {
+            var className = "MenuItem";
+            var classNameCondition = new PropertyCondition(AutomationElement.ClassNameProperty, className, PropertyConditionFlags.IgnoreCase);
+            var nameCondition = new PropertyCondition(AutomationElement.NameProperty, menuItemText, PropertyConditionFlags.IgnoreCase);
+            var condition = new AndCondition(classNameCondition, nameCondition);
+            return ancestor.FindDescendant(condition);
         }
 
         private void OpenTemporaryFile(FileInfo xmlFIle)
         {
             var openFileDialog = MainWindow.FindDescendant(new PropertyCondition(AutomationElement.NameProperty, "Open File"));
-            var directoryPickerCondition = new AndCondition(new PropertyCondition(AutomationElement.NameProperty, "Address"), new PropertyCondition(AutomationElement.ClassNameProperty, "Edit"));
+
+            var directoryPickerCondition = new AndCondition(
+                new PropertyCondition(AutomationElement.AutomationIdProperty, "1001"),
+                new PropertyCondition(AutomationElement.ClassNameProperty, "ToolbarWindow32", PropertyConditionFlags.IgnoreCase));
             var directoryPicker = openFileDialog.FindDescendant(directoryPickerCondition);
             directoryPicker.LeftClick();
             SendKeys.SendWait(xmlFIle.DirectoryName);
+            SendKeys.SendWait("{ENTER}");
 
-            var filePickerCondition = new AndCondition(new PropertyCondition(AutomationElement.NameProperty, "File name:"), new PropertyCondition(AutomationElement.ClassNameProperty, "Edit"));
+            var filePickerCondition = new AndCondition(
+                new PropertyCondition(AutomationElement.AutomationIdProperty, "1148"),
+                new PropertyCondition(AutomationElement.ClassNameProperty, "Edit"));
             var filePicker = openFileDialog.FindDescendant(filePickerCondition);
             filePicker.LeftClick();
             SendKeys.SendWait(xmlFIle.Name);
-            // Name = "Open File"
-            // ClassName = "Edit"
-            // Name = "Address"
-        }
 
-        private void InsertContentIntoNewXmlFile(string content)
-        {
-            // Write content starting on a new line, after the XML declaration
-            SendKeys.SendWait("{End}");
-            SendKeys.SendWait("{Enter}");
-            // Using the clipboard avoids issues due to quotation mark auto completion when e.g. XML attributes are typed
-            var thread = new Thread(() => Clipboard.SetText(content));
-            thread.SetApartmentState(ApartmentState.STA); // Set the thread to STA
-            thread.Start();
-            thread.Join(); // Wait for the thread to end
-            SendKeys.SendWait("^(v)");
+            var openButtonCondition = new AndCondition(
+                new PropertyCondition(AutomationElement.NameProperty, "Open"),
+                new PropertyCondition(AutomationElement.ClassNameProperty, "Button"));
+            var openButton = openFileDialog.FindDescendant(openButtonCondition);
+            openButton.LeftClick();
         }
 
         private void SetCaretPosition(int caretPosition)
