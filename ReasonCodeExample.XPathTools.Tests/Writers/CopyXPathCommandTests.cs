@@ -21,6 +21,11 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
         public void StartVisualStudio()
         {
             _instance.ReStart();
+
+            // Arrange
+            var xml = "<xml />";
+            var caretPosition = 2;
+            _instance.OpenXmlFile(xml, caretPosition);
         }
 
         [OneTimeTearDown]
@@ -32,11 +37,6 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
         [Test]
         public void XPathCommandsAreAvailable()
         {
-            // Arrange
-            var xml = "<xml />";
-            var caretPosition = 2;
-            _instance.OpenXmlFile(xml, caretPosition);
-
             // Act
             var matches = GetAvailableCopyXPathCommands();
 
@@ -48,10 +48,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
         public void GenericXPathIsCopiedToClipboard()
         {
             // Arrange
-            var xml = "<xml />";
-            var caretPosition = 2;
             var expectedXPath = "/xml";
-            _instance.OpenXmlFile(xml, caretPosition);
             var matches = GetAvailableCopyXPathCommands();
             var copyGenericXPathCommand = matches.First();
 
