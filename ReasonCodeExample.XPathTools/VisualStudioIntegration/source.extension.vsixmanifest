@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="ReasonCodeExample.XPathInformation.v1.0" Version="5.3.0" Language="en-US" Publisher="Uli Weltersbach" />
+        <Identity Id="ReasonCodeExample.XPathInformation.v1.0" Version="6.0.0" Language="en-US" Publisher="Uli Weltersbach" />
         <DisplayName>XPath Tools</DisplayName>
         <Description xml:space="preserve">Run XPaths and XPath functions. Browse through results at the click of a button.
 Track and copy XPaths incl. XML namespaces in various formats, taking the hassle out of complex documents.</Description>

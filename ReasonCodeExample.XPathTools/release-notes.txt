@@ -1,4 +1,5 @@
-﻿v5.3.0: Supported Visual Studio version range updated to include VS 2019 Preview. See issue #36 for details (https://github.com/uli-weltersbach/XPathTools/issues/36).
+﻿v6.0.0: Async package load implemented as required by Visual Studio 2019.1 and later. Support for Visual Studio 2013 and earlier has been dropped as a consequence.
+v5.3.0: Supported Visual Studio version range updated to include VS 2019 Preview. See issue #36 for details (https://github.com/uli-weltersbach/XPathTools/issues/36).
 v5.2.2: Blank text nodes are now stripped from the output of the "Copy XML structure" command. See issue #34 for details (https://github.com/uli-weltersbach/XPathTools/issues/34).
 v5.2.1: URL resolving for external DTDs and XSDs is now limited to local files. See issue #30 for details (https://github.com/uli-weltersbach/XPathTools/issues/30).
 v5.2.0: XPath Runner query results can now be copied to the clipboard.
