@@ -196,17 +196,25 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             SendKeys.SendWait("{RIGHT " + caretPosition + "}");
         }
 
-        public void ClickContextMenuEntry(string entryName)
+        public AutomationElement ClickContextMenuEntry(string entryName)
+        {
+            var contextMenu = OpenContextMenu();
+            contextMenu.FindDescendantByText(entryName).LeftClick();
+            return contextMenu;
+        }
+
+        private AutomationElement OpenContextMenu()
         {
             // Use "shift F10" shortcut to open context menu
             SendKeys.SendWait("+{F10}");
-            MainWindow.FindDescendantByText(entryName).LeftClick();
+            var contextMenu = MainWindow.FindDescendant(new PropertyCondition(AutomationElement.ClassNameProperty, "ContextMenu", PropertyConditionFlags.IgnoreCase));
+            return contextMenu;
         }
 
         public IList<AutomationElement> GetContextMenuSubMenuCommands(string subMenuName, Regex commandName)
         {
-            ClickContextMenuEntry(subMenuName);
-            var descendants = MainWindow.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ProcessIdProperty, _process.Id));
+            var contextMenu = ClickContextMenuEntry(subMenuName);
+            var descendants = contextMenu.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ProcessIdProperty, _process.Id));
             return (from AutomationElement descendant in descendants
                     where descendant.GetSupportedProperties().Contains(AutomationElement.NameProperty)
                     let elementName = descendant.GetCurrentPropertyValue(AutomationElement.NameProperty)
