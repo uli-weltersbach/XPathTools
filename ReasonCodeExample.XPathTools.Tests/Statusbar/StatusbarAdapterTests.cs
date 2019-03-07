@@ -4,7 +4,7 @@ using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
 namespace ReasonCodeExample.XPathTools.Tests.Statusbar
 {
     [TestFixture]
-    [Category("Integration")]
+    [Category(TestCategory.Integration)]
     public class StatusbarAdapterTests
     {
         private readonly VisualStudioExperimentalInstance _visualStudio = new VisualStudioExperimentalInstance();

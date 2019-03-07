@@ -1,5 +1,4 @@
-﻿using System.Windows.Automation;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using NUnit.Framework;
 using ReasonCodeExample.XPathTools.Tests.Statusbar;
 using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
@@ -8,7 +7,7 @@ using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 namespace ReasonCodeExample.XPathTools.Tests.Configuration
 {
     [TestFixture]
-    [Category("Integration")]
+    [Category(TestCategory.Integration)]
     public class ConfigurationTests
     {
         private readonly VisualStudioExperimentalInstance _visualStudio = new VisualStudioExperimentalInstance();

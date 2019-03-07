@@ -167,6 +167,7 @@
     <Compile Include="Statusbar\StatusbarAdapterTests.cs" />
     <Compile Include="Configuration\ConfigurationTests.cs" />
     <Compile Include="Statusbar\StatusbarAutomationModel.cs" />
+    <Compile Include="TestCategory.cs" />
     <Compile Include="Writers\XPathWriterFactoryTests.cs" />
     <Compile Include="XmlStringExtensions.cs" />
     <Compile Include="VisualStudioIntegration\CaretPositionLineInfoTests.cs" />

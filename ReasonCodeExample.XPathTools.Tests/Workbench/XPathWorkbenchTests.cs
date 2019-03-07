@@ -5,7 +5,7 @@ using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 namespace ReasonCodeExample.XPathTools.Tests.Workbench
 {
     [TestFixture]
-    [Category("Integration")]
+    [Category(TestCategory.Integration)]
     public class XPathWorkbenchTests
     {
         private readonly VisualStudioExperimentalInstance _visualStudio = new VisualStudioExperimentalInstance();

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -11,7 +10,7 @@ using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
 namespace ReasonCodeExample.XPathTools.Tests.Writers
 {
     [TestFixture]
-    [Category("Integration")]
+    [Category(TestCategory.Integration)]
     [Apartment(ApartmentState.STA)]
     public class CopyXPathCommandTests
     {
