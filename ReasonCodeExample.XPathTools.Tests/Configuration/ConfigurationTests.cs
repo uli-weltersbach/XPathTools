@@ -16,6 +16,9 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
         public void StartVisualStudio()
         {
             _visualStudio.ReStart();
+            var xml = "<a><b id='hello'><c/></b><b id='world'><c/></b></a>";
+            var xmlElementIndex = 41;
+            _visualStudio.OpenXmlFile(xml, xmlElementIndex);
         }
 
         [OneTimeTearDown]
@@ -24,19 +27,17 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
             _visualStudio.Stop();
         }
         
-        [TestCase(XPathFormat.Generic, "<a><b id='hello'><c/></b><b id='world'><c/></b></a>", 41, "/a/b/c")]
-        [TestCase(XPathFormat.Absolute, "<a><b id='hello'><c/></b><b id='world'><c/></b></a>", 41, "/a[1]/b[2]/c[1]")]
-        [TestCase(XPathFormat.Distinct, "<a><b id='hello'><c/></b><b id='world'><c/></b></a>", 41, "/a/b[@id='world']/c")]
-        public void StatusbarXPathFormatChangesWhenConfigurationIsChanged(XPathFormat xpathFormat, string xml, int xmlElementIndex, string expectedXPath)
+        [TestCase(XPathFormat.Generic, "/a/b/c")]
+        [TestCase(XPathFormat.Absolute, "/a[1]/b[2]/c[1]")]
+        [TestCase(XPathFormat.Distinct, "/a/b[@id='world']/c")]
+        public void StatusbarXPathFormatChangesWhenConfigurationIsChanged(XPathFormat xpathFormat, string expectedXPath)
         {
             // Arrange
             var configuration = new XPathToolsDialogPageAutomationModel(_visualStudio);
-            configuration.SetStatusbarXPathFormat(XPathFormat.Simplified);
-            _visualStudio.OpenXmlFile(xml, xmlElementIndex);
 
             // Act
             configuration.SetStatusbarXPathFormat(xpathFormat);
-            SendKeys.SendWait("{LEFT}"); // Move the caret to trigger a statusbar update
+            SendKeys.SendWait("{LEFT}{RIGHT}"); // Move the caret to trigger a statusbar update
 
             // Assert
             var statusbar = new StatusbarAutomationModel(_visualStudio.MainWindow);
