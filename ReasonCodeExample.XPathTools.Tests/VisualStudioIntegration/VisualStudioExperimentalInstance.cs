@@ -169,9 +169,7 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
         {
             var openFileDialog = MainWindow.FindDescendant(new PropertyCondition(AutomationElement.NameProperty, "Open File"));
 
-            var directoryPickerCondition = new AndCondition(
-                new PropertyCondition(AutomationElement.AutomationIdProperty, "1001"),
-                new PropertyCondition(AutomationElement.ClassNameProperty, "ToolbarWindow32", PropertyConditionFlags.IgnoreCase));
+            var directoryPickerCondition = new PropertyCondition(AutomationElement.NameProperty, "All locations", PropertyConditionFlags.IgnoreCase);
             var directoryPicker = openFileDialog.FindDescendant(directoryPickerCondition);
             directoryPicker.LeftClick();
             SendKeys.SendWait(xmlFIle.DirectoryName);
