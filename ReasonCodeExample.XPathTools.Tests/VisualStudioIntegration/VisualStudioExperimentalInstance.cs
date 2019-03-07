@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Automation;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
 {
@@ -118,26 +119,34 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
 
         public void OpenXmlFile(string content, int? caretPosition)
         {
-            OpenNewFileDialog();
-            OpenNewXmlFile();
-            InsertContentIntoNewXmlFile(content);
+            var temporaryFile = CreateTemporaryFile(content);
+            OpenFilePickerDialog();
+            OpenTemporaryFile(temporaryFile);
             if(caretPosition.HasValue)
             {
                 SetCaretPosition(caretPosition.Value);
             }
         }
 
-        private void OpenNewFileDialog()
+        private FileInfo CreateTemporaryFile(string content)
         {
-            MainWindow.FindDescendantByText("File").LeftClick();
-            MainWindow.FindDescendantByText("New").LeftClick();
-            MainWindow.FindDescendantByText("File...").LeftClick();
+            var temporaryFile = new FileInfo(Path.GetTempFileName());
+            temporaryFile.MoveTo(temporaryFile.FullName + ".xml");
+            var xmlDocument = XDocument.Parse(content);
+            xmlDocument.Save(temporaryFile.OpenWrite(), SaveOptions.DisableFormatting);
+            return temporaryFile;
         }
 
-        private void OpenNewXmlFile()
+        private void OpenFilePickerDialog()
         {
-            MainWindow.FindDescendantByText("XML File").LeftClick();
-            MainWindow.FindDescendantByText("Open").LeftClick();
+            var fileMenu = MainWindow.FindDescendantByText("File").LeftClick();
+            var openMenu = fileMenu.FindDescendantByText("Open").LeftClick();
+            openMenu.FindDescendantByText("File...").LeftClick();
+        }
+
+        private void OpenTemporaryFile(FileInfo xmlFIle)
+        {
+            
         }
 
         private void InsertContentIntoNewXmlFile(string content)
