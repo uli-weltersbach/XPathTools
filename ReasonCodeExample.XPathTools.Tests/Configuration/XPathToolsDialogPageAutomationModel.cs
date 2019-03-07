@@ -5,13 +5,15 @@ using System.Windows.Forms;
 
 namespace ReasonCodeExample.XPathTools.Tests.Configuration
 {
-    public class XPathToolsDialogPageAutomationModel
+    internal class XPathToolsDialogPageAutomationModel
     {
+        private readonly VisualStudioExperimentalInstance _visualStudio;
         private readonly AutomationElement _mainWindow;
 
-        public XPathToolsDialogPageAutomationModel(AutomationElement mainWindow)
+        public XPathToolsDialogPageAutomationModel(VisualStudioExperimentalInstance visualStudio)
         {
-            _mainWindow = mainWindow;
+            _visualStudio = visualStudio;
+            _mainWindow = visualStudio.MainWindow;
         }
 
         private bool IsOpen
@@ -41,23 +43,14 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
 
         private AutomationElement OpenToolsMenu()
         {
-            var toolsMenu = FindMenuItem("Tools", _mainWindow);
+            var toolsMenu = _visualStudio.FindMenuItem("Tools");
             toolsMenu.LeftClick();
             return toolsMenu;
         }
-
-        private AutomationElement FindMenuItem(string menuItemText, AutomationElement ancestor)
-        {
-            var className = "MenuItem";
-            var classNameCondition = new PropertyCondition(AutomationElement.ClassNameProperty, className, PropertyConditionFlags.IgnoreCase);
-            var nameCondition = new PropertyCondition(AutomationElement.NameProperty, menuItemText, PropertyConditionFlags.IgnoreCase);
-            var condition = new AndCondition(classNameCondition, nameCondition);
-            return ancestor.FindDescendant(condition);
-        }
-
+        
         private AutomationElement OpenOptionsDialog(AutomationElement toolsMenu)
         {
-            var optionsMenuEntry = FindMenuItem("Options...", toolsMenu);
+            var optionsMenuEntry = _visualStudio.FindMenuItem("Options...", toolsMenu);
             optionsMenuEntry.LeftClick();
 
             var optionsDialog = _mainWindow.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Options"));

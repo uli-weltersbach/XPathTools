@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Windows.Automation;
+﻿using System.Windows.Automation;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using Microsoft.VisualStudio.Shell.Interop;
-using NSubstitute;
 using NUnit.Framework;
-using ReasonCodeExample.XPathTools.Configuration;
-using ReasonCodeExample.XPathTools.Statusbar;
 using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
-using ReasonCodeExample.XPathTools.Tests.Workbench;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
 namespace ReasonCodeExample.XPathTools.Tests.Configuration
@@ -19,18 +10,18 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
     [Category("Integration")]
     public class ConfigurationTests
     {
-        private readonly VisualStudioExperimentalInstance _instance = new VisualStudioExperimentalInstance();
+        private readonly VisualStudioExperimentalInstance _visualStudio = new VisualStudioExperimentalInstance();
 
         [OneTimeSetUp]
         public void StartVisualStudio()
         {
-            _instance.ReStart();
+            _visualStudio.ReStart();
         }
 
         [OneTimeTearDown]
         public void StopVisualStudio()
         {
-            _instance.Stop();
+            _visualStudio.Stop();
         }
         
         [TestCase(XPathFormat.Generic, "<a><b id='hello'><c/></b></a>", 19, "/a/b/c")]
@@ -39,16 +30,16 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
         public void StatusbarXPathFormatChangesWhenConfigurationIsChanged(XPathFormat xpathFormat, string xml, int xmlElementIndex, string expectedXPath)
         {
             // Arrange
-            var configuration = new XPathToolsDialogPageAutomationModel(_instance.MainWindow);
+            var configuration = new XPathToolsDialogPageAutomationModel(_visualStudio);
             configuration.SetStatusbarXPathFormat(XPathFormat.Simplified);
-            _instance.OpenXmlFile(xml, xmlElementIndex);
+            _visualStudio.OpenXmlFile(xml, xmlElementIndex);
 
             // Act
             configuration.SetStatusbarXPathFormat(xpathFormat);
             SendKeys.SendWait("{LEFT}"); // Move the caret to trigger a statusbar update
 
             // Assert
-            var statusbar = _instance.MainWindow.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ClassNameProperty, "StatusBar", PropertyConditionFlags.IgnoreCase));
+            var statusbar = _visualStudio.MainWindow.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ClassNameProperty, "StatusBar", PropertyConditionFlags.IgnoreCase));
             var text = statusbar.FindDescendantByText(expectedXPath);
             Assert.That(text, Is.Not.Null);
         }

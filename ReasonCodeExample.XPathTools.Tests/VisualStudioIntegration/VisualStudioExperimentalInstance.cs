@@ -20,12 +20,12 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             get
             {
                 _process = FindExperimentalInstance();
-                if(_process == null)
+                if (_process == null)
                 {
                     return null;
                 }
 
-                if(_mainWindow == null)
+                if (_mainWindow == null)
                 {
                     var processIdCondition = new PropertyCondition(AutomationElement.ProcessIdProperty, _process.Id);
                     _mainWindow = AutomationElement.RootElement.FindFirst(TreeScope.Descendants, processIdCondition);
@@ -44,7 +44,7 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
         {
             Stop();
             var executablePath = FindLatestVisualStudioUsingVswhere();
-            if(!executablePath.Exists)
+            if (!executablePath.Exists)
             {
                 throw new FileNotFoundException($"Didn't find Visual Studio executable at \"{executablePath}\".");
             }
@@ -57,12 +57,12 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
         public void Stop()
         {
             var process = FindExperimentalInstance();
-            if(process == null)
+            if (process == null)
             {
                 return;
             }
 
-            if(process.HasExited)
+            if (process.HasExited)
             {
                 return;
             }
@@ -74,7 +74,7 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
         {
             var programsFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
             var vswhereExePath = new FileInfo(Path.Combine(programsFolder, "Microsoft Visual Studio", "Installer", "vswhere.exe"));
-            if(!vswhereExePath.Exists)
+            if (!vswhereExePath.Exists)
             {
                 throw new FileNotFoundException($"Didn't find vswhere.exe at \"{vswhereExePath}\".");
             }
@@ -89,18 +89,18 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             string output = process.StandardOutput.ReadToEnd();
             string error = process.StandardError.ReadToEnd();
             process.WaitForExit();
-            if(!string.IsNullOrWhiteSpace(error))
+            if (!string.IsNullOrWhiteSpace(error))
             {
                 throw new Exception($"Error calling vswhere.exe (\"{vswhereExePath}\"): {error}");
             }
 
-            if(string.IsNullOrWhiteSpace(output))
+            if (string.IsNullOrWhiteSpace(output))
             {
                 throw new Exception($"vswhere.exe (\"{vswhereExePath}\") output was null or empty.");
             }
 
             var match = Regex.Match(output, "^productPath: (.*)$", RegexOptions.Multiline);
-            if(match.Success)
+            if (match.Success)
             {
                 return new FileInfo(match.Groups[1].Value.Trim());
             }
@@ -111,9 +111,9 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
         private void WaitUntillStarted(TimeSpan timeoutDuration)
         {
             var timeout = DateTime.UtcNow.Add(timeoutDuration);
-            while(DateTime.UtcNow < timeout)
+            while (DateTime.UtcNow < timeout)
             {
-                if(MainWindow == null)
+                if (MainWindow == null)
                 {
                     Thread.Sleep(TimeSpan.FromSeconds(3));
                 }
@@ -131,7 +131,7 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             var temporaryFile = CreateTemporaryFile(content);
             OpenFilePickerDialog();
             OpenTemporaryFile(temporaryFile);
-            if(caretPosition.HasValue)
+            if (caretPosition.HasValue)
             {
                 SetCaretPosition(caretPosition.Value);
             }
@@ -147,13 +147,17 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
 
         private void OpenFilePickerDialog()
         {
-            FindMenuItem("File", MainWindow).LeftClick();
-            FindMenuItem("Open", MainWindow).LeftClick();
-            FindMenuItem("File...", MainWindow).LeftClick();
+            FindMenuItem("File").LeftClick();
+            FindMenuItem("Open").LeftClick();
+            FindMenuItem("File...").LeftClick();
         }
 
-        private AutomationElement FindMenuItem(string menuItemText, AutomationElement ancestor)
+        public AutomationElement FindMenuItem(string menuItemText, AutomationElement ancestor = null)
         {
+            if (ancestor == null)
+            {
+                ancestor = MainWindow;
+            }
             var className = "MenuItem";
             var classNameCondition = new PropertyCondition(AutomationElement.ClassNameProperty, className, PropertyConditionFlags.IgnoreCase);
             var nameCondition = new PropertyCondition(AutomationElement.NameProperty, menuItemText, PropertyConditionFlags.IgnoreCase);
