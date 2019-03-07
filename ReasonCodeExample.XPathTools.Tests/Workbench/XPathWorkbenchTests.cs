@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-using System.Xml.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
