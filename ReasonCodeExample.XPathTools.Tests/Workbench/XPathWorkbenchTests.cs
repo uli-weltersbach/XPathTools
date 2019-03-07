@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
-using System.Windows.Forms;
 
 namespace ReasonCodeExample.XPathTools.Tests.Workbench
 {
@@ -76,7 +75,8 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         public void WorkbenchHandlesXmlNamespaces()
         {
             // Arrange
-            EnterXmlWithNestedQuotationMarks();
+            var xml = "<assemblyBinding xmlns=\"urn:schemas-microsoft-com:asm.v1\" xmlns:urn=\"urn:schemas-microsoft-com:asm.v1\"><dependentAssembly /></assemblyBinding>";
+            _instance.OpenXmlFile(xml, null);
             _instance.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
             var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
             var expectedResultText = string.Format(PackageResources.SingleResultText, 1);
@@ -86,16 +86,6 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
 
             // Assert
             Assert.That(xpathWorkbench.SearchResultText, Does.Contain(expectedResultText));
-        }
-
-        private void EnterXmlWithNestedQuotationMarks()
-        {
-            var xmlPart1 = "<assemblyBinding xmlns=\"urn:schemas-microsoft-com:asm.v1\" xmlns:urn=\"";
-            _instance.OpenXmlFile(xmlPart1, null);
-            SendKeys.SendWait("{BACKSPACE}"); // Required because VS automatically completes the quotation mark pair for xmlns:urn=".
-            var xmlPart2 = "urn:schemas-microsoft-com:asm.v1\"><dependentAssembly /></assemblyBinding>";
-            SendKeys.SendWait(xmlPart2);
-            SendKeys.SendWait("{HOME}");
         }
     }
 }

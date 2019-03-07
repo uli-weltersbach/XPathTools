@@ -82,12 +82,9 @@ namespace ReasonCodeExample.XPathTools.Tests.Configuration
             // Open the XPath options dialog page
             Open();
 
-            // This assumes that the XPath Tools settings page has focus
-            for (var i = 0; i < 6; i++)
-            {
-                // Move to the last setting
-                SendKeys.SendWait("{DOWN}");
-            }
+            // Move to the last setting - this assumes that the XPath Tools settings page has focus and has 6 settings
+            SendKeys.SendWait("{DOWN 6}");
+
             // Select the desired format - requires all formats to start with a different letter!
             var firstLetter = format.ToString()[0].ToString();
             SendKeys.SendWait(firstLetter);

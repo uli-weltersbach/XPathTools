@@ -192,8 +192,8 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
         private void SetCaretPosition(int caretPosition)
         {
             // Go to the start of the line and move forward from there
-            SendKeys.SendWait("{Home}");
-            SendKeys.SendWait("{Right " + caretPosition + "}");
+            SendKeys.SendWait("{HOME}");
+            SendKeys.SendWait("{RIGHT " + caretPosition + "}");
         }
 
         public void ClickContextMenuEntry(string entryName)
