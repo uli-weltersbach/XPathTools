@@ -146,7 +146,19 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
 
         private void OpenTemporaryFile(FileInfo xmlFIle)
         {
-            
+            var openFileDialog = MainWindow.FindDescendant(new PropertyCondition(AutomationElement.NameProperty, "Open File"));
+            var directoryPickerCondition = new AndCondition(new PropertyCondition(AutomationElement.NameProperty, "Address"), new PropertyCondition(AutomationElement.ClassNameProperty, "Edit"));
+            var directoryPicker = openFileDialog.FindDescendant(directoryPickerCondition);
+            directoryPicker.LeftClick();
+            SendKeys.SendWait(xmlFIle.DirectoryName);
+
+            var filePickerCondition = new AndCondition(new PropertyCondition(AutomationElement.NameProperty, "File name:"), new PropertyCondition(AutomationElement.ClassNameProperty, "Edit"));
+            var filePicker = openFileDialog.FindDescendant(filePickerCondition);
+            filePicker.LeftClick();
+            SendKeys.SendWait(xmlFIle.Name);
+            // Name = "Open File"
+            // ClassName = "Edit"
+            // Name = "Address"
         }
 
         private void InsertContentIntoNewXmlFile(string content)
