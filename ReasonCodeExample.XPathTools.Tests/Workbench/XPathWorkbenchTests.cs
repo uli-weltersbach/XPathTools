@@ -1,39 +1,35 @@
-﻿using System.Xml.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
-using System.Windows.Forms;
 
 namespace ReasonCodeExample.XPathTools.Tests.Workbench
 {
     [TestFixture]
-    [Category("Integration")]
+    [Category(TestCategory.Integration)]
     public class XPathWorkbenchTests
     {
-        private readonly VisualStudioExperimentalInstance _instance = new VisualStudioExperimentalInstance();
+        private readonly VisualStudioExperimentalInstance _visualStudio = new VisualStudioExperimentalInstance();
 
         [OneTimeSetUp]
         public void StartVisualStudio()
         {
-            _instance.ReStart();
+            _visualStudio.ReStart();
+            var xml = "<assemblyBinding xmlns=\"urn:schemas-microsoft-com:asm.v1\" xmlns:urn=\"urn:schemas-microsoft-com:asm.v1\"><dependentAssembly /></assemblyBinding>";
+            _visualStudio.OpenXmlFile(xml, null);
+            _visualStudio.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
         }
 
         [OneTimeTearDown]
         public void StopVisualStudio()
         {
-            _instance.Stop();
+            _visualStudio.Stop();
         }
 
         [Test]
         public void WorkbenchIsActivatedViaContextMenu()
         {
-            // Arrange
-            var xml = new XElement("xml");
-            _instance.OpenXmlFile(xml.ToString(), 0);
-
             // Act
-            _instance.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
-            var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
+            var xpathWorkbench = new XPathWorkbenchAutomationModel(_visualStudio.MainWindow);
 
             // Assert
             Assert.That(xpathWorkbench.IsVisible, Is.True);
@@ -42,13 +38,8 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         [Test]
         public void WorkbenchRunsQueryEvenThoughNoNodeIsSelected()
         {
-            // Arrange
-            var xml = new XElement("xml");
-            _instance.OpenXmlFile(xml.ToString(), 0);
-
             // Act
-            _instance.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
-            var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
+            var xpathWorkbench = new XPathWorkbenchAutomationModel(_visualStudio.MainWindow);
             xpathWorkbench.Search("§ invalid XPath §");
 
             // Assert
@@ -59,14 +50,11 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         public void WorkbenchShowsSearchResultCount()
         {
             // Arrange
-            var xml = new XElement("xml");
-            _instance.OpenXmlFile(xml.ToString(SaveOptions.DisableFormatting), 0);
-            _instance.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
-            var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
+            var xpathWorkbench = new XPathWorkbenchAutomationModel(_visualStudio.MainWindow);
             var expectedResultText = string.Format(PackageResources.SingleResultText, 1);
 
             // Act
-            xpathWorkbench.Search("/xml");
+            xpathWorkbench.Search("//*[local-name()='assemblyBinding']");
 
             // Assert
             Assert.That(xpathWorkbench.SearchResultText, Does.Contain(expectedResultText));
@@ -76,9 +64,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         public void WorkbenchHandlesXmlNamespaces()
         {
             // Arrange
-            EnterXmlWithNestedQuotationMarks();
-            _instance.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
-            var xpathWorkbench = new XPathWorkbenchAutomationModel(_instance.MainWindow);
+            var xpathWorkbench = new XPathWorkbenchAutomationModel(_visualStudio.MainWindow);
             var expectedResultText = string.Format(PackageResources.SingleResultText, 1);
 
             // Act
@@ -86,16 +72,6 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
 
             // Assert
             Assert.That(xpathWorkbench.SearchResultText, Does.Contain(expectedResultText));
-        }
-
-        private void EnterXmlWithNestedQuotationMarks()
-        {
-            var xmlPart1 = "<assemblyBinding xmlns=\"urn:schemas-microsoft-com:asm.v1\" xmlns:urn=\"";
-            _instance.OpenXmlFile(xmlPart1, null);
-            SendKeys.SendWait("{BACKSPACE}"); // Required because VS automatically completes the quotation mark pair for xmlns:urn=".
-            var xmlPart2 = "urn:schemas-microsoft-com:asm.v1\"><dependentAssembly /></assemblyBinding>";
-            SendKeys.SendWait(xmlPart2);
-            SendKeys.SendWait("{HOME}");
         }
     }
 }

@@ -47,7 +47,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         public void Search(string xpath)
         {
             SearchText = xpath;
-            SendKeys.SendWait("{Enter}");
+            SendKeys.SendWait("{ENTER}");
         }
     }
 }

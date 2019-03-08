@@ -12,28 +12,28 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
         public static AutomationElement FindDescendantByType<T>(this AutomationElement ancestor, int timeoutInSeconds = DefaultTimeoutInSeconds) where T : Control
         {
             var propertyCondition = new PropertyCondition(AutomationElement.ClassNameProperty, typeof(T).Name, PropertyConditionFlags.IgnoreCase);
-            return FindDescendant(ancestor, timeoutInSeconds, propertyCondition);
+            return FindDescendant(ancestor, propertyCondition, timeoutInSeconds);
         }
 
         public static AutomationElement FindDescendantByAutomationId(this AutomationElement ancestor, string automationId, int timeoutInSeconds = DefaultTimeoutInSeconds)
         {
             var propertyCondition = new PropertyCondition(AutomationElement.AutomationIdProperty, automationId, PropertyConditionFlags.IgnoreCase);
-            return FindDescendant(ancestor, timeoutInSeconds, propertyCondition);
+            return FindDescendant(ancestor, propertyCondition, timeoutInSeconds);
         }
 
         public static AutomationElement FindDescendantByText(this AutomationElement ancestor, string descendantElementText, int timeoutInSeconds = DefaultTimeoutInSeconds)
         {
             var propertyCondition = new PropertyCondition(AutomationElement.NameProperty, descendantElementText, PropertyConditionFlags.IgnoreCase);
-            return FindDescendant(ancestor, timeoutInSeconds, propertyCondition);
+            return FindDescendant(ancestor, propertyCondition, timeoutInSeconds);
         }
 
-        private static AutomationElement FindDescendant(AutomationElement ancestor, int timeoutInSeconds, PropertyCondition propertyCondition)
+        public static AutomationElement FindDescendant(this AutomationElement ancestor, Condition condition, int timeoutInSeconds = DefaultTimeoutInSeconds)
         {
             var timeout = DateTime.UtcNow.AddSeconds(timeoutInSeconds);
             var retryInterval = TimeSpan.FromSeconds(1);
             while(DateTime.UtcNow < timeout)
             {
-                var match = ancestor.FindFirst(TreeScope.Descendants, propertyCondition);
+                var match = ancestor.FindFirst(TreeScope.Descendants, condition);
                 if(match == null)
                 {
                     Thread.Sleep(retryInterval);
@@ -43,7 +43,7 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
                     return match;
                 }
             }
-            throw new TimeoutException($"Element \"{propertyCondition.Value}\" wasn't found within {timeoutInSeconds} seconds.");
+            throw new TimeoutException($"Element \"{condition}\" wasn't found within {timeoutInSeconds} seconds.");
         }
 
         public static AutomationElement LeftClick(this AutomationElement element)

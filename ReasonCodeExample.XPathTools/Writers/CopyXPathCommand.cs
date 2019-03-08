@@ -4,12 +4,9 @@ namespace ReasonCodeExample.XPathTools.Writers
 {
     internal class CopyXPathCommand : CopyCommand
     {
-        private readonly ActiveDocument _activeDocument;
-
         public CopyXPathCommand(int id, XmlRepository repository, ActiveDocument activeDocument, Func<IWriter> writerProvider, ICommandTextFormatter textFormatter)
             : base(id, repository, activeDocument, writerProvider, textFormatter)
         {
-            _activeDocument = activeDocument;
         }
 
         protected override void OnBeforeQueryStatus(object sender, EventArgs e)

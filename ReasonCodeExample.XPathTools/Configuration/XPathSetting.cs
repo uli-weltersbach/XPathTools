@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Text;
 
-namespace ReasonCodeExample.XPathTools
+namespace ReasonCodeExample.XPathTools.Configuration
 {
     [Serializable]
     public class XPathSetting

@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Task = System.Threading.Tasks.Task;
 
 namespace ReasonCodeExample.XPathTools.Workbench
 {
@@ -19,11 +20,17 @@ namespace ReasonCodeExample.XPathTools.Workbench
 
         protected override void OnStartSearch()
         {
+            Task.WaitAll(SearchAsync());
+        }
+
+        private async Task SearchAsync()
+        {
             var workbench = (XPathWorkbench)_workbenchWindow.Content;
             ThreadHelper.Generic.Invoke(() => { workbench.SearchResults.Clear(); });
             ErrorCode = VSConstants.S_OK;
             try
             {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 var xpath = SearchQuery.SearchString;
                 var searchResults = workbench.Search(xpath);
                 SearchResults = (uint)searchResults.Count;
@@ -46,6 +53,7 @@ namespace ReasonCodeExample.XPathTools.Workbench
             {
                 workbench.SearchResults.Add(searchResult);
             }
+
             workbench.UpdateSearchResultText(searchResults);
         }
 

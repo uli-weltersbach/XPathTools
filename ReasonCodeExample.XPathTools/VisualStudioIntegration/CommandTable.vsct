@@ -8,8 +8,8 @@
       <Menu guid="PackageID" id="SubMenu" priority="0x0100">
         <Parent guid="PackageID" id="MenuGroup" />
         <CommandFlag>DontCache</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
-        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
           <ButtonText>Copy XPath</ButtonText>
           <MenuText>Copy XPath</MenuText>
@@ -31,6 +31,7 @@
       <Button guid="PackageID" id="CopyGenericXPathCommand" priority="0x0100" type="Button">
         <Parent guid="PackageID" id="SubMenuGroup" />
         <Icon guid="ImagesID" id="CopyGenericXPathCommandIcon" />
+        <CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DontCache</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>TextChanges</CommandFlag>
@@ -45,6 +46,7 @@
         <Parent guid="PackageID" id="SubMenuGroup" />
         <Icon guid="ImagesID" id="CopyAbsoluteXPathCommandIcon" />
         <CommandFlag>DontCache</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>TextChanges</CommandFlag>
         <Strings>
@@ -58,6 +60,7 @@
         <Parent guid="PackageID" id="SubMenuGroup" />
         <Icon guid="ImagesID" id="CopyDistinctXPathCommandIcon" />
         <CommandFlag>DontCache</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>TextChanges</CommandFlag>
         <Strings>
@@ -71,6 +74,7 @@
         <Parent guid="PackageID" id="SubMenuGroup" />
         <Icon guid="ImagesID" id="CopySimplifiedXPathCommandIcon" />
         <CommandFlag>DontCache</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>TextChanges</CommandFlag>
         <Strings>
@@ -84,6 +88,7 @@
         <Parent guid="PackageID" id="MenuGroup" />
         <Icon guid="ImagesID" id="CopyXmlStructureCommandIcon" />
         <CommandFlag>DontCache</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Copy XML structure</ButtonText>
@@ -96,6 +101,7 @@
         <Parent guid="PackageID" id="MenuGroup" />
         <Icon guid="ImagesID" id="ShowXPathWorkbenchCommandIcon" />
         <CommandFlag>DontCache</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Open XPath Runner</ButtonText>
@@ -109,16 +115,6 @@
       <Bitmap guid="ImagesID" href="..\Assets\CommandIcons.png" />
     </Bitmaps>
   </Commands>
-
-  <CommandPlacements>
-    <CommandPlacement guid="PackageID" id="CopyGenericXPathCommand" priority="0x0100">
-      <Parent guid="PackageID" id="SubMenu"/>
-    </CommandPlacement>
-
-    <CommandPlacement guid="PackageID" id="CopyAbsoluteXPathCommand" priority="0x0200">
-      <Parent guid="PackageID" id="SubMenu"/>
-    </CommandPlacement>
-  </CommandPlacements>
 
   <Symbols>
     <GuidSymbol name="PackageID" value="{253aa665-a779-4716-9ded-5b0c2cb66710}">

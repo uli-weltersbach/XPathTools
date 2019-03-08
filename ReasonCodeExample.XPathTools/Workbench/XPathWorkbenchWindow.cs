@@ -26,6 +26,7 @@ namespace ReasonCodeExample.XPathTools.Workbench
 
         private void GoToSearchResult(object sender, SearchResult searchResult)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             try
             {
                 if(!searchResult.LineNumber.HasValue)

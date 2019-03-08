@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing.Design;
@@ -7,8 +6,9 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.Win32;
+using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
-namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
+namespace ReasonCodeExample.XPathTools.Configuration
 {
     internal class XPathToolsDialogPage : DialogPage, IConfiguration
     {

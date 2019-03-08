@@ -2,78 +2,55 @@
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using ReasonCodeExample.XPathTools.Configuration;
 using ReasonCodeExample.XPathTools.Workbench;
 using ReasonCodeExample.XPathTools.Writers;
 
 namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 {
-    [PackageRegistration(UseManagedResourcesOnly = true)]
-    [ProvideAutoLoad(UIContextGuids.NoSolution)]
+    [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
+    [ProvideAutoLoad(UIContextGuids.NoSolution, PackageAutoLoadFlags.BackgroundLoad)]
+    [ProvideAutoLoad(UIContextGuids.SolutionExists, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideMenuResource(MenuResourceID, 1)]
     [Guid(Symbols.PackageID)]
     [ProvideOptionPage(typeof(XPathToolsDialogPage), "XPath Tools", "General", 0, 0, true)]
     [ProvideToolWindow(typeof(XPathWorkbenchWindow), Transient = true)]
     [ProvideToolWindowVisibility(typeof(XPathWorkbenchWindow), VSConstants.UICONTEXT.CodeWindow_string)]
-    internal class XPathToolsPackage : Package
+    internal class XPathToolsPackage : AsyncPackage
     {
         private const string MenuResourceID = "CommandFactory.ctmenu";
-        private readonly ServiceContainer _container;
 
-        public XPathToolsPackage()
-            : this(Registry.Current)
+        protected override async System.Threading.Tasks.Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-        }
-
-        public XPathToolsPackage(ServiceContainer container)
-        {
-            _container = container;
-        }
-
-        protected override void Initialize()
-        {
+            await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             try
             {
-                base.Initialize();
-                var configuration = (XPathToolsDialogPage)GetDialogPage(typeof(XPathToolsDialogPage));
-                var commandService = (IMenuCommandService)GetService(typeof(IMenuCommandService));
-                var statusbar = (IVsStatusbar)GetService(typeof(IVsStatusbar));
-                Initialize(configuration, commandService, statusbar);
+                var configuration = (IConfiguration)GetDialogPage(typeof(XPathToolsDialogPage));
+                Registry.Current.Set(configuration);
+                var menuCommandService = (IMenuCommandService)await GetServiceAsync(typeof(IMenuCommandService));
+                InitializeCommands(Registry.Current.Get<ActiveDocument>(), Registry.Current.Get<XmlRepository>(), Registry.Current.Get<XPathWriterFactory>(), menuCommandService);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
             }
         }
 
-        public void Initialize(IConfiguration configuration, IMenuCommandService commandService, IVsStatusbar statusbar)
-        {
-            _container.Set<IConfiguration>(configuration);
-            _container.Set<IMenuCommandService>(commandService);
-            var activeDocument = new ActiveDocument();
-            _container.Set<ActiveDocument>(activeDocument);
-            var repository = new XmlRepository();
-            _container.Set<XmlRepository>(repository);
-            _container.Set<SearchResultFactory>(new SearchResultFactory());
-            var writerFactory = new XPathWriterFactory(configuration);
-            InitializeStatusbar(configuration, writerFactory, repository, statusbar);
-            InitializeCommands(activeDocument, repository, writerFactory, commandService);
-        }
-
-        private void InitializeStatusbar(IConfiguration configuration, XPathWriterFactory writerFactory, XmlRepository repository, IVsStatusbar statusbar)
-        {
-            Func<IWriter> writerProvider = () =>
-            {
-                var xpathFormat = configuration.StatusbarXPathFormat ?? XPathFormat.Generic;
-                return writerFactory.CreateForXPathFormat(xpathFormat);
-            };
-            _container.Set<StatusbarAdapter>(new StatusbarAdapter(repository, writerProvider, statusbar));
-        }
-
         private void InitializeCommands(ActiveDocument activeDocument, XmlRepository repository, XPathWriterFactory writerFactory, IMenuCommandService commandService)
         {
+            if (activeDocument == null)
+                throw new ArgumentNullException(nameof(activeDocument));
+            if (repository == null)
+                throw new ArgumentNullException(nameof(repository));
+            if (writerFactory == null)
+                throw new ArgumentNullException(nameof(writerFactory));
+            if (commandService == null)
+                throw new ArgumentNullException(nameof(commandService));
+
             var subMenu = CreateSubMenu(activeDocument);
             commandService.AddCommand(subMenu);
 
@@ -93,7 +70,7 @@ namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
                 () => writerFactory.CreateForCommandId(Symbols.CommandIDs.CopySimplifiedXPath), new TrimCommandTextFormatter());
             commandService.AddCommand(copySimplifiedXPathCommand);
 
-            var showXPathWorkbenchCommand = new ShowXPathWorkbenchCommand(this, commandService, Symbols.CommandIDs.ShowXPathWorkbench, repository, activeDocument);
+            var showXPathWorkbenchCommand = new ShowXPathWorkbenchCommand(this, Symbols.CommandIDs.ShowXPathWorkbench, repository, activeDocument);
             commandService.AddCommand(showXPathWorkbenchCommand.Command);
 
             var copyXmlStructureCommand = new CopyXmlStructureCommand(Symbols.CommandIDs.CopyXmlStructure, repository, activeDocument,

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -11,7 +10,7 @@ using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
 namespace ReasonCodeExample.XPathTools.Tests.Writers
 {
     [TestFixture]
-    [Category("Integration")]
+    [Category(TestCategory.Integration)]
     [Apartment(ApartmentState.STA)]
     public class CopyXPathCommandTests
     {
@@ -21,6 +20,11 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
         public void StartVisualStudio()
         {
             _instance.ReStart();
+
+            // Arrange
+            var xml = "<xml />";
+            var caretPosition = 2;
+            _instance.OpenXmlFile(xml, caretPosition);
         }
 
         [OneTimeTearDown]
@@ -32,11 +36,6 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
         [Test]
         public void XPathCommandsAreAvailable()
         {
-            // Arrange
-            var xml = "<xml />";
-            var caretPosition = 2;
-            _instance.OpenXmlFile(xml, caretPosition);
-
             // Act
             var matches = GetAvailableCopyXPathCommands();
 
@@ -48,10 +47,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Writers
         public void GenericXPathIsCopiedToClipboard()
         {
             // Arrange
-            var xml = "<xml />";
-            var caretPosition = 2;
             var expectedXPath = "/xml";
-            _instance.OpenXmlFile(xml, caretPosition);
             var matches = GetAvailableCopyXPathCommands();
             var copyGenericXPathCommand = matches.First();
 

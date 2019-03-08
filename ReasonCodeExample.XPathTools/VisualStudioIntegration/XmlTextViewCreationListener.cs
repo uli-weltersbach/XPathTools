@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
-using System.Diagnostics;
+using ReasonCodeExample.XPathTools.Statusbar;
 
 namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 {
@@ -23,9 +24,9 @@ namespace ReasonCodeExample.XPathTools.VisualStudioIntegration
 
         public XmlTextViewCreationListener(XmlRepository repository, StatusbarAdapter statusbar, ActiveDocument activeDocument)
         {
-            _repository = repository;
-            _statusbar = statusbar;
-            _activeDocument = activeDocument;
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _statusbar = statusbar ?? throw new ArgumentNullException(nameof(statusbar));
+            _activeDocument = activeDocument ?? throw new ArgumentNullException(nameof(activeDocument));
         }
 
         public void TextViewCreated(IWpfTextView textView)

@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using ReasonCodeExample.XPathTools.Configuration;
 using ReasonCodeExample.XPathTools.Writers;
 
 namespace ReasonCodeExample.XPathTools.Tests.Writers

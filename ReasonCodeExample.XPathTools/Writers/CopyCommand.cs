@@ -12,35 +12,31 @@ namespace ReasonCodeExample.XPathTools.Writers
 
         protected CopyCommand(int id, XmlRepository repository, ActiveDocument activeDocument, Func<IWriter> writerProvider, ICommandTextFormatter textFormatter)
         {
-            _activeDocument = activeDocument;
-            Repository = repository;
+            Repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _activeDocument = activeDocument ?? throw new ArgumentNullException(nameof(activeDocument));
             Command = new OleMenuCommand(OnInvoke, null, OnBeforeQueryStatus, new CommandID(Guid.Parse(Symbols.PackageID), id));
-            WriterProvider = writerProvider;
-            TextFormatter = textFormatter;
+            WriterProvider = writerProvider ?? throw new ArgumentNullException(nameof(writerProvider));
+            TextFormatter = textFormatter ?? throw new ArgumentNullException(nameof(textFormatter));
         }
 
         protected XmlRepository Repository
         {
             get;
-            private set;
         }
 
         protected OleMenuCommand Command
         {
             get;
-            private set;
         }
 
         protected Func<IWriter> WriterProvider
         {
             get;
-            private set;
         }
 
         protected ICommandTextFormatter TextFormatter
         {
             get;
-            private set;
         }
 
         protected string Output
@@ -51,7 +47,10 @@ namespace ReasonCodeExample.XPathTools.Writers
 
         private void OnInvoke(object sender, EventArgs e)
         {
-            Clipboard.SetText(Output);
+            if (!string.IsNullOrEmpty(Output))
+            {
+                Clipboard.SetText(Output);
+            }
         }
 
         protected virtual void OnBeforeQueryStatus(object sender, EventArgs e)
