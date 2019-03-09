@@ -225,13 +225,13 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
                     select descendant).Distinct().ToArray();
         }
 
-        public string GetActiveDocumentTitle()
+        public AutomationElement GetSelectedDocument()
         {
             var classNameCondition = new PropertyCondition(AutomationElement.ClassNameProperty, "TabItem", PropertyConditionFlags.IgnoreCase);
             var isSelectedCondition = new PropertyCondition(SelectionItemPattern.IsSelectedProperty, true);
             var activeDocumentCondition = new AndCondition(classNameCondition, isSelectedCondition);
             var selectedDocument = MainWindow.FindDescendant(activeDocumentCondition);
-            return selectedDocument.GetText();
+            return selectedDocument;
         }
     }
 }
