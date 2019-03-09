@@ -73,5 +73,21 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
             // Assert
             Assert.That(xpathWorkbench.SearchResultText, Does.Contain(expectedResultText));
         }
+
+        [Test]
+        public void WorkbenchActivatesCorrectDocumentWindow()
+        {
+            // Arrange
+            var xpathWorkbench = new XPathWorkbenchAutomationModel(_visualStudio.MainWindow);
+            xpathWorkbench.Search("/urn:assemblyBinding/urn:dependentAssembly");
+            var xml = "<!-- This XML file is not the search result source --><root />";
+            var xmlFile = _visualStudio.OpenXmlFile(xml, null);
+
+            // Act
+            xpathWorkbench.GetSearchResult(0).LeftClick();
+
+            // Assert
+            Assert.That(_visualStudio.GetActiveDocumentTitle(), Is.EqualTo(xmlFile.Name));
+        }
     }
 }
