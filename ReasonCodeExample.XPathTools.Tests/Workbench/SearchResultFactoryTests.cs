@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using NUnit.Framework;
 using ReasonCodeExample.XPathTools.Workbench;
 
@@ -9,6 +11,15 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
     [TestFixture]
     public class SearchResultFactoryTests
     {
+        private ActiveDocument _activeDocument;
+
+        [OneTimeSetUp]
+        public void InitializeActiveDocument()
+        {
+            _activeDocument = Substitute.For<ActiveDocument>();
+            _activeDocument.Current.ReturnsNull();
+        }
+
         private const string Xml = @"<xml>
     <child name='first'>Hello World!</child>
 <child name='second'>Guten Morgen Welt!</child>
@@ -21,7 +32,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         public void SetsLineNumber(string xpath, int lineNumber)
         {
             // Arrange
-            var factory = new SearchResultFactory();
+            var factory = new SearchResultFactory(_activeDocument);
             var evaluationResult = XElement.Parse(Xml, LoadOptions.SetLineInfo).XPathEvaluate(xpath);
 
             // Act
@@ -37,7 +48,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         public void SetsLinePosition(string xpath, int linePosition)
         {
             // Arrange
-            var factory = new SearchResultFactory();
+            var factory = new SearchResultFactory(_activeDocument);
             var evaluationResult = XElement.Parse(Xml, LoadOptions.SetLineInfo).XPathEvaluate(xpath);
 
             // Act
@@ -51,7 +62,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         public void HandlesNullGracefully()
         {
             // Arrange
-            var factory = new SearchResultFactory();
+            var factory = new SearchResultFactory(_activeDocument);
 
             // Act
             var results = factory.Parse(null);
@@ -64,7 +75,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         public void ParsesXPathWhichEvaluatesToAttribute()
         {
             // Arrange
-            var factory = new SearchResultFactory();
+            var factory = new SearchResultFactory(_activeDocument);
             var evaluationResult = XElement.Parse(Xml).XPathEvaluate("/child/@name");
             var expectedAttributeValues = new[]
                                           {
@@ -82,7 +93,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         public void ParsesXPathWhichEvaluatesToBoolean()
         {
             // Arrange
-            var factory = new SearchResultFactory();
+            var factory = new SearchResultFactory(_activeDocument);
             var evaluationResult = XElement.Parse(Xml).XPathEvaluate("count(/child/@name) > 0");
 
             // Act
@@ -96,7 +107,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         public void ParsesXPathWhichEvaluatesToElements()
         {
             // Arrange
-            var factory = new SearchResultFactory();
+            var factory = new SearchResultFactory(_activeDocument);
             var evaluationResult = XElement.Parse(Xml).XPathEvaluate("/child");
 
             // Act
@@ -110,7 +121,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         public void ParsesXPathWhichEvaluatesToNumber()
         {
             // Arrange
-            var factory = new SearchResultFactory();
+            var factory = new SearchResultFactory(_activeDocument);
             var evaluationResult = XElement.Parse(Xml).XPathEvaluate("count(/child/@name)");
 
             // Act
@@ -124,7 +135,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         public void ParsesXPathWhichEvaluatesToString()
         {
             // Arrange
-            var factory = new SearchResultFactory();
+            var factory = new SearchResultFactory(_activeDocument);
             var evaluationResult = XElement.Parse(Xml).XPathEvaluate("/child/text()");
             var expectedTextValues = new[]
                                      {
@@ -145,7 +156,7 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
         public void SetsSelectionLength(string xpath, int expectedLength)
         {
             // Arrange
-            var factory = new SearchResultFactory();
+            var factory = new SearchResultFactory(_activeDocument);
             var evaluationResult = XElement.Parse(Xml, LoadOptions.SetLineInfo).XPathEvaluate(xpath);
 
             // Act

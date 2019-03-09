@@ -1,3 +1,5 @@
+using EnvDTE;
+
 namespace ReasonCodeExample.XPathTools.Workbench
 {
     public class SearchResult
@@ -20,6 +22,12 @@ namespace ReasonCodeExample.XPathTools.Workbench
             set;
         }
         public int? SelectionLength
+        {
+            get;
+            set;
+        }
+
+        public Document Source
         {
             get;
             set;

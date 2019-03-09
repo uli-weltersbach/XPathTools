@@ -37,6 +37,7 @@ namespace ReasonCodeExample.XPathTools.Workbench
                 {
                     return;
                 }
+                searchResult.Source?.Activate();
                 var dte = (DTE)Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(DTE));
                 var textSelection = (TextSelection)(dte?.ActiveDocument?.Selection);
                 var lineNumber = searchResult.LineNumber.Value;
