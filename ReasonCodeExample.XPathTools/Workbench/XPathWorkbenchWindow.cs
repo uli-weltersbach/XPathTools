@@ -33,13 +33,18 @@ namespace ReasonCodeExample.XPathTools.Workbench
                 {
                     return;
                 }
+
                 if(!searchResult.LinePosition.HasValue)
                 {
                     return;
                 }
-                searchResult.Source?.Activate();
-                var dte = (DTE)Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(DTE));
-                var textSelection = (TextSelection)(dte?.ActiveDocument?.Selection);
+
+                if(!TryActivateSourceDocument(searchResult.Source))
+                {
+                    return;
+                }
+
+                var textSelection = (TextSelection)(searchResult.Source?.Selection);
                 var lineNumber = searchResult.LineNumber.Value;
                 var selectionStart = searchResult.LinePosition.Value;
                 textSelection?.MoveTo(lineNumber, selectionStart, false);
@@ -55,12 +60,55 @@ namespace ReasonCodeExample.XPathTools.Workbench
             }
         }
 
+        private bool TryActivateSourceDocument(Document source)
+        {
+            if(source == null)
+            {
+                return false;
+            }
+
+            if(!ThreadHelper.CheckAccess())
+            {
+                return false;
+            }
+
+            try
+            {
+                source.Activate();
+                return true;
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                source.ProjectItem.Open();
+                return true;
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                source.NewWindow();
+                return true;
+            }
+            catch
+            {
+            }
+
+            return false;
+        }
+
         public override IVsSearchTask CreateSearch(uint dwCookie, IVsSearchQuery pSearchQuery, IVsSearchCallback pSearchCallback)
         {
             if(pSearchQuery == null || pSearchCallback == null)
             {
                 return null;
             }
+
             return new XPathSearchTask(dwCookie, pSearchQuery, pSearchCallback, this);
         }
 
