@@ -228,7 +228,6 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
         public string GetActiveDocumentTitle()
         {
             var classNameCondition = new PropertyCondition(AutomationElement.ClassNameProperty, "TabItem", PropertyConditionFlags.IgnoreCase);
-            //var isSelectionPatternAvailableCondition = new PropertyCondition(AutomationElement.IsSelectionItemPatternAvailableProperty, true);
             var isSelectedCondition = new PropertyCondition(SelectionItemPattern.IsSelectedProperty, true);
             var activeDocumentCondition = new AndCondition(classNameCondition, isSelectedCondition);
             var selectedDocument = MainWindow.FindDescendant(activeDocumentCondition);
