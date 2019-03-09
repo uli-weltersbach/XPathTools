@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using NUnit.Framework;
 using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
@@ -9,13 +10,14 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
     public class XPathWorkbenchTests
     {
         private readonly VisualStudioExperimentalInstance _visualStudio = new VisualStudioExperimentalInstance();
+        private FileInfo _defaultXmlFile;
 
         [OneTimeSetUp]
         public void StartVisualStudio()
         {
             _visualStudio.ReStart();
             var xml = "<assemblyBinding xmlns=\"urn:schemas-microsoft-com:asm.v1\" xmlns:urn=\"urn:schemas-microsoft-com:asm.v1\"><dependentAssembly /></assemblyBinding>";
-            _visualStudio.OpenXmlFile(xml, null);
+            _defaultXmlFile = _visualStudio.OpenXmlFile(xml, null);
             _visualStudio.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
         }
 
@@ -81,13 +83,13 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
             var xpathWorkbench = new XPathWorkbenchAutomationModel(_visualStudio.MainWindow);
             xpathWorkbench.Search("/urn:assemblyBinding/urn:dependentAssembly");
             var xml = "<!-- This XML file is not the search result source --><root />";
-            var xmlFile = _visualStudio.OpenXmlFile(xml, null);
+            _visualStudio.OpenXmlFile(xml, null);
 
             // Act
             xpathWorkbench.GetSearchResult(0).LeftClick();
 
             // Assert
-            Assert.That(_visualStudio.GetActiveDocumentTitle(), Is.EqualTo(xmlFile.Name));
+            Assert.That(_visualStudio.GetActiveDocumentTitle(), Is.EqualTo(_defaultXmlFile.Name));
         }
     }
 }
