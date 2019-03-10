@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
@@ -66,10 +67,33 @@ namespace ReasonCodeExample.XPathTools.Workbench
                                {
                                    Value = element.ToString(SaveOptions.DisableFormatting),
                                    SelectionLength = element.Name.LocalName.Length,
-                                   Source = source
+                                   SourceDocument = source,
+                                   SourceFile = GetSourceFile(source)
                                };
             SetLineInfo(element, searchResult);
             return searchResult;
+        }
+
+        private static FileInfo GetSourceFile(Document source)
+        {
+            if(source == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                if(string.IsNullOrEmpty(source.FullName))
+                {
+                    return null;
+                }
+
+                return new FileInfo(source.FullName);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private void SetLineInfo(IXmlLineInfo lineInfo, SearchResult searchResult)
@@ -92,7 +116,8 @@ namespace ReasonCodeExample.XPathTools.Workbench
                                {
                                    Value = attribute.ToString(),
                                    SelectionLength = attribute.Name.LocalName.Length,
-                                   Source = source
+                                   SourceDocument = source,
+                                   SourceFile = GetSourceFile(source)
                                };
             SetLineInfo(attribute, searchResult);
             return searchResult;
@@ -103,7 +128,8 @@ namespace ReasonCodeExample.XPathTools.Workbench
             return new SearchResult
                    {
                        Value = xpathResult.ToString(),
-                       Source = source
+                       SourceDocument = source,
+                       SourceFile = GetSourceFile(source)
                    };
         }
     }

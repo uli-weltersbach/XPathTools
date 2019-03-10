@@ -1,3 +1,4 @@
+using System.IO;
 using EnvDTE;
 
 namespace ReasonCodeExample.XPathTools.Workbench
@@ -27,7 +28,13 @@ namespace ReasonCodeExample.XPathTools.Workbench
             set;
         }
 
-        public Document Source
+        public Document SourceDocument
+        {
+            get;
+            set;
+        }
+
+        public FileInfo SourceFile
         {
             get;
             set;

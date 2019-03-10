@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using EnvDTE;
@@ -39,12 +40,15 @@ namespace ReasonCodeExample.XPathTools.Workbench
                     return;
                 }
 
-                if(!TryActivateSourceDocument(searchResult.Source))
+                var document = ActivateSourceDocument(searchResult.SourceDocument) ?? ActivateSourceFile(searchResult.SourceFile);
+                if(document == null)
                 {
+                    var statusbar = (IVsStatusbar)GetService(typeof(IVsStatusbar));
+                    statusbar?.SetText(PackageResources.XPathWorkbenchNavigationSourceActivationFailureText);
                     return;
                 }
 
-                var textSelection = (TextSelection)(searchResult.Source?.Selection);
+                var textSelection = (TextSelection)document.Selection;
                 var lineNumber = searchResult.LineNumber.Value;
                 var selectionStart = searchResult.LinePosition.Value;
                 textSelection?.MoveTo(lineNumber, selectionStart, false);
@@ -60,46 +64,54 @@ namespace ReasonCodeExample.XPathTools.Workbench
             }
         }
 
-        private bool TryActivateSourceDocument(Document source)
+        private Document ActivateSourceDocument(Document sourceDocument)
         {
-            if(source == null)
+            if(sourceDocument == null)
             {
-                return false;
-            }
-
-            if(!ThreadHelper.CheckAccess())
-            {
-                return false;
+                return null;
             }
 
             try
             {
-                source.Activate();
-                return true;
+                sourceDocument.Activate();
+                return sourceDocument;
             }
             catch
             {
+                // The document window may have been closed after the search result was created.
+                return null;
+            }
+        }
+
+        private Document ActivateSourceFile(FileInfo sourceFile)
+        {
+            if(sourceFile == null)
+            {
+                return null;
             }
 
-            try
+            if(!sourceFile.Exists)
             {
-                source.ProjectItem.Open();
-                return true;
-            }
-            catch
-            {
+                // The file may have been moved, renamed or deleted after the search result was created.
+                return null;
             }
 
-            try
+            var dte = (DTE)GetService(typeof(DTE));
+
+            if(dte.ItemOperations.IsFileOpen(sourceFile.FullName))
             {
-                source.NewWindow();
-                return true;
-            }
-            catch
-            {
+                foreach(Document document in dte.Documents)
+                {
+                    if(string.Equals(document.FullName, sourceFile.FullName, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        document.Activate();
+                        return document;
+                    }
+                }
             }
 
-            return false;
+            var window = dte.ItemOperations.OpenFile(sourceFile.FullName);
+            return window.Document;
         }
 
         public override IVsSearchTask CreateSearch(uint dwCookie, IVsSearchQuery pSearchQuery, IVsSearchCallback pSearchCallback)
