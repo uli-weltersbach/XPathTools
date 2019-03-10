@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using System.Windows.Forms;
+using NUnit.Framework;
 using ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration;
 using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
@@ -9,13 +11,14 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
     public class XPathWorkbenchTests
     {
         private readonly VisualStudioExperimentalInstance _visualStudio = new VisualStudioExperimentalInstance();
+        private FileInfo _defaultXmlFile;
 
         [OneTimeSetUp]
         public void StartVisualStudio()
         {
             _visualStudio.ReStart();
             var xml = "<assemblyBinding xmlns=\"urn:schemas-microsoft-com:asm.v1\" xmlns:urn=\"urn:schemas-microsoft-com:asm.v1\"><dependentAssembly /></assemblyBinding>";
-            _visualStudio.OpenXmlFile(xml, null);
+            _defaultXmlFile = _visualStudio.OpenXmlFile(xml, null);
             _visualStudio.ClickContextMenuEntry(PackageResources.ShowXPathWorkbenchCommandText);
         }
 
@@ -72,6 +75,38 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
 
             // Assert
             Assert.That(xpathWorkbench.SearchResultText, Does.Contain(expectedResultText));
+        }
+
+        [Test]
+        public void WorkbenchActivatesCorrectDocumentWindow()
+        {
+            // Arrange
+            var xpathWorkbench = new XPathWorkbenchAutomationModel(_visualStudio.MainWindow);
+            xpathWorkbench.Search("/urn:assemblyBinding/urn:dependentAssembly");
+            var xml = "<!-- This XML file is not the search result source --><root />";
+            _visualStudio.OpenXmlFile(xml, null);
+
+            // Act
+            xpathWorkbench.GetSearchResult(0).LeftClick();
+
+            // Assert
+            Assert.That(_visualStudio.GetSelectedDocument().GetText(), Is.EqualTo(_defaultXmlFile.Name));
+        }
+
+        [Test]
+        public void WorkbenchReattachesCorrectDocumentWindow()
+        {
+            // Arrange - open a document, run a search, close the document
+            var xpathWorkbench = new XPathWorkbenchAutomationModel(_visualStudio.MainWindow);
+            xpathWorkbench.Search("/urn:assemblyBinding/urn:dependentAssembly");
+            xpathWorkbench.GetSearchResult(0).LeftClick();
+            SendKeys.SendWait("^{F4}"); // Close the document using CTRL + F4
+
+            // Act - click the search result
+            xpathWorkbench.GetSearchResult(0).LeftClick();
+
+            // Assert - verify that the document is reopened
+            Assert.That(_visualStudio.GetSelectedDocument().GetText(), Is.EqualTo(_defaultXmlFile.Name));
         }
     }
 }

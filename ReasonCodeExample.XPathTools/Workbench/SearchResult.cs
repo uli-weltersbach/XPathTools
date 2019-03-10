@@ -1,3 +1,6 @@
+using System.IO;
+using EnvDTE;
+
 namespace ReasonCodeExample.XPathTools.Workbench
 {
     public class SearchResult
@@ -20,6 +23,18 @@ namespace ReasonCodeExample.XPathTools.Workbench
             set;
         }
         public int? SelectionLength
+        {
+            get;
+            set;
+        }
+
+        public Document SourceDocument
+        {
+            get;
+            set;
+        }
+
+        public FileInfo SourceFile
         {
             get;
             set;

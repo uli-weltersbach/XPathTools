@@ -138,6 +138,9 @@
   <data name="XPathWorkbenchNavigationErrorTitle" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="XPathWorkbenchNavigationSourceActivationFailureText" xml:space="preserve">
+    <value>Can't open the source document. It may have been closed, renamed, moved or deleted.</value>
+  </data>
   <data name="XPathWorkbenchSearchWatermark" xml:space="preserve">
     <value>Enter XPath...</value>
   </data>

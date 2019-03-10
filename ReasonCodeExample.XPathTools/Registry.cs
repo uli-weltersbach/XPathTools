@@ -37,7 +37,7 @@ namespace ReasonCodeExample.XPathTools
             var writerFactory = new XPathWriterFactory(GetCurrentConfiguration);
             serviceContainer.Set(writerFactory);
 
-            var searchResultFactory = new SearchResultFactory();
+            var searchResultFactory = new SearchResultFactory(activeDocument);
             serviceContainer.Set(searchResultFactory);
 
             ThreadHelper.ThrowIfNotOnUIThread();

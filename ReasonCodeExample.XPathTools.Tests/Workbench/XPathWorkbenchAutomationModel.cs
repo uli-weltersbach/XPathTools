@@ -49,5 +49,12 @@ namespace ReasonCodeExample.XPathTools.Tests.Workbench
             SearchText = xpath;
             SendKeys.SendWait("{ENTER}");
         }
+
+        public AutomationElement GetSearchResult(int searchResultIndex)
+        {
+            var searchResultCondition = new PropertyCondition(AutomationElement.ClassNameProperty, "DataGridRow", PropertyConditionFlags.IgnoreCase);
+            var searchResults = ToolWindowPane.FindAll(TreeScope.Descendants, searchResultCondition);
+            return searchResults.Count > searchResultIndex ? searchResults[searchResultIndex] : null;
+        }
     }
 }

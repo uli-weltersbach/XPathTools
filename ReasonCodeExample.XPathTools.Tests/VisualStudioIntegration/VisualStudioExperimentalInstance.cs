@@ -126,7 +126,7 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             throw new TimeoutException($"Visual Studio wasn't started within {timeoutDuration.TotalSeconds} seconds.");
         }
 
-        public void OpenXmlFile(string content, int? caretPosition)
+        public FileInfo OpenXmlFile(string content, int? caretPosition)
         {
             var temporaryFile = CreateTemporaryFile(content);
             OpenFilePickerDialog();
@@ -135,6 +135,8 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
             {
                 SetCaretPosition(caretPosition.Value);
             }
+
+            return temporaryFile;
         }
 
         private FileInfo CreateTemporaryFile(string content)
@@ -221,6 +223,15 @@ namespace ReasonCodeExample.XPathTools.Tests.VisualStudioIntegration
                     where elementName != null
                     where commandName.IsMatch(elementName.ToString())
                     select descendant).Distinct().ToArray();
+        }
+
+        public AutomationElement GetSelectedDocument()
+        {
+            var classNameCondition = new PropertyCondition(AutomationElement.ClassNameProperty, "TabItem", PropertyConditionFlags.IgnoreCase);
+            var isSelectedCondition = new PropertyCondition(SelectionItemPattern.IsSelectedProperty, true);
+            var activeDocumentCondition = new AndCondition(classNameCondition, isSelectedCondition);
+            var selectedDocument = MainWindow.FindDescendant(activeDocumentCondition);
+            return selectedDocument;
         }
     }
 }
