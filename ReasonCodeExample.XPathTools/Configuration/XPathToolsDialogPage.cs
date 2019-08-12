@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.Shell;
+using Microsoft.Win32;
+using ReasonCodeExample.XPathTools.VisualStudioIntegration;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing.Design;
 using System.Linq;
 using System.Reflection;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.Win32;
-using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
 namespace ReasonCodeExample.XPathTools.Configuration
 {
@@ -91,11 +92,11 @@ namespace ReasonCodeExample.XPathTools.Configuration
         private void LoadCollectionsFromStorage()
         {
             var package = (Package)GetService(typeof(Package));
-            if(package == null)
+            if (package == null)
             {
                 return;
             }
-            using(var userRegistryRoot = package.UserRegistryRoot)
+            using (var userRegistryRoot = package.UserRegistryRoot)
             {
                 LoadCollectionsFromRegistry(userRegistryRoot);
             }
@@ -106,15 +107,15 @@ namespace ReasonCodeExample.XPathTools.Configuration
             var settingsRegistryPath = SettingsRegistryPath;
             var automationObject = AutomationObject;
             var registryKey = userRegistryRoot.OpenSubKey(settingsRegistryPath, false);
-            if(registryKey == null)
+            if (registryKey == null)
             {
                 LoadDefaultSettings();
                 return;
             }
-            using(registryKey)
+            using (registryKey)
             {
                 var propertyNames = registryKey.GetValueNames();
-                foreach(var propertyName in propertyNames)
+                foreach (var propertyName in propertyNames)
                 {
                     SetPropertyValue(automationObject, propertyName, registryKey);
                 }
@@ -123,63 +124,91 @@ namespace ReasonCodeExample.XPathTools.Configuration
 
         private void LoadDefaultSettings()
         {
-            if(PreferredAttributeCandidates.Any())
+            if (PreferredAttributeCandidates.Any())
             {
                 return;
             }
-            PreferredAttributeCandidates.Add(new XPathSetting {AttributeName = "id"});
-            PreferredAttributeCandidates.Add(new XPathSetting {AttributeName = "name"});
-            PreferredAttributeCandidates.Add(new XPathSetting {AttributeName = "type"});
+            PreferredAttributeCandidates.Add(new XPathSetting { AttributeName = "id" });
+            PreferredAttributeCandidates.Add(new XPathSetting { AttributeName = "name" });
+            PreferredAttributeCandidates.Add(new XPathSetting { AttributeName = "type" });
         }
 
         private void SetPropertyValue(object automationObject, string propertyName, RegistryKey registryKey)
         {
             var property = automationObject.GetType().GetProperty(propertyName);
-            if(property == null)
+            if (property == null)
             {
                 return;
             }
-            if(property.GetCustomAttribute(typeof(TypeConverterAttribute)) == null)
+
+            try
             {
-                return;
+                var storedValue = registryKey.GetValue(propertyName).ToString();
+                var converter = GetTypeConverter(propertyName);
+                var convertedValue = converter.ConvertFrom(storedValue);
+                property.SetValue(automationObject, convertedValue);
             }
-            var storedValue = registryKey.GetValue(propertyName).ToString();
-            var converter = new SerializableConverter<BindingList<XPathSetting>>();
-            property.SetValue(automationObject, converter.ConvertFrom(storedValue));
+            catch(Exception e)
+            {
+                Console.Error.WriteLine(e);
+            }
+        }
+
+        private TypeConverter GetTypeConverter(string propertyName)
+        {
+            var property = GetType().GetProperty(propertyName);
+            if (property == null)
+            {
+                throw new InvalidOperationException($"Property '{propertyName}' not found on type '{GetType()}.'");
+            }
+            var typeConverterAttribute = property.GetCustomAttribute<TypeConverterAttribute>();
+            if (typeConverterAttribute == null)
+            {
+                return TypeDescriptor.GetConverter(property);
+            }
+            var converterType = Type.GetType(typeConverterAttribute.ConverterTypeName);
+            return (TypeConverter)Activator.CreateInstance(converterType);
         }
 
         private void SaveAlwaysDisplayedAttributesSettingToStorage(object sender, ListChangedEventArgs e)
         {
-            SaveCollectionToStorage(nameof(AlwaysDisplayedAttributesSetting), (BindingList<XPathSetting>)sender);
+            SaveValueToStorage(nameof(AlwaysDisplayedAttributesSetting), sender);
         }
 
         private void SavePreferredAttributeCandidatesSettingToStorage(object sender, ListChangedEventArgs e)
         {
-            SaveCollectionToStorage(nameof(PreferredAttributeCandidatesSetting), (BindingList<XPathSetting>)sender);
+            SaveValueToStorage(nameof(PreferredAttributeCandidatesSetting), sender);
         }
 
-        private void SaveCollectionToStorage(string propertyName, BindingList<XPathSetting> settings)
+        private void SaveValueToStorage(string propertyName, object propertyValue)
         {
             var package = (Package)GetService(typeof(Package));
-            if(package == null)
+            if (package == null)
             {
                 return;
             }
-            using(var userRegistryRoot = package.UserRegistryRoot)
+            using (var userRegistryRoot = package.UserRegistryRoot)
             {
-                SaveCollectionToRegistry(userRegistryRoot, propertyName, settings);
+                SaveValueToRegistry(userRegistryRoot, propertyName, propertyValue);
             }
         }
 
-        private void SaveCollectionToRegistry(RegistryKey userRegistryRoot, string propertyName, BindingList<XPathSetting> settings)
+        private void SaveValueToRegistry(RegistryKey userRegistryRoot, string propertyName, object propertyValue)
         {
             var settingsRegistryPath = SettingsRegistryPath;
             var registryKey = userRegistryRoot.OpenSubKey(settingsRegistryPath, true) ?? userRegistryRoot.CreateSubKey(settingsRegistryPath);
-            using(registryKey)
+            using (registryKey)
             {
-                var converter = new SerializableConverter<BindingList<XPathSetting>>();
-                var convertedValue = converter.ConvertTo(settings, typeof(string));
-                registryKey.SetValue(propertyName, convertedValue);
+                try
+                {
+                    var converter = GetTypeConverter(propertyName);
+                    var convertedValue = converter.ConvertTo(propertyValue, typeof(string));
+                    registryKey.SetValue(propertyName, convertedValue);
+                }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine(e);
+                }
             }
         }
     }
