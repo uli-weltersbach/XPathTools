@@ -1,13 +1,13 @@
-﻿using Microsoft.VisualStudio.Shell;
-using Microsoft.Win32;
-using ReasonCodeExample.XPathTools.VisualStudioIntegration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing.Design;
 using System.Linq;
 using System.Reflection;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.Win32;
+using ReasonCodeExample.XPathTools.VisualStudioIntegration;
 
 namespace ReasonCodeExample.XPathTools.Configuration
 {
@@ -22,11 +22,11 @@ namespace ReasonCodeExample.XPathTools.Configuration
         [Category("Statusbar")]
         [DisplayName("Statusbar XPath format")]
         [Description("Select the XPath format used in the statusbar.")]
-        public XPathFormat? StatusbarXPathFormatSetting
+        public XPathFormat StatusbarXPathFormatSetting
         {
             get;
             set;
-        }
+        } = XPathFormat.Generic;
 
         [Category("Generic XPath")]
         [DisplayName("Always displayed attributes")]
@@ -89,54 +89,59 @@ namespace ReasonCodeExample.XPathTools.Configuration
             PreferredAttributeCandidatesSetting.ListChanged += SavePreferredAttributeCandidatesSettingToStorage;
         }
 
+        #region Load and initialize settings
+
         private void LoadCollectionsFromStorage()
         {
             var package = (Package)GetService(typeof(Package));
-            if (package == null)
+            if(package == null)
             {
                 return;
             }
-            using (var userRegistryRoot = package.UserRegistryRoot)
+
+            using(var userRegistryRoot = package.UserRegistryRoot)
             {
-                LoadCollectionsFromRegistry(userRegistryRoot);
+                LoadSettingsFromRegistry(userRegistryRoot);
             }
         }
 
-        private void LoadCollectionsFromRegistry(RegistryKey userRegistryRoot)
+        private void LoadSettingsFromRegistry(RegistryKey userRegistryRoot)
         {
             var settingsRegistryPath = SettingsRegistryPath;
             var automationObject = AutomationObject;
-            var registryKey = userRegistryRoot.OpenSubKey(settingsRegistryPath, false);
-            if (registryKey == null)
+            var registryKey = userRegistryRoot.OpenSubKey(settingsRegistryPath, true);
+            if(registryKey == null)
             {
                 LoadDefaultSettings();
                 return;
             }
-            using (registryKey)
+
+            using(registryKey)
             {
                 var propertyNames = registryKey.GetValueNames();
-                foreach (var propertyName in propertyNames)
+                foreach(var propertyName in propertyNames)
                 {
-                    SetPropertyValue(automationObject, propertyName, registryKey);
+                    LoadSettingValue(automationObject, propertyName, registryKey);
                 }
             }
         }
 
         private void LoadDefaultSettings()
         {
-            if (PreferredAttributeCandidates.Any())
+            if(PreferredAttributeCandidates.Any())
             {
                 return;
             }
-            PreferredAttributeCandidates.Add(new XPathSetting { AttributeName = "id" });
-            PreferredAttributeCandidates.Add(new XPathSetting { AttributeName = "name" });
-            PreferredAttributeCandidates.Add(new XPathSetting { AttributeName = "type" });
+
+            PreferredAttributeCandidates.Add(new XPathSetting {AttributeName = "id"});
+            PreferredAttributeCandidates.Add(new XPathSetting {AttributeName = "name"});
+            PreferredAttributeCandidates.Add(new XPathSetting {AttributeName = "type"});
         }
 
-        private void SetPropertyValue(object automationObject, string propertyName, RegistryKey registryKey)
+        private void LoadSettingValue(object automationObject, string propertyName, RegistryKey registryKey)
         {
             var property = automationObject.GetType().GetProperty(propertyName);
-            if (property == null)
+            if(property == null)
             {
                 return;
             }
@@ -151,53 +156,71 @@ namespace ReasonCodeExample.XPathTools.Configuration
             catch(Exception e)
             {
                 Console.Error.WriteLine(e);
+                // Delete the value if it can't be deserialized,
+                // to prevent old serialization formats from
+                // interfering with storing new values.
+                registryKey.DeleteValue(propertyName);
+                var defaultValue = GetDefaultValue(property);
+                property.SetValue(automationObject, defaultValue);
             }
         }
 
         private TypeConverter GetTypeConverter(string propertyName)
         {
             var property = GetType().GetProperty(propertyName);
-            if (property == null)
+            if(property == null)
             {
                 throw new InvalidOperationException($"Property '{propertyName}' not found on type '{GetType()}.'");
             }
+
             var typeConverterAttribute = property.GetCustomAttribute<TypeConverterAttribute>();
-            if (typeConverterAttribute == null)
+            if(typeConverterAttribute == null)
             {
                 return TypeDescriptor.GetConverter(property.PropertyType);
             }
+
             var converterType = Type.GetType(typeConverterAttribute.ConverterTypeName);
             return (TypeConverter)Activator.CreateInstance(converterType);
         }
 
+        private object GetDefaultValue(PropertyInfo property)
+        {
+            return property.PropertyType.IsValueType ? Activator.CreateInstance(property.PropertyType) : null;
+        }
+
+        #endregion
+
+        #region Save settings
+
         private void SaveAlwaysDisplayedAttributesSettingToStorage(object sender, ListChangedEventArgs e)
         {
-            SaveValueToStorage(nameof(AlwaysDisplayedAttributesSetting), sender);
+            SaveSettingToStorage(nameof(AlwaysDisplayedAttributesSetting), sender);
         }
 
         private void SavePreferredAttributeCandidatesSettingToStorage(object sender, ListChangedEventArgs e)
         {
-            SaveValueToStorage(nameof(PreferredAttributeCandidatesSetting), sender);
+            SaveSettingToStorage(nameof(PreferredAttributeCandidatesSetting), sender);
         }
 
-        private void SaveValueToStorage(string propertyName, object propertyValue)
+        private void SaveSettingToStorage(string propertyName, object propertyValue)
         {
             var package = (Package)GetService(typeof(Package));
-            if (package == null)
+            if(package == null)
             {
                 return;
             }
-            using (var userRegistryRoot = package.UserRegistryRoot)
+
+            using(var userRegistryRoot = package.UserRegistryRoot)
             {
-                SaveValueToRegistry(userRegistryRoot, propertyName, propertyValue);
+                SaveSettingToRegistry(userRegistryRoot, propertyName, propertyValue);
             }
         }
 
-        private void SaveValueToRegistry(RegistryKey userRegistryRoot, string propertyName, object propertyValue)
+        private void SaveSettingToRegistry(RegistryKey userRegistryRoot, string propertyName, object propertyValue)
         {
             var settingsRegistryPath = SettingsRegistryPath;
             var registryKey = userRegistryRoot.OpenSubKey(settingsRegistryPath, true) ?? userRegistryRoot.CreateSubKey(settingsRegistryPath);
-            using (registryKey)
+            using(registryKey)
             {
                 try
                 {
@@ -205,11 +228,13 @@ namespace ReasonCodeExample.XPathTools.Configuration
                     var convertedValue = converter.ConvertTo(propertyValue, typeof(string));
                     registryKey.SetValue(propertyName, convertedValue);
                 }
-                catch (Exception e)
+                catch(Exception e)
                 {
                     Console.Error.WriteLine(e);
                 }
             }
         }
+
+        #endregion
     }
 }
