@@ -164,7 +164,7 @@ namespace ReasonCodeExample.XPathTools.Configuration
             var typeConverterAttribute = property.GetCustomAttribute<TypeConverterAttribute>();
             if (typeConverterAttribute == null)
             {
-                return TypeDescriptor.GetConverter(property);
+                return TypeDescriptor.GetConverter(property.PropertyType);
             }
             var converterType = Type.GetType(typeConverterAttribute.ConverterTypeName);
             return (TypeConverter)Activator.CreateInstance(converterType);
