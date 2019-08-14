@@ -12,8 +12,16 @@ namespace ReasonCodeExample.XPathTools
             get
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
-                var dte = (DTE)Package.GetGlobalService(typeof(DTE));
-                return dte?.ActiveDocument;
+                try
+                {
+                    var dte = (DTE)Package.GetGlobalService(typeof(DTE));
+                    return dte?.ActiveDocument;
+                }
+                catch(Exception ex)
+                {
+                    Console.Error.WriteLine($"Error retrieving '{nameof(DTE.ActiveDocument)}': {ex}");
+                    return null;
+                }
             }
         }
 
