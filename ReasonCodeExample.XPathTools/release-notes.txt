@@ -1,4 +1,4 @@
-﻿v6.0.3: Gracefully handle exceptions seemingly caused by accessing the currently active document via the "Edit Project File" VS2019 contet menu entry. See issue #41 for details (https://github.com/uli-weltersbach/XPathTools/issues/41).
+﻿v6.0.3: Gracefully handle exceptions seemingly caused by accessing the currently active document via the "Edit Project File" VS2019 context menu entry. See issue #41 for details (https://github.com/uli-weltersbach/XPathTools/issues/41).
 v6.0.2: The XPath format used in the statusbar is now persisted correctly. See issue #42 for details (https://github.com/uli-weltersbach/XPathTools/issues/42).
 v6.0.1: XPath Runner query results now change focus to their source document when clicked. See issue #38 for details (https://github.com/uli-weltersbach/XPathTools/issues/38).
 v6.0.0: Async package load implemented as required by Visual Studio 2019.1 and later. Support for Visual Studio 2013 and earlier has been dropped as a consequence.
